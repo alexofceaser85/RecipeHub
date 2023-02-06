@@ -9,3 +9,4 @@ Implement DB of Recipes
 Link Recipes to Ingredients
 Search Recipes by Ingredients by Ingredients User Has
 View All Recipes
+View Individual Recipe
