@@ -1,0 +1,20 @@
+Use-Case Scenario: Add a Comment
+Users: Chef
+Context: User is viewing a recipe
+Primary Flow:
+    1: The user chooses to add a rating
+    2: A rating prompt is displayed
+    3: The user submits their rating to the system
+    4: The rating prompt is closed
+    5: The screen displays the rating the user gave to the recipe
+Alternate Flows:
+    a1:
+        1: The user has already rated the recipe
+        2: The user skips ahead to step 5
+    a2:
+        1: The user closes out of the prompt
+        2: The user is returned to step 1
+    a3:
+        1: The application is unable to connect to the server
+        2: The user is informed of the connection issues
+        3: The user is returned to step 2

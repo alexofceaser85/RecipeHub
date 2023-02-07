@@ -1,0 +1,25 @@
+Use-Case Scenario: Add an Ingredient
+Users: Chef
+Context: User is viewing the ingredients screen
+Primary Flow:
+    1: The user selects the option to add a new ingredient
+    2: A prompt appears for the user to enter an ingredient name
+    3: The system suggests ingredient names as the user types
+    4: The user confirms the name of the new ingredient
+    5: The user is prompted to add the quantity of the ingredient
+    6: The user is prompted to add the unit of measurement for the ingredient
+    7: The user adds the ingredient to their pantry
+    8: The new ingredient prompt is closed
+    9: The ingredients screen is updated to display the new ingredient
+Alternate Flows:
+    a1-6: 
+        1: The user closes out of the prompt
+        2: The user is returned to step 1
+    a4:
+        1: The user does not enter an ingredient name
+        2: The user is informed that they must enter a name
+        3: The user is returned to step 2
+    a7:
+        1: The user enters a negative quantity
+        2: The user is informed that they cannot enter a negative quantity
+        3: The user is returned to step 5

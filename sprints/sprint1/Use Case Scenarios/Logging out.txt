@@ -1,0 +1,8 @@
+Use-Case Scenario: Logging out
+Users: Chef
+Context: User has successfully logged into the application.
+Primary Flow:
+    1: The user opens the menu
+    2: The user selects the "Log out" option
+    3: The user is logged out of the system
+    4: The user is returned back to the login screen

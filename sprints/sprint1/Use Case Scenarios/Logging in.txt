@@ -1,0 +1,11 @@
+Use-Case Scenario: Loggin in
+Users: Chef
+Context: User launches the website or desktop application and wants to log into the system
+Primary Flow:
+    1: User enters their username
+    2: User enters their password
+    3: User submits their credentials
+    4: The user is logged into the system and is brought to the recipes screen
+Alternate Flows:
+    a3: 
+        1: The user provides invalid credentials and is notified that their username or password is invalid
