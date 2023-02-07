@@ -1,0 +1,10 @@
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\bin\Debug\Database.dacpac
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\bin\Debug\Database.dll
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\bin\Debug\Database.pdb
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\Database.sqlproj.AssemblyReference.cache
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\Database.dll
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\Database.pdb
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\Model.xml
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\refactor.xml
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\postdeploy.sql
+C:\Users\alexd\Source\Repos\RecipeHub\code\RecipeHub\Database\obj\Debug\predeploy.sql

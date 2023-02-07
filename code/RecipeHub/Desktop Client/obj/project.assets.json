@@ -8,27 +8,28 @@
     "net7.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Owner\\.nuget\\packages\\": {},
+    "C:\\Users\\alexd\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Owner\\Desktop\\Stuff\\Coding\\Git\\RecipeHub\\code\\RecipeHub\\Desktop Client\\Desktop Client.csproj",
+      "projectUniqueName": "C:\\Users\\alexd\\Source\\Repos\\RecipeHub\\code\\RecipeHub\\Desktop Client\\Desktop Client.csproj",
       "projectName": "Desktop Client",
-      "projectPath": "C:\\Users\\Owner\\Desktop\\Stuff\\Coding\\Git\\RecipeHub\\code\\RecipeHub\\Desktop Client\\Desktop Client.csproj",
-      "packagesPath": "C:\\Users\\Owner\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Owner\\Desktop\\Stuff\\Coding\\Git\\RecipeHub\\code\\RecipeHub\\Desktop Client\\obj\\",
+      "projectPath": "C:\\Users\\alexd\\Source\\Repos\\RecipeHub\\code\\RecipeHub\\Desktop Client\\Desktop Client.csproj",
+      "packagesPath": "C:\\Users\\alexd\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alexd\\Source\\Repos\\RecipeHub\\code\\RecipeHub\\Desktop Client\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Owner\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alexd\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0-windows"
@@ -36,7 +37,6 @@
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
-        "C:\\Users\\Owner\\Desktop\\Stuff\\Coding\\UIPath\\Libraries": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
