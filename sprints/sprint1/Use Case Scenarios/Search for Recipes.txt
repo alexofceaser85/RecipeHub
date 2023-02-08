@@ -1,0 +1,17 @@
+Use-Case Scenario: Search for Recipes
+Users: Chef
+Context: User has successfully logged into the application and is viewing the main page
+Primary Flow:
+    1: The user enters the name of a recipe into a search box
+    2: The user submits the name to search for
+    3: The application queries the server for matching recipes
+    4: The application displays all matching recipes in a list
+Alternate Flows:
+    a3:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1
+    a3:
+        1: There are no matching recipes
+        2: The user is informed that there are no matching recipes
+        3: The application returns to step 1
