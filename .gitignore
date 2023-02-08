@@ -137,5 +137,5 @@ _NCrunch*
 *.metadata.*
 *cache.*
 .suo
-*.projects.*
 /code/RecipeHub/.vs/RecipeHub/FileContentIndex
+*.projects.*
