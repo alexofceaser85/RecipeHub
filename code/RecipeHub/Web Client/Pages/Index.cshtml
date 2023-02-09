@@ -1,4 +1,9 @@
 ﻿@page
+@using Web_Client.Endpoints.Users
+@using System.Security.Cryptography
+@using System.Text
+@using System.Reflection.Metadata
+@using Web_Client.Data.UserData
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -7,4 +12,30 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @if (Model.ShouldThrowError)
+    {
+        <p>Could not login, @Model.ExceptionText</p>
+    }
+    
+    @using (Html.BeginForm())
+    {
+        <form action="" method="post">
+            <fieldset>
+                <p>
+                    <label for="Username">Username:</label>
+                    <input type="text" name="Username"/>
+                </p>
+                <p>
+                    <label for="Password">Password:</label>
+                    <input type="text" name="Password"/>
+                </p>
+                <input type="submit" value="Submit" asp-page-handler="Submit"/>
+            </fieldset>
+        </form>        
+    }
+
+    @if (Model.ShouldSucceed)
+    {
+        <p>@Session.Key</p>
+    }
 </div>

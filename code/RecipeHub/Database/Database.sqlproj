@@ -60,5 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishScripts\Database_3.publish.xml" />
+    <None Include="Database.publish.xml" />
   </ItemGroup>
 </Project>
