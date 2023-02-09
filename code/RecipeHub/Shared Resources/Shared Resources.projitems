@@ -10,5 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\IO\SessionKeySerializers.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Data\IO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Session.txt" />
   </ItemGroup>
 </Project>

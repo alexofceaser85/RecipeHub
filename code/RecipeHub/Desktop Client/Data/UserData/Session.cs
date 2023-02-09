@@ -1,4 +1,4 @@
-﻿namespace Web_Client.Data.UserData
+﻿namespace Desktop_Client.Data.UserData
 {
     /// <summary>
     /// The user session info
@@ -8,6 +8,6 @@
         /// <summary>
         /// The session key
         /// </summary>
-        public static string? Key;
+        public static string Key;
     }
 }

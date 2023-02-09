@@ -1,10 +1,10 @@
 ﻿@page
 @using Web_Client.Data.UserData
-@using Web_Client.Endpoints.Users
+@using Web_Client.ViewModel.Users
 @model Web_Client.Pages.RecipesModel
 @{
 
-    var userInfo = UsersEndpoints.GetUserInfo(@Session.Key);
+    var userInfo = UsersViewModel.GetUserData();
 }
 
 <h1>Welcome Your Session Key is: @Session.Key</h1>

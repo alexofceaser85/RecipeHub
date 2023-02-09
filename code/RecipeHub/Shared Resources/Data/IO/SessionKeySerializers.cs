@@ -1,23 +1,24 @@
 ﻿using System.Text.Json;
-using Web_Client.Data.UserData;
 
-namespace Web_Client.Data
+namespace Shared_Resources.Data.IO
 {
     /// <summary>
     /// Serializes the session key file
     /// </summary>
     public static class SessionKeySerializers
     {
+        private static string sessionFilePath = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin")) + "..\\Shared Resources\\" + "Session.txt";
+
         /// <summary>
         /// Saves the session key.
         /// </summary>
-        public static void SaveSessionKey()
+        public static void SaveSessionKey(string sessionKey)
         {
-            var fileStream = new FileStream("Session.txt", FileMode.OpenOrCreate, FileAccess.Write);
+            var fileStream = new FileStream(sessionFilePath, FileMode.OpenOrCreate, FileAccess.Write);
 
             try
             {
-                JsonSerializer.Serialize(fileStream, Session.Key);
+                JsonSerializer.Serialize(fileStream, sessionKey);
             }
             finally
             {
@@ -31,7 +32,7 @@ namespace Web_Client.Data
         /// <returns>The loaded session key</returns>
         public static string LoadSessionKey()
         {
-            var fileStream = new FileStream("Session.txt", FileMode.OpenOrCreate, FileAccess.Read);
+            var fileStream = new FileStream(sessionFilePath, FileMode.OpenOrCreate, FileAccess.Read);
 
             try
             {

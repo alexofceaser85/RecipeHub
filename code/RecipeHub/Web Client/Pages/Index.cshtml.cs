@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Web_Client.Model.Users;
 using Web_Client.Service.Users;
+using Web_Client.ViewModel.Users;
 
 namespace Web_Client.Pages
 {
@@ -32,7 +33,7 @@ namespace Web_Client.Pages
         {
             try
             {
-                UsersService.Login(userInfo.Username, hashPassword(userInfo.Password));
+                UsersViewModel.Login(userInfo.Username, hashPassword(userInfo.Password));
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
                 //TODO Extract
@@ -50,7 +51,7 @@ namespace Web_Client.Pages
         {
             try
             {
-                UsersService.Logout();
+                UsersViewModel.Logout();
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
             }

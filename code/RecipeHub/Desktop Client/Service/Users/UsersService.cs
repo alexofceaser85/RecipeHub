@@ -1,10 +1,9 @@
-﻿using Shared_Resources.Data.IO;
+﻿using Desktop_Client.Data.UserData;
+using Desktop_Client.Endpoints.Users;
+using Shared_Resources.Data.IO;
 using Shared_Resources.Model.Users;
-using Web_Client.Data.UserData;
-using Web_Client.Data;
-using Web_Client.Endpoints.Users;
 
-namespace Web_Client.Service.Users
+namespace Desktop_Client.Service.Users
 {
     /// <summary>
     /// The service methods for the users
@@ -31,11 +30,7 @@ namespace Web_Client.Service.Users
             UsersEndpoints.Logout(Session.Key);
         }
 
-        /// <summary>
-        /// Gets the user data.
-        /// </summary>
-        /// <returns>The user data</returns>
-        public static UserInfo GetUserData()
+        public static UserInfo GetUserInfo()
         {
             return UsersEndpoints.GetUserInfo(Session.Key);
         }

@@ -1,12 +1,8 @@
-﻿using System.Diagnostics;
-using System.Net.Http.Headers;
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using Shared_Resources.Data.IO;
 using Shared_Resources.Model.Users;
-using Web_Client.Data;
-using Web_Client.Data.UserData;
 
-namespace Web_Client.Endpoints.Users
+namespace Desktop_Client.Endpoints.Users
 {
     public static class UsersEndpoints
     {
