@@ -1,9 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using Server.Data.Database;
-using System;
-using System.Security.Cryptography;
-using System.Text;
+using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
 {
@@ -20,7 +18,7 @@ namespace Server.DAL.Users
             return command.ExecuteScalar() == null;
         }
 
-        public static void Logout(string sessionKey)
+        public static void RemoveSessionKey(string sessionKey)
         {
             var query =
                 "delete from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
@@ -63,16 +61,6 @@ namespace Server.DAL.Users
             return null;
         }
 
-        public static bool VerifyNoCurrentUserSessions(int userId)
-        {
-            var query = "select \"Sessions\".userId from \"Sessions\" where \"Sessions\".userId = @userId";
-            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-            using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
-            connection.Open();
-            return command.ExecuteScalar() == null;
-        }
-
         public static void AddUserSession(int userId, string sessionKey)
         {
             var query = "insert into Sessions(sessionKey, userId) values(@sessionkey, @userId)";
@@ -82,6 +70,33 @@ namespace Server.DAL.Users
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
             connection.Open();
             command.ExecuteNonQuery();
+        }
+
+        public static UserInfo GetUserInfo(string sessionKey)
+        {
+            var query = "select Users.userName, Users.firstName, Users.lastName, Users.email from \"Sessions\", Users where \"Sessions\".sessionKey = @sessionKey and Users.userId = \"Sessions\".userId";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@sessionKey", SqlDbType.VarChar).Value = sessionKey;
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            var userNameOrdinal = reader.GetOrdinal("userName");
+            var firstNameOrdinal = reader.GetOrdinal("firstName");
+            var lastNameOrdinal = reader.GetOrdinal("lastName");
+            var emailOrdinal = reader.GetOrdinal("email");
+            while (reader.Read())
+            {
+                var userName = reader.GetString(userNameOrdinal);
+                var firstName = reader.GetString(firstNameOrdinal);
+                var lastName = reader.GetString(lastNameOrdinal);
+                var email = reader.GetString(emailOrdinal);
+
+                return new UserInfo(userName, firstName, lastName, email);
+            }
+
+            return null;
         }
     }
 }

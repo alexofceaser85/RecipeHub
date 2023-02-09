@@ -7,4 +7,6 @@
     <RootNamespace>Web_Client</RootNamespace>
   </PropertyGroup>
 
+  <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
+
 </Project>

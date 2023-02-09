@@ -1,9 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using Server.DAL.Users;
-using Server.Data.Database;
-using System.Data;
+﻿using Server.DAL.Users;
 using System.Security.Cryptography;
 using System.Text;
+using Shared_Resources.Model.Users;
 
 namespace Server.Service.Users
 {
@@ -23,7 +21,7 @@ namespace Server.Service.Users
         /// or
         /// Session already exists
         /// </exception>
-        public static string Login(string username, string password)
+        public static string Login(string username, string password, string? previousSessionKey)
         {
             var userId = UsersDal.VerifyUserNameAndPasswordCombination(username, password);
             if (userId == null)
@@ -31,12 +29,14 @@ namespace Server.Service.Users
                 throw new ArgumentException("user name and password combo is wrong");
             }
 
-            if (!UsersDal.VerifyNoCurrentUserSessions(userId.Value))
-            {
-                throw new ArgumentException("Session already exists");
-            }
             var sessionKey = generateNewSessionKey();
+            if (previousSessionKey != null)
+            {
+                UsersDal.RemoveSessionKey(previousSessionKey);
+            }
+
             UsersDal.AddUserSession(userId.Value, sessionKey);
+
             return sessionKey;
         }
 
@@ -46,7 +46,12 @@ namespace Server.Service.Users
         /// <param name="sessionKey">The session key.</param>
         public static void Logout(string sessionKey)
         {
-            UsersDal.Logout(sessionKey);
+            UsersDal.RemoveSessionKey(sessionKey);
+        }
+
+        public static UserInfo GetUserInfo(string sessionKey)
+        {
+            return UsersDal.GetUserInfo(sessionKey);
         }
 
         private static string generateNewSessionKey()

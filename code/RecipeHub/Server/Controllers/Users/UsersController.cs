@@ -12,15 +12,29 @@ namespace Server.Controllers.Users
 
         [HttpGet]
         [Route("LoginUser")]
-        public LoginResponseModel Login(string username, string password)
+        public LoginResponseModel Login(string username, string password, string? previousSessionKey)
         {
             try
             {
-                return new LoginResponseModel(HttpStatusCode.OK, UsersService.Login(username, password));
+                return new LoginResponseModel(HttpStatusCode.OK, UsersService.Login(username, password, previousSessionKey));
             }
             catch (Exception ex)
             {
                 return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetUserInfo")]
+        public UserInfoResponseModel GetUserInfo(string sessionKey)
+        {
+            try
+            {
+                return new UserInfoResponseModel(HttpStatusCode.OK, "Returned Okay", UsersService.GetUserInfo(sessionKey));
+            }
+            catch (Exception ex)
+            {
+                return new UserInfoResponseModel(HttpStatusCode.InternalServerError, ex.Message, null);
             }
         }
 

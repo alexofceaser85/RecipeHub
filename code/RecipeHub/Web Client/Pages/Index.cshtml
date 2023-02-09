@@ -1,13 +1,21 @@
 ﻿@page
+@inject IJSRuntime jsRuntime
 @using Web_Client.Endpoints.Users
 @using System.Security.Cryptography
 @using System.Text
 @using System.Reflection.Metadata
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.JSInterop
 @using Web_Client.Data.UserData
 @model IndexModel
 @{
+
     ViewData["Title"] = "Home page";
 }
+<form>
+    @Html.AntiForgeryToken()
+</form>
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
@@ -15,13 +23,6 @@
     @if (Model.ShouldThrowError)
     {
         <p>Could not login, @Model.ExceptionText</p>
-    }
-    
-    @using (Html.BeginForm())
-    {
-        <form method="post">
-            <input type="submit" value="Logout" asp-page-handler="Logout" />
-        </form>
     }
 
     @using (Html.BeginForm())
@@ -40,9 +41,15 @@
             </fieldset>
         </form>        
     }
-
-    @if (Model.ShouldSucceed)
-    {
-        <p>@Session.Key</p>
-    }
 </div>
+
+
+<script>
+    window.onbeforeunload = function () {
+        console.log("hello");
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Index/LogPageExit", false);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send();
+    };
+</script>

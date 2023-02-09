@@ -9,5 +9,6 @@
     <Import_RootNamespace>Shared_Resources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
   </ItemGroup>
 </Project>

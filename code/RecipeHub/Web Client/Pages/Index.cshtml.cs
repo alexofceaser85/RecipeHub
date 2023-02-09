@@ -1,18 +1,16 @@
-﻿using System.Reflection.Metadata;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
-using Web_Client.Data.UserData;
-using Web_Client.Endpoints.Users;
 using Web_Client.Model.Users;
+using Web_Client.Service.Users;
 
 namespace Web_Client.Pages
 {
     public class IndexModel : PageModel
     {
-        public bool ShouldThrowError = false;
-        public bool ShouldSucceed = false;
+        public bool ShouldThrowError;
+        public bool ShouldSucceed;
 
         public string ExceptionText = "";
 
@@ -20,6 +18,7 @@ namespace Web_Client.Pages
 
         public IndexModel(ILogger<IndexModel> logger)
         {
+            this.
             _logger = logger;
         }
 
@@ -29,26 +28,36 @@ namespace Web_Client.Pages
         }
 
         //TODO Change code
-        public void OnPostSubmit(UserInfoBindingModel userInfo)
+        public RedirectToPageResult OnPostSubmit(UserInfoBindingModel userInfo)
         {
             try
             {
-                UsersEndpoints.Login(userInfo.Username, hashPassword(userInfo.Password));
+                UsersService.Login(userInfo.Username, hashPassword(userInfo.Password));
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
+                //TODO Extract
+                return RedirectToPage("/Recipes");
             }
             catch (Exception e)
             {
                 this.ShouldThrowError = true;
                 this.ExceptionText = e.Message;
+                return null;
             }
         }
 
-        public void OnPostLogout()
+        public void Logout()
         {
-            UsersEndpoints.Logout(Session.Key);
-            this.ShouldSucceed = true;
-            this.ExceptionText = "";
+            try
+            {
+                UsersService.Logout();
+                this.ShouldSucceed = true;
+                this.ExceptionText = "";
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine("");
+            }
         }
 
         static string hashPassword(string passwordToHash)
@@ -60,6 +69,7 @@ namespace Web_Client.Pages
             {
                 builder.Append(passwordByte.ToString("x2"));
             }
+
             var hashedPassword = builder.ToString();
             return hashedPassword;
         }

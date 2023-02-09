@@ -1,7 +1,7 @@
 ﻿namespace Web_Client.Data.UserData
 {
     /// <summary>
-    /// The user session infor
+    /// The user session info
     /// </summary>
     public static class Session
     {
