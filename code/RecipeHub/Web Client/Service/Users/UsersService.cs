@@ -1,7 +1,6 @@
 ﻿using Shared_Resources.Data.IO;
 using Shared_Resources.Model.Users;
 using Web_Client.Data.UserData;
-using Web_Client.Data;
 using Web_Client.Endpoints.Users;
 
 namespace Web_Client.Service.Users

@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using Server.DAL.Users;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

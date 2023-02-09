@@ -1,23 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Desktop_Client.Screens;
+using Desktop_Client.View.Screens;
 using Desktop_Client.ViewModel.Users;
 
-namespace Desktop_Client.Components.Login
+namespace Desktop_Client.View.Components.Login
 {
+    /// <summary>
+    /// The login form
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class LoginForm : UserControl
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LoginForm"/> class.
+        /// </summary>
         public LoginForm()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void LoginButton_Click(object sender, EventArgs e)

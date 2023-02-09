@@ -1,5 +1,9 @@
-﻿namespace Desktop_Client.Screens
+﻿namespace Desktop_Client.View.Screens
 {
+    /// <summary>
+    /// The screen for the user information
+    /// </summary>
+    /// <seealso cref="System.Windows.Forms.Form" />
     partial class UserInfoScreen
     {
         /// <summary>

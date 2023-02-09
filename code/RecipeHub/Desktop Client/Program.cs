@@ -1,4 +1,4 @@
-using Desktop_Client.Screens;
+using Desktop_Client.View.Screens;
 
 namespace Desktop_Client
 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Service.Users;
-using Microsoft.VisualBasic.ApplicationServices;
+﻿using Desktop_Client.Service.Users;
 using Shared_Resources.Model.Users;
 
 namespace Desktop_Client.ViewModel.Users

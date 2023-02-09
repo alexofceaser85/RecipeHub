@@ -30,6 +30,10 @@ namespace Desktop_Client.Service.Users
             UsersEndpoints.Logout(Session.Key);
         }
 
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <returns>The user information</returns>
         public static UserInfo GetUserInfo()
         {
             return UsersEndpoints.GetUserInfo(Session.Key);

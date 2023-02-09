@@ -9,10 +9,10 @@ namespace Server.Controllers.ResponseModels
     public class UserInfoResponseModel
     {
         /// <summary>
-        /// Gets or sets the response code.
+        /// Gets or sets the response Code.
         /// </summary>
         /// <value>
-        /// The code.
+        /// The Code.
         /// </value>
         public HttpStatusCode Code { get; set; }
         /// <summary>
@@ -33,7 +33,7 @@ namespace Server.Controllers.ResponseModels
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInfoResponseModel"/> class.
         /// </summary>
-        /// <param name="code">The code.</param>
+        /// <param name="code">The Code.</param>
         /// <param name="message">The message.</param>
         /// <param name="userInfo">The user information.</param>
         public UserInfoResponseModel(HttpStatusCode code, string message, UserInfo? userInfo)

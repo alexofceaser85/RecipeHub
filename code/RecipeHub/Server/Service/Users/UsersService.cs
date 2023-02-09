@@ -11,16 +11,13 @@ namespace Server.Service.Users
     public class UsersService
     {
         /// <summary>
-        /// Logins the specified username and password combo.
+        /// Logins the specified username and password combination.
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentException">
-        /// user name and password combo is wrong
-        /// or
-        /// Session already exists
-        /// </exception>
+        /// <param name="previousSessionKey">The previous session key.</param>
+        /// <returns>The new session key for the user</returns>
+        /// <exception cref="System.ArgumentException">user name and password combo is wrong</exception>
         public static string Login(string username, string password, string? previousSessionKey)
         {
             var userId = UsersDal.VerifyUserNameAndPasswordCombination(username, password);
@@ -41,7 +38,7 @@ namespace Server.Service.Users
         }
 
         /// <summary>
-        /// Logouts the specified user's session.
+        /// Log outs the specified user's session.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         public static void Logout(string sessionKey)
@@ -49,7 +46,12 @@ namespace Server.Service.Users
             UsersDal.RemoveSessionKey(sessionKey);
         }
 
-        public static UserInfo GetUserInfo(string sessionKey)
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns></returns>
+        public static UserInfo? GetUserInfo(string sessionKey)
         {
             return UsersDal.GetUserInfo(sessionKey);
         }

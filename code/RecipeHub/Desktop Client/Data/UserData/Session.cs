@@ -8,6 +8,6 @@
         /// <summary>
         /// The session key
         /// </summary>
-        public static string Key;
+        public static string? Key;
     }
 }

@@ -5,8 +5,16 @@ using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
 {
+    /// <summary>
+    /// The data access layer for the users methods
+    /// </summary>
     public static class UsersDal
     {
+        /// <summary>
+        /// Verifies the session key does not exist.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>Whether or not the session key exists</returns>
         public static bool VerifySessionKeyDoesNotExist(string sessionKey)
         {
             var query = "select \"Sessions\".sessionKey from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
@@ -18,6 +26,10 @@ namespace Server.DAL.Users
             return command.ExecuteScalar() == null;
         }
 
+        /// <summary>
+        /// Removes the session key.
+        /// </summary>
+        /// <param name="sessionKey">The session key to remove.</param>
         public static void RemoveSessionKey(string sessionKey)
         {
             var query =
@@ -29,6 +41,12 @@ namespace Server.DAL.Users
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// Checks that the user name and password combination exists.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>Whether or not the user and password combination exists</returns>
         public static int? VerifyUserNameAndPasswordCombination(string username, string password)
         {
             var query =
@@ -61,6 +79,11 @@ namespace Server.DAL.Users
             return null;
         }
 
+        /// <summary>
+        /// Adds a user session.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
         public static void AddUserSession(int userId, string sessionKey)
         {
             var query = "insert into Sessions(sessionKey, userId) values(@sessionkey, @userId)";
@@ -72,7 +95,12 @@ namespace Server.DAL.Users
             command.ExecuteNonQuery();
         }
 
-        public static UserInfo GetUserInfo(string sessionKey)
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The user information</returns>
+        public static UserInfo? GetUserInfo(string sessionKey)
         {
             var query = "select Users.userName, Users.firstName, Users.lastName, Users.email from \"Sessions\", Users where \"Sessions\".sessionKey = @sessionKey and Users.userId = \"Sessions\".userId";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);

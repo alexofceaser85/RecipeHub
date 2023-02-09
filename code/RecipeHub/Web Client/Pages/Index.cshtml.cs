@@ -3,33 +3,43 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
 using Web_Client.Model.Users;
-using Web_Client.Service.Users;
 using Web_Client.ViewModel.Users;
 
 namespace Web_Client.Pages
 {
+    /// <summary>
+    /// The model for the index page
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class IndexModel : PageModel
     {
+        /// <summary>
+        /// Determines if the client should show an error message
+        /// </summary>
         public bool ShouldThrowError;
+        /// <summary>
+        /// Determines if the client should show the succeed message
+        /// </summary>
         public bool ShouldSucceed;
-
+        /// <summary>
+        /// The text of the exception
+        /// </summary>
         public string ExceptionText = "";
 
-        private readonly ILogger<IndexModel> _logger;
-
-        public IndexModel(ILogger<IndexModel> logger)
-        {
-            this.
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Called when [get].
+        /// </summary>
         public void OnGet()
         {
 
         }
 
-        //TODO Change code
-        public RedirectToPageResult OnPostSubmit(UserInfoBindingModel userInfo)
+        /// <summary>
+        /// Called when [post submit].
+        /// </summary>
+        /// <param name="userInfo">The user information.</param>
+        /// <returns>The result of the page redirect</returns>
+        public RedirectToPageResult? OnPostSubmit(UserInfoBindingModel userInfo)
         {
             try
             {
@@ -47,6 +57,9 @@ namespace Web_Client.Pages
             }
         }
 
+        /// <summary>
+        /// Logouts this instance.
+        /// </summary>
         public void Logout()
         {
             try
@@ -57,11 +70,11 @@ namespace Web_Client.Pages
             }
             catch (Exception)
             {
-                System.Console.WriteLine("");
+                Console.WriteLine("");
             }
         }
 
-        static string hashPassword(string passwordToHash)
+        private static string hashPassword(string passwordToHash)
         {
             using HashAlgorithm algorithm = SHA512.Create();
             var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));

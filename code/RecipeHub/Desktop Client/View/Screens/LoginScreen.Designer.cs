@@ -1,4 +1,4 @@
-﻿namespace Desktop_Client.Screens
+﻿namespace Desktop_Client.View.Screens
 {
     partial class LoginScreen
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.loginForm1 = new Desktop_Client.Components.Login.LoginForm();
+            this.loginForm1 = new Desktop_Client.View.Components.Login.LoginForm();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 

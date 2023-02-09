@@ -1,4 +1,4 @@
-﻿namespace Desktop_Client.Components.Login
+﻿namespace Desktop_Client.View.Components.Login
 {
     partial class LoginForm
     {
