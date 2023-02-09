@@ -19,6 +19,13 @@
     
     @using (Html.BeginForm())
     {
+        <form method="post">
+            <input type="submit" value="Logout" asp-page-handler="Logout" />
+        </form>
+    }
+
+    @using (Html.BeginForm())
+    {
         <form action="" method="post">
             <fieldset>
                 <p>
@@ -29,7 +36,7 @@
                     <label for="Password">Password:</label>
                     <input type="text" name="Password"/>
                 </p>
-                <input type="submit" value="Submit" asp-page-handler="Submit"/>
+                <input type="submit" value="Login" asp-page-handler="Submit"/>
             </fieldset>
         </form>        
     }

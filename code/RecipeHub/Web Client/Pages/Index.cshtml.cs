@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Cryptography;
 using System.Text;
+using Web_Client.Data.UserData;
 using Web_Client.Endpoints.Users;
 using Web_Client.Model.Users;
 
@@ -27,6 +28,7 @@ namespace Web_Client.Pages
 
         }
 
+        //TODO Change code
         public void OnPostSubmit(UserInfoBindingModel userInfo)
         {
             try
@@ -40,6 +42,13 @@ namespace Web_Client.Pages
                 this.ShouldThrowError = true;
                 this.ExceptionText = e.Message;
             }
+        }
+
+        public void OnPostLogout()
+        {
+            UsersEndpoints.Logout(Session.Key);
+            this.ShouldSucceed = true;
+            this.ExceptionText = "";
         }
 
         static string hashPassword(string passwordToHash)

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Server.Controllers.Users
+namespace Server.Controllers.ResponseModels
 {
     public class LoginResponseModel
     {
