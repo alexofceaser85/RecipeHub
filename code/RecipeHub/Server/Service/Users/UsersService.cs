@@ -1,6 +1,5 @@
 ﻿using Server.DAL.Users;
-using System.Security.Cryptography;
-using System.Text;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
 
@@ -61,11 +60,7 @@ namespace Server.Service.Users
         {
             var random = new Random();
 
-            //TODO move into a props file
-            var length = 50;
-
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var randomKey = new string(Enumerable.Repeat(chars, length)
+            var randomKey = new string(Enumerable.Repeat(SessionKeySettings.SessionKeyCharacters, SessionKeySettings.SessionKeyLength)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
             var hashedKey = Hashes.HashToSha512(randomKey);

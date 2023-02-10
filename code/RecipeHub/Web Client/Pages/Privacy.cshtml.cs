@@ -2,15 +2,15 @@
 
 namespace Web_Client.Pages
 {
+    /// <summary>
+    /// The privacy model
+    /// </summary>
+    /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class PrivacyModel : PageModel
     {
-        private readonly ILogger<PrivacyModel> _logger;
-
-        public PrivacyModel(ILogger<PrivacyModel> logger)
-        {
-            _logger = logger;
-        }
-
+        /// <summary>
+        /// Called when [get].
+        /// </summary>
         public void OnGet()
         {
         }

@@ -15,21 +15,21 @@ namespace Server.Controllers.ResponseModels
         /// </value>
         public HttpStatusCode Code { get; set; }
         /// <summary>
-        /// Gets or sets the response content.
+        /// Gets or sets the response message.
         /// </summary>
         /// <value>
-        /// The response content.
+        /// The response message.
         /// </value>
-        public string Content { get; set; }
+        public string Message { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginResponseModel"/> class.
         /// </summary>
         /// <param name="code">The status code.</param>
-        /// <param name="content">The response content.</param>
-        public LoginResponseModel(HttpStatusCode code, string content)
+        /// <param name="message">The response content.</param>
+        public LoginResponseModel(HttpStatusCode code, string message)
         {
             this.Code = code;
-            this.Content = content;
+            this.Message = message;
         }
     }
 }

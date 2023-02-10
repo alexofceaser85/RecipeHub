@@ -19,7 +19,8 @@ namespace Desktop_Client.Service.Users
         public static void Login(string username, string password)
         {
             var hashedPassword = Hashes.HashToSha512(password);
-            var sessionKey = UsersEndpoints.Login(username, hashedPassword);
+            var previousSessionKey = SessionKeySerializers.LoadSessionKey();
+            var sessionKey = UsersEndpoints.Login(username, hashedPassword, previousSessionKey);
             Session.Key = sessionKey;
             SessionKeySerializers.SaveSessionKey(sessionKey);
         }
@@ -29,6 +30,11 @@ namespace Desktop_Client.Service.Users
         /// </summary>
         public static void Logout()
         {
+            //TODO Extract error messages
+            if (Session.Key == null)
+            {
+                throw new ArgumentException("Session cannot be null");
+            }
             UsersEndpoints.Logout(Session.Key);
         }
 
@@ -38,6 +44,10 @@ namespace Desktop_Client.Service.Users
         /// <returns>The user information</returns>
         public static UserInfo GetUserInfo()
         {
+            if (Session.Key == null)
+            {
+                throw new ArgumentException("Session cannot be null");
+            }
             return UsersEndpoints.GetUserInfo(Session.Key);
         }
     }

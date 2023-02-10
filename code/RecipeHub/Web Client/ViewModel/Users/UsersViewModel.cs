@@ -13,7 +13,7 @@ namespace Web_Client.ViewModel.Users
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public static void Login(string username, string password)
+        public static void Login(string? username, string? password)
         {
             UsersService.Login(username, password);
         }

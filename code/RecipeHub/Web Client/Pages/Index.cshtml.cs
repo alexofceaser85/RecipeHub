@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Cryptography;
-using System.Text;
 using Web_Client.Model.Users;
 using Web_Client.ViewModel.Users;
 

@@ -7,7 +7,7 @@ namespace Shared_Resources.Data.IO
     /// </summary>
     public static class SessionKeySerializers
     {
-        private static readonly string SessionFilePath = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.IndexOf("bin")) + "..\\Shared Resources\\" + "Session.txt";
+        private static readonly string SessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "..\\Shared Resources\\", "Session.txt");
 
         /// <summary>
         /// Saves the session key.
