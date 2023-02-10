@@ -1,43 +1,36 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
 using Server.Data.Database;
-using System;
-using System.Security.Cryptography;
-using System.Text;
+using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
 {
+    /// <summary>
+    /// The data access layer for the users methods
+    /// </summary>
     public static class UsersDal
     {
-        //TODO This whole method is a service level
-        public static string Login(string username, string password)
-        {
-            var userId = verifyUserNameAndPasswordCombination(username, password);
-            if (userId == null)
-            {
-                throw new ArgumentException("user name and password combo is wrong");
-            }
-
-            if (!verifyNoCurrentUserSessions(userId.Value))
-            {
-                throw new ArgumentException("Session already exists");
-            }
-            var sessionKey = generateNewSessionKey();
-            addUserSession(userId.Value, sessionKey);
-            return sessionKey;
-        }
-
+        /// <summary>
+        /// Verifies the session key does not exist.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>Whether or not the session key exists</returns>
         public static bool VerifySessionKeyDoesNotExist(string sessionKey)
         {
             var query = "select \"Sessions\".sessionKey from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@sessionKey", SqlDbType.VarChar).Value = sessionKey;
+
             connection.Open();
             return command.ExecuteScalar() == null;
         }
 
-        public static void Logout(string sessionKey)
+        /// <summary>
+        /// Removes the session key.
+        /// </summary>
+        /// <param name="sessionKey">The session key to remove.</param>
+        public static void RemoveSessionKey(string sessionKey)
         {
             var query =
                 "delete from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
@@ -48,7 +41,13 @@ namespace Server.DAL.Users
             command.ExecuteNonQuery();
         }
 
-        public static int? verifyUserNameAndPasswordCombination(string username, string password)
+        /// <summary>
+        /// Checks that the user name and password combination exists.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>Whether or not the user and password combination exists</returns>
+        public static int? VerifyUserNameAndPasswordCombination(string username, string password)
         {
             var query =
                 "select " +
@@ -80,17 +79,12 @@ namespace Server.DAL.Users
             return null;
         }
 
-        public static bool verifyNoCurrentUserSessions(int userId)
-        {
-            var query = "select \"Sessions\".userId from \"Sessions\" where \"Sessions\".userId = @userId";
-            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-            using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
-            connection.Open();
-            return command.ExecuteScalar() == null;
-        }
-
-        public static void addUserSession(int userId, string sessionKey)
+        /// <summary>
+        /// Adds a user session.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        public static void AddUserSession(int userId, string sessionKey)
         {
             var query = "insert into Sessions(sessionKey, userId) values(@sessionkey, @userId)";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -101,36 +95,36 @@ namespace Server.DAL.Users
             command.ExecuteNonQuery();
         }
 
-        private static string generateNewSessionKey()
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The user information</returns>
+        public static UserInfo? GetUserInfo(string sessionKey)
         {
-            var random = new Random();
-            var length = 50;
+            var query = "select Users.userName, Users.firstName, Users.lastName, Users.email from \"Sessions\", Users where \"Sessions\".sessionKey = @sessionKey and Users.userId = \"Sessions\".userId";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@sessionKey", SqlDbType.VarChar).Value = sessionKey;
+            connection.Open();
 
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var randomKey = new string(Enumerable.Repeat(chars, length)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            using var reader = command.ExecuteReader();
 
-            var hashedKey = hashPassword(randomKey);
-
-            if (!VerifySessionKeyDoesNotExist(hashedKey))
+            var userNameOrdinal = reader.GetOrdinal("userName");
+            var firstNameOrdinal = reader.GetOrdinal("firstName");
+            var lastNameOrdinal = reader.GetOrdinal("lastName");
+            var emailOrdinal = reader.GetOrdinal("email");
+            while (reader.Read())
             {
-                return generateNewSessionKey();
+                var userName = reader.GetString(userNameOrdinal);
+                var firstName = reader.GetString(firstNameOrdinal);
+                var lastName = reader.GetString(lastNameOrdinal);
+                var email = reader.GetString(emailOrdinal);
+
+                return new UserInfo(userName, firstName, lastName, email);
             }
 
-            return hashedKey;
-        }
-
-        private static string hashPassword(string passwordToHash)
-        {
-            using HashAlgorithm algorithm = SHA512.Create();
-            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
-            var builder = new StringBuilder();
-            foreach (var passwordByte in bytes)
-            {
-                builder.Append(passwordByte.ToString("x2"));
-            }
-            var hashedPassword = builder.ToString();
-            return hashedPassword;
+            return null;
         }
     }
 }
