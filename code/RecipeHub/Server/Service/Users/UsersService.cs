@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 using Shared_Resources.Model.Users;
+using Shared_Resources.Utils.Hashing;
 
 namespace Server.Service.Users
 {
@@ -67,7 +68,7 @@ namespace Server.Service.Users
             var randomKey = new string(Enumerable.Repeat(chars, length)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
-            var hashedKey = hashPassword(randomKey);
+            var hashedKey = Hashes.HashToSha512(randomKey);
 
             if (!UsersDal.VerifySessionKeyDoesNotExist(hashedKey))
             {
@@ -75,19 +76,6 @@ namespace Server.Service.Users
             }
 
             return hashedKey;
-        }
-
-        private static string hashPassword(string passwordToHash)
-        {
-            using HashAlgorithm algorithm = SHA512.Create();
-            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
-            var builder = new StringBuilder();
-            foreach (var passwordByte in bytes)
-            {
-                builder.Append(passwordByte.ToString("x2"));
-            }
-            var hashedPassword = builder.ToString();
-            return hashedPassword;
         }
     }
 }

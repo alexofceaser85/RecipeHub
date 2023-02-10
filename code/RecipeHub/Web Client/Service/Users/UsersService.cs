@@ -1,6 +1,7 @@
 ﻿using Shared_Resources.Data.IO;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Users;
-using Web_Client.Data.UserData;
+using Shared_Resources.Utils.Hashing;
 using Web_Client.Endpoints.Users;
 
 namespace Web_Client.Service.Users
@@ -17,7 +18,8 @@ namespace Web_Client.Service.Users
         /// <param name="password">The password.</param>
         public static void Login(string username, string password)
         {
-            var sessionKey = UsersEndpoints.Login(username, password);
+            var hashedPassword = Hashes.HashToSha512(password);
+            var sessionKey = UsersEndpoints.Login(username, hashedPassword);
             Session.Key = sessionKey;
             SessionKeySerializers.SaveSessionKey(sessionKey);
         }

@@ -9,9 +9,8 @@
     @Html.AntiForgeryToken()
 </form>
 
+<h1 class="display-6">Welcome</h1>
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     @if (Model.ShouldThrowError)
     {
         <p>Could not login, @Model.ExceptionText</p>
@@ -27,21 +26,10 @@
                 </p>
                 <p>
                     <label for="password">Password:</label>
-                    <input type="text" id="password" name="Password" />
+                    <input type="password" id="password" name="Password" />
                 </p>
                 <input type="submit" value="Login" asp-page-handler="Submit"/>
             </fieldset>
         </form>        
     }
 </div>
-
-
-<script>
-    window.onbeforeunload = function () {
-        console.log("hello");
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/Index/LogPageExit", false);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.send();
-    };
-</script>

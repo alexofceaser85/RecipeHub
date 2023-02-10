@@ -9,8 +9,10 @@
     <Import_RootNamespace>Shared_Resources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IO\SessionKeySerializers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Hashing\Hashes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Data\IO\" />

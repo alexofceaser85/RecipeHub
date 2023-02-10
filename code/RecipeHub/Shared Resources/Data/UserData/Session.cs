@@ -1,4 +1,4 @@
-﻿namespace Web_Client.Data.UserData
+﻿namespace Shared_Resources.Data.UserData
 {
     /// <summary>
     /// The user session info

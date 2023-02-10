@@ -1,5 +1,5 @@
 ﻿using Desktop_Client.ViewModel.Users;
-using Desktop_Client.Data.UserData;
+using Shared_Resources.Data.UserData;
 
 namespace Desktop_Client.View.Screens
 {

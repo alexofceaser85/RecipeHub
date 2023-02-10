@@ -43,7 +43,7 @@ namespace Web_Client.Pages
         {
             try
             {
-                UsersViewModel.Login(userInfo.Username, hashPassword(userInfo.Password));
+                UsersViewModel.Login(userInfo.Username, userInfo.Password);
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
                 //TODO Extract
@@ -72,20 +72,6 @@ namespace Web_Client.Pages
             {
                 Console.WriteLine("");
             }
-        }
-
-        private static string hashPassword(string passwordToHash)
-        {
-            using HashAlgorithm algorithm = SHA512.Create();
-            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
-            var builder = new StringBuilder();
-            foreach (var passwordByte in bytes)
-            {
-                builder.Append(passwordByte.ToString("x2"));
-            }
-
-            var hashedPassword = builder.ToString();
-            return hashedPassword;
         }
     }
 }

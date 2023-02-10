@@ -24,23 +24,9 @@ namespace Desktop_Client.View.Components.Login
             var username = this.usernameTextBox.Text;
             var password = this.passwordTextInput.Text;
 
-            UsersViewModel.Login(username, hashPassword(password));
+            UsersViewModel.Login(username, password);
             UserInfoScreen infoScreen = new UserInfoScreen();
             infoScreen.ShowDialog();
-        }
-
-        static string hashPassword(string passwordToHash)
-        {
-            using HashAlgorithm algorithm = SHA512.Create();
-            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
-            var builder = new StringBuilder();
-            foreach (var passwordByte in bytes)
-            {
-                builder.Append(passwordByte.ToString("x2"));
-            }
-
-            var hashedPassword = builder.ToString();
-            return hashedPassword;
         }
     }
 }
