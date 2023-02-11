@@ -13,15 +13,15 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared Resources", "Shared 
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{0B9C3408-3D7A-438D-AE9F-FBABF6A849A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerTests", "Tests\ServerTests.csproj", "{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DEAAFCAF-603B-4456-AD18-84C684FC2C1E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedResourcesTests", "SharedResourcesTests\SharedResourcesTests.csproj", "{928E89EF-6268-4F81-97BF-7CB9F792DA98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClientTests", "Tests\WebClientTests\WebClientTests.csproj", "{5E000258-9287-4438-AEA9-E0221E6ECF9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopClientTests", "DesktopClientTests\DesktopClientTests.csproj", "{3D808272-7872-40D5-8C52-6E59E35759A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedResourcesTests", "Tests\SharedResourcesTests\SharedResourcesTests.csproj", "{DF4570A3-C972-4320-BB89-D3998E55D770}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClientTests", "WebClientTests\WebClientTests.csproj", "{EEFA671D-0323-4780-B732-05B341453AA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServerTests", "Tests\ServerTests\ServerTests.csproj", "{536E2962-8CA3-425B-9FF4-C183ED6B1C1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesktopClientTests", "Tests\DesktopClientTests\DesktopClientTests.csproj", "{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,31 +47,31 @@ Global
 		{0B9C3408-3D7A-438D-AE9F-FBABF6A849A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B9C3408-3D7A-438D-AE9F-FBABF6A849A4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0B9C3408-3D7A-438D-AE9F-FBABF6A849A4}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{928E89EF-6268-4F81-97BF-7CB9F792DA98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{928E89EF-6268-4F81-97BF-7CB9F792DA98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{928E89EF-6268-4F81-97BF-7CB9F792DA98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{928E89EF-6268-4F81-97BF-7CB9F792DA98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3D808272-7872-40D5-8C52-6E59E35759A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3D808272-7872-40D5-8C52-6E59E35759A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3D808272-7872-40D5-8C52-6E59E35759A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3D808272-7872-40D5-8C52-6E59E35759A2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EEFA671D-0323-4780-B732-05B341453AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EEFA671D-0323-4780-B732-05B341453AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EEFA671D-0323-4780-B732-05B341453AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EEFA671D-0323-4780-B732-05B341453AA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E000258-9287-4438-AEA9-E0221E6ECF9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E000258-9287-4438-AEA9-E0221E6ECF9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E000258-9287-4438-AEA9-E0221E6ECF9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E000258-9287-4438-AEA9-E0221E6ECF9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4570A3-C972-4320-BB89-D3998E55D770}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4570A3-C972-4320-BB89-D3998E55D770}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4570A3-C972-4320-BB89-D3998E55D770}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4570A3-C972-4320-BB89-D3998E55D770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{536E2962-8CA3-425B-9FF4-C183ED6B1C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{536E2962-8CA3-425B-9FF4-C183ED6B1C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{536E2962-8CA3-425B-9FF4-C183ED6B1C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{536E2962-8CA3-425B-9FF4-C183ED6B1C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{B829E1B4-FE8D-4BE9-A23C-F22BCA3F74A5} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
-		{928E89EF-6268-4F81-97BF-7CB9F792DA98} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
-		{3D808272-7872-40D5-8C52-6E59E35759A2} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
-		{EEFA671D-0323-4780-B732-05B341453AA6} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
+		{5E000258-9287-4438-AEA9-E0221E6ECF9F} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
+		{DF4570A3-C972-4320-BB89-D3998E55D770} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
+		{536E2962-8CA3-425B-9FF4-C183ED6B1C1C} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
+		{E0BB8A7F-82D9-4FBB-AC93-C1471F96EB69} = {DEAAFCAF-603B-4456-AD18-84C684FC2C1E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3987F10B-FA42-456A-B026-7877AD8AF89E}
@@ -80,7 +80,7 @@ Global
 		Shared Resources\Shared Resources.projitems*{29a3745e-e4fd-4c76-a3e0-55ac529ceec0}*SharedItemsImports = 5
 		Shared Resources\Shared Resources.projitems*{43df2cf1-1973-4c90-91e4-fc7f5ad8949c}*SharedItemsImports = 5
 		Shared Resources\Shared Resources.projitems*{4ccfd5a2-1478-49b3-af51-1ad1fa964419}*SharedItemsImports = 5
-		Shared Resources\Shared Resources.projitems*{928e89ef-6268-4f81-97bf-7cb9f792da98}*SharedItemsImports = 5
 		Shared Resources\Shared Resources.projitems*{932456c3-4f9f-4197-a037-0670f624b6a8}*SharedItemsImports = 13
+		Shared Resources\Shared Resources.projitems*{df4570a3-c972-4320-bb89-d3998e55d770}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

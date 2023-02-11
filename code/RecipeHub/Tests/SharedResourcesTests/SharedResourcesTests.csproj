@@ -17,6 +17,6 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
-  <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
+  <Import Project="..\..\Shared Resources\Shared Resources.projitems" Label="Shared" />
 
 </Project>
