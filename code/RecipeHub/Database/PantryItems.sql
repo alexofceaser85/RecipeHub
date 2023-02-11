@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[PantryItems]
 (
-	[ingredientId] INT NOT NULL, 
+    [ingredientId] INT NOT NULL, 
     [userId] INT NOT NULL, 
     [amount] INT NOT NULL,
     CONSTRAINT [FK_PantryItems_To_Ingredients] FOREIGN KEY (ingredientId) REFERENCES [Ingredients]([ingredientId]),
