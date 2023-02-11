@@ -5,14 +5,11 @@ Primary Flow:
     1: The user selects a recipe from the list
     2: The application loads the selected recipe's information from the server
     3: The application displays the recipes information
-    4: The ingredients section is expanded by selecting the expand option
-    5: The instructions section is expanded by selecting the expand option
-    6: The comments section is expanded by selecting the expand option
 Alternate Flows:
     a2:
         1: The application is unable to connect to the server
         2: The user is informed of the connection issues
         3: The user is returned to step 2
-    a3-6:
+    a3:
         1: The user closes the recipe
         2: The user is returned to the recipe list
