@@ -7,14 +7,12 @@ namespace Shared_Resources.Data.IO
     /// </summary>
     public static class SessionKeySerializers
     {
-        private static readonly string SessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "..\\Shared Resources\\", "Session.txt");
-
         /// <summary>
         /// Saves the session key.
         /// </summary>
-        public static void SaveSessionKey(string sessionKey)
+        public static void SaveSessionKey(string sessionKey, string filePath)
         {
-            var fileStream = new FileStream(SessionFilePath, FileMode.OpenOrCreate, FileAccess.Write);
+            var fileStream = new FileStream(filePath, FileMode.Truncate, FileAccess.Write);
 
             try
             {
@@ -30,9 +28,9 @@ namespace Shared_Resources.Data.IO
         /// Loads the session key.
         /// </summary>
         /// <returns>The loaded session key</returns>
-        public static string LoadSessionKey()
+        public static string LoadSessionKey(string filePath)
         {
-            var fileStream = new FileStream(SessionFilePath, FileMode.OpenOrCreate, FileAccess.Read);
+            var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);
 
             try
             {

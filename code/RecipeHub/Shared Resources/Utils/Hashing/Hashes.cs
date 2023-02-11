@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Shared_Resources.ErrorMessages;
 
 namespace Shared_Resources.Utils.Hashing
 {
@@ -15,6 +16,16 @@ namespace Shared_Resources.Utils.Hashing
         /// <returns>The hashed string</returns>
         public static string HashToSha512(string passwordToHash)
         {
+            if (passwordToHash == null)
+            {
+                throw new ArgumentException(HashesErrorMessages.PasswordToHashCannotBeNull);
+            }
+
+            if (passwordToHash.Trim().Length == 0)
+            {
+                throw new ArgumentException(HashesErrorMessages.PasswordToHashCannotBeEmpty);
+            }
+
             using HashAlgorithm algorithm = SHA512.Create();
             var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
             var builder = new StringBuilder();

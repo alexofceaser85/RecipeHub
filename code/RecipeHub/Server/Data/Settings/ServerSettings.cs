@@ -1,5 +1,16 @@
-﻿namespace Server.Data.Database
+﻿namespace Server.Data.Settings
 {
+    /// <summary>
+    /// Holds the settings for the server
+    /// </summary>
+    public static class ServerSettings
+    {
+        /// <summary>
+        /// The default successful connection message
+        /// </summary>
+        public static string DefaultSuccessfulConnectionMessage = "Returned Okay";
+    }
+
     /// <summary>
     /// Holds the settings for the database
     /// </summary>

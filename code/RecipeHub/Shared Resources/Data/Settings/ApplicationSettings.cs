@@ -8,7 +8,7 @@
         /// <summary>
         /// The server URI
         /// </summary>
-        public const string ServerUri = $"https://localhost:7265/";
+        public const string ServerUri = "https://localhost:7265/";
     }
 
     /// <summary>
@@ -25,5 +25,10 @@
         /// The session key length
         /// </summary>
         public const int SessionKeyLength = 50;
+
+        /// <summary>
+        /// The save session file path
+        /// </summary>
+        public static readonly string SaveSessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "..\\Shared Resources\\", "Session.txt");
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Shared_Resources.Model.Users
+﻿using Shared_Resources.ErrorMessages;
+
+namespace Shared_Resources.Model.Users
 {
     /// <summary>
     /// Holds the user information
@@ -43,6 +45,46 @@
         /// <param name="email">The email.</param>
         public UserInfo(string userName, string firstName, string lastName, string email)
         {
+            if (userName == null)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.UsernameCannotBeNull);
+            }
+
+            if (userName.Trim().Length == 0)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.UsernameCannotBeEmpty);
+            }
+
+            if (firstName == null)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.FirstNameCannotBeNull);
+            }
+
+            if (firstName.Trim().Length == 0)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.FirstNameCannotBeEmpty);
+            }
+
+            if (lastName == null)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.LastNameCannotBeNull);
+            }
+
+            if (lastName.Trim().Length == 0)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.LastNameCannotBeEmpty);
+            }
+
+            if (email == null)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.EmailCannotBeNull);
+            }
+
+            if (email.Trim().Length == 0)
+            {
+                throw new ArgumentException(UserInfoErrorMessages.EmailCannotBeEmpty);
+            }
+
             this.UserName = userName;
             this.FirstName = firstName;
             this.LastName = lastName;

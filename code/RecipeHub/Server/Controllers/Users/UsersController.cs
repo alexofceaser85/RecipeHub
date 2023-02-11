@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using Server.Controllers.ResponseModels;
+using Server.Data.Settings;
 using Server.Service.Users;
 
 namespace Server.Controllers.Users
@@ -11,6 +12,28 @@ namespace Server.Controllers.Users
     [ApiController]
     public class UsersController
     {
+        private readonly IUsersService service;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController"/> class.
+        /// </summary>
+        [ActivatorUtilitiesConstructor]
+        public UsersController()
+        {
+            this.service = new UsersService();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersController"/> class.
+        /// </summary>
+        /// <param name="usersService">The users service.</param>
+        public UsersController(IUsersService usersService)
+        {
+
+
+            this.service = usersService;
+        }
+
         /// <summary>
         /// Logins the specified username and password combination.
         /// </summary>
@@ -24,7 +47,27 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new LoginResponseModel(HttpStatusCode.OK, UsersService.Login(username, password, previousSessionKey));
+                return new LoginResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
+            }
+            catch (Exception ex)
+            {
+                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Logs the user with the specified session key out of the system.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The server response</returns>
+        [HttpPost]
+        [Route("LogoutUser")]
+        public LoginResponseModel Logout(string sessionKey)
+        {
+            try
+            {
+                this.service.Logout(sessionKey);
+                return new LoginResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
             {
@@ -43,31 +86,11 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new UserInfoResponseModel(HttpStatusCode.OK, "Returned Okay", UsersService.GetUserInfo(sessionKey));
+                return new UserInfoResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage, this.service.GetUserInfo(sessionKey));
             }
             catch (Exception ex)
             {
                 return new UserInfoResponseModel(HttpStatusCode.InternalServerError, ex.Message, null);
-            }
-        }
-
-        /// <summary>
-        /// Logs the user with the specified session key out of the system.
-        /// </summary>
-        /// <param name="sessionKey">The session key.</param>
-        /// <returns>The server response</returns>
-        [HttpPost]
-        [Route("LogoutUser")]
-        public LoginResponseModel Logout(string sessionKey)
-        {
-            try
-            {
-                UsersService.Logout(sessionKey);
-                return new LoginResponseModel(HttpStatusCode.OK, string.Empty);
-            }
-            catch (Exception ex)
-            {
-                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

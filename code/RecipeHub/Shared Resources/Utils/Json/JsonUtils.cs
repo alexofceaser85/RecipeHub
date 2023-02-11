@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Nodes;
+using Shared_Resources.ErrorMessages;
 
 namespace Shared_Resources.Utils.Json
 {
@@ -20,15 +21,33 @@ namespace Shared_Resources.Utils.Json
         /// <exception cref="ArgumentException">The element name is not in the json string</exception>
         public static string GetJsonString(JsonNode parsedJson, string jsonElementName)
         {
-            var requestContentNode = parsedJson[jsonElementName];
-
-            if (requestContentNode == null)
+            if (parsedJson == null)
             {
-                //TODO ADD MESSAGE
-                throw new ArgumentException();
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
             }
 
-            return requestContentNode.ToString();
+            if (jsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeNull);
+            }
+
+            if (jsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty);
+            }
+
+            var requestContentNode = parsedJson[jsonElementName];
+            return verifyAndGetNode(requestContentNode);
+        }
+
+        private static string verifyAndGetNode(JsonNode? jsonNode)
+        {
+            if (jsonNode == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.RequestContentNodeCannotBeNull);
+            }
+
+            return jsonNode.ToString();
         }
 
         /// <summary>
@@ -41,15 +60,33 @@ namespace Shared_Resources.Utils.Json
         /// <exception cref="ArgumentException">The element names are not in the json string</exception>
         public static string GetJsonString(JsonNode parsedJson, string firstJsonElementName, string secondJsonElementName)
         {
-            var requestContentNode = parsedJson[firstJsonElementName]?[secondJsonElementName];
-
-            if (requestContentNode == null)
+            if (parsedJson == null)
             {
-                //TODO ADD MESSAGE
-                throw new ArgumentException();
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
             }
 
-            return requestContentNode.ToString();
+            if (firstJsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeNull);
+            }
+
+            if (firstJsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty);
+            }
+
+            if (secondJsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeNull);
+            }
+
+            if (secondJsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeEmpty);
+            }
+
+            var requestContentNode = parsedJson[firstJsonElementName]?[secondJsonElementName];
+            return verifyAndGetNode(requestContentNode);
         }
 
         /// <summary>
@@ -69,6 +106,34 @@ namespace Shared_Resources.Utils.Json
             }
 
             return requestContent;
+        }
+
+        /// <summary>
+        /// Parses to json node.
+        /// </summary>
+        /// <param name="json">The json.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException">If the json node cannot be parsed</exception>
+        public static JsonNode ParseToJsonNode(string json)
+        {
+            if (json == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonToParseCannotBeNull);
+            }
+
+            if (json.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonToParseCannotBeEmpty);
+            }
+
+            var parsedJson = JsonNode.Parse(json);
+
+            if (parsedJson == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
+            }
+
+            return parsedJson;
         }
     }
 }
