@@ -69,7 +69,6 @@ _ReSharper*/
 publish/
 
 # Publish Web Output
-*.Publish.xml
 *.pubxml
 *.azurePubxml
 
@@ -95,7 +94,6 @@ ClientBin/
 ~$*
 *~
 *.dbmdl
-*.[Pp]ublish.xml
 
 *.publishsettings
 
