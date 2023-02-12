@@ -1,0 +1,43 @@
+﻿@page
+@model Web_Client.Pages.CreateAccountModel
+@{
+    <h1>Create Account</h1>
+
+    <form id="createAccountForm" method="post" action="">
+        <fieldset>
+            <div>
+                <h3>Username:</h3>
+                <input type="text" id="usernameInput" name="Username"/>
+            </div>
+            <div>
+                <h3>Password:</h3>
+                <input type="text" id="passwordInput" name="Password"/>
+            </div>
+            <div>
+                <h3>Verify Password:</h3>
+                <input type="text" id="verifyPasswordInput" name="VerifyPassword"/>
+            </div>
+            <div>
+                <h3>First Name:</h3>
+                <input type="text" id="firstNameInput" name="FirstName"/>
+            </div>
+            <div>
+                <h3>Last Name:</h3>
+                <input type="text" id="lastNameInput" name="LastName"/>
+            </div>
+            <div>
+                <h3>Email:</h3>
+                <input type="text" id="emailInput" name="Email"/>
+            </div>
+            <div>
+                <input type="submit" value="Cancel" asp-page-handler="Cancel"/>
+                <input type="submit" value="Cancel" asp-page-handler="Submit" />
+            </div>
+        </fieldset>
+    </form>
+
+    @if (Model.ShouldThrowError)
+    {
+        <h2>Error Creating Account: @Model.ExceptionText</h2>
+    }
+}

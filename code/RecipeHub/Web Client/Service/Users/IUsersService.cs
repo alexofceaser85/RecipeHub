@@ -7,6 +7,9 @@ namespace Web_Client.Service.Users
     /// </summary>
     public interface IUsersService
     {
+
+        public void CreateAccount(string username, string password, string verifyPassword, string firstName,
+            string lastName, string email);
         /// <summary>
         /// Logins the specified username.
         /// </summary>

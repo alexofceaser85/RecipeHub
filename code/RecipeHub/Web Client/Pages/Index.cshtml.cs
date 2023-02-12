@@ -66,6 +66,15 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
+        /// Called when [post create account].
+        /// </summary>
+        /// <returns></returns>
+        public RedirectToPageResult? OnPostCreateAccount()
+        {
+            return RedirectToPage("/CreateAccount");
+        }
+
+        /// <summary>
         /// Logs the user out.
         /// </summary>
         public void Logout()

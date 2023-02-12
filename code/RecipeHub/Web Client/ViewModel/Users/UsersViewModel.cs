@@ -38,6 +38,21 @@ namespace Web_Client.ViewModel.Users
         }
 
         /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="verifyPassword">The verify password.</param>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="email">The email.</param>
+        public void CreateAccount(string username, string password, string verifyPassword, string firstName,
+            string lastName, string email)
+        {
+
+        }
+
+        /// <summary>
         /// Logins the specified username and password combination.
         /// </summary>
         /// <param name="username">The username.</param>
