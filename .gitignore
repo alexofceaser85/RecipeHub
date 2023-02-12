@@ -137,9 +137,6 @@ _NCrunch*
 .suo
 /code/RecipeHub/.vs/RecipeHub/FileContentIndex
 *.projects.*
-<<<<<<< HEAD
 *.testlog
 /code/RecipeHub/.vs/RecipeHub/v17/TestStore/0/testlog.manifest
-=======
-/code/RecipeHub/.vs/RecipeHub/v17
->>>>>>> Started Create Account Implementation
+/code/RecipeHub/.vs/RecipeHub/v17/TestStore
