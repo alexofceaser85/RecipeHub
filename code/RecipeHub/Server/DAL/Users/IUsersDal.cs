@@ -1,0 +1,41 @@
+﻿using Shared_Resources.Model.Users;
+
+namespace Server.DAL.Users
+{
+    /// <summary>
+    /// The users data access layer interface
+    /// </summary>
+    public interface IUsersDal
+    {
+        /// <summary>
+        /// Verifies the session key does not exist.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>Whether or not the session key exists</returns>
+        public bool VerifySessionKeyDoesNotExist(string sessionKey);
+        /// <summary>
+        /// Removes the session key.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        public void RemoveSessionKey(string sessionKey);
+        /// <summary>
+        /// Verifies the user name and password combination.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <returns>Whether or not the username and password combination exists</returns>
+        public int? VerifyUserNameAndPasswordCombination(string username, string password);
+        /// <summary>
+        /// Adds the user session.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        public void AddUserSession(int userId, string sessionKey);
+        /// <summary>
+        /// Gets the user information.
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The user info for the session key</returns>
+        public UserInfo? GetUserInfo(string sessionKey);
+    }
+}

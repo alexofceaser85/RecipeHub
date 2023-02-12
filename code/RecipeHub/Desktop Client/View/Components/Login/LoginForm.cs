@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using Desktop_Client.View.Screens;
+﻿using Desktop_Client.View.Screens;
 using Desktop_Client.ViewModel.Users;
 
 namespace Desktop_Client.View.Components.Login
@@ -11,22 +9,35 @@ namespace Desktop_Client.View.Components.Login
     /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class LoginForm : UserControl
     {
+        private readonly UsersViewModel viewModel;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginForm"/> class.
         /// </summary>
         public LoginForm()
         {
             this.InitializeComponent();
+            this.viewModel = new UsersViewModel();
         }
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
-            var username = this.usernameTextBox.Text;
-            var password = this.passwordTextInput.Text;
+            try
+            {
+                var username = this.usernameTextBox.Text;
+                var password = this.passwordTextInput.Text;
 
-            UsersViewModel.Login(username, password);
-            UserInfoScreen infoScreen = new UserInfoScreen();
-            infoScreen.ShowDialog();
+                this.usernameTextBox.Text = string.Empty;
+                this.passwordTextInput.Text = string.Empty;
+
+                this.viewModel.Login(username, password);
+                var infoScreen = new UserInfoScreen();
+                infoScreen.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

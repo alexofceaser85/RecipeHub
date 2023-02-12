@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Server.ErrorMessages;
 using Shared_Resources.Model.Users;
 
 namespace Server.Controllers.ResponseModels
@@ -8,6 +9,8 @@ namespace Server.Controllers.ResponseModels
     /// </summary>
     public class UserInfoResponseModel
     {
+        private string message;
+
         /// <summary>
         /// Gets or sets the response Code.
         /// </summary>
@@ -15,13 +18,30 @@ namespace Server.Controllers.ResponseModels
         /// The Code.
         /// </value>
         public HttpStatusCode Code { get; set; }
+
         /// <summary>
         /// Gets or sets the response message.
         /// </summary>
         /// <value>
         /// The message.
         /// </value>
-        public string Message { get; set; }
+        public string Message { 
+            get => this.message;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeNull);
+                }
+
+                if (value.Trim().Length == 0)
+                {
+                    throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeEmpty);
+                }
+
+                this.message = value;
+            }
+        }
         /// <summary>
         /// Gets or sets the user information.
         /// </summary>
@@ -32,15 +52,26 @@ namespace Server.Controllers.ResponseModels
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInfoResponseModel"/> class.
+        /// Precondition: message != null and message IS NOT empty
+        /// Postcondition: this.Code == code and this.Message == message and this.UserInfo == userInfo
         /// </summary>
-        /// <param name="code">The Code.</param>
-        /// <param name="message">The message.</param>
+        /// <param name="code">The status code.</param>
+        /// <param name="message">The response content.</param>
         /// <param name="userInfo">The user information.</param>
         public UserInfoResponseModel(HttpStatusCode code, string message, UserInfo? userInfo)
         {
-            //TODO Add preconditions
+            if (message == null)
+            {
+                throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeNull);
+            }
+
+            if (message.Trim().Length == 0)
+            {
+                throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeEmpty);
+            }
+
             this.Code = code;
-            this.Message = message;
+            this.message = message;
             this.UserInfo = userInfo;
         }
     }

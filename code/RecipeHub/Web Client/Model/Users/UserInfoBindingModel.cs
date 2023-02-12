@@ -14,7 +14,7 @@ namespace Web_Client.Model.Users
         /// The username.
         /// </value>
         [BindProperty]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or sets the password.
@@ -23,7 +23,7 @@ namespace Web_Client.Model.Users
         /// The password.
         /// </value>
         [BindProperty]
-        public string Password { get; set; }
+        public string? Password { get; set; }
 
     }
 }

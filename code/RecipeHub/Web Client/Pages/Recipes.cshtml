@@ -4,8 +4,8 @@
 @using Shared_Resources.Data.UserData
 @model Web_Client.Pages.RecipesModel
 @{
-
-    var userInfo = UsersViewModel.GetUserData();
+    var viewModel = new UsersViewModel();
+    var userInfo = viewModel.GetUserInfo();
 }
 
 <h1>Welcome Your Session Key is: @Session.Key</h1>

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Cryptography;
-using System.Text;
 using Web_Client.Model.Users;
 using Web_Client.ViewModel.Users;
 
@@ -13,6 +11,17 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class IndexModel : PageModel
     {
+        private const string RecipesAddress = "/Recipes";
+        private UsersViewModel usersViewModel;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IndexModel"/> class.
+        /// </summary>
+        public IndexModel()
+        {
+            this.usersViewModel = new UsersViewModel();
+        }
+
         /// <summary>
         /// Determines if the client should show an error message
         /// </summary>
@@ -43,11 +52,10 @@ namespace Web_Client.Pages
         {
             try
             {
-                UsersViewModel.Login(userInfo.Username, userInfo.Password);
+                this.usersViewModel.Login(userInfo.Username ?? "", userInfo.Password ?? "");
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
-                //TODO Extract
-                return RedirectToPage("/Recipes");
+                return RedirectToPage(RecipesAddress);
             }
             catch (Exception e)
             {
@@ -58,13 +66,13 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
-        /// Logouts this instance.
+        /// Logs the user out.
         /// </summary>
         public void Logout()
         {
             try
             {
-                UsersViewModel.Logout();
+                this.usersViewModel.Logout();
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
             }
