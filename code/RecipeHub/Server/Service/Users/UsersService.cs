@@ -24,8 +24,12 @@ namespace Server.Service.Users
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersService"/> class.
+        ///
+        /// Precondition dataAccessLayer != null
+        /// Postcondition: None
         /// </summary>
         /// <param name="dataAccessLayer">The data access layer.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public UsersService(IUsersDal dataAccessLayer)
         {
             if (dataAccessLayer == null)
@@ -92,8 +96,13 @@ namespace Server.Service.Users
 
         /// <summary>
         /// Log outs the specified user's session.
+        ///
+        /// Precondition: sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
+        /// <exception cref="System.ArgumentException"></exception>
         public void Logout(string sessionKey)
         {
             if (sessionKey == null)
@@ -111,9 +120,14 @@ namespace Server.Service.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <returns></returns>
+        /// <returns>The user information</returns>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public UserInfo? GetUserInfo(string sessionKey)
         {
             if (sessionKey == null)

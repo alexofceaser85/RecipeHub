@@ -13,7 +13,7 @@ namespace Server.Service.Users
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <param name="previousSessionKey">The previous session key.</param>
-        /// <returns></returns>
+        /// <returns>The login information</returns>
         public string Login(string username, string password, string? previousSessionKey);
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Server.Service.Users
         /// Gets the user information.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <returns></returns>
+        /// <returns>The user information</returns>
         public UserInfo? GetUserInfo(string sessionKey);
     }
 }

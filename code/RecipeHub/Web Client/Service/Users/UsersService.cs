@@ -37,6 +37,11 @@ namespace Web_Client.Service.Users
         /// <param name="usersEndpoints">The users endpoints.</param>
         public UsersService(IUsersEndpoints usersEndpoints)
         {
+            if (usersEndpoints == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsersEndpointsCannotBeNull);
+            }
+
             this.endpoints = usersEndpoints;
         }
 

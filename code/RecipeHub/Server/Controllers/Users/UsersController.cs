@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.Service.Users;
+using Shared_Resources.ErrorMessages;
 
 namespace Server.Controllers.Users
 {
@@ -25,11 +26,18 @@ namespace Server.Controllers.Users
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
+        ///
+        /// Precondition: usersServer != null
+        /// Postcondition: None
         /// </summary>
         /// <param name="usersService">The users service.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public UsersController(IUsersService usersService)
         {
-
+            if (usersService == null)
+            {
+                throw new ArgumentException(UsersControllerErrorMessages.UsersServiceCannotBeNull);
+            }
 
             this.service = usersService;
         }

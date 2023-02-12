@@ -3,7 +3,7 @@
 namespace Web_Client.Endpoints.Users
 {
     /// <summary>
-    /// The interface for the 
+    /// The interface for the users endpoints
     /// </summary>
     public interface IUsersEndpoints
     {

@@ -35,8 +35,14 @@ namespace Desktop_Client.Service.Users
         /// Postcondition: None
         /// </summary>
         /// <param name="usersEndpoints">The users endpoints.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public UsersService(IUsersEndpoints usersEndpoints)
         {
+            if (usersEndpoints == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsersEndpointsCannotBeNull);
+            }
+
             this.endpoints = usersEndpoints;
         }
 
@@ -52,6 +58,7 @@ namespace Desktop_Client.Service.Users
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public void Login(string username, string password)
         {
             if (username == null)
@@ -93,7 +100,11 @@ namespace Desktop_Client.Service.Users
 
         /// <summary>
         /// Logs the user out.
+        ///
+        /// Precondition: Session.Key != null AND Session.Key IS NOT empty
+        /// Postcondition: Session.Key == null and user is logged out
         /// </summary>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public void Logout()
         {
             if (Session.Key == null)
@@ -111,8 +122,12 @@ namespace Desktop_Client.Service.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: Session.Key != null AND Session.Key IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <returns>The user information</returns>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public UserInfo GetUserInfo()
         {
             if (Session.Key == null)

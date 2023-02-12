@@ -116,10 +116,25 @@
     }
 
     /// <summary>
+    /// The error messages for the users controller
+    /// </summary>
+    public class UsersControllerErrorMessages
+    {
+        /// <summary>
+        /// The users service cannot be null error messages
+        /// </summary>
+        public static string UsersServiceCannotBeNull = "The users service cannot be null";
+    }
+
+    /// <summary>
     /// The users service error messages
     /// </summary>
     public class UsersServiceErrorMessages
     {
+        /// <summary>
+        /// The users endpoints cannot be null error messages
+        /// </summary>
+        public static string UsersEndpointsCannotBeNull = "The user endpoints cannot be null";
         /// <summary>
         /// The user name cannot be null error messages
         /// </summary>

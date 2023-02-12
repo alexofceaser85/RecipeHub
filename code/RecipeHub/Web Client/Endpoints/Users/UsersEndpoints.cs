@@ -69,6 +69,7 @@ namespace Web_Client.Endpoints.Users
         /// Logs the user with the specified session key out of the system.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
+        /// <returns>The logout information</returns>
         /// <exception cref="System.ArgumentException">If there was an error with the server</exception>
         public string Logout(string sessionKey)
         {

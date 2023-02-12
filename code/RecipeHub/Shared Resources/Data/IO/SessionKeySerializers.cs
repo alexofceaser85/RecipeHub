@@ -27,7 +27,7 @@ namespace Shared_Resources.Data.IO
         /// <summary>
         /// Loads the session key.
         /// </summary>
-        /// <returns>The loaded session key</returns>
+        /// <returns>The loaded session key or an empty string if the session key could not be loaded</returns>
         public static string LoadSessionKey(string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Read);

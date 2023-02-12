@@ -14,6 +14,12 @@ namespace Shared_Resources.Utils.Json
 
         /// <summary>
         /// Gets the json string from an element.
+        ///
+        /// Precondition:
+        /// parsedJson != null
+        /// AND jsonElementName != null
+        /// AND jsonElementName IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="parsedJson">The parsed json.</param>
         /// <param name="jsonElementName">Name of the json element.</param>
@@ -52,6 +58,14 @@ namespace Shared_Resources.Utils.Json
 
         /// <summary>
         /// Gets the json string from a nested element.
+        ///
+        /// Precondition:
+        /// parsedJson != null
+        /// AND firstJsonElementName != null
+        /// AND firstJsonElementName IS NOT empty
+        /// AND secondJsonElementName != null
+        /// AND secondJsonElementName IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="parsedJson">The parsed json.</param>
         /// <param name="firstJsonElementName">The name of the first json element.</param>
@@ -90,10 +104,10 @@ namespace Shared_Resources.Utils.Json
         }
 
         /// <summary>
-        /// Verifies the and get request information.
+        /// Verifies the and gets the request information.
         /// </summary>
         /// <param name="json">The json.</param>
-        /// <returns></returns>
+        /// <returns>The request information</returns>
         /// <exception cref="ArgumentException">If the request code indicates a server error</exception>
         public static string VerifyAndGetRequestInfo(JsonNode json)
         {
@@ -110,10 +124,13 @@ namespace Shared_Resources.Utils.Json
 
         /// <summary>
         /// Parses to json node.
+        ///
+        /// Precondition: json != null AND json IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="json">The json.</param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException">If the json node cannot be parsed</exception>
+        /// <returns>The parsed json node</returns>
+        /// <exception cref="ArgumentException">If the preconditions are not met or if the json node cannot be parsed</exception>
         public static JsonNode ParseToJsonNode(string json)
         {
             if (json == null)

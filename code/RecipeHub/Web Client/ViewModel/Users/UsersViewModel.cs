@@ -21,8 +21,12 @@ namespace Web_Client.ViewModel.Users
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersViewModel"/> class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
         /// </summary>
         /// <param name="service">The service.</param>
+        /// <exception cref="System.ArgumentException"></exception>
         public UsersViewModel(IUsersService service)
         {
             if (service == null)

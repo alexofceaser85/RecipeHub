@@ -11,6 +11,13 @@ namespace Shared_Resources.Utils.Server
     {
         /// <summary>
         /// Requests json data from the server.
+        ///
+        /// Precondition:
+        /// method != null
+        /// AND requestUri != null
+        /// AND requestUri IS NOT empty
+        /// AND client 1= null
+        /// Postcondition: None
         /// </summary>
         /// <param name="method">The http method to use.</param>
         /// <param name="requestUri">The request URI to use.</param>

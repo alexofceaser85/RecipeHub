@@ -38,11 +38,28 @@ namespace Shared_Resources.Model.Users
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInfo"/> class.
+        ///
+        /// Precondition:
+        /// userName != null
+        /// AND userName IS NOT empty
+        /// AND firstName != null
+        /// AND firstName IS NOT empty
+        /// AND lastName != null
+        /// AND lastName IS NOT empty
+        /// AND email != null
+        /// AND email IS NOT empty
+        ///
+        /// Postcondition:
+        /// this.UserName == userName
+        /// AND this.FirstName == firstName
+        /// AND this.LastName == lastName
+        /// AND this.Email == email
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <param name="firstName">The first name.</param>
         /// <param name="lastName">The last name.</param>
         /// <param name="email">The email.</param>
+        /// <exception cref="ArgumentException">If the preconditions are not met</exception>
         public UserInfo(string userName, string firstName, string lastName, string email)
         {
             if (userName == null)
