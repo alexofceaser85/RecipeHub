@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Settings\ApplicationSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorMessages\ErrorMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Users\NewAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IO\SessionKeySerializers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hashing\Hashes.cs" />

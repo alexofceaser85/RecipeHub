@@ -45,6 +45,11 @@ namespace Web_Client.Service.Users
             this.endpoints = usersEndpoints;
         }
 
+        public void CreateAccount(NewAccount accountToCreate)
+        {
+
+        }
+
         /// <summary>
         /// Logins the specified username and password combination.
         ///

@@ -40,6 +40,61 @@
     }
 
     /// <summary>
+    /// The error messages for the new accounts
+    /// </summary>
+    public static class NewAccountErrorMessages
+    {
+        /// <summary>
+        /// The username cannot be null error messages
+        /// </summary>
+        public static string UsernameCannotBeNull = "The username cannot be null";
+        /// <summary>
+        /// The username cannot be empty error messages
+        /// </summary>
+        public static string UsernameCannotBeEmpty = "The username cannot be empty";
+        /// <summary>
+        /// The password cannot be null error messages
+        /// </summary>
+        public static string PasswordCannotBeNull = "The password cannot be null";
+        /// <summary>
+        /// The password cannot be empty error messages
+        /// </summary>
+        public static string PasswordCannotBeEmpty = "The password cannot be empty";
+        /// <summary>
+        /// The verified password cannot be null error messages
+        /// </summary>
+        public static string VerifiedPasswordCannotBeNull = "The verified password cannot be null";
+        /// <summary>
+        /// The verified password cannot be empty error messages
+        /// </summary>
+        public static string VerifiedPasswordCannotBeEmpty = "The verified password cannot be empty";
+        /// <summary>
+        /// The first name cannot be null error messages
+        /// </summary>
+        public static string FirstNameCannotBeNull = "The first name cannot be null";
+        /// <summary>
+        /// The first name cannot be empty error messages
+        /// </summary>
+        public static string FirstNameCannotBeEmpty = "The first name cannot be empty";
+        /// <summary>
+        /// The last name cannot be null error messages
+        /// </summary>
+        public static string LastNameCannotBeNull = "The last name cannot be null";
+        /// <summary>
+        /// The last name cannot be empty error messages
+        /// </summary>
+        public static string LastNameCannotBeEmpty = "The last name cannot be empty";
+        /// <summary>
+        /// The email cannot be null error messages
+        /// </summary>
+        public static string EmailCannotBeNull = "The email cannot be null";
+        /// <summary>
+        /// The email cannot be empty error messages
+        /// </summary>
+        public static string EmailCannotBeEmpty = "The email cannot be empty";
+    }
+
+    /// <summary>
     /// The error messages for the server utils
     /// </summary>
     public static class ServerUtilsErrorMessages
