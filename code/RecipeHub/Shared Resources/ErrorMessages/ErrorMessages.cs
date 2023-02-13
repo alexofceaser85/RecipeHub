@@ -63,16 +63,6 @@ namespace Shared_Resources.ErrorMessages
         /// </summary>
         public static string PasswordCannotBeEmpty = "The password cannot be empty";
         /// <summary>
-        /// The password is too short error messages
-        /// </summary>
-        public static string PasswordIsTooShort =
-            $"The password is too short it must be at least {NewAccountSettings.MinimumPasswordLength} characters long";
-        /// <summary>
-        /// The password is too long error messages
-        /// </summary>
-        public static string PasswordIsTooLong =
-            $"The password is too short it must be at most {NewAccountSettings.MaximumPasswordLength} characters long";
-        /// <summary>
         /// The verified password cannot be null error messages
         /// </summary>
         public static string VerifiedPasswordCannotBeNull = "The verified password cannot be null";
@@ -113,6 +103,23 @@ namespace Shared_Resources.ErrorMessages
         /// The email is in wrong format error message
         /// </summary>
         public static string EmailIsInWrongFormat = "The email is in the wrong format";
+    }
+
+    /// <summary>
+    /// The password validation error messages
+    /// </summary>
+    public static class PasswordValidationErrorMessages
+    {
+        /// <summary>
+        /// The password is too short error messages
+        /// </summary>
+        public static string PasswordIsTooShort =
+            $"The password is too short it must be at least {PasswordSettings.MinimumPasswordLength} characters long";
+        /// <summary>
+        /// The password is too long error messages
+        /// </summary>
+        public static string PasswordIsTooLong =
+            $"The password is too short it must be at most {PasswordSettings.MaximumPasswordLength} characters long";
     }
 
     /// <summary>

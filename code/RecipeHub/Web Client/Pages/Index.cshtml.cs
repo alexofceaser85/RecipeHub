@@ -70,7 +70,7 @@ namespace Web_Client.Pages
         /// Called when [post create account].
         /// </summary>
         /// <returns>The redirect result</returns>
-        public RedirectToPageResult? OnPostCreateAccount()
+        public RedirectToPageResult OnPostCreateAccount()
         {
             return RedirectToPage(CreateAccountAddress);
         }
