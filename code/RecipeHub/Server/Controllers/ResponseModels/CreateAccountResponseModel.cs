@@ -1,6 +1,5 @@
 ﻿using Server.ErrorMessages;
 using System.Net;
-using Shared_Resources.Model.Users;
 
 namespace Server.Controllers.ResponseModels
 {

@@ -12,6 +12,7 @@ namespace Web_Client.Pages
     public class IndexModel : PageModel
     {
         private const string RecipesAddress = "/Recipes";
+        private const string CreateAccountAddress = "/CreateAccount";
         private UsersViewModel usersViewModel;
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace Web_Client.Pages
         /// <returns>The redirect result</returns>
         public RedirectToPageResult? OnPostCreateAccount()
         {
-            return RedirectToPage("/CreateAccount");
+            return RedirectToPage(CreateAccountAddress);
         }
 
         /// <summary>
@@ -79,16 +80,9 @@ namespace Web_Client.Pages
         /// </summary>
         public void Logout()
         {
-            try
-            {
-                this.usersViewModel.Logout();
-                this.ShouldSucceed = true;
-                this.ExceptionText = "";
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("");
-            }
+            this.usersViewModel.Logout();
+            this.ShouldSucceed = true;
+            this.ExceptionText = "";
         }
     }
 }
