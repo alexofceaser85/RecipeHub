@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
-
-namespace Shared_Resources.Model.Ingredients
+﻿namespace Shared_Resources.Model.Ingredients
 {
     /// <summary>
     /// Represents an ingredient in the system.
@@ -39,7 +34,7 @@ namespace Shared_Resources.Model.Ingredients
 
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException("Amount cannot be less than zero.");
+                throw new ArgumentOutOfRangeException(nameof(amount), amount, "Amount cannot be less than 0.");
             }
             this.Name = name;
             this.Amount = amount;
