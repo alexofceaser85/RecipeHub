@@ -17,6 +17,13 @@ namespace Desktop_Client.View.Screens
         {
             this.InitializeComponent();
             this.viewModel = new UsersViewModel();
+            this.CreateAccountButton.Enabled = false;
+            this.createAccountForm.InputChangedEvent += this.CreateAccountFormOnInputChangedEvent;
+        }
+
+        private void CreateAccountFormOnInputChangedEvent(object? sender, EventArgs e)
+        {
+            this.CreateAccountButton.Enabled = this.createAccountForm.DetermineIfFieldsAreValid();
         }
 
         private void CreateAccountButton_Click(object sender, EventArgs e)
@@ -37,6 +44,11 @@ namespace Desktop_Client.View.Screens
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }

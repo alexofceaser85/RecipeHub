@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Data\Settings\ApplicationSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\Settings\UserInterfaceSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorMessages\ErrorMessages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\NewAccount.cs" />
