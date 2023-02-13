@@ -4,6 +4,7 @@ using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.Service.Users;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
 
 namespace Server.Controllers.Users
 {
@@ -40,6 +41,32 @@ namespace Server.Controllers.Users
             }
 
             this.service = usersService;
+        }
+
+        /// <summary>
+        /// Creates the account.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="verifiedPassword">The verified password.</param>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="email">The email.</param>
+        /// <returns>The server response</returns>
+        [HttpPost]
+        [Route("CreateAccount")]
+        public CreateAccountResponseModel CreateAccount(string username, string password, string verifiedPassword,
+            string firstName, string lastName, string email)
+        {
+            try
+            {
+                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName, email));
+                return new CreateAccountResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (Exception ex)
+            {
+                return new CreateAccountResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         /// <summary>

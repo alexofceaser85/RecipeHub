@@ -8,6 +8,11 @@ namespace Desktop_Client.Service.Users
     public interface IUsersService
     {
         /// <summary>
+        /// Creates a new account.
+        /// </summary>
+        /// <param name="newAccount">The new account.</param>
+        public void CreateAccount(NewAccount newAccount);
+        /// <summary>
         /// Logins the specified username.
         /// </summary>
         /// <param name="username">The username.</param>

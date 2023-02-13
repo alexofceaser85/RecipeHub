@@ -8,6 +8,12 @@ namespace Desktop_Client.Endpoints.Users
     public interface IUsersEndpoints
     {
         /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        /// <returns>The create account information</returns>
+        public string CreateAccount(NewAccount accountToCreate);
+        /// <summary>
         /// Logins the specified username and password combination.
         /// </summary>
         /// <param name="username">The username.</param>

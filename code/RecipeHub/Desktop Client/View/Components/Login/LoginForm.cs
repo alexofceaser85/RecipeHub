@@ -39,5 +39,11 @@ namespace Desktop_Client.View.Components.Login
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void createAccountButton_Click(object sender, EventArgs e)
+        {
+            var createAccountScreen = new CreateAccountScreen();
+            createAccountScreen.ShowDialog();
+        }
     }
 }

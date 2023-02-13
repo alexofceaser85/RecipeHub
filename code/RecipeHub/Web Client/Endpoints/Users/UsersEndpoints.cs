@@ -14,6 +14,7 @@ namespace Web_Client.Endpoints.Users
         private const string LoginUserServerMethodName = "LoginUser";
         private const string LogoutUserServerMethodName = "LogoutUser";
         private const string GetUserServerMethodName = "GetUserInfo";
+        private const string CreateAccountServerMethodName = "CreateAccount";
 
         private const string UserInfoJsonElementName = "userInfo";
         private const string UserNameJsonElementName = "userName";
@@ -61,6 +62,26 @@ namespace Web_Client.Endpoints.Users
                 $"?username={username}&password={password}&previousSessionKey={previousSessionKey}";
             var requestUri = $"{ServerSettings.ServerUri}{LoginUserServerMethodName}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            var requestContent = JsonUtils.VerifyAndGetRequestInfo(json);
+            return requestContent;
+        }
+
+        /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        /// <returns>The response content from the server</returns>
+        public string CreateAccount(NewAccount accountToCreate)
+        {
+            var serverMethodParameters =
+                $"?username={accountToCreate.Username}" +
+                $"&password={accountToCreate.Password}" +
+                $"&verifiedPassword={accountToCreate.VerifyPassword}" +
+                $"&firstName={accountToCreate.FirstName}" +
+                $"&lastName={accountToCreate.LastName}" +
+                $"&email={accountToCreate.Email}";
+            var requestUri = $"{ServerSettings.ServerUri}{CreateAccountServerMethodName}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
             var requestContent = JsonUtils.VerifyAndGetRequestInfo(json);
             return requestContent;
         }

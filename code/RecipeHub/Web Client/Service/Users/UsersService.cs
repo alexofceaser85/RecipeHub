@@ -45,9 +45,23 @@ namespace Web_Client.Service.Users
             this.endpoints = usersEndpoints;
         }
 
-        public void CreateAccount(NewAccount accountToCreate)
+        /// <summary>
+        /// Creates a new account.
+        /// 
+        /// Precondition: newAccount != null
+        /// Postcondition: newAccount.Password == hashed password AND newAccount.VerifyPassword == hashed password
+        /// </summary>
+        /// <param name="newAccount">The new account.</param>
+        public void CreateAccount(NewAccount newAccount)
         {
+            if (newAccount == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.AccountToCreateCannotBeNull);
+            }
 
+            newAccount.Password = Hashes.HashToSha512(newAccount.Password);
+            newAccount.VerifyPassword = Hashes.HashToSha512(newAccount.VerifyPassword);
+            this.endpoints.CreateAccount(newAccount);
         }
 
         /// <summary>

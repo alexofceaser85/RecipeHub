@@ -1,4 +1,6 @@
-﻿namespace Shared_Resources.ErrorMessages
+﻿using Shared_Resources.Data.Settings;
+
+namespace Shared_Resources.ErrorMessages
 {
     /// <summary>
     /// The error messages for the user info
@@ -61,6 +63,16 @@
         /// </summary>
         public static string PasswordCannotBeEmpty = "The password cannot be empty";
         /// <summary>
+        /// The password is too short error messages
+        /// </summary>
+        public static string PasswordIsTooShort =
+            $"The password is too short it must be at least {NewAccountSettings.MinimumPasswordLength} characters long";
+        /// <summary>
+        /// The password is too long error messages
+        /// </summary>
+        public static string PasswordIsTooLong =
+            $"The password is too short it must be at most {NewAccountSettings.MaximumPasswordLength} characters long";
+        /// <summary>
         /// The verified password cannot be null error messages
         /// </summary>
         public static string VerifiedPasswordCannotBeNull = "The verified password cannot be null";
@@ -68,6 +80,11 @@
         /// The verified password cannot be empty error messages
         /// </summary>
         public static string VerifiedPasswordCannotBeEmpty = "The verified password cannot be empty";
+        /// <summary>
+        /// The verified password must match password error messages
+        /// </summary>
+        public static string VerifiedPasswordMustMatchPassword =
+            "The verified password must match the inputted password";
         /// <summary>
         /// The first name cannot be null error messages
         /// </summary>
@@ -92,6 +109,10 @@
         /// The email cannot be empty error messages
         /// </summary>
         public static string EmailCannotBeEmpty = "The email cannot be empty";
+        /// <summary>
+        /// The email is in wrong format error message
+        /// </summary>
+        public static string EmailIsInWrongFormat = "The email is in the wrong format";
     }
 
     /// <summary>
@@ -214,6 +235,10 @@
         /// The session key load file cannot be empty error messages
         /// </summary>
         public static string SessionKeyLoadFileCannotBeEmpty = "The session key load file cannot be empty";
+        /// <summary>
+        /// The account to create cannot be null error message
+        /// </summary>
+        public const string AccountToCreateCannotBeNull = "The account to create cannot be null";
     }
 
     /// <summary>

@@ -49,7 +49,7 @@ namespace Web_Client.ViewModel.Users
         public void CreateAccount(string username, string password, string verifyPassword, string firstName,
             string lastName, string email)
         {
-
+            this.service.CreateAccount(new NewAccount(username, password, verifyPassword, firstName, lastName, email));
         }
 
         /// <summary>
