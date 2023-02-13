@@ -4,6 +4,7 @@ using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
+using Shared_Resources.Utils.Validation;
 using Web_Client.Endpoints.Users;
 
 namespace Web_Client.Service.Users
@@ -59,6 +60,7 @@ namespace Web_Client.Service.Users
                 throw new ArgumentException(UsersServiceErrorMessages.AccountToCreateCannotBeNull);
             }
 
+            PasswordValidation.Validate(newAccount.Password);
             newAccount.Password = Hashes.HashToSha512(newAccount.Password);
             newAccount.VerifyPassword = Hashes.HashToSha512(newAccount.VerifyPassword);
             this.endpoints.CreateAccount(newAccount);

@@ -29,6 +29,7 @@ namespace Web_Client.Pages
         /// <value>
         /// The binding model.
         /// </value>
+        [BindProperty]
         public NewAccountInfoBindingModel BindingModel { get; set; }
 
         /// <summary>
