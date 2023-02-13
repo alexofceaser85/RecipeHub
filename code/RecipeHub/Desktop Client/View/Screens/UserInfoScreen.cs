@@ -6,6 +6,7 @@ namespace Desktop_Client.View.Screens
     public partial class UserInfoScreen : Form
     {
         private readonly string sessionMessage = $"Session Key {Session.Key}";
+        private readonly UsersViewModel viewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserInfoScreen"/> class.
@@ -13,12 +14,13 @@ namespace Desktop_Client.View.Screens
         public UserInfoScreen()
         {
             this.InitializeComponent();
+            this.viewModel = new UsersViewModel();
             this.getAndPopulateUserInfo();
         }
 
         private void getAndPopulateUserInfo()
         {
-            var userInfo = UsersViewModel.GetUserInfo();
+            var userInfo = this.viewModel.GetUserInfo();
 
             this.usernameTextBox.Text = userInfo.UserName;
             this.firstNameTextBox.Text = userInfo.FirstName;
@@ -29,7 +31,7 @@ namespace Desktop_Client.View.Screens
 
         private void logoutButton_Click(object sender, EventArgs e)
         {
-            UsersViewModel.Logout();
+            this.viewModel.Logout();
             Close();
         }
     }

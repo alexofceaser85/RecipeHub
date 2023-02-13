@@ -137,3 +137,5 @@ _NCrunch*
 .suo
 /code/RecipeHub/.vs/RecipeHub/FileContentIndex
 *.projects.*
+*.testlog
+/code/RecipeHub/.vs/RecipeHub/v17/TestStore/0/testlog.manifest

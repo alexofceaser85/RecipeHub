@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using Server.Data.Database;
+using Server.Data.Settings;
 using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
@@ -8,14 +8,14 @@ namespace Server.DAL.Users
     /// <summary>
     /// The data access layer for the users methods
     /// </summary>
-    public static class UsersDal
+    public class UsersDal : IUsersDal
     {
         /// <summary>
         /// Verifies the session key does not exist.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>Whether or not the session key exists</returns>
-        public static bool VerifySessionKeyDoesNotExist(string sessionKey)
+        public bool VerifySessionKeyDoesNotExist(string sessionKey)
         {
             var query = "select \"Sessions\".sessionKey from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -30,7 +30,7 @@ namespace Server.DAL.Users
         /// Removes the session key.
         /// </summary>
         /// <param name="sessionKey">The session key to remove.</param>
-        public static void RemoveSessionKey(string sessionKey)
+        public void RemoveSessionKey(string sessionKey)
         {
             var query =
                 "delete from \"Sessions\" where \"Sessions\".sessionKey = @sessionKey";
@@ -47,7 +47,7 @@ namespace Server.DAL.Users
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
         /// <returns>Whether or not the user and password combination exists</returns>
-        public static int? VerifyUserNameAndPasswordCombination(string username, string password)
+        public int? VerifyUserNameAndPasswordCombination(string username, string password)
         {
             var query =
                 "select " +
@@ -84,7 +84,7 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
-        public static void AddUserSession(int userId, string sessionKey)
+        public void AddUserSession(int userId, string sessionKey)
         {
             var query = "insert into Sessions(sessionKey, userId) values(@sessionkey, @userId)";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -100,7 +100,7 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user information</returns>
-        public static UserInfo? GetUserInfo(string sessionKey)
+        public UserInfo? GetUserInfo(string sessionKey)
         {
             var query = "select Users.userName, Users.firstName, Users.lastName, Users.email from \"Sessions\", Users where \"Sessions\".sessionKey = @sessionKey and Users.userId = \"Sessions\".userId";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
