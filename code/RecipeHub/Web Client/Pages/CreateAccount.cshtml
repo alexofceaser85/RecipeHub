@@ -67,7 +67,7 @@
 
             if (usernameInput.value.length === 0) {
                 usernameErrorText.innerHTML = "@NewAccountErrorMessages.UsernameCannotBeEmpty";
-                usernameInput.style.backgroundColor = "#ff7a7a";
+                usernameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 userNameIsValid = false;
             } else {
                 usernameInput.style.backgroundColor = "";
@@ -84,11 +84,11 @@
 
             if (passwordInput.value.length === 0) {
                 passwordErrorText.innerHTML = "@NewAccountErrorMessages.PasswordCannotBeEmpty";
-                passwordInput.style.backgroundColor = "#ff7a7a";
+                passwordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 passwordIsValid = false;
             } else if (passwordInput.value.length < "@PasswordSettings.MinimumPasswordLength") {
                 passwordErrorText.innerHTML = "@PasswordValidationErrorMessages.PasswordIsTooShort";
-                passwordInput.style.backgroundColor = "#ff7a7a";
+                passwordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 passwordIsValid = false;
             } else {
                 passwordInput.style.backgroundColor = "";
@@ -107,11 +107,11 @@
 
             if (verifyPasswordInput.value.length === 0) {
                 passwordErrorText.innerHTML = "@NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty";
-                verifyPasswordInput.style.backgroundColor = "#ff7a7a";
+                verifyPasswordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 verifyPasswordIsValid = false;
             } else if (passwordInput.value !== verifyPasswordInput.value) {
                 passwordErrorText.innerHTML = "@NewAccountErrorMessages.VerifiedPasswordMustMatchPassword";
-                verifyPasswordInput.style.backgroundColor = "#ff7a7a";
+                verifyPasswordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 verifyPasswordIsValid = false;
             } else {
                 verifyPasswordInput.style.backgroundColor = "";
@@ -128,7 +128,7 @@
 
             if (firstNameInput.value.length === 0) {
                 firstNameErrorText.innerHTML = "@NewAccountErrorMessages.FirstNameCannotBeEmpty";
-                firstNameInput.style.backgroundColor = "#ff7a7a";
+                firstNameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 firstNameIsValid = false;
             } else {
                 firstNameInput.style.backgroundColor = "";
@@ -145,7 +145,7 @@
 
             if (lastNameInput.value.length === 0) {
                 lastNameErrorText.innerHTML = "@NewAccountErrorMessages.LastNameCannotBeEmpty";
-                lastNameInput.style.backgroundColor = "#ff7a7a";
+                lastNameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 lastNameIsValid = false;
             } else {
                 lastNameInput.style.backgroundColor = "";
@@ -169,11 +169,11 @@
 
             if (emailInput.value.length === 0) {
                 emailErrorText.innerHTML = "@NewAccountErrorMessages.EmailCannotBeEmpty";
-                emailInput.style.backgroundColor = "#ff7a7a";
+                emailInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 emailIsValid = false;
             } else if (!isValidEmail(emailInput.value)) {
                 emailErrorText.innerHTML = "@NewAccountErrorMessages.EmailIsInWrongFormat";
-                emailInput.style.backgroundColor = "#ff7a7a";
+                emailInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
                 emailIsValid = false;
             } else {
                 emailInput.style.backgroundColor = "";
