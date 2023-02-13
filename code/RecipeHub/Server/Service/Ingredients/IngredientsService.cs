@@ -1,4 +1,5 @@
-﻿using Server.DAL.Ingredients;
+﻿using Server.DAL.Ingredient;
+using Server.DAL.Ingredients;
 using Server.DAL.Users;
 using Shared_Resources.Model.Ingredients;
 
@@ -6,18 +7,41 @@ namespace Server.Service.Ingredients
 {
     public class IngredientsService : IIngredientsService
     {
-        private UsersDal usersDal;
-        private IngredientsDal ingredientsDal;
+        private IUsersDal usersDal;
+        private IIngredientsDal ingredientsDal;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientsService"/> class.<br />
         ///<br />
         /// Precondition: None<br />
-        /// Postcondition: None<br />
+        /// Postcondition: All fields have been assigned to default values.<br />
         /// </summary>
-        public IngredientsService()     {
+        public IngredientsService()
+        {
             this.usersDal = new UsersDal();
             this.ingredientsDal = new IngredientsDal();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IngredientsService"/> class.<br />
+        ///<br />
+        /// Precondition: usersDal != null<br />
+        /// AND ingredientsDal != null<br />
+        /// Postcondition: All fields have been assigned to specified values.<br />
+        /// </summary>
+        public IngredientsService(IUsersDal usersDal, IIngredientsDal ingredientsDal)
+        {
+            if (this.usersDal == null)
+            {
+                throw new ArgumentNullException(nameof(usersDal));
+            }
+
+            if (this.ingredientsDal == null)
+            {
+                throw new ArgumentNullException(nameof(ingredientsDal));
+            }
+            this.usersDal = usersDal;
+            this.ingredientsDal = ingredientsDal;
         }
 
         public bool AddIngredientToPantry(Ingredient ingredient, string sessionKey)
