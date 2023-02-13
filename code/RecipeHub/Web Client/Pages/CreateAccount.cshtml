@@ -45,7 +45,7 @@
 
     <script>
         function validateUserName(input) {
-            if (input.value.length == 0) {
+            if (input.value.length === 0) {
                 document.getElementById("usernameErrorText").innerHTML = "Username cannot be empty.";
                 input.style.backgroundColor = "red";
                 document.getElementById("submitButton").disabled = true;

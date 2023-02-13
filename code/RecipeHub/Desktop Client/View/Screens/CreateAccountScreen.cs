@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using Desktop_Client.ViewModel.Users;
+﻿using Desktop_Client.ViewModel.Users;
 
 namespace Desktop_Client.View.Screens
 {
@@ -36,7 +31,7 @@ namespace Desktop_Client.View.Screens
                     this.createAccountForm.LastNameTextBox.Text,
                     this.createAccountForm.EmailTextBox.Text
                 );
-                this.Close();
+                Close();
             }
             catch (Exception ex)
             {

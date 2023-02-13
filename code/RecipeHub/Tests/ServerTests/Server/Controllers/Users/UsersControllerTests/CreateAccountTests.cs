@@ -3,7 +3,6 @@ using Server.Controllers.Users;
 using System.Net;
 using Server.Service.Users;
 using Shared_Resources.Model.Users;
-using System.Security.Principal;
 
 namespace ServerTests.Server.Controllers.Users.UsersControllerTests
 {
@@ -13,7 +12,6 @@ namespace ServerTests.Server.Controllers.Users.UsersControllerTests
         public void TestSuccessfulCreateAccount()
         {
             var userService = new Mock<IUsersService>();
-            var newAccount = new NewAccount("username", "password", "password", "fname", "lname", "email@email.com");
 
             userService.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()));
             var service = new UsersController(userService.Object);
@@ -29,7 +27,6 @@ namespace ServerTests.Server.Controllers.Users.UsersControllerTests
         public void TestUnsuccessfulCreateAccount()
         {
             var userService = new Mock<IUsersService>();
-            var newAccount = new NewAccount("username", "password", "password", "fname", "lname", "email@email.com");
 
             userService.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>())).Throws(new ArgumentException("Sample Exception"));
             var service = new UsersController(userService.Object);
