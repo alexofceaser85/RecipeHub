@@ -41,6 +41,29 @@ namespace Server.Service.Users
         }
 
         /// <summary>
+        /// Creates the account.
+        ///
+        /// Precondition: accountToCreate != null and accountToCreate.UserName does not exist
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        /// <exception cref="System.ArgumentException"></exception>
+        public void CreateAccount(NewAccount accountToCreate)
+        {
+            if (accountToCreate == null)
+            {
+                throw new ArgumentException(UsersServiceServerErrorMessages.AccountToCreateCannotBeNull);
+            }
+
+            if (!this.dataAccessLayer.VerifyUserNameDoesNotExist(accountToCreate.Username))
+            {
+                throw new ArgumentException(UsersServiceServerErrorMessages.UserNameAlreadyExists);
+            }
+
+            this.dataAccessLayer.CreateAccount(accountToCreate);
+        }
+
+        /// <summary>
         /// Logins the specified username and password combination.
         ///
         /// Precondition:

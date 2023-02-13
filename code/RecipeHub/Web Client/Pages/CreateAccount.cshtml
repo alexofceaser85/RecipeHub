@@ -1,4 +1,5 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Web_Client.Pages.CreateAccountModel
 @{
     <h1>Create Account</h1>
@@ -7,7 +8,8 @@
         <fieldset>
             <div>
                 <h3>Username:</h3>
-                <input type="text" id="usernameInput" name="Username"/>
+                <input type="text" id="usernameInput" name="Username" onchange="validateUserName(this)"/>
+                <p id="usernameErrorText"></p>
             </div>
             <div>
                 <h3>Password:</h3>
@@ -31,7 +33,7 @@
             </div>
             <div>
                 <input type="submit" value="Cancel" asp-page-handler="Cancel"/>
-                <input type="submit" value="Cancel" asp-page-handler="Submit" />
+                <input type="submit" id="submitButton" value="Submit" asp-page-handler="Submit" />
             </div>
         </fieldset>
     </form>
@@ -40,4 +42,17 @@
     {
         <h2>Error Creating Account: @Model.ExceptionText</h2>
     }
+
+    <script>
+        function validateUserName(input) {
+            if (input.value.length == 0) {
+                document.getElementById("usernameErrorText").innerHTML = "Username cannot be empty.";
+                input.style.backgroundColor = "red";
+                document.getElementById("submitButton").disabled = true;
+            } else {
+                document.getElementById("submitButton").disabled = false;
+                input.style.backgroundColor = "";
+            }
+        }
+    </script>
 }

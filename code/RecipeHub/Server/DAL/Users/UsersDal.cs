@@ -11,6 +11,45 @@ namespace Server.DAL.Users
     public class UsersDal : IUsersDal
     {
         /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        public void CreateAccount(NewAccount accountToCreate)
+        {
+            var query = "INSERT INTO Users(userName, firstName, lastName, email) " +
+                        "VALUES(@username, @firstName, @lastName, @email);" +
+                        "INSERT INTO Passwords " +
+                        "VALUES((SELECT SCOPE_IDENTITY()), @password);";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@username", SqlDbType.VarChar).Value = accountToCreate.Username;
+            command.Parameters.Add("@firstName", SqlDbType.VarChar).Value = accountToCreate.FirstName;
+            command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = accountToCreate.LastName;
+            command.Parameters.Add("@email", SqlDbType.VarChar).Value = accountToCreate.Email;
+            command.Parameters.Add("@password", SqlDbType.VarChar).Value = accountToCreate.Password;
+
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
+        /// <summary>
+        /// Verifies the user name does not exist.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>
+        /// Whether or not the username exists
+        /// </returns>
+        public bool VerifyUserNameDoesNotExist(string userName)
+        {
+            var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
+
+            connection.Open();
+            return command.ExecuteScalar() == null;
+        }
+
+        /// <summary>
         /// Verifies the session key does not exist.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>

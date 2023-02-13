@@ -68,7 +68,7 @@ namespace Web_Client.Pages
         /// <summary>
         /// Called when [post create account].
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The redirect result</returns>
         public RedirectToPageResult? OnPostCreateAccount()
         {
             return RedirectToPage("/CreateAccount");

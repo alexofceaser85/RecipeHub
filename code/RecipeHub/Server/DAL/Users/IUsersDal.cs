@@ -8,6 +8,17 @@ namespace Server.DAL.Users
     public interface IUsersDal
     {
         /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        public void CreateAccount(NewAccount accountToCreate);
+        /// <summary>
+        /// Verifies the user name does not exist.
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>Whether or not the username exists</returns>
+        public bool VerifyUserNameDoesNotExist(string userName);
+        /// <summary>
         /// Verifies the session key does not exist.
         /// </summary>
         /// <param name="sessionKey">The session key.</param>

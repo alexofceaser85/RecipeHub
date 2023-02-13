@@ -32,7 +32,7 @@ namespace Web_Client.Model.Users
         /// The verified password.
         /// </value>
         [BindProperty]
-        public string? VerifiedPassword { get; set; }
+        public string? VerifyPassword { get; set; }
 
         /// <summary>
         /// Gets or sets the first name.

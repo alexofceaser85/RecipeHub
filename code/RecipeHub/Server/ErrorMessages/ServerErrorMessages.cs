@@ -41,4 +41,19 @@
         /// </summary>
         public const string MessageCannotBeEmpty = "The message cannot be empty";
     }
+
+    /// <summary>
+    /// The error messages for the users service
+    /// </summary>
+    public static class UsersServiceServerErrorMessages
+    {
+        /// <summary>
+        /// The user name already exists error message
+        /// </summary>
+        public const string UserNameAlreadyExists = "The username already exists";
+        /// <summary>
+        /// The account to create cannot be null error message
+        /// </summary>
+        public const string AccountToCreateCannotBeNull = "The account to create cannot be null";
+    }
 }
