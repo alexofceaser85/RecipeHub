@@ -44,6 +44,7 @@ namespace Server.Service.Ingredients
             this.ingredientsDal = ingredientsDal;
         }
 
+        /// <inheritdoc />
         public bool AddIngredientToPantry(Ingredient ingredient, string sessionKey)
         {
             if (sessionKey == null)
@@ -57,11 +58,6 @@ namespace Server.Service.Ingredients
             if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
-            }
-
-            if (ingredient.Name == null)
-            {
-                throw new ArgumentNullException(nameof(ingredient));
             }
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
@@ -81,6 +77,7 @@ namespace Server.Service.Ingredients
             return this.ingredientsDal.AddIngredientToPantry(ingredient, (int)userId);
         }
 
+        /// <inheritdoc />
         public bool RemoveIngredientFromPantry(Ingredient ingredient, string sessionKey)
         {
             if (sessionKey == null)
@@ -113,6 +110,7 @@ namespace Server.Service.Ingredients
             return this.ingredientsDal.RemoveIngredientFromPantry(ingredient, (int)userId);
         }
 
+        /// <inheritdoc />
         public bool UpdateIngredientInPantry(Ingredient ingredient, string sessionKey)
         {
             if (sessionKey == null)
@@ -148,6 +146,7 @@ namespace Server.Service.Ingredients
             return this.ingredientsDal.UpdateIngredientInPantry(ingredient, (int)userId);
         }
 
+        /// <inheritdoc />
         public bool RemoveAllIngredientsFromPantry(string sessionKey)
         {
             if (sessionKey == null)
@@ -168,6 +167,7 @@ namespace Server.Service.Ingredients
             return this.ingredientsDal.RemoveAllIngredientsFromPantry((int)userId);
         }
 
+        /// <inheritdoc />
         public IList<string> GetAllIngredientsThatMatch(string ingredientName)
         {
             if (ingredientName == null)

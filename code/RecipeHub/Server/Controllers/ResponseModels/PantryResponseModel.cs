@@ -60,7 +60,7 @@ namespace Server.Controllers.ResponseModels
         /// <param name="message">The message.</param>
         /// <param name="pantry">The pantry being sent to the client.</param>
         /// 
-        public PantryResponseModel(HttpStatusCode code, string message, IList<Ingredient> pantry)
+        public PantryResponseModel(HttpStatusCode code, string message, IList<Ingredient>? pantry)
         {
             if (message == null)
             {
@@ -76,5 +76,4 @@ namespace Server.Controllers.ResponseModels
             this.pantry = pantry ?? throw new ArgumentNullException(nameof(pantry));
         }
     }
-}
 }
