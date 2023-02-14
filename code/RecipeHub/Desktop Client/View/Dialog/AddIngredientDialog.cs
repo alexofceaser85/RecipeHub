@@ -61,7 +61,8 @@ namespace Desktop_Client.View.Dialog
 
         private void nameComboBox_TextChanged(object sender, EventArgs e)
         {
-
+            //var suggestions = this.viewModel.GetSuggestions(this.nameComboBox.Text);
+            //this.nameComboBox.DataSource = suggestions;
         }
     }
 }

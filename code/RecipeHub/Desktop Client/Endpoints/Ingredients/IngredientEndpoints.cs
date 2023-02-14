@@ -22,7 +22,10 @@ namespace Desktop_Client.Endpoints.Ingredients
 
         private readonly string getIngredientsEndpoint = "GetIngredientsInPantry";
         private readonly string addIngredientEndpoint = "AddIngredientToPantry";
-        private readonly string deleteIngredientEndpoint = "DeleteIngredientFromPantry";
+        private readonly string deleteIngredientEndpoint = "RemoveIngredientFromPantry";
+        private readonly string deleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
+        private readonly string updateIngredientEndpoint = "UpdateIngredientInPantry";
+        private readonly string getSuggestionsEndpoint = "GetSuggestions";
 
 
         /// <summary>
@@ -108,7 +111,23 @@ namespace Desktop_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public string[] GetSuggestions(string ingredientName)
         {
-            throw new NotImplementedException();
+            string parameters = $"?text={ingredientName}";
+            string requestUri = $"{ServerSettings.ServerUri}{this.getSuggestionsEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+            if (json != null)
+            {
+                JsonUtils.VerifyAndGetRequestInfo(json);
+
+                var suggestions = new List<string>();
+                foreach (var suggestion in json["suggestions"]?.AsArray()!)
+                {
+                    suggestions.Add(suggestion!.GetValue<string>());
+                }
+
+                return suggestions.ToArray();
+            };
+            return Array.Empty<string>();
+
         }
     }
 }

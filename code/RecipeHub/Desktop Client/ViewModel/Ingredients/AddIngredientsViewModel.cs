@@ -36,5 +36,10 @@ namespace Desktop_Client.ViewModel.Ingredients
                 return false;
             }
         }
+
+        public string[] GetSuggestions(string ingredientName)
+        {
+            return this.service.GetSuggestions(ingredientName);
+        }
     }
 }

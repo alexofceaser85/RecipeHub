@@ -45,10 +45,10 @@ namespace Server.DAL.Ingredients
         /// <inheritdoc />
         public IList<string> GetIngredientNamesThatMatchText(string ingredientName)
         {
-            var query = "SELECT name FROM Ingredients\r\nWHERE name LIKE '%@name%'";
+            var query = "SELECT name FROM Ingredients WHERE name LIKE '%" + ingredientName + "%'";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@name", SqlDbType.VarChar).Value = ingredientName;
+            //command.Parameters.Add("@name", SqlDbType.VarChar).Value = "%" + ingredientName + "%";
             connection.Open();
             using var reader = command.ExecuteReader();
             var ingredientNames = new List<string>();
