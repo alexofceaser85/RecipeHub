@@ -148,12 +148,12 @@
             this.LoginButton.UseVisualStyleBackColor = false;
             this.LoginButton.Click += new System.EventHandler(this.loginButton_Click);
             // 
-            // NewLoginFormBecauseNothingWorks
+            // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "NewLoginFormBecauseNothingWorks";
+            this.Name = "LoginForm";
             this.Size = new System.Drawing.Size(606, 530);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
