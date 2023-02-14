@@ -3,13 +3,22 @@ using Screen = Desktop_Client.View.Screens.Screen;
 
 namespace Desktop_Client.View
 {
+    /// <summary>
+    /// The main window for the application.
+    /// </summary>
     public partial class MainWindow : Form
     {
         private Screen? activeScreen;
 
+        /// <summary>
+        /// Creates a default instance of <see cref="MainWindow"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
         public MainWindow()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.SwapScreens(new LoginScreen());
         }
