@@ -44,7 +44,7 @@ namespace Server.DAL.Users
         /// <returns>
         /// Whether or not the username exists
         /// </returns>
-        public bool VerifyUserNameDoesNotExist(string userName)
+        public bool CheckIfUserNameExists(string userName)
         {
             var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -52,7 +52,7 @@ namespace Server.DAL.Users
             command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
 
             connection.Open();
-            return command.ExecuteScalar() == null;
+            return command.ExecuteScalar() != null;
         }
 
         /// <summary>

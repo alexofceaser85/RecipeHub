@@ -58,17 +58,17 @@ namespace Server.Controllers.Users
         /// <returns>The server response</returns>
         [HttpPost]
         [Route("CreateAccount")]
-        public CreateAccountResponseModel CreateAccount(string username, string password, string verifiedPassword,
+        public BaseResponseModel CreateAccount(string username, string password, string verifiedPassword,
             string firstName, string lastName, string email)
         {
             try
             {
                 this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName, email));
-                return new CreateAccountResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
             {
-                return new CreateAccountResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -84,15 +84,15 @@ namespace Server.Controllers.Users
         /// <returns>The server response</returns>
         [HttpGet]
         [Route("LoginUser")]
-        public LoginResponseModel Login(string username, string password, string? previousSessionKey)
+        public BaseResponseModel Login(string username, string password, string? previousSessionKey)
         {
             try
             {
-                return new LoginResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
+                return new BaseResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
             }
             catch (Exception ex)
             {
-                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -106,16 +106,16 @@ namespace Server.Controllers.Users
         /// <returns>The server response</returns>
         [HttpPost]
         [Route("LogoutUser")]
-        public LoginResponseModel Logout(string sessionKey)
+        public BaseResponseModel Logout(string sessionKey)
         {
             try
             {
                 this.service.Logout(sessionKey);
-                return new LoginResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
             {
-                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

@@ -24,7 +24,7 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
         {
             var userDal = new Mock<IUsersDal>();
 
-            userDal.Setup(mock => mock.VerifyUserNameDoesNotExist("username")).Returns(false);
+            userDal.Setup(mock => mock.CheckIfUserNameExists("username")).Returns(true);
 
             var service = new UsersService(userDal.Object);
 
@@ -41,7 +41,7 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
         {
             var userDal = new Mock<IUsersDal>();
 
-            userDal.Setup(mock => mock.VerifyUserNameDoesNotExist("username")).Returns(true);
+            userDal.Setup(mock => mock.CheckIfUserNameExists("username")).Returns(false);
             userDal.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()));
 
             var service = new UsersService(userDal.Object);

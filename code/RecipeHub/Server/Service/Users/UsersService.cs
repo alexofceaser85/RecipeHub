@@ -55,7 +55,7 @@ namespace Server.Service.Users
                 throw new ArgumentException(UsersServiceServerErrorMessages.AccountToCreateCannotBeNull);
             }
 
-            if (!this.dataAccessLayer.VerifyUserNameDoesNotExist(accountToCreate.Username))
+            if (this.dataAccessLayer.CheckIfUserNameExists(accountToCreate.Username))
             {
                 throw new ArgumentException(UsersServiceServerErrorMessages.UserNameAlreadyExists);
             }

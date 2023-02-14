@@ -4,25 +4,24 @@ using System.Net;
 namespace Server.Controllers.ResponseModels
 {
     /// <summary>
-    /// The response model for creating an account
+    /// The response model for the login
     /// </summary>
-    public class CreateAccountResponseModel
+    public class BaseResponseModel
     {
         private string message;
 
         /// <summary>
-        /// Gets or sets the response Code.
+        /// Gets or sets the status code.
         /// </summary>
         /// <value>
-        /// The Code.
+        /// The status code.
         /// </value>
         public HttpStatusCode Code { get; set; }
-
         /// <summary>
         /// Gets or sets the response message.
         /// </summary>
         /// <value>
-        /// The message.
+        /// The response message.
         /// </value>
         public string Message
         {
@@ -42,17 +41,15 @@ namespace Server.Controllers.ResponseModels
                 this.message = value;
             }
         }
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateAccountResponseModel"/> class.
+        /// Initializes a new instance of the <see cref="BaseResponseModel"/> class.
         ///
-        /// Precondition: message != null AND message IS NOT empty
-        /// Postcondition: this.Code == code AND this.Message == message
+        /// Precondition: message != null and message IS NOT empty
+        /// Postcondition: this.Code == code and this.Message == message
         /// </summary>
-        /// <param name="code">The code.</param>
-        /// <param name="message">The message.</param>
-        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
-        public CreateAccountResponseModel(HttpStatusCode code, string message)
+        /// <param name="code">The status code.</param>
+        /// <param name="message">The response content.</param>
+        public BaseResponseModel(HttpStatusCode code, string message)
         {
             if (message == null)
             {

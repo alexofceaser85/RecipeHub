@@ -23,7 +23,7 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns>Whether or not the username exists</returns>
-        public bool VerifyUserNameDoesNotExist(string userName);
+        public bool CheckIfUserNameExists(string userName);
         /// <summary>
         /// Verifies the session key does not exist.
         ///
