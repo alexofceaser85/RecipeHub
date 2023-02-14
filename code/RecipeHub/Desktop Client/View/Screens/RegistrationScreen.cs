@@ -3,17 +3,19 @@
 namespace Desktop_Client.View.Screens
 {
     /// <summary>
-    /// The create account form
+    /// The registration screen for the application.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class CreateAccountScreen : Form
+    public partial class RegistrationScreen : Screen
     {
         private readonly UsersViewModel viewModel;
-
+        
         /// <summary>
-        /// Initializes a new instance of the <see cref="CreateAccountScreen"/> class.
+        /// Creates a default instance of <see cref="RegistrationScreen"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
         /// </summary>
-        public CreateAccountScreen()
+        public RegistrationScreen()
         {
             this.InitializeComponent();
             this.viewModel = new UsersViewModel();
@@ -38,7 +40,8 @@ namespace Desktop_Client.View.Screens
                     this.createAccountForm.LastNameTextBox.Text,
                     this.createAccountForm.EmailTextBox.Text
                 );
-                Close();
+                
+                base.ChangeScreens(new LoginScreen());
             }
             catch (Exception ex)
             {
@@ -48,7 +51,7 @@ namespace Desktop_Client.View.Screens
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            Close();
+            base.ChangeScreens(new LoginScreen());
         }
     }
 }

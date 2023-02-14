@@ -1,17 +1,32 @@
 ﻿namespace Desktop_Client.View.Screens
 {
     /// <summary>
-    /// The login screen
+    /// The login screen for the application.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class LoginScreen : Form
+    public partial class LoginScreen : Screen
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginScreen"/> class.
+        /// Creates a default instance of <see cref="LoginScreen"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
         /// </summary>
         public LoginScreen()
         {
             this.InitializeComponent();
+
+            this.loginForm.LoggedIn += this.LoginFormOnLoggedIn;
+            this.loginForm.RegistrationSelected += this.loginFormOnRegistrationSelected;
+        }
+
+        private void loginFormOnRegistrationSelected(object? sender, EventArgs e)
+        {
+            this.ChangeScreens(new RegistrationScreen());
+        }
+
+        private void LoginFormOnLoggedIn(object? sender, EventArgs e)
+        {
+            this.ChangeScreens(new UserInfoScreen());
         }
     }
 }
