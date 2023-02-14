@@ -115,9 +115,9 @@
             this.usernameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.usernameTextBox.Location = new System.Drawing.Point(184, 63);
             this.usernameTextBox.Margin = new System.Windows.Forms.Padding(21, 5, 21, 5);
-            this.usernameTextBox.MaximumSize = new System.Drawing.Size(498, 4);
+            this.usernameTextBox.MaximumSize = new System.Drawing.Size(498, 0);
             this.usernameTextBox.Name = "usernameTextBox";
-            this.usernameTextBox.Size = new System.Drawing.Size(498, 4);
+            this.usernameTextBox.Size = new System.Drawing.Size(498, 31);
             this.usernameTextBox.TabIndex = 1;
             // 
             // passwordTextInput
@@ -126,9 +126,9 @@
             this.passwordTextInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.passwordTextInput.Location = new System.Drawing.Point(183, 213);
             this.passwordTextInput.Margin = new System.Windows.Forms.Padding(21, 5, 21, 5);
-            this.passwordTextInput.MaximumSize = new System.Drawing.Size(499, 2);
+            this.passwordTextInput.MaximumSize = new System.Drawing.Size(499, 0);
             this.passwordTextInput.Name = "passwordTextInput";
-            this.passwordTextInput.Size = new System.Drawing.Size(499, 2);
+            this.passwordTextInput.Size = new System.Drawing.Size(499, 31);
             this.passwordTextInput.TabIndex = 3;
             this.passwordTextInput.UseSystemPasswordChar = true;
             // 
