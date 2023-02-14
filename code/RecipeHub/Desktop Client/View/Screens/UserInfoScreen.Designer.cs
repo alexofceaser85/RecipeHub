@@ -158,6 +158,7 @@
             this.logoutButton.TabIndex = 4;
             this.logoutButton.Text = "Logout";
             this.logoutButton.UseVisualStyleBackColor = true;
+            this.logoutButton.Click += new System.EventHandler(this.logoutButton_Click);
             // 
             // usernameTextBox
             // 
@@ -178,12 +179,12 @@
             this.sessionKeyInfoLabel.Size = new System.Drawing.Size(0, 25);
             this.sessionKeyInfoLabel.TabIndex = 9;
             // 
-            // AccountInfoScreen
+            // UserInfoScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "AccountInfoScreen";
+            this.Name = "UserInfoScreen";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
