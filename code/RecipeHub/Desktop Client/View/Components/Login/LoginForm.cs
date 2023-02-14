@@ -31,7 +31,7 @@ namespace Desktop_Client.View.Components.Login
                 this.passwordTextInput.Text = string.Empty;
 
                 this.viewModel.Login(username, password);
-                var infoScreen = new UserInfoScreen();
+                var infoScreen = new IngredientsScreen();
                 infoScreen.ShowDialog();
             }
             catch (Exception ex)

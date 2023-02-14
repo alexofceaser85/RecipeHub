@@ -55,7 +55,7 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentNullException(nameof(ingredient));
             }
-            if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
@@ -88,7 +88,7 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentNullException(nameof(ingredient));
             }
-            if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
@@ -123,7 +123,7 @@ namespace Server.Service.Ingredients
                 throw new ArgumentNullException(nameof(ingredient));
             }
 
-            if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
@@ -154,7 +154,7 @@ namespace Server.Service.Ingredients
                 throw new ArgumentNullException(nameof(sessionKey));
             }
 
-            if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
@@ -185,7 +185,7 @@ namespace Server.Service.Ingredients
                 throw new ArgumentNullException(nameof(sessionKey));
             }
 
-            if (!this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }

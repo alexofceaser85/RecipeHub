@@ -10,7 +10,7 @@ namespace Server.Controllers.ResponseModels
     public class PantryResponseModel
     {
         private string message;
-        private IList<Ingredient> pantry;
+        private Ingredient[]? pantry;
 
         /// <summary>
         /// The code representing the status of the request.
@@ -41,17 +41,16 @@ namespace Server.Controllers.ResponseModels
         /// <summary>
         /// Represents a pantry of ingredients, with names and amounts of each ingredient.
         /// </summary>
-        public IList<Ingredient>? Pantry
+        public Ingredient[]? Pantry
         {
             get => this.pantry;
-            set => this.pantry = value ?? throw new ArgumentNullException(nameof(value));
+            set => this.pantry = value;
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="FlagResponseModel"/> class.<br />
         /// <br />
         /// Precondition: message != null<br />
         /// AND !string.IsNullOrWhitespace(message)<br />
-        /// AND pantry != null<br />
         /// Postcondition: Code == code<br />
         /// AND Message == message<br />
         /// AND Pantry == pantry<br />
@@ -60,7 +59,7 @@ namespace Server.Controllers.ResponseModels
         /// <param name="message">The message.</param>
         /// <param name="pantry">The pantry being sent to the client.</param>
         /// 
-        public PantryResponseModel(HttpStatusCode code, string message, IList<Ingredient>? pantry)
+        public PantryResponseModel(HttpStatusCode code, string message, Ingredient[]? pantry)
         {
             if (message == null)
             {
@@ -73,7 +72,7 @@ namespace Server.Controllers.ResponseModels
             }
             this.Code = code;
             this.message = message;
-            this.pantry = pantry ?? throw new ArgumentNullException(nameof(pantry));
+            this.pantry = pantry;
         }
     }
 }

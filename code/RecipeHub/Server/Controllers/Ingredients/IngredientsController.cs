@@ -20,6 +20,7 @@ namespace Server.Controllers.Ingredients
         /// Precondition: None<br />
         /// Postcondition: All fields have been initialized to default values.
         /// </summary>
+        [ActivatorUtilitiesConstructor]
         public IngredientsController()
         {
             this.service = new IngredientsService();
@@ -161,7 +162,7 @@ namespace Server.Controllers.Ingredients
             try
             {
                 return new PantryResponseModel(HttpStatusCode.OK, "Ingredients successfully retrieved.",
-                    this.service.GetIngredientsFor(sessionKey));
+                    this.service.GetIngredientsFor(sessionKey).ToArray());
             }
             catch (Exception ex)
             {

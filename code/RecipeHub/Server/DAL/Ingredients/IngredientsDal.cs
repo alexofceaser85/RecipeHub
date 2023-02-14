@@ -17,7 +17,7 @@ namespace Server.DAL.Ingredients
         /// <inheritdoc />
         public bool AddIngredientToPantry(Shared_Resources.Model.Ingredients.Ingredient ingredient, int userId)
         {
-            var query = "INSERT INTO Pantry (userId, ingredientId, amount) VALUES (@userId, @ingredientId, @amount)";
+            var query = "INSERT INTO PantryItems (userId, ingredientId, amount) VALUES (@userId, @ingredientId, @amount)";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
@@ -54,7 +54,7 @@ namespace Server.DAL.Ingredients
             var ingredientNames = new List<string>();
             while (reader.Read())
             {
-                string name = reader.GetString("name");
+                string name = reader.GetString("name").Trim();
                 ingredientNames.Add(name);
             }
             return ingredientNames;
@@ -72,7 +72,7 @@ namespace Server.DAL.Ingredients
             var ingredients = new List<Shared_Resources.Model.Ingredients.Ingredient>();
             while (reader.Read())
             {
-                string name = reader.GetString("name");
+                string name = reader.GetString("name").Trim();
                 MeasurementType type = (MeasurementType) reader.GetInt32("measurementType") - 1;
                 int amount = reader.GetInt32("amount");
                 var ingredient = new Shared_Resources.Model.Ingredients.Ingredient(name, amount, type);
