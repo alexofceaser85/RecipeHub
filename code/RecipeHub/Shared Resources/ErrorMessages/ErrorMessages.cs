@@ -100,6 +100,7 @@
         /// </summary>
         public const string JsonToParseCannotBeEmpty = "The json to parse cannot be empty";
     }
+    
     /// <summary>
     /// The error messages for the hashes
     /// </summary>
@@ -162,6 +163,42 @@
     }
 
     /// <summary>
+    /// The users service error messages
+    /// </summary>
+    public class RecipesServiceErrorMessages
+    {
+        /// <summary>
+        /// The recipes endpoints cannot be null error message
+        /// </summary>
+        public static string RecipesEndpointsCannotBeNull = "The recipes endpoints cannot be null";
+
+        /// <summary>
+        /// The search term cannot be null error message
+        /// </summary>
+        public static string SearchTermCannotBeNull = "The search term cannot be null";
+        
+        /// <summary>
+        /// The recipe name cannot be null error message
+        /// </summary>
+        public const string RecipeNameCannotBeNull = "The recipe name cannot be null";
+
+        /// <summary>
+        /// The recipe name cannot be empty error message
+        /// </summary>
+        public const string RecipeNameCannotBeEmpty = "The recipe name cannot be empty";
+
+        /// <summary>
+        /// The recipe description cannot be null error message
+        /// </summary>
+        public const string RecipeDescriptionCannotBeNull = "The recipe description cannot be null";
+
+        /// <summary>
+        /// The recipe description cannot be empty error message
+        /// </summary>
+        public const string RecipeDescriptionCannotBeEmpty = "The recipe description cannot be empty";
+    }
+
+    /// <summary>
     /// The error messages for the user service view model
     /// </summary>
     public class UsersServiceViewModelErrorMessages
@@ -180,11 +217,11 @@
         /// <summary>
         /// The session key cannot be null error messages
         /// </summary>
-        public static string SessionKeyCannotBeNull = "The session key cannot be null";
+        public const string SessionKeyCannotBeNull = "The session key cannot be null";
         /// <summary>
         /// The session key cannot be empty error messages
         /// </summary>
-        public static string SessionKeyCannotBeEmpty = "The session key cannot be empty";
+        public const string SessionKeyCannotBeEmpty = "The session key cannot be empty";
     }
 
     /// <summary>
@@ -196,5 +233,16 @@
         /// The client cannot be null error message
         /// </summary>
         public static string ClientCannotBeNull = "The client cannot be null";
+    }
+    
+    /// <summary>
+    /// The error messages for the users endpoints
+    /// </summary>
+    public static class RecipesEndpointsErrorMessages
+    {
+        /// <summary>
+        /// The client cannot be null error message
+        /// </summary>
+        public const string ClientCannotBeNull = "The client cannot be null";
     }
 }
