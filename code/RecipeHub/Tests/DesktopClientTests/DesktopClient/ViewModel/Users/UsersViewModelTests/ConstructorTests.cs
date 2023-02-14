@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.ViewModel.Users;
+﻿using Desktop_Client.ViewModel.Users;
 using Shared_Resources.ErrorMessages;
 
 namespace DesktopClientTests.DesktopClient.ViewModel.Users.UsersViewModelTests

@@ -4,6 +4,7 @@ using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.Service.Users;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
 
 namespace Server.Controllers.Users
 {
@@ -43,7 +44,39 @@ namespace Server.Controllers.Users
         }
 
         /// <summary>
+        /// Creates the account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <param name="password">The password.</param>
+        /// <param name="verifiedPassword">The verified password.</param>
+        /// <param name="firstName">The first name.</param>
+        /// <param name="lastName">The last name.</param>
+        /// <param name="email">The email.</param>
+        /// <returns>The server response</returns>
+        [HttpPost]
+        [Route("CreateAccount")]
+        public BaseResponseModel CreateAccount(string username, string password, string verifiedPassword,
+            string firstName, string lastName, string email)
+        {
+            try
+            {
+                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName, email));
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Logins the specified username and password combination.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -51,40 +84,46 @@ namespace Server.Controllers.Users
         /// <returns>The server response</returns>
         [HttpGet]
         [Route("LoginUser")]
-        public LoginResponseModel Login(string username, string password, string? previousSessionKey)
+        public BaseResponseModel Login(string username, string password, string? previousSessionKey)
         {
             try
             {
-                return new LoginResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
+                return new BaseResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
             }
             catch (Exception ex)
             {
-                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
         /// <summary>
         /// Logs the user with the specified session key out of the system.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The server response</returns>
         [HttpPost]
         [Route("LogoutUser")]
-        public LoginResponseModel Logout(string sessionKey)
+        public BaseResponseModel Logout(string sessionKey)
         {
             try
             {
                 this.service.Logout(sessionKey);
-                return new LoginResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
             {
-                return new LoginResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key of the user to get.</param>
         /// <returns>The server response</returns>

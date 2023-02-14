@@ -9,6 +9,9 @@ namespace Shared_Resources.Data.IO
     {
         /// <summary>
         /// Saves the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         public static void SaveSessionKey(string sessionKey, string filePath)
         {
@@ -26,6 +29,9 @@ namespace Shared_Resources.Data.IO
 
         /// <summary>
         /// Loads the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <returns>The loaded session key or an empty string if the session key could not be loaded</returns>
         public static string LoadSessionKey(string filePath)

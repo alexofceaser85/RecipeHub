@@ -5,6 +5,7 @@ using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
+using Shared_Resources.Utils.Validation;
 
 namespace Desktop_Client.Service.Users
 {
@@ -18,7 +19,7 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// The session key load file path
         /// </summary>
-        public string SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
+        public string? SessionKeyLoadFile { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersService"/> class.
@@ -26,6 +27,28 @@ namespace Desktop_Client.Service.Users
         public UsersService()
         {
             this.endpoints = new UsersEndpoints();
+        }
+
+        /// <summary>
+        /// Creates a new account.
+        /// 
+        /// Precondition: newAccount != null
+        /// Postcondition:
+        /// newAccount.Password == hashed password
+        /// AND newAccount.VerifyPassword == hashed password
+        /// </summary>
+        /// <param name="newAccount">The new account.</param>
+        public void CreateAccount(NewAccount newAccount)
+        {
+            if (newAccount == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.AccountToCreateCannotBeNull);
+            }
+
+            PasswordValidation.Validate(newAccount.Password);
+            newAccount.Password = Hashes.HashToSha512(newAccount.Password);
+            newAccount.VerifyPassword = Hashes.HashToSha512(newAccount.VerifyPassword);
+            this.endpoints.CreateAccount(newAccount);
         }
 
         /// <summary>
@@ -49,12 +72,13 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// Logins the specified username and password combination.
         ///
-        /// username != null
+        /// Precondition: username != null
         /// AND username IS NOT empty
         /// AND password != null
         /// AND password IS NOT empty
-        /// AND SessionKeyLoadFile != null
-        /// AND SessionKeyLoadFile IS NOT empty
+        /// AND SessionKeySettings.SaveSessionFilePath != null
+        /// AND SessionKeySettings.SaveSessionFilePath IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -81,16 +105,17 @@ namespace Desktop_Client.Service.Users
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
             }
 
-            if (this.SessionKeyLoadFile == null)
+            if (SessionKeySettings.SaveSessionFilePath == null)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeNull);
             }
 
-            if (this.SessionKeyLoadFile.Trim().Length == 0)
+            if (SessionKeySettings.SaveSessionFilePath.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeEmpty);
             }
 
+            this.SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
             var hashedPassword = Hashes.HashToSha512(password);
             var previousSessionKey = SessionKeySerializers.LoadSessionKey(this.SessionKeyLoadFile);
             var sessionKey = this.endpoints.Login(username, hashedPassword, previousSessionKey);

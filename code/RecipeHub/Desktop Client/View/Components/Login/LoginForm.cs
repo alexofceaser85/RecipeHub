@@ -12,7 +12,10 @@ namespace Desktop_Client.View.Components.Login
         private readonly UsersViewModel viewModel;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginForm"/> class.
+        /// Initializes a new instance of the <see cref="LoginForm"/> class.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
         /// </summary>
         public LoginForm()
         {
@@ -20,7 +23,17 @@ namespace Desktop_Client.View.Components.Login
             this.viewModel = new UsersViewModel();
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Occurs when the user successfully logs into the application.
+        /// </summary>
+        public event EventHandler? LoggedIn;
+
+        /// <summary>
+        /// Occurs when the user selects to register an account.
+        /// </summary>
+        public event EventHandler? RegistrationSelected;
+
+        private void loginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -31,13 +44,17 @@ namespace Desktop_Client.View.Components.Login
                 this.passwordTextInput.Text = string.Empty;
 
                 this.viewModel.Login(username, password);
-                var infoScreen = new UserInfoScreen();
-                infoScreen.ShowDialog();
+                this.LoggedIn?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void createAccountButton_Click(object sender, EventArgs e)
+        {
+            this.RegistrationSelected?.Invoke(this, EventArgs.Empty);
         }
     }
 }

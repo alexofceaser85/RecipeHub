@@ -29,6 +29,32 @@
         /// <summary>
         /// The save session file path
         /// </summary>
-        public static readonly string SaveSessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "..\\Shared Resources\\", "Session.txt");
+        public static string SaveSessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf("bin", StringComparison.Ordinal)), "..\\Shared Resources\\", "Session.txt");
+    }
+
+    /// <summary>
+    /// The password settings
+    /// </summary>
+    public static class PasswordSettings
+    {
+        /// <summary>
+        /// The minimum password length
+        /// </summary>
+        public static int MinimumPasswordLength = 6;
+        /// <summary>
+        /// The maximum password length
+        /// </summary>
+        public static int MaximumPasswordLength = 20;
+    }
+
+    /// <summary>
+    /// The new account settings
+    /// </summary>
+    public static class NewAccountSettings
+    {
+        /// <summary>
+        /// The email format
+        /// </summary>
+        public static string EmailFormat = @"^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";
     }
 }
