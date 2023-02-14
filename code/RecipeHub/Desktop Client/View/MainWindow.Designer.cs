@@ -37,7 +37,8 @@
             this.ClientSize = new System.Drawing.Size(691, 1268);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MainWindow";
-            this.Text = "NurseView";
+            this.Text = "RecipeHub";
+            this.Resize += new System.EventHandler(this.MainWindow_Resize);
             this.ResumeLayout(false);
 
         }
