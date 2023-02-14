@@ -37,10 +37,11 @@ namespace Desktop_Client.View
             }
             
             newScreen.ScreenChanged += this.OnScreenChanged;
-            this.Controls.Add(newScreen);
             this.activeScreen = newScreen;
+            this.activeScreen.Dock = DockStyle.Fill;
+            this.Controls.Add(newScreen);
         }
-
+        
         private void OnScreenChanged(object? sender, Screen e)
         {
             this.SwapScreens(e);
