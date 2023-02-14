@@ -29,32 +29,50 @@
         private void InitializeComponent()
         {
             this.menuPanel = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ingredientsNavbarOption = new System.Windows.Forms.Button();
+            this.logoutNavbarOption = new System.Windows.Forms.Button();
             this.menuPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuPanel
             // 
             this.menuPanel.BackColor = System.Drawing.Color.Gray;
-            this.menuPanel.Controls.Add(this.button1);
+            this.menuPanel.Controls.Add(this.logoutNavbarOption);
+            this.menuPanel.Controls.Add(this.ingredientsNavbarOption);
             this.menuPanel.Location = new System.Drawing.Point(0, 3);
             this.menuPanel.Name = "menuPanel";
             this.menuPanel.Size = new System.Drawing.Size(467, 633);
             this.menuPanel.TabIndex = 1;
             // 
-            // button1
+            // ingredientsNavbarOption
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.button1.BackColor = System.Drawing.Color.Gray;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button1.Location = new System.Drawing.Point(3, 0);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(464, 53);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Ingredients";
-            this.button1.UseVisualStyleBackColor = false;
+            this.ingredientsNavbarOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.ingredientsNavbarOption.BackColor = System.Drawing.Color.Gray;
+            this.ingredientsNavbarOption.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ingredientsNavbarOption.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ingredientsNavbarOption.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ingredientsNavbarOption.Location = new System.Drawing.Point(3, 0);
+            this.ingredientsNavbarOption.Name = "ingredientsNavbarOption";
+            this.ingredientsNavbarOption.Size = new System.Drawing.Size(464, 53);
+            this.ingredientsNavbarOption.TabIndex = 0;
+            this.ingredientsNavbarOption.Text = "Ingredients";
+            this.ingredientsNavbarOption.UseVisualStyleBackColor = false;
+            this.ingredientsNavbarOption.Click += new System.EventHandler(this.ingredientsNavbarOption_Click);
+            // 
+            // logoutNavbarOption
+            // 
+            this.logoutNavbarOption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.logoutNavbarOption.BackColor = System.Drawing.Color.Gray;
+            this.logoutNavbarOption.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.logoutNavbarOption.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.logoutNavbarOption.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.logoutNavbarOption.Location = new System.Drawing.Point(3, 577);
+            this.logoutNavbarOption.Name = "logoutNavbarOption";
+            this.logoutNavbarOption.Size = new System.Drawing.Size(464, 53);
+            this.logoutNavbarOption.TabIndex = 1;
+            this.logoutNavbarOption.Text = "Logout";
+            this.logoutNavbarOption.UseVisualStyleBackColor = false;
+            this.logoutNavbarOption.Click += new System.EventHandler(this.logoutNavbarOption_Click);
             // 
             // UserMenu
             // 
@@ -70,6 +88,7 @@
 
         #endregion
         private Panel menuPanel;
-        private Button button1;
+        private Button ingredientsNavbarOption;
+        private Button logoutNavbarOption;
     }
 }

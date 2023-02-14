@@ -33,7 +33,7 @@
             this.removeAllIngredientsButton = new System.Windows.Forms.Button();
             this.hamburgerButton1 = new Desktop_Client.View.Components.General.HamburgerButton();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
+            this.backButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -52,14 +52,15 @@
             this.addIngredientButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addIngredientButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addIngredientButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.addIngredientButton.Location = new System.Drawing.Point(219, 85);
+            this.addIngredientButton.Location = new System.Drawing.Point(244, 97);
             this.addIngredientButton.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
             this.addIngredientButton.MaximumSize = new System.Drawing.Size(300, 0);
             this.addIngredientButton.Name = "addIngredientButton";
-            this.addIngredientButton.Size = new System.Drawing.Size(228, 0);
+            this.addIngredientButton.Size = new System.Drawing.Size(228, 38);
             this.addIngredientButton.TabIndex = 5;
             this.addIngredientButton.Text = "Add Ingredient";
             this.addIngredientButton.UseVisualStyleBackColor = false;
+            this.addIngredientButton.Click += new System.EventHandler(this.addIngredientButton_Click);
             // 
             // removeAllIngredientsButton
             // 
@@ -76,6 +77,7 @@
             this.removeAllIngredientsButton.TabIndex = 6;
             this.removeAllIngredientsButton.Text = "Remove All";
             this.removeAllIngredientsButton.UseVisualStyleBackColor = false;
+            this.removeAllIngredientsButton.Click += new System.EventHandler(this.removeAllIngredientsButton_Click);
             // 
             // hamburgerButton1
             // 
@@ -88,25 +90,25 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(1, 95);
+            this.dataGridView1.Location = new System.Drawing.Point(5, 136);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 25;
-            this.dataGridView1.Size = new System.Drawing.Size(467, 552);
+            this.dataGridView1.Size = new System.Drawing.Size(467, 576);
             this.dataGridView1.TabIndex = 8;
             // 
-            // button1
+            // backButton
             // 
-            this.button1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Calibri", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(1, 2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(126, 87);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "<";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.backButton.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.backButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.backButton.Font = new System.Drawing.Font("Calibri", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.backButton.Location = new System.Drawing.Point(1, 2);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(126, 87);
+            this.backButton.TabIndex = 9;
+            this.backButton.Text = "<";
+            this.backButton.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.backButton.UseVisualStyleBackColor = false;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
             // 
             // IngredientsScreen
             // 
@@ -114,12 +116,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(484, 761);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.userMenu1);
+            this.Controls.Add(this.backButton);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.hamburgerButton1);
             this.Controls.Add(this.removeAllIngredientsButton);
             this.Controls.Add(this.addIngredientButton);
+            this.Controls.Add(this.userMenu1);
             this.Name = "IngredientsScreen";
             this.Text = "IngredientsScreen";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -134,6 +136,6 @@
         private Button removeAllIngredientsButton;
         private Components.General.HamburgerButton hamburgerButton1;
         private DataGridView dataGridView1;
-        private Button button1;
+        private Button backButton;
     }
 }

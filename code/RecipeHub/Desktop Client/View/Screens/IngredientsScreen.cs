@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Desktop_Client.View.Dialog;
 using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.View.Screens
@@ -96,7 +97,24 @@ namespace Desktop_Client.View.Screens
             this.userMenu1.Visible = !this.userMenu1.Visible;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        private void addIngredientButton_Click(object sender, EventArgs e)
+        {
+            Form addIngredient = new AddIngredientDialog();
+            addIngredient.ShowDialog();
+        }
+
+        private void removeAllIngredientsButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Are you sure you want to remove all ingredients?", "Remove All Ingredients", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+
+            }
+
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
         {
 
         }

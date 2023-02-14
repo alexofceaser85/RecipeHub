@@ -16,5 +16,15 @@ namespace Desktop_Client.View.Components.General
         {
             InitializeComponent();
         }
+
+        private void logoutNavbarOption_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ingredientsNavbarOption_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
