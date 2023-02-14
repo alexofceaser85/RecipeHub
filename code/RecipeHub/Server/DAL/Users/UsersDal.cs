@@ -126,5 +126,40 @@ namespace Server.DAL.Users
 
             return null;
         }
+
+        /// <inheritdoc/>
+        public bool UserIdExists(int userId)
+        {
+            var query = "SELECT userId FROM Users WHERE userId = @userId";
+            
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+
+            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+            connection.Open();
+
+            return command.ExecuteNonQuery() != 0;
+        }
+
+        /// <inheritdoc/>
+        public int? GetIdForSessionKey(string sessionKey)
+        {
+            var query = "SELECT userId FROM Sessions WHERE sessionKey = @sessionKey";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@sessionKey", SqlDbType.VarChar).Value = sessionKey;
+
+            connection.Open();
+            var reader = command.ExecuteReader();
+            var userIdOrdinal = reader.GetOrdinal("userId");
+
+            while (reader.Read())
+            {
+                var userId = reader.GetInt32(userIdOrdinal);
+                return userId;
+            }
+
+            return null;
+        }
     }
 }
