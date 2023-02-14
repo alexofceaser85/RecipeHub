@@ -20,7 +20,7 @@ namespace Desktop_Client.View.Components.Login
             this.viewModel = new UsersViewModel();
         }
 
-        private void LoginButton_Click(object sender, EventArgs e)
+        private void loginButton_Click(object sender, EventArgs e)
         {
             try
             {
@@ -38,6 +38,12 @@ namespace Desktop_Client.View.Components.Login
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void createAccountButton_Click(object sender, EventArgs e)
+        {
+            var createAccountScreen = new CreateAccountScreen();
+            createAccountScreen.ShowDialog();
         }
     }
 }

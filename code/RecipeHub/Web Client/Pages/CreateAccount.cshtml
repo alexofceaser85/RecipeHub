@@ -1,0 +1,202 @@
+﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Shared_Resources.Data.Settings
+@using Shared_Resources.ErrorMessages
+@model Web_Client.Pages.CreateAccountModel
+@{
+    <h1>Create Account</h1>
+
+    <form id="createAccountForm" method="post" action="">
+        <fieldset>
+            <div>
+                <h3>Username:</h3>
+                <input type="text" id="usernameInput" name="Username" onchange="validateUserName()" asp-for="BindingModel.Username"/>
+                <p id="usernameErrorText"></p>
+            </div>
+            <div>
+                <h3>Password:</h3>
+                <input type="password" id="passwordInput" name="Password" maxlength="20" onchange="validatePassword()" asp-for="BindingModel.Password" />
+                <p id="passwordErrorText"></p>
+            </div>
+            <div>
+                <h3>Verify Password:</h3>
+                <input type="password" id="verifyPasswordInput" name="VerifyPassword" maxlength="20" onchange="validateVerifyPassword()" asp-for="BindingModel.VerifyPassword" />
+                <p id="verifyPasswordErrorText"></p>
+            </div>
+            <div>
+                <h3>First Name:</h3>
+                <input type="text" id="firstNameInput" name="FirstName" onchange="validateFirstName()" asp-for="BindingModel.FirstName" />
+                <p id="verifyFirstNameErrorText"></p>
+            </div>
+            <div>
+                <h3>Last Name:</h3>
+                <input type="text" id="lastNameInput" name="LastName" onchange="validateLastName()" asp-for="BindingModel.LastName" />
+                <p id="verifyLastNameErrorText"></p>
+            </div>
+            <div>
+                <h3>Email:</h3>
+                <input type="text" id="emailInput" name="Email" onchange="validateEmail()" asp-for="BindingModel.Email" />
+                <p id="emailErrorText"></p>
+            </div>
+            <div>
+                <input type="submit" value="Cancel" asp-page-handler="Cancel"/>
+                <input type="submit" id="submitButton" value="Submit" asp-page-handler="Submit" onclick="validateAll()" />
+            </div>
+        </fieldset>
+    </form>
+
+    @if (Model.ShouldThrowError)
+    {
+        <h2>Error Creating Account: @Model.ExceptionText</h2>
+    }
+
+    <script>
+        var userNameIsValid = false;
+        var passwordIsValid = false;
+        var verifyPasswordIsValid = false;
+        var firstNameIsValid = false;
+        var lastNameIsValid = false;
+        var emailIsValid = false;
+
+        var minimumPasswordLength = 6;
+        var submitButton = document.getElementById("submitButton");
+
+        function validateUserName() {
+            var usernameInput = document.getElementById("usernameInput");
+            var usernameErrorText = document.getElementById("usernameErrorText");
+
+            if (usernameInput.value.length === 0) {
+                usernameErrorText.innerHTML = "@NewAccountErrorMessages.UsernameCannotBeEmpty";
+                usernameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                userNameIsValid = false;
+            } else {
+                usernameInput.style.backgroundColor = "";
+                usernameErrorText.innerHTML = "";
+                userNameIsValid = true;
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validatePassword() {
+            var passwordInput = document.getElementById("passwordInput");
+            var passwordErrorText = document.getElementById("passwordErrorText");
+
+            if (passwordInput.value.length === 0) {
+                passwordErrorText.innerHTML = "@NewAccountErrorMessages.PasswordCannotBeEmpty";
+                passwordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                passwordIsValid = false;
+            } else if (passwordInput.value.length < "@PasswordSettings.MinimumPasswordLength") {
+                passwordErrorText.innerHTML = "@PasswordValidationErrorMessages.PasswordIsTooShort";
+                passwordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                passwordIsValid = false;
+            } else {
+                passwordInput.style.backgroundColor = "";
+                passwordErrorText.innerHTML = "";
+                passwordIsValid = true;
+                validateVerifyPassword();
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validateVerifyPassword() {
+            var passwordInput = document.getElementById("passwordInput");
+            var verifyPasswordInput = document.getElementById("verifyPasswordInput");
+            var passwordErrorText = document.getElementById("verifyPasswordErrorText");
+
+            if (verifyPasswordInput.value.length === 0) {
+                passwordErrorText.innerHTML = "@NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty";
+                verifyPasswordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                verifyPasswordIsValid = false;
+            } else if (passwordInput.value !== verifyPasswordInput.value) {
+                passwordErrorText.innerHTML = "@NewAccountErrorMessages.VerifiedPasswordMustMatchPassword";
+                verifyPasswordInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                verifyPasswordIsValid = false;
+            } else {
+                verifyPasswordInput.style.backgroundColor = "";
+                passwordErrorText.innerHTML = "";
+                verifyPasswordIsValid = true;
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validateFirstName() {
+            var firstNameInput = document.getElementById("firstNameInput");
+            var firstNameErrorText = document.getElementById("verifyFirstNameErrorText");
+
+            if (firstNameInput.value.length === 0) {
+                firstNameErrorText.innerHTML = "@NewAccountErrorMessages.FirstNameCannotBeEmpty";
+                firstNameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                firstNameIsValid = false;
+            } else {
+                firstNameInput.style.backgroundColor = "";
+                firstNameErrorText.innerHTML = "";
+                firstNameIsValid = true;
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validateLastName() {
+            var lastNameInput = document.getElementById("lastNameInput");
+            var lastNameErrorText = document.getElementById("verifyLastNameErrorText");
+
+            if (lastNameInput.value.length === 0) {
+                lastNameErrorText.innerHTML = "@NewAccountErrorMessages.LastNameCannotBeEmpty";
+                lastNameInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                lastNameIsValid = false;
+            } else {
+                lastNameInput.style.backgroundColor = "";
+                lastNameErrorText.innerHTML = "";
+                lastNameIsValid = true;
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validateEmail() {
+            var emailInput = document.getElementById("emailInput");
+            var emailErrorText = document.getElementById("emailErrorText");
+
+            var emailRegexPattern = "@NewAccountSettings.EmailFormat";
+            emailRegexPattern = emailRegexPattern.replace(/&#x2B;/g, "+");
+
+            function isValidEmail(email) {
+                return new RegExp(emailRegexPattern).test(email);
+            }
+
+            if (emailInput.value.length === 0) {
+                emailErrorText.innerHTML = "@NewAccountErrorMessages.EmailCannotBeEmpty";
+                emailInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                emailIsValid = false;
+            } else if (!isValidEmail(emailInput.value)) {
+                emailErrorText.innerHTML = "@NewAccountErrorMessages.EmailIsInWrongFormat";
+                emailInput.style.backgroundColor = "@UserInterfaceSettings.ErrorColor";
+                emailIsValid = false;
+            } else {
+                emailInput.style.backgroundColor = "";
+                emailErrorText.innerHTML = "";
+                emailIsValid = true;
+            }
+
+            disableAndEnableSubmitButton();
+        }
+
+        function validateAll() {
+            validateUserName();
+            validatePassword();
+            validateVerifyPassword();
+            validateFirstName();
+            validateLastName();
+            validateEmail();
+        }
+
+        function disableAndEnableSubmitButton() {
+            this.submitButton.disabled = !userNameIsValid || !passwordIsValid || !verifyPasswordIsValid || !firstNameIsValid || !lastNameIsValid || !emailIsValid;
+        }
+
+        disableAndEnableSubmitButton();
+    </script>
+}

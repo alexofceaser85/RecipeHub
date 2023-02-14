@@ -1,6 +1,5 @@
 ﻿using Server.ErrorMessages;
 using Server.Service.Users;
-using Shared_Resources.ErrorMessages;
 
 namespace ServerTests.Server.Service.Users.UsersServiceTests
 {

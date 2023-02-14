@@ -11,7 +11,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new LoginResponseModel(HttpStatusCode.Continue, null!);
+                _ = new BaseResponseModel(HttpStatusCode.Continue, null!);
             })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
@@ -22,7 +22,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new LoginResponseModel(HttpStatusCode.Continue, "   ");
+                _ = new BaseResponseModel(HttpStatusCode.Continue, "   ");
             })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
@@ -31,7 +31,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         [Test]
         public void ShouldNotSetNullMessageForLoginResponseModel()
         {
-            var responseModel = new LoginResponseModel(HttpStatusCode.Continue, "message");
+            var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
 
             var message = Assert.Throws<ArgumentException>(() =>
             {
@@ -44,7 +44,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         [Test]
         public void ShouldNotSetEmptyMessageForLoginResponseModel()
         {
-            var responseModel = new LoginResponseModel(HttpStatusCode.Continue, "message");
+            var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
 
             var message = Assert.Throws<ArgumentException>(() =>
             {
@@ -57,7 +57,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         [Test]
         public void ShouldSetValidMessageValueForLoginResponseModel()
         {
-            var responseModel = new LoginResponseModel(HttpStatusCode.Continue, "message");
+            var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
             responseModel.Message = "my message";
             Assert.That(responseModel.Message, Is.EqualTo("my message"));
         }
@@ -65,7 +65,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         [Test]
         public void ShouldCreateLoginResponseModelWithValidData()
         {
-            var responseModel = new LoginResponseModel(HttpStatusCode.Continue, "message");
+            var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
 
             Assert.That(responseModel.Code, Is.EqualTo(HttpStatusCode.Continue));
             Assert.That(responseModel.Message, Is.EqualTo("message"));
