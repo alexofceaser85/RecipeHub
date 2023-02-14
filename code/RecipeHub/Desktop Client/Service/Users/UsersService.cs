@@ -19,7 +19,7 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// The session key load file path
         /// </summary>
-        public string SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
+        public string? SessionKeyLoadFile { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersService"/> class.
@@ -76,8 +76,8 @@ namespace Desktop_Client.Service.Users
         /// AND username IS NOT empty
         /// AND password != null
         /// AND password IS NOT empty
-        /// AND SessionKeyLoadFile != null
-        /// AND SessionKeyLoadFile IS NOT empty
+        /// AND SessionKeySettings.SaveSessionFilePath != null
+        /// AND SessionKeySettings.SaveSessionFilePath IS NOT empty
         /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
@@ -105,16 +105,17 @@ namespace Desktop_Client.Service.Users
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
             }
 
-            if (this.SessionKeyLoadFile == null)
+            if (SessionKeySettings.SaveSessionFilePath == null)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeNull);
             }
 
-            if (this.SessionKeyLoadFile.Trim().Length == 0)
+            if (SessionKeySettings.SaveSessionFilePath.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeEmpty);
             }
 
+            this.SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
             var hashedPassword = Hashes.HashToSha512(password);
             var previousSessionKey = SessionKeySerializers.LoadSessionKey(this.SessionKeyLoadFile);
             var sessionKey = this.endpoints.Login(username, hashedPassword, previousSessionKey);
