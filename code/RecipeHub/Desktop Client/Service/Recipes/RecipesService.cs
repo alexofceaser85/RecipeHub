@@ -4,7 +4,7 @@ using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.Service.Recipes
 {
-    /// <inheritdoc cref="IRecipesEndpoints"/>
+    /// <inheritdoc cref="IRecipesService"/>
     public class RecipesService : IRecipesService
     {
         private readonly IRecipesEndpoints endpoints;
