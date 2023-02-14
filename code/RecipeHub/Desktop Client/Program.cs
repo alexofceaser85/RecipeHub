@@ -1,3 +1,4 @@
+using Desktop_Client.View;
 using Desktop_Client.View.Screens;
 
 namespace Desktop_Client
@@ -13,7 +14,7 @@ namespace Desktop_Client
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginScreen());
+            Application.Run(new MainWindow());
         }
     }
 }
