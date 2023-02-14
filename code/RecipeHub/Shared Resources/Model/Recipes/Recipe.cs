@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
+using Shared_Resources.ErrorMessages;
 
 namespace Shared_Resources.Model.Recipes
 {
@@ -28,7 +29,8 @@ namespace Shared_Resources.Model.Recipes
         public string AuthorName
         {
             get => this.authorName;
-            set => this.authorName = value ?? throw new ArgumentNullException(nameof(value), "TODO");
+            set => this.authorName = value ?? 
+                                     throw new ArgumentNullException(nameof(value), RecipesErrorMessages.AuthorNameCannotBeNull);
         }
 
         /// <summary>
@@ -38,7 +40,8 @@ namespace Shared_Resources.Model.Recipes
         public string Name
         {
             get => this.name;
-            set => this.name = value ?? throw new ArgumentNullException(nameof(value), "TODO");
+            set => this.name = value ?? 
+                               throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeNameCannotBeNull);
         }
 
         /// <summary>
@@ -48,7 +51,8 @@ namespace Shared_Resources.Model.Recipes
         public string Description
         {
             get => this.description;
-            set => this.description = value ?? throw new ArgumentNullException(nameof(value), "TODO");
+            set => this.description = value ?? 
+                                      throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeDescriptionCannotBeNull);
         }
 
         /// <summary>
@@ -68,6 +72,23 @@ namespace Shared_Resources.Model.Recipes
         /// </summary>
         [JsonPropertyName("ingredients")]
         public List<Ingredient> Ingredients { get; set; }
+
+        /// <summary>
+        /// Creates an instance of <see cref="Recipe"/> with a specified id, author name, name, description, and public setting.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>this.Id == 0<br/>
+        /// &amp;&amp; this.AuthorName == string.Empty<br/>
+        /// &amp;&amp; this.Name == string.Empty<br/>
+        /// &amp;&amp; this.Description == string.Empty<br/>
+        /// &amp;&amp; this.IsPublic == false<br/>
+        /// &amp;&amp; this.Rating == 0<br/>
+        /// &amp;&amp; this.Ingredients.IsEmpty()
+        /// </summary>
+        public Recipe() : this(0, string.Empty, string.Empty, string.Empty, false)
+        {
+
+        }
 
         /// <summary>
         /// Creates an instance of <see cref="Recipe"/> with a specified id, author name, name, description, and public setting.<br/>
@@ -99,6 +120,7 @@ namespace Shared_Resources.Model.Recipes
             this.Ingredients = new List<Ingredient>();
         }
 
+        /// <inheritdoc/>
         public override bool Equals(object? obj)
         {
             if (obj is not Recipe other)
@@ -107,6 +129,12 @@ namespace Shared_Resources.Model.Recipes
             }
             return this.Id == other.Id && this.authorName == other.authorName && this.Name == other.Name 
                    && this.Description == other.Description && this.Rating == other.Rating && this.IsPublic == other.IsPublic;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 

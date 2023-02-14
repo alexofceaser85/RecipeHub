@@ -40,6 +40,27 @@
     }
 
     /// <summary>
+    /// The error messages for the Recipes class
+    /// </summary>
+    public static class RecipesErrorMessages
+    {
+        /// <summary>
+        /// The author name cannot be null error message.
+        /// </summary>
+        public const string AuthorNameCannotBeNull = "The author name cannot be null";
+
+        /// <summary>
+        /// The recipe name cannot be null error message.
+        /// </summary>
+        public const string RecipeNameCannotBeNull = "The recipe name cannot be null";
+
+        /// <summary>
+        /// The recipe description cannot be null error message.
+        /// </summary>
+        public const string RecipeDescriptionCannotBeNull = "The recipe description cannot be null";
+    }
+
+    /// <summary>
     /// The error messages for the server utils
     /// </summary>
     public static class ServerUtilsErrorMessages
@@ -207,6 +228,17 @@
         /// The users service cannot be null error messages
         /// </summary>
         public static string UsersServiceCannotBeNull = "The users service cannot be null";
+    }
+
+    /// <summary>
+    /// The error messages for the user service view model
+    /// </summary>
+    public class RecipesViewModelErrorMessages
+    {
+        /// <summary>
+        /// The users service cannot be null error messages
+        /// </summary>
+        public static string RecipesServiceCannotBeNull = "The users service cannot be null";
     }
 
     /// <summary>
