@@ -2,6 +2,7 @@
 using Desktop_Client.Service.Users;
 using Moq;
 using Shared_Resources.Data.IO;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 
@@ -68,6 +69,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         [Test]
         public void ShouldNotLoginWithNullSessionKeyLoadFilePath()
         {
+            SessionKeySettings.SaveSessionFilePath = null!;
             var service = new UsersService();
             service.SessionKeyLoadFile = null!;
             var message = Assert.Throws<ArgumentException>(() =>
@@ -80,6 +82,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         [Test]
         public void ShouldNotLoginWithEmptySessionKeyLoadFilePath()
         {
+            SessionKeySettings.SaveSessionFilePath = "";
             var service = new UsersService();
             service.SessionKeyLoadFile = "  ";
             var message = Assert.Throws<ArgumentException>(() =>
@@ -101,7 +104,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
             mockedEndpoints.Setup(mock => mock.Login("username", hashedPassword, previousSessionKey)).Returns("newsessionkey");
 
             var service = new UsersService(mockedEndpoints.Object);
-            service.SessionKeyLoadFile = "logintest.txt";
+            SessionKeySettings.SaveSessionFilePath = "logintest.txt";
 
             service.Login("username", "000000");
             Assert.That(Session.Key, Is.EqualTo("newsessionkey"));
@@ -120,7 +123,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
                 .Throws(new ArgumentException("testexception"));
 
             var service = new UsersService(mockedEndpoints.Object);
-            service.SessionKeyLoadFile = "logintest.txt";
+            SessionKeySettings.SaveSessionFilePath = "logintest.txt";
 
             var message = Assert.Throws<ArgumentException>(() =>
             {
