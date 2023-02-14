@@ -8,7 +8,19 @@ namespace Desktop_Client.Endpoints.Users
     public interface IUsersEndpoints
     {
         /// <summary>
+        /// Creates an account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        /// <returns>The create account information</returns>
+        public string CreateAccount(NewAccount accountToCreate);
+        /// <summary>
         /// Logins the specified username and password combination.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -17,12 +29,18 @@ namespace Desktop_Client.Endpoints.Users
         public string Login(string username, string password, string previousSessionKey);
         /// <summary>
         /// Logs the user with the specified session key out of the system.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The logout information</returns>
         public string Logout(string sessionKey);
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user information</returns>

@@ -6,7 +6,7 @@ namespace Server.Controllers.ResponseModels
     /// <summary>
     /// The response model for the login
     /// </summary>
-    public class LoginResponseModel
+    public class BaseResponseModel
     {
         private string message;
 
@@ -42,14 +42,14 @@ namespace Server.Controllers.ResponseModels
             }
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginResponseModel"/> class.
+        /// Initializes a new instance of the <see cref="BaseResponseModel"/> class.
         ///
         /// Precondition: message != null and message IS NOT empty
         /// Postcondition: this.Code == code and this.Message == message
         /// </summary>
         /// <param name="code">The status code.</param>
         /// <param name="message">The response content.</param>
-        public LoginResponseModel(HttpStatusCode code, string message)
+        public BaseResponseModel(HttpStatusCode code, string message)
         {
             if (message == null)
             {

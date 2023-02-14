@@ -11,7 +11,55 @@ namespace Server.DAL.Users
     public class UsersDal : IUsersDal
     {
         /// <summary>
+        /// Creates an account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="accountToCreate">The account to create.</param>
+        public void CreateAccount(NewAccount accountToCreate)
+        {
+            var query = "INSERT INTO Users(userName, firstName, lastName, email) " +
+                        "VALUES(@username, @firstName, @lastName, @email);" +
+                        "INSERT INTO Passwords " +
+                        "VALUES((SELECT SCOPE_IDENTITY()), @password);";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@username", SqlDbType.VarChar).Value = accountToCreate.Username;
+            command.Parameters.Add("@firstName", SqlDbType.VarChar).Value = accountToCreate.FirstName;
+            command.Parameters.Add("@lastName", SqlDbType.VarChar).Value = accountToCreate.LastName;
+            command.Parameters.Add("@email", SqlDbType.VarChar).Value = accountToCreate.Email;
+            command.Parameters.Add("@password", SqlDbType.VarChar).Value = accountToCreate.Password;
+
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
+        /// <summary>
+        /// Verifies the user name does not exist.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>
+        /// Whether or not the username exists
+        /// </returns>
+        public bool CheckIfUserNameExists(string userName)
+        {
+            var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
+
+            connection.Open();
+            return command.ExecuteScalar() != null;
+        }
+
+        /// <summary>
         /// Verifies the session key does not exist.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>Whether or not the session key exists</returns>
@@ -28,6 +76,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Removes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key to remove.</param>
         public void RemoveSessionKey(string sessionKey)
@@ -43,6 +94,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Checks that the user name and password combination exists.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -81,6 +135,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Adds a user session.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
@@ -97,6 +154,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user information</returns>

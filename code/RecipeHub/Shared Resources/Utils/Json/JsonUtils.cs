@@ -105,6 +105,9 @@ namespace Shared_Resources.Utils.Json
 
         /// <summary>
         /// Verifies the and gets the request information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="json">The json.</param>
         /// <returns>The request information</returns>

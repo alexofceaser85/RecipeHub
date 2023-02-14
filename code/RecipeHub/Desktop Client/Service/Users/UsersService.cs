@@ -5,6 +5,7 @@ using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
+using Shared_Resources.Utils.Validation;
 
 namespace Desktop_Client.Service.Users
 {
@@ -29,6 +30,28 @@ namespace Desktop_Client.Service.Users
         }
 
         /// <summary>
+        /// Creates a new account.
+        /// 
+        /// Precondition: newAccount != null
+        /// Postcondition:
+        /// newAccount.Password == hashed password
+        /// AND newAccount.VerifyPassword == hashed password
+        /// </summary>
+        /// <param name="newAccount">The new account.</param>
+        public void CreateAccount(NewAccount newAccount)
+        {
+            if (newAccount == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.AccountToCreateCannotBeNull);
+            }
+
+            PasswordValidation.Validate(newAccount.Password);
+            newAccount.Password = Hashes.HashToSha512(newAccount.Password);
+            newAccount.VerifyPassword = Hashes.HashToSha512(newAccount.VerifyPassword);
+            this.endpoints.CreateAccount(newAccount);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="UsersService"/> class.
         ///
         /// Precondition: usersEndpoints != null
@@ -49,12 +72,13 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// Logins the specified username and password combination.
         ///
-        /// username != null
+        /// Precondition: username != null
         /// AND username IS NOT empty
         /// AND password != null
         /// AND password IS NOT empty
         /// AND SessionKeyLoadFile != null
         /// AND SessionKeyLoadFile IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>

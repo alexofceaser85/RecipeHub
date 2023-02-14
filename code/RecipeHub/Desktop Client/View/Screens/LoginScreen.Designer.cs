@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.loginForm1 = new Desktop_Client.View.Components.Login.LoginForm();
+            this.newLoginFormBecauseNothingWorks1 = new Desktop_Client.View.Components.Login.LoginForm();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -37,24 +37,24 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.loginForm1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.newLoginFormBecauseNothingWorks1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 400F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(484, 761);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // loginForm1
+            // newLoginFormBecauseNothingWorks1
             // 
-            this.loginForm1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.loginForm1.Location = new System.Drawing.Point(53, 236);
-            this.loginForm1.Name = "loginForm1";
-            this.loginForm1.Size = new System.Drawing.Size(378, 289);
-            this.loginForm1.TabIndex = 0;
+            this.newLoginFormBecauseNothingWorks1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.newLoginFormBecauseNothingWorks1.Location = new System.Drawing.Point(3, 183);
+            this.newLoginFormBecauseNothingWorks1.Name = "newLoginFormBecauseNothingWorks1";
+            this.newLoginFormBecauseNothingWorks1.Size = new System.Drawing.Size(478, 394);
+            this.newLoginFormBecauseNothingWorks1.TabIndex = 0;
             // 
             // LoginScreen
             // 
@@ -72,6 +72,6 @@
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Components.Login.LoginForm loginForm1;
+        private Components.Login.LoginForm newLoginFormBecauseNothingWorks1;
     }
 }
