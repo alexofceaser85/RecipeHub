@@ -37,13 +37,32 @@ namespace Desktop_Client.View
             }
             
             newScreen.ScreenChanged += this.OnScreenChanged;
-            this.Controls.Add(newScreen);
             this.activeScreen = newScreen;
+            this.AdjustScreenSize();
+            this.Controls.Add(newScreen);
+        }
+
+        private void AdjustScreenSize()
+        {
+            if (this.activeScreen == null)
+            {
+                return;
+            }
+
+            var screenRectangle = this.RectangleToScreen(this.ClientRectangle);
+            var titleHeight = screenRectangle.Top - this.Top;
+            var horizontalPadding = screenRectangle.Left - this.Left;
+            this.activeScreen.Size = new Size(this.Size.Width - horizontalPadding * 2, this.Size.Height - titleHeight);
         }
 
         private void OnScreenChanged(object? sender, Screen e)
         {
             this.SwapScreens(e);
+        }
+
+        private void MainWindow_Resize(object sender, EventArgs e)
+        {
+            this.AdjustScreenSize();
         }
     }
 }
