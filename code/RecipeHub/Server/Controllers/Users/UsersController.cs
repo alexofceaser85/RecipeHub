@@ -45,6 +45,9 @@ namespace Server.Controllers.Users
 
         /// <summary>
         /// Creates the account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -71,6 +74,9 @@ namespace Server.Controllers.Users
 
         /// <summary>
         /// Logins the specified username and password combination.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -92,6 +98,9 @@ namespace Server.Controllers.Users
 
         /// <summary>
         /// Logs the user with the specified session key out of the system.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The server response</returns>
@@ -112,6 +121,9 @@ namespace Server.Controllers.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key of the user to get.</param>
         /// <returns>The server response</returns>

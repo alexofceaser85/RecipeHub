@@ -69,12 +69,13 @@ namespace Web_Client.Service.Users
         /// <summary>
         /// Logins the specified username and password combination.
         ///
-        /// username != null
+        /// Precondition: username != null
         /// AND username IS NOT empty
         /// AND password != null
         /// AND password IS NOT empty
         /// AND SessionKeyLoadFile != null
         /// AND SessionKeyLoadFile IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -119,6 +120,9 @@ namespace Web_Client.Service.Users
 
         /// <summary>
         /// Logs the user out.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         public void Logout()
         {
@@ -137,6 +141,9 @@ namespace Web_Client.Service.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <returns>The user information</returns>
         public UserInfo GetUserInfo()

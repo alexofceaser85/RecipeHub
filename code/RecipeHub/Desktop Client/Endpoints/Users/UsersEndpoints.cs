@@ -50,6 +50,9 @@ namespace Desktop_Client.Endpoints.Users
 
         /// <summary>
         /// Logins the specified username and password combination.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -68,6 +71,9 @@ namespace Desktop_Client.Endpoints.Users
 
         /// <summary>
         /// Creates an account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="accountToCreate">The account to create.</param>
         /// <returns>The response content from the server</returns>
@@ -88,6 +94,9 @@ namespace Desktop_Client.Endpoints.Users
 
         /// <summary>
         /// Logs the user with the specified session key out of the system.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The logout information</returns>
@@ -103,6 +112,9 @@ namespace Desktop_Client.Endpoints.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user information</returns>

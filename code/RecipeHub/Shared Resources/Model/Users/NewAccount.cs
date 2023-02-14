@@ -117,6 +117,7 @@ namespace Shared_Resources.Model.Users
         /// AND email != null
         /// AND email IS NOT empty
         /// AND email IS IN an email format
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>

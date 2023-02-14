@@ -15,6 +15,7 @@ namespace Shared_Resources.Utils.Validation
         /// passwordToValidate != null
         /// AND passwordToValidate.Length MORE THAN MinimumPasswordLength
         /// AND passwordToValidate.Length LESS THAN MaximumPasswordLength
+        /// Postcondition: None
         /// </summary>
         /// <param name="passwordToValidate">The password to validate.</param>
         /// <exception cref="ArgumentException">If the preconditions are not met</exception>

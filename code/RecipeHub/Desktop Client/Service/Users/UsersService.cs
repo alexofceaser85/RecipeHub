@@ -33,7 +33,9 @@ namespace Desktop_Client.Service.Users
         /// Creates a new account.
         /// 
         /// Precondition: newAccount != null
-        /// Postcondition: newAccount.Password == hashed password AND newAccount.VerifyPassword == hashed password
+        /// Postcondition:
+        /// newAccount.Password == hashed password
+        /// AND newAccount.VerifyPassword == hashed password
         /// </summary>
         /// <param name="newAccount">The new account.</param>
         public void CreateAccount(NewAccount newAccount)
@@ -70,12 +72,13 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// Logins the specified username and password combination.
         ///
-        /// username != null
+        /// Precondition: username != null
         /// AND username IS NOT empty
         /// AND password != null
         /// AND password IS NOT empty
         /// AND SessionKeyLoadFile != null
         /// AND SessionKeyLoadFile IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>

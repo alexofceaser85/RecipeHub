@@ -12,6 +12,9 @@ namespace Server.DAL.Users
     {
         /// <summary>
         /// Creates an account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="accountToCreate">The account to create.</param>
         public void CreateAccount(NewAccount accountToCreate)
@@ -33,6 +36,9 @@ namespace Server.DAL.Users
         }
         /// <summary>
         /// Verifies the user name does not exist.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="userName">Name of the user.</param>
         /// <returns>
@@ -51,6 +57,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Verifies the session key does not exist.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>Whether or not the session key exists</returns>
@@ -67,6 +76,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Removes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key to remove.</param>
         public void RemoveSessionKey(string sessionKey)
@@ -82,6 +94,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Checks that the user name and password combination exists.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
@@ -120,6 +135,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Adds a user session.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
@@ -136,6 +154,9 @@ namespace Server.DAL.Users
 
         /// <summary>
         /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user information</returns>
