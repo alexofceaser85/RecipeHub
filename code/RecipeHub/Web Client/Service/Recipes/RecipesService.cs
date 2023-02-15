@@ -1,10 +1,11 @@
 ﻿using Web_Client.Endpoints.Recipes;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Web_Client.Service.Recipes
 {
-    /// <inheritdoc cref="IRecipesEndpoints"/>
+    /// <inheritdoc cref="IRecipesService"/>
     public class RecipesService : IRecipesService
     {
         private readonly IRecipesEndpoints endpoints;
@@ -52,6 +53,54 @@ namespace Web_Client.Service.Recipes
             }
 
             return this.endpoints.GetRecipes(sessionKey, searchTerm);
+        }
+
+        /// <inheritdoc/>
+        public Recipe GetRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetRecipe(sessionKey, recipeId);
+        }
+
+        /// <inheritdoc/>
+        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
+        }
+
+        /// <inheritdoc/>
+        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetStepsForRecipe(sessionKey, recipeId);
         }
 
         /// <inheritdoc/>

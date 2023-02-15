@@ -56,7 +56,7 @@ namespace Web_Client.Pages
                 this.usersViewModel.Login(userInfo.Username ?? "", userInfo.Password ?? "");
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
-                return RedirectToPage(RecipesAddress);
+                return RedirectToPage("/RecipeList");
             }
             catch (Exception e)
             {
