@@ -20,6 +20,8 @@ namespace Server.Service.Recipes
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
+        
+        public Recipe GetRecipe(string sessionKey, int recipeId);
 
         /// <summary>
         /// Attempts to add a recipe to the database.<br/>

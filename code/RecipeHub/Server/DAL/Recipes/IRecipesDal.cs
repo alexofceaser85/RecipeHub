@@ -42,6 +42,16 @@ namespace Server.DAL.Recipes
         public Recipe[] GetRecipes(int userId);
 
         /// <summary>
+        /// Gets the recipe with the specified recipeId.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="recipeId">The ID of the recipe.</param>
+        /// <returns>The recipe with the specified id, if exists. Otherwise, null.</returns>
+        public Recipe? GetRecipe(int recipeId);
+
+        /// <summary>
         /// Gets an array of all recipes in the database that are visible to the user and contain the specified string in the name.<br/>
         /// Only recipes that are public or are authored by the user will be retrieved.<br/>
         /// <br/>
@@ -88,6 +98,18 @@ namespace Server.DAL.Recipes
         /// <param name="isPublic">Whether the recipe should be public or not.</param>
         /// <returns>Whether the recipe was successfully updated or not.</returns>
         public bool EditRecipe(int recipeId, string name, string description, bool isPublic);
+
+        /// <summary>
+        /// Gets whether the user can view the specified recipe.<br/>
+        /// Users can view recipes that they create or are public.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="userId">The user's id</param>
+        /// <param name="recipeId">The recipe's id</param>
+        /// <returns>Whether the user can view the specified recipe.</returns>
+        public bool UserCanSeeRecipe(int userId, int recipeId);
 
         /// <summary>
         /// Gets all of the ingredients for a recipe using the recipe's ID.<br/>

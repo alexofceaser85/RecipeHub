@@ -55,6 +55,22 @@ namespace Desktop_Client.Service.Recipes
         }
 
         /// <inheritdoc/>
+        public Recipe GetRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetRecipe(sessionKey, recipeId);
+        }
+
+        /// <inheritdoc/>
         public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {
             if (sessionKey == null)

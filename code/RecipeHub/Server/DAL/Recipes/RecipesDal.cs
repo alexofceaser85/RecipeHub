@@ -59,6 +59,34 @@ namespace Server.DAL.Recipes
         }
 
         /// <inheritdoc/>
+        public Recipe? GetRecipe(int recipeId)
+        {
+            var query = "SELECT CONCAT(TRIM(Users.firstName), ' ', TRIM(Users.lastName)) AS authorName, TRIM(Recipes.name) AS name, " +
+                        "TRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.recipeId = @recipeId;";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+            var authorNameOrdinal = reader.GetOrdinal("authorName");
+            var nameOrdinal = reader.GetOrdinal("name");
+            var descriptionOrdinal = reader.GetOrdinal("description");
+            var isPublicOrdinal = reader.GetOrdinal("isPublic");
+
+            while (reader.Read())
+            {
+                var authorName = reader.GetString(authorNameOrdinal);
+                var name = reader.GetString(nameOrdinal);
+                var description = reader.GetString(descriptionOrdinal);
+                var isPublic = reader.GetByte(isPublicOrdinal) == 1;
+                return new Recipe(recipeId, authorName, name, description, isPublic);
+            }
+
+            return null;
+        }
+
+        /// <inheritdoc/>
         public Recipe[] GetRecipesWithName(int userId, string nameFilter)
         {
             var recipes = new List<Recipe>();
@@ -151,6 +179,28 @@ namespace Server.DAL.Recipes
             var rowsAffected = command.ExecuteNonQuery();
 
             return rowsAffected > 0;
+        }
+
+        /// <inheritdoc/>
+        public bool UserCanSeeRecipe(int userId, int recipeId)
+        {
+            var query = "SELECT authorId FROM Recipes WHERE recipeId = @recipeId AND (authorId = @userId OR isPublic = 1);";
+
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+
+            command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
+            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+            connection.Open();
+
+            var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>

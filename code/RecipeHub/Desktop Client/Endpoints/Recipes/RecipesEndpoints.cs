@@ -11,9 +11,11 @@ namespace Desktop_Client.Endpoints.Recipes
     /// <inheritdoc/>
     public class RecipesEndpoints : IRecipesEndpoints
     {
+        private const string RecipeRoute = "Recipe";
         private const string RecipesRoute = "Recipes";
+        private const string RecipeElementName = "recipe";
         private const string RecipesElementName = "recipes";
-        
+
         private readonly HttpClient client;
 
         /// <summary>
@@ -48,6 +50,18 @@ namespace Desktop_Client.Endpoints.Recipes
             var recipes = json.AsObject()[RecipesElementName].Deserialize<Recipe[]>();
 
             return recipes!;
+        }
+
+        public Recipe GetRecipe(string sessionKey, int recipeId)
+        {
+            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipe = json.AsObject()[RecipeElementName].Deserialize<Recipe>();
+
+            return recipe!;
         }
 
         /// <inheritdoc/>

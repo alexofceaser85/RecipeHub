@@ -40,6 +40,21 @@ namespace Server.Controllers.Recipes
                            throw new ArgumentNullException(nameof(recipesService), RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
         }
 
+        [HttpGet]
+        [Route("Recipe")]
+        public RecipeResponseModel GetRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipe(sessionKey, recipeId));
+            }
+            catch (Exception ex)
+            {
+                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, null!);
+            }
+        }
+
         /// <summary>
         /// Gets all of the recipes who's name contains the search term for the user.<br/>
         /// If no search term is provided, all recipes visible to the user are fetched.<br/>

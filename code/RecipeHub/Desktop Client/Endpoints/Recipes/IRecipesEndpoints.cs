@@ -25,6 +25,18 @@ namespace Desktop_Client.Endpoints.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
         /// <summary>
+        /// Gets a recipe from the server with a specified recipeId.<br/>
+        /// The account associated with the session key must by the author if the recipe is private.<br/>
+        /// </br>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the active user.</param>
+        /// <param name="recipeId">The recipe id for the recipe to fetch</param>
+        /// <returns>The recipe</returns>
+        public Recipe GetRecipe(string sessionKey, int recipeId);
+
+        /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>
         /// <br/>
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
