@@ -55,7 +55,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 102F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 85F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(800, 498);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(572, 252);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -66,11 +66,11 @@
             this.tableLayoutPanel2.Controls.Add(this.cancelButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.submitButton, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 416);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 170);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(794, 79);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(566, 79);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // cancelButton
@@ -78,7 +78,7 @@
             this.cancelButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.cancelButton.Location = new System.Drawing.Point(3, 3);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(391, 73);
+            this.cancelButton.Size = new System.Drawing.Size(277, 73);
             this.cancelButton.TabIndex = 0;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -87,9 +87,9 @@
             // submitButton
             // 
             this.submitButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.submitButton.Location = new System.Drawing.Point(400, 3);
+            this.submitButton.Location = new System.Drawing.Point(286, 3);
             this.submitButton.Name = "submitButton";
-            this.submitButton.Size = new System.Drawing.Size(391, 73);
+            this.submitButton.Size = new System.Drawing.Size(277, 73);
             this.submitButton.TabIndex = 1;
             this.submitButton.Text = "Submit";
             this.submitButton.UseVisualStyleBackColor = true;
@@ -107,7 +107,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(794, 305);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(566, 59);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // ingredientFilterCheckBox
@@ -115,9 +115,9 @@
             this.ingredientFilterCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.ingredientFilterCheckBox.AutoSize = true;
             this.ingredientFilterCheckBox.Font = new System.Drawing.Font("Segoe UI", 32F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ingredientFilterCheckBox.Location = new System.Drawing.Point(400, 142);
+            this.ingredientFilterCheckBox.Location = new System.Drawing.Point(286, 19);
             this.ingredientFilterCheckBox.Name = "ingredientFilterCheckBox";
-            this.ingredientFilterCheckBox.Size = new System.Drawing.Size(391, 21);
+            this.ingredientFilterCheckBox.Size = new System.Drawing.Size(277, 21);
             this.ingredientFilterCheckBox.TabIndex = 0;
             this.ingredientFilterCheckBox.UseVisualStyleBackColor = true;
             this.ingredientFilterCheckBox.CheckedChanged += new System.EventHandler(this.ingredientFilterCheckBox_CheckedChanged);
@@ -128,7 +128,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(391, 305);
+            this.label1.Size = new System.Drawing.Size(277, 59);
             this.label1.TabIndex = 1;
             this.label1.Text = "Filter by my available ingredients";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -140,7 +140,7 @@
             this.titleLabel.Font = new System.Drawing.Font("Segoe UI", 26F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.titleLabel.Location = new System.Drawing.Point(3, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(794, 102);
+            this.titleLabel.Size = new System.Drawing.Size(566, 102);
             this.titleLabel.TabIndex = 2;
             this.titleLabel.Text = "Filter Recipes";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -149,7 +149,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 498);
+            this.ClientSize = new System.Drawing.Size(572, 252);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "RecipeListFilterDialog";
             this.Text = "RecipeListFilterDialog";
