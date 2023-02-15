@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Utils\Validation\PasswordValidation.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Data.Settings;
+using Shared_Resources.ErrorMessages;
+
+namespace Shared_Resources.Utils.Validation
+{
+    /// &lt;summary&gt;
+    /// Validates the password
+    /// &lt;/summary&gt;
+    public static class PasswordValidation
+    {
+        /// &lt;summary&gt;
+        /// Validates the specified password to validate.
+        ///
+        /// Precondition:
+        /// passwordToValidate != null
+        /// AND passwordToValidate.Length MORE THAN MinimumPasswordLength
+        /// AND passwordToValidate.Length LESS THAN MaximumPasswordLength
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;passwordToValidate&quot;&gt;The password to validate.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public static void Validate(string passwordToValidate)
+        {
+            if (passwordToValidate == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.PasswordCannotBeNull);
+            }
+            if (passwordToValidate.Length &lt; PasswordSettings.MinimumPasswordLength)
+            {
+                throw new ArgumentException(PasswordValidationErrorMessages.PasswordIsTooShort);
+            }
+            if (passwordToValidate.Length &gt; PasswordSettings.MaximumPasswordLength)
+            {
+                throw new ArgumentException(PasswordValidationErrorMessages.PasswordIsTooLong);
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,10,1],[24,13,24,44,1],[25,13,25,14,0],[26,17,26,91,0],[28,13,28,84,1],[29,13,29,14,0],[30,17,30,97,0],[32,13,32,84,1],[33,13,33,14,0],[34,17,34,96,0],[36,9,36,10,1]]);
+    </script>
+  </body>
+</html>

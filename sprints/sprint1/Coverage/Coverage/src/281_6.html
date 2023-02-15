@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Users\UsersServiceTests\CreateAccountTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Users;
+using Server.ErrorMessages;
+using Server.Service.Users;
+using Shared_Resources.Model.Users;
+
+namespace ServerTests.Server.Service.Users.UsersServiceTests
+{
+    public class CreateAccountTests
+    {
+        [Test]
+        public void ShouldNotCreateAccountIfAccountToCreateIsNull()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.CreateAccount(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceServerErrorMessages.AccountToCreateCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateAccountIfUserNameIsAlreadyTaken()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.CheckIfUserNameExists(&quot;username&quot;)).Returns(true);
+
+            var service = new UsersService(userDal.Object);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.CreateAccount(new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;));
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(UsersServiceServerErrorMessages.UserNameAlreadyExists));
+        }
+
+        [Test]
+        public void ShouldCreateAccountIfUserNameNotAlreadyTaken()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.CheckIfUserNameExists(&quot;username&quot;)).Returns(false);
+            userDal.Setup(mock =&gt; mock.CreateAccount(It.IsAny&lt;NewAccount&gt;()));
+
+            var service = new UsersService(userDal.Object);
+
+            service.CreateAccount(new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;));
+
+            userDal.Verify(mock =&gt; mock.CreateAccount(It.IsAny&lt;NewAccount&gt;()), Times.Once());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,46,1],[15,13,16,13,1],[16,13,16,14,1],[16,14,17,17,1],[17,17,17,46,1],[17,46,18,13,1],[18,13,18,14,0],[18,14,18,25,1],[19,13,19,107,1],[20,9,20,10,1],[24,9,24,10,1],[25,13,25,49,1],[27,13,27,89,1],[29,13,29,60,1],[31,13,32,13,1],[32,13,32,14,1],[32,14,33,17,1],[33,17,33,124,1],[33,124,34,13,1],[34,13,34,14,0],[34,14,34,25,1],[36,13,36,101,1],[37,9,37,10,1],[41,9,41,10,1],[42,13,42,49,1],[44,13,44,90,1],[45,13,45,79,1],[47,13,47,60,1],[49,13,49,120,1],[51,13,51,94,1],[52,9,52,10,1]]);
+    </script>
+  </body>
+</html>

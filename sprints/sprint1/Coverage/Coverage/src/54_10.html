@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Users\NewAccountTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+
+namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullUsername()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(null!, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.UsernameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyUsername()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;   &quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.UsernameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, null!, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;   &quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotSetNullPassword()
+        {
+            var account = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                account.Password = null!;
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotSetEmptyPassword()
+        {
+            var account = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                account.Password = &quot;   &quot;;
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotSetNullVerifyPassword()
+        {
+            var account = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                account.VerifyPassword = null!;
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotSetEmptyVerifyPassword()
+        {
+            var account = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                account.VerifyPassword = &quot;   &quot;;
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullVerifyPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, null!, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyVerifyPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;      &quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithPasswordNotEqualToVerifyPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;111111&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordMustMatchPassword));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullFirstName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, null!, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.FirstNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyFirstName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;   &quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.FirstNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullLastName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, null!, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.LastNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyLastName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;   &quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.LastNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithNullEmail()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmptyEmail()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateNewAccountWithEmailInWrongFormat()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;wrongformatemail.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailIsInWrongFormat));
+        }
+
+        [Test]
+        public void ShouldCreateNewAccountWithValidInfo()
+        {
+            var account = new NewAccount(&quot;username&quot;, &quot;000000&quot;, &quot;000000&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+
+            Assert.That(account.Username, Is.EqualTo(&quot;username&quot;));
+            Assert.That(account.Password, Is.EqualTo(&quot;000000&quot;));
+            Assert.That(account.VerifyPassword, Is.EqualTo(&quot;000000&quot;));
+            Assert.That(account.FirstName, Is.EqualTo(&quot;fname&quot;));
+            Assert.That(account.LastName, Is.EqualTo(&quot;lname&quot;));
+            Assert.That(account.Email, Is.EqualTo(&quot;email@email.com&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,100,1],[13,100,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,92,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,100,1],[23,100,24,13,1],[24,13,24,14,0],[24,14,24,25,1],[25,13,25,93,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,32,13,1],[32,13,32,14,1],[32,14,33,17,1],[33,17,33,102,1],[33,102,34,13,1],[34,13,34,14,0],[34,14,34,25,1],[35,13,35,92,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,42,13,1],[42,13,42,14,1],[42,14,43,17,1],[43,17,43,102,1],[43,102,44,13,1],[44,13,44,14,0],[44,14,44,25,1],[45,13,45,93,1],[46,9,46,10,1],[50,9,50,10,1],[51,13,51,111,1],[53,13,54,13,1],[54,13,54,14,1],[54,14,55,17,1],[55,17,55,42,1],[55,42,56,13,1],[56,13,56,14,0],[56,14,56,25,1],[57,13,57,92,1],[58,9,58,10,1],[62,9,62,10,1],[63,13,63,111,1],[65,13,66,13,1],[66,13,66,14,1],[66,14,67,17,1],[67,17,67,42,1],[67,42,68,13,1],[68,13,68,14,0],[68,14,68,25,1],[69,13,69,93,1],[70,9,70,10,1],[74,9,74,10,1],[75,13,75,111,1],[77,13,78,13,1],[78,13,78,14,1],[78,14,79,17,1],[79,17,79,48,1],[79,48,80,13,1],[80,13,80,14,0],[80,14,80,25,1],[81,13,81,100,1],[82,9,82,10,1],[86,9,86,10,1],[87,13,87,111,1],[89,13,90,13,1],[90,13,90,14,1],[90,14,91,17,1],[91,17,91,48,1],[91,48,92,13,1],[92,13,92,14,0],[92,14,92,25,1],[93,13,93,101,1],[94,9,94,10,1],[98,9,98,10,1],[99,13,100,13,1],[100,13,100,14,1],[100,14,101,17,1],[101,17,101,102,1],[101,102,102,13,1],[102,13,102,14,0],[102,14,102,25,1],[103,13,103,100,1],[104,9,104,10,1],[108,9,108,10,1],[109,13,110,13,1],[110,13,110,14,1],[110,14,111,17,1],[111,17,111,105,1],[111,105,112,13,1],[112,13,112,14,0],[112,14,112,25,1],[113,13,113,101,1],[114,9,114,10,1],[118,9,118,10,1],[119,13,120,13,1],[120,13,120,14,1],[120,14,121,17,1],[121,17,121,105,1],[121,105,122,13,1],[122,13,122,14,0],[122,14,122,25,1],[123,13,123,105,1],[124,9,124,10,1],[128,9,128,10,1],[129,13,130,13,1],[130,13,130,14,1],[130,14,131,17,1],[131,17,131,103,1],[131,103,132,13,1],[132,13,132,14,0],[132,14,132,25,1],[133,13,133,93,1],[134,9,134,10,1],[138,9,138,10,1],[139,13,140,13,1],[140,13,140,14,1],[140,14,141,17,1],[141,17,141,103,1],[141,103,142,13,1],[142,13,142,14,0],[142,14,142,25,1],[143,13,143,94,1],[144,9,144,10,1],[148,9,148,10,1],[149,13,150,13,1],[150,13,150,14,1],[150,14,151,17,1],[151,17,151,103,1],[151,103,152,13,1],[152,13,152,14,0],[152,14,152,25,1],[153,13,153,92,1],[154,9,154,10,1],[158,9,158,10,1],[159,13,160,13,1],[160,13,160,14,1],[160,14,161,17,1],[161,17,161,103,1],[161,103,162,13,1],[162,13,162,14,0],[162,14,162,25,1],[163,13,163,93,1],[164,9,164,10,1],[168,9,168,10,1],[169,13,170,13,1],[170,13,170,14,1],[170,14,171,17,1],[171,17,171,93,1],[171,93,172,13,1],[172,13,172,14,0],[172,14,172,25,1],[173,13,173,89,1],[174,9,174,10,1],[178,9,178,10,1],[179,13,180,13,1],[180,13,180,14,1],[180,14,181,17,1],[181,17,181,93,1],[181,93,182,13,1],[182,13,182,14,0],[182,14,182,25,1],[183,13,183,90,1],[184,9,184,10,1],[188,9,188,10,1],[189,13,190,13,1],[190,13,190,14,1],[190,14,191,17,1],[191,17,191,110,1],[191,110,192,13,1],[192,13,192,14,0],[192,14,192,25,1],[193,13,193,92,1],[194,9,194,10,1],[198,9,198,10,1],[199,13,199,111,1],[201,13,201,67,1],[202,13,202,65,1],[203,13,203,71,1],[204,13,204,65,1],[205,13,205,64,1],[206,13,206,71,1],[207,9,207,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\UpdateIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class AddIngredientTests
+    {
+        [Test]
+        public void SuccessfullyUpdateIngredient()
+        {
+            var ingredient = new Ingredient();
+            var endpoints = new Mock&lt;IIngredientEndpoints&gt;();
+            endpoints.Setup(mock =&gt; mock.UpdateIngredient(ingredient)).Returns(true);
+
+            var service = new IngredientsService(endpoints.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = service.UpdateIngredient(ingredient);
+                Assert.That(result, Is.EqualTo(true));
+                endpoints.Verify(mock =&gt; mock.UpdateIngredient(ingredient), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,47,1],[14,13,14,62,1],[15,13,15,86,1],[17,13,17,68,1],[19,13,20,13,1],[20,13,20,14,1],[20,14,21,17,1],[21,17,21,67,1],[21,67,22,17,1],[22,17,22,55,1],[22,55,23,17,1],[23,17,23,89,1],[23,89,24,13,1],[24,13,24,14,1],[24,14,24,16,1],[25,9,25,10,1]]);
+    </script>
+  </body>
+</html>

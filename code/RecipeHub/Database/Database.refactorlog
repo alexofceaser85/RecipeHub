@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="701d2633-f76b-46e3-a1ec-c74a94be9238" ChangeDateTime="02/11/2023 03:22:15">
+    <Property Name="ElementName" Value="[dbo].[Sessions].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Sessions]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="userId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dfb53a18-ce79-4f89-9cde-f1e11d766eeb" ChangeDateTime="02/11/2023 03:23:32">
+    <Property Name="ElementName" Value="[dbo].[Recipe].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Recipe]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="recipeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ed62bae2-ba13-4c69-b169-58c188b4953f" ChangeDateTime="02/11/2023 03:30:08">
+    <Property Name="ElementName" Value="[dbo].[RecipeSteps].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[RecipeSteps]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="recipeId" />
+  </Operation>
+</Operations>

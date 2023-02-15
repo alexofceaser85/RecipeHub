@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Utils\Json\JsonUtils.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json.Nodes;
+using Shared_Resources.ErrorMessages;
+
+namespace Shared_Resources.Utils.Json
+{
+    /// &lt;summary&gt;
+    /// Holds the utils methods for json
+    /// &lt;/summary&gt;
+    public class JsonUtils
+    {
+        private const int ServerErrorRequestCode = 500;
+        private const string RequestMessageJsonElementName = &quot;message&quot;;
+        private const string RequestCodeJsonElementName = &quot;code&quot;;
+
+        /// &lt;summary&gt;
+        /// Gets the json string from an element.
+        ///
+        /// Precondition:
+        /// parsedJson != null
+        /// AND jsonElementName != null
+        /// AND jsonElementName IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;parsedJson&quot;&gt;The parsed json.&lt;/param&gt;
+        /// &lt;param name=&quot;jsonElementName&quot;&gt;Name of the json element.&lt;/param&gt;
+        /// &lt;returns&gt;The retrieved json string&lt;/returns&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;The element name is not in the json string&lt;/exception&gt;
+        public static string GetJsonString(JsonNode parsedJson, string jsonElementName)
+        {
+            if (parsedJson == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
+            }
+
+            if (jsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeNull);
+            }
+
+            if (jsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty);
+            }
+
+            var requestContentNode = parsedJson[jsonElementName];
+            return verifyAndGetNode(requestContentNode);
+        }
+
+        private static string verifyAndGetNode(JsonNode? jsonNode)
+        {
+            if (jsonNode == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.RequestContentNodeCannotBeNull);
+            }
+
+            return jsonNode.ToString();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the json string from a nested element.
+        ///
+        /// Precondition:
+        /// parsedJson != null
+        /// AND firstJsonElementName != null
+        /// AND firstJsonElementName IS NOT empty
+        /// AND secondJsonElementName != null
+        /// AND secondJsonElementName IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;parsedJson&quot;&gt;The parsed json.&lt;/param&gt;
+        /// &lt;param name=&quot;firstJsonElementName&quot;&gt;The name of the first json element.&lt;/param&gt;
+        /// &lt;param name=&quot;secondJsonElementName&quot;&gt;The name of the second json element.&lt;/param&gt;
+        /// &lt;returns&gt;The retrieved json string&lt;/returns&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;The element names are not in the json string&lt;/exception&gt;
+        public static string GetJsonString(JsonNode parsedJson, string firstJsonElementName, string secondJsonElementName)
+        {
+            if (parsedJson == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
+            }
+
+            if (firstJsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeNull);
+            }
+
+            if (firstJsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty);
+            }
+
+            if (secondJsonElementName == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeNull);
+            }
+
+            if (secondJsonElementName.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeEmpty);
+            }
+
+            var requestContentNode = parsedJson[firstJsonElementName]?[secondJsonElementName];
+            return verifyAndGetNode(requestContentNode);
+        }
+
+        /// &lt;summary&gt;
+        /// Verifies the and gets the request information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;json&quot;&gt;The json.&lt;/param&gt;
+        /// &lt;returns&gt;The request information&lt;/returns&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the request code indicates a server error&lt;/exception&gt;
+        public static string VerifyAndGetRequestInfo(JsonNode json)
+        {
+            var requestContent = JsonUtils.GetJsonString(json, RequestMessageJsonElementName);
+            var requestCode = JsonUtils.GetJsonString(json, RequestCodeJsonElementName);
+
+            if (int.Parse(requestCode) == ServerErrorRequestCode)
+            {
+                throw new ArgumentException(requestContent);
+            }
+
+            return requestContent;
+        }
+
+        /// &lt;summary&gt;
+        /// Parses to json node.
+        ///
+        /// Precondition: json != null AND json IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;json&quot;&gt;The json.&lt;/param&gt;
+        /// &lt;returns&gt;The parsed json node&lt;/returns&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met or if the json node cannot be parsed&lt;/exception&gt;
+        public static JsonNode ParseToJsonNode(string json)
+        {
+            if (json == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonToParseCannotBeNull);
+            }
+
+            if (json.Trim().Length == 0)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.JsonToParseCannotBeEmpty);
+            }
+
+            var parsedJson = JsonNode.Parse(json);
+
+            if (parsedJson == null)
+            {
+                throw new ArgumentException(JsonUtilsErrorMessages.ParsedJsonCannotBeNull);
+            }
+
+            return parsedJson;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[29,9,29,10,1],[30,13,30,36,1],[31,13,31,14,1],[32,17,32,92,1],[35,13,35,41,1],[36,13,36,14,1],[37,17,37,97,1],[40,13,40,52,1],[41,13,41,14,1],[42,17,42,98,1],[45,13,45,66,1],[46,13,46,57,1],[47,9,47,10,1],[50,9,50,10,1],[51,13,51,34,1],[52,13,52,14,0],[53,17,53,100,0],[56,13,56,40,1],[57,9,57,10,1],[76,9,76,10,1],[77,13,77,36,1],[78,13,78,14,0],[79,17,79,92,0],[82,13,82,46,1],[83,13,83,14,1],[84,17,84,97,1],[87,13,87,57,1],[88,13,88,14,1],[89,17,89,98,1],[92,13,92,47,1],[93,13,93,14,1],[94,17,94,103,1],[97,13,97,58,1],[98,13,98,14,1],[99,17,99,104,1],[102,13,102,95,1],[103,13,103,57,1],[104,9,104,10,1],[116,9,116,10,0],[117,13,117,95,0],[118,13,118,89,0],[120,13,120,66,0],[121,13,121,14,0],[122,17,122,61,0],[125,13,125,35,0],[126,9,126,10,0],[138,9,138,10,1],[139,13,139,30,1],[140,13,140,14,1],[141,17,141,93,1],[144,13,144,41,1],[145,13,145,14,1],[146,17,146,94,1],[149,13,149,51,1],[151,13,151,36,1],[152,13,152,14,0],[153,17,153,92,0],[156,13,156,31,1],[157,9,157,10,1]]);
+    </script>
+  </body>
+</html>

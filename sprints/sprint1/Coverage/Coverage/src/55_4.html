@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Recipes\RecipesTests\IsEqualTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared_Resources.Model.Recipes;
+
+namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
+{
+    public class IsEqualTests
+    {
+        [Test]
+        public void TwoObjectsAreEqual()
+        {
+            const int id = 0;
+            const string authorName = &quot;author name&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+
+            var recipe1 = new Recipe(id, authorName, name, description, isPublic);
+            var recipe2 = new Recipe(id, authorName, name, description, isPublic);
+
+            Assert.That(recipe1, Is.EqualTo(recipe2));
+        }
+
+        [Test]
+        public void TwoRecipesAreNotEqual()
+        {
+            const int id = 0;
+            const string authorName = &quot;author name&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+
+            var recipe1 = new Recipe(id, authorName, name, description, isPublic);
+            var recipe2 = new Recipe(id, authorName, name, description, !isPublic);
+
+            Assert.That(recipe1, Is.Not.EqualTo(recipe2));
+        }
+
+        [Test]
+        public void RecipeIsNotEqualToNonRecipe()
+        {
+            const int id = 0;
+            const string authorName = &quot;author name&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+
+            var recipe = new Recipe(id, authorName, name, description, isPublic);
+            var obj = new object();
+
+            Assert.That(recipe, Is.Not.EqualTo(obj));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[21,13,21,83,1],[22,13,22,83,1],[24,13,24,55,1],[25,9,25,10,1],[29,9,29,10,1],[36,13,36,83,1],[37,13,37,84,1],[39,13,39,59,1],[40,9,40,10,1],[44,9,44,10,1],[51,13,51,82,1],[52,13,52,36,1],[54,13,54,54,1],[55,9,55,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Recipes\RecipesListViewModelTests\AddRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.ViewModel.Recipes;
+using Moq;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewModelTests
+{
+    public class AddRecipeTests
+    {
+        [Test]
+        public void SuccessfullyAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic));
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; viewmodel.AddRecipe(sessionKey, name, description, isPublic));
+                service.Verify(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[18,13,18,55,1],[19,13,19,92,1],[21,13,21,96,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,25,43,1],[25,43,25,103,1],[25,103,25,105,1],[25,105,26,17,1],[26,17,26,109,1],[26,109,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Recipes\RecipeViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Desktop_Client.Model;
+using Desktop_Client.Service.Recipes;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace Desktop_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes screen.
+    /// &lt;/summary&gt;
+    public class RecipeViewModel
+    {
+        private readonly IRecipesService service;
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesService&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipeViewModel() : this(new RecipesService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesService&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;service != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipeViewModel(IRecipesService service)
+        {
+            this.service = service ??
+                           throw new ArgumentNullException(nameof(service),
+                               RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// Loads a recipe from the server.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;!string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to load&lt;/param&gt;
+        /// &lt;returns&gt;The recipe information&lt;/returns&gt;
+        public Recipe LoadRecipe(string sessionKey, int recipeId)
+        {
+            return this.service.GetRecipe(sessionKey, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Loads the ingredients for a recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;!string.IsEmptyOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to load.&lt;/param&gt;
+        /// &lt;returns&gt;The recipe&#39;s ingredients&lt;/returns&gt;
+        public Ingredient[] LoadIngredients(string sessionKey, int recipeId)
+        {
+            return this.service.GetIngredientsForRecipe(sessionKey, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Loads the steps for a recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;!string.IsEmptyOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to load.&lt;/param&gt;
+        /// &lt;returns&gt;The recipe&#39;s steps&lt;/returns&gt;
+        public RecipeStep[] LoadSteps(string sessionKey, int recipeId)
+        {
+            return this.service.GetStepsForRecipe(sessionKey, recipeId);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[29,36,29,62,0],[30,9,30,10,0],[32,9,32,10,0],[40,9,40,56,0],[41,9,41,10,0],[42,13,44,90,0],[45,9,45,10,0],[57,9,57,10,0],[58,13,58,65,0],[59,9,59,10,0],[71,9,71,10,0],[72,13,72,79,0],[73,9,73,10,0],[85,9,85,10,0],[86,13,86,73,0],[87,9,87,10,0]]);
+    </script>
+  </body>
+</html>

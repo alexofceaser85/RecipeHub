@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Recipes\RecipesServiceTests\AddRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Service.Recipes;
+using Moq;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
+{
+    public class AddRecipeTests
+    {
+        [Test]
+        public void SuccessfullyAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var recipesEndpoint = new Mock&lt;IRecipesEndpoints&gt;();
+            recipesEndpoint.Setup(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic));
+
+            var service = new RecipesService(recipesEndpoint.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; service.AddRecipe(sessionKey, name, description, isPublic));
+                recipesEndpoint.Verify(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            const string sessionKey = null!;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + &quot; (Parameter &#39;sessionKey&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey!, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            const string sessionKey = &quot;&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = null!;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeNull + &quot; (Parameter &#39;name&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey, name!, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = null!;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull + &quot; (Parameter &#39;description&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey, name, description!, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(sessionKey, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[19,13,19,65,1],[20,13,20,100,1],[22,13,22,70,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,43,1],[26,43,26,101,1],[26,101,26,103,1],[26,103,27,17,1],[27,17,27,117,1],[27,117,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1],[33,9,33,10,1],[40,13,41,13,1],[41,13,41,14,1],[41,14,42,17,1],[42,17,42,74,1],[42,74,42,146,1],[42,146,42,157,1],[42,157,43,17,1],[43,17,43,64,1],[43,64,44,13,1],[44,13,44,14,1],[44,14,44,16,1],[45,9,45,10,1],[49,9,49,10,1],[56,13,57,13,1],[57,13,57,14,1],[57,14,58,17,1],[58,17,58,70,1],[58,70,58,141,1],[58,141,58,152,1],[58,152,59,17,1],[59,17,59,64,1],[59,64,60,13,1],[60,13,60,14,1],[60,14,60,16,1],[61,9,61,10,1],[65,9,65,10,1],[72,13,73,13,1],[73,13,73,14,1],[73,14,74,17,1],[74,17,74,74,1],[74,74,74,146,1],[74,146,74,157,1],[74,157,75,17,1],[75,17,75,64,1],[75,64,76,13,1],[76,13,76,14,1],[76,14,76,16,1],[77,9,77,10,1],[81,9,81,10,1],[88,13,89,13,1],[89,13,89,14,1],[89,14,90,17,1],[90,17,90,70,1],[90,70,90,141,1],[90,141,90,152,1],[90,152,91,17,1],[91,17,91,64,1],[91,64,92,13,1],[92,13,92,14,1],[92,14,92,16,1],[93,9,93,10,1],[97,9,97,10,1],[104,13,105,13,1],[105,13,105,14,1],[105,14,106,17,1],[106,17,106,74,1],[106,74,106,146,1],[106,146,106,157,1],[106,157,107,17,1],[107,17,107,64,1],[107,64,108,13,1],[108,13,108,14,1],[108,14,108,16,1],[109,9,109,10,1],[113,9,113,10,1],[120,13,121,13,1],[121,13,121,14,1],[121,14,122,17,1],[122,17,122,70,1],[122,70,122,141,1],[122,141,122,152,1],[122,152,123,17,1],[123,17,123,64,1],[123,64,124,13,1],[124,13,124,14,1],[124,14,124,16,1],[125,9,125,10,1]]);
+    </script>
+  </body>
+</html>

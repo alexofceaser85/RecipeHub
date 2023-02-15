@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Ingredients\EditIngredientViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace Desktop_Client.ViewModel.Ingredients;
+
+/// &lt;summary&gt;
+///     View Model for the Edit Ingredient Dialog.
+/// &lt;/summary&gt;
+public class EditIngredientViewModel
+{
+    private readonly IIngredientsService service;
+
+    /// &lt;summary&gt;
+    /// Initializes a new instance of the &lt;see cref=&quot;EditIngredientViewModel&quot; /&gt; class.&lt;br /&gt;
+    /// &lt;br /&gt;
+    /// Precondition: None&lt;br /&gt;
+    /// Postcondition: Service is set to default value.&lt;br /&gt;
+    /// &lt;/summary&gt;
+    public EditIngredientViewModel()
+    {
+        this.service = new IngredientsService();
+    }
+
+    /// &lt;summary&gt;
+    /// Initializes a new instance of the &lt;see cref=&quot;EditIngredientViewModel&quot; /&gt; class.&lt;br /&gt;
+    /// &lt;br /&gt;
+    /// Precondition: None&lt;br /&gt;
+    /// Postcondition: Service is set to specified value.&lt;br /&gt;
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+    public EditIngredientViewModel(IIngredientsService service)
+    {
+        this.service = service;
+    }
+
+    /// &lt;summary&gt;
+    /// Edits the ingredient. &lt;br /&gt;
+    /// &lt;br /&gt;
+    /// Precondition: None&lt;br /&gt;
+    /// Postcondition: Ingredient has been updated.&lt;br /&gt;
+    /// &lt;/summary&gt;
+    /// &lt;param name=&quot;ingredient&quot;&gt;The ingredient.&lt;/param&gt;
+    /// &lt;returns&gt;True if the ingredient was edited, false otherwise.&lt;/returns&gt;
+    public bool EditIngredient(Ingredient ingredient)
+    {
+        return this.service.UpdateIngredient(ingredient);
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,5,19,37,0],[20,5,20,6,0],[21,9,21,49,0],[22,5,22,6,0],[31,5,31,64,0],[32,5,32,6,0],[33,9,33,32,0],[34,5,34,6,0],[45,5,45,6,0],[46,9,46,58,0],[47,5,47,6,0]]);
+    </script>
+  </body>
+</html>

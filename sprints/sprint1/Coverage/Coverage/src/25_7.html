@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Recipes\RecipesControllerTests\RemoveRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using System.Net;
+using Server.Controllers.Recipes;
+using Server.Data.Settings;
+using Server.ErrorMessages;
+using Server.Service.Recipes;
+
+namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
+{
+    public class RemoveRecipeTests
+    {
+        [Test]
+        public void RecipeSuccessfullyAdded()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId)).Returns(true);
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.RemoveRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(result.Message, Is.EqualTo(ServerSettings.DefaultSuccessfulConnectionMessage));
+                recipesService.Verify(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId), Times.Once());
+            });
+        }
+
+        [Test]
+        public void DatabaseFailedToAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId)).Returns(false);
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.RemoveRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(RecipesControllerErrorMessages.RecipeFailedToRemove));
+            });
+        }
+
+        [Test]
+        public void ServiceFailedToAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string errorMessage = &quot;This is an error message&quot;;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId)).Throws(new ArgumentException(errorMessage));
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.RemoveRecipe(sessionKey, recipeId);
+            
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.RemoveRecipe(sessionKey, recipeId), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[18,13,18,62,1],[20,13,20,97,1],[21,13,21,72,1],[23,13,23,69,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,27,73,1],[27,73,28,17,1],[28,17,28,108,1],[28,108,29,17,1],[29,17,29,102,1],[29,102,30,13,1],[30,13,30,14,1],[30,14,30,16,1],[31,9,31,10,1],[35,9,35,10,1],[39,13,39,62,1],[41,13,41,98,1],[42,13,42,72,1],[44,13,44,69,1],[46,13,47,13,1],[47,13,47,14,1],[47,14,48,17,1],[48,17,48,102,1],[48,102,49,17,1],[49,17,49,90,1],[49,90,50,17,1],[50,17,50,110,1],[50,110,51,13,1],[51,13,51,14,1],[51,14,51,16,1],[52,9,52,10,1],[56,9,56,10,1],[61,13,61,62,1],[63,13,63,127,1],[64,13,64,72,1],[66,13,66,69,1],[68,13,69,13,1],[69,13,69,14,1],[69,14,70,17,1],[70,17,70,102,1],[70,102,71,17,1],[71,17,71,90,1],[71,90,72,17,1],[72,17,72,71,1],[72,71,73,13,1],[73,13,73,14,1],[73,14,73,16,1],[74,9,74,10,1]]);
+    </script>
+  </body>
+</html>

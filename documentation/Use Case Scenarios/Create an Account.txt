@@ -1,0 +1,52 @@
+Use-Case Scenario: Create an Account
+Users: Chef
+Context: User launches the website or desktop application and wants to create a new account
+Primary Flow:
+    1: User selects the option to create an account
+    2: User enters their information, including:
+        a: Desired username
+        b: Password
+        c: Re-entered password
+        d: First name
+        e: Last name
+        f: Email address
+    3: User submits their information and an account is created
+    4: User is returned to the login screen
+Alternate Flows:
+    a2: 
+        1: Username does not meet requirements (4 - 32 characters; alphanumeric and underscores)
+        2: The user is informed of the error in their username
+        3: The user is returned to step 2
+    a2:
+        1: The user cancels account registration
+        2: The user is returned to the login screen
+    a2: 
+        1: Username is not unique
+        2: the user is informed that their username already exists
+        3: The user is returned to step 2
+    a2: 
+        1: Password does not meet requirements (4 - 32 characters; alphanumeric, special characters)
+        2: The user is informed that their password does not meet requirements
+        3: The user is returned to step 2
+    a2: 
+        1: Password and verify password fields do not match
+        2: The user is informed their their password and retyped password do not match
+        3: The user is returned to step 2
+    a2: 
+        1: First name does not meet requirements (2 - 32 characters; alphabetical, apostrophes, spaces)
+        2: The user is informed of the error in their first name
+        3: The user is returned to step 2
+    a2: 
+        1: Last name does not meet requirements (2 - 32 characters; alphabetical, apostrophes, spaces)
+        2: The user is informed of the error in their first name
+        3: The user is returned to step 2
+    a2: 
+        1: Email does not meet requirements:
+            a: alphanumeric, !#$%&'*+-/=?^_`{|}~
+            b: . is allowed, but cannot be the first character and cannot be used twice in a row
+        2: The user is informed of the error in their first name
+        3: The user is returned to step 2
+    a3:
+        1: The application is unable to connect to the server
+        2: The user is informed of the connection issues
+        3: The user is returned to step 3

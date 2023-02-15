@@ -1,0 +1,14 @@
+Use-Case Scenario: View Ingredients
+Users: Chef
+Context: User has successfully logged into the application.
+Primary Flow:
+    1: The user opens the menu
+    2: The user selects the "Ingredients" option
+    3: The application navigates to the ingredients screen
+    4: The application loads the user's ingredients from the server
+    5: The application displays the user's ingreidients
+Alternate Flows:
+    a4: 
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 4

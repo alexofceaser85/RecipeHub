@@ -7,6 +7,22 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+  <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
+
+  <ItemGroup>
+    <Compile Update="View\Screens\LoginScreen.cs" />
+    <Compile Update="View\Screens\RegistrationScreen.cs" />
+    <Compile Update="View\Screens\RecipeListScreen.cs" />
+    <Compile Update="View\Screens\RecipeScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Screens\IngredientsScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Screens\UserInfoScreen.cs" />
+  </ItemGroup>
 
 </Project>

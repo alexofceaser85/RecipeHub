@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Utils\Json\JsonUtilsTests\GetJsonStringTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Json;
+
+namespace ServerTests.Utils.Json.JsonUtilsTests
+{
+    public class GetJsonStringTests
+    {
+        [Test]
+        public void GetValidNodeTwoParameter()
+        {
+            var jsonString = &quot;{\&quot;key\&quot;: \&quot;value\&quot;}&quot;;
+            var json = JsonUtils.ParseToJsonNode(jsonString);
+
+            var result = JsonUtils.GetJsonString(json, &quot;key&quot;);
+            Assert.That(result, Is.EqualTo(&quot;value&quot;));
+        }
+
+        [Test]
+        public void GetValidNodeThreeParameter()
+        {
+            var jsonString = &quot;{\&quot;key\&quot;: {\&quot;key\&quot;: \&quot;value\&quot;}}&quot;;
+            var json = JsonUtils.ParseToJsonNode(jsonString);
+
+            var result = JsonUtils.GetJsonString(json, &quot;key&quot;, &quot;key&quot;);
+            Assert.That(result, Is.EqualTo(&quot;value&quot;));
+        }
+
+        [Test]
+        public void NullJsonNodeTwoParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(null!, &quot;name&quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
+            });
+        }
+        
+        [Test]
+        public void NullJsonElementNameTwoParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), null!))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void EmptyJsonElementNameTwoParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), &quot;   &quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty));
+            });
+        }
+
+        [Test]
+        public void NullJsonNodeThreeParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(null!, &quot;name&quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void NullJsonElementNameThreeParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), null!, &quot;element&quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void EmptyJsonElementNameThreeParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), &quot;   &quot;, &quot;element&quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty));
+            });
+        }
+
+        [Test]
+        public void NullInnerJsonElementNameThreeParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), &quot;element&quot;, null!))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void EmptyInnerJsonElementNameThreeParameter()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    JsonUtils.GetJsonString(new JsonObject(), &quot;element&quot;, &quot;   &quot;))!.Message;
+                Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeEmpty));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[16,9,16,10,1],[17,13,17,53,1],[18,13,18,62,1],[20,13,20,63,1],[21,13,21,54,1],[22,9,22,10,1],[26,9,26,10,1],[27,13,27,64,1],[28,13,28,62,1],[30,13,30,70,1],[31,13,31,54,1],[32,9,32,10,1],[36,9,36,10,1],[37,13,38,13,1],[38,13,38,14,1],[38,14,39,17,1],[39,17,40,21,1],[40,21,40,59,1],[40,59,40,70,1],[40,70,41,17,1],[41,17,41,97,1],[41,97,42,13,1],[42,13,42,14,1],[42,14,42,16,1],[43,9,43,10,1],[47,9,47,10,1],[48,13,49,13,1],[49,13,49,14,1],[49,14,50,17,1],[50,17,51,21,1],[51,21,51,69,1],[51,69,51,80,1],[51,80,52,17,1],[52,17,52,102,1],[52,102,53,13,1],[53,13,53,14,1],[53,14,53,16,1],[54,9,54,10,1],[58,9,58,10,1],[59,13,60,13,1],[60,13,60,14,1],[60,14,61,17,1],[61,17,62,21,1],[62,21,62,69,1],[62,69,62,80,1],[62,80,63,17,1],[63,17,63,103,1],[63,103,64,13,1],[64,13,64,14,1],[64,14,64,16,1],[65,9,65,10,1],[69,9,69,10,1],[70,13,71,13,1],[71,13,71,14,1],[71,14,72,17,1],[72,17,73,21,1],[73,21,73,59,1],[73,59,73,70,1],[73,70,74,17,1],[74,17,74,97,1],[74,97,75,13,1],[75,13,75,14,1],[75,14,75,16,1],[76,9,76,10,1],[80,9,80,10,1],[81,13,82,13,1],[82,13,82,14,1],[82,14,83,17,1],[83,17,84,21,1],[84,21,84,80,1],[84,80,84,91,1],[84,91,85,17,1],[85,17,85,102,1],[85,102,86,13,1],[86,13,86,14,1],[86,14,86,16,1],[87,9,87,10,1],[91,9,91,10,1],[92,13,93,13,1],[93,13,93,14,1],[93,14,94,17,1],[94,17,95,21,1],[95,21,95,80,1],[95,80,95,91,1],[95,91,96,17,1],[96,17,96,103,1],[96,103,97,13,1],[97,13,97,14,1],[97,14,97,16,1],[98,9,98,10,1],[102,9,102,10,1],[103,13,104,13,1],[104,13,104,14,1],[104,14,105,17,1],[105,17,106,21,1],[106,21,106,80,1],[106,80,106,91,1],[106,91,107,17,1],[107,17,107,108,1],[107,108,108,13,1],[108,13,108,14,1],[108,14,108,16,1],[109,9,109,10,1],[113,9,113,10,1],[114,13,115,13,1],[115,13,115,14,1],[115,14,116,17,1],[116,17,117,21,1],[117,21,117,80,1],[117,80,117,91,1],[117,91,118,17,1],[118,17,118,109,1],[118,109,119,13,1],[119,13,119,14,1],[119,14,119,16,1],[120,9,120,10,1]]);
+    </script>
+  </body>
+</html>

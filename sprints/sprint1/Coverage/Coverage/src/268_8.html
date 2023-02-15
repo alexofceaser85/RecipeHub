@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Users\UsersServiceTests\LogoutTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Users;
+using Server.Service.Users;
+
+namespace ServerTests.Server.Service.Users.UsersServiceTests
+{
+    public class LogoutTests
+    {
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsNull()
+        {
+            var server = new UsersService();
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                server.Logout(null!);
+            });
+        }
+
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsBlank()
+        {
+            var server = new UsersService();
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                server.Logout(&quot;   &quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldLogoutWithValidSessionKey()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+            var service = new UsersService(userDal.Object);
+            service.Logout(&quot;Key&quot;);
+            userDal.Verify(mock =&gt; mock.RemoveSessionKey(&quot;Key&quot;), Times.Once());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,12,45,1],[13,13,14,13,1],[14,13,14,14,1],[14,14,15,17,1],[15,17,15,38,1],[15,38,16,13,1],[16,13,16,14,0],[16,14,16,16,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,22,45,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,25,38,1],[25,38,26,13,1],[26,13,26,14,0],[26,14,26,16,1],[27,9,27,10,1],[31,9,31,10,1],[32,13,32,49,1],[33,13,33,60,1],[34,13,34,35,1],[35,13,35,80,1],[36,9,36,10,1]]);
+    </script>
+  </body>
+</html>

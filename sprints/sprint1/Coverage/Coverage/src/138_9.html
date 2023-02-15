@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Recipes\RecipesListViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Model;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.View.Dialog;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace Desktop_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes List screen.
+    /// &lt;/summary&gt;
+    public class RecipesListViewModel
+    {
+        private readonly IRecipesService recipesService;
+        private readonly IIngredientsService ingredientsService;
+
+        /// &lt;summary&gt;
+        /// The filters for recipe queries.
+        /// &lt;/summary&gt;
+        public RecipeFilters Filters { get; set; }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
+        {
+
+        }
+        
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesEndpoints&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;recipesService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
+        {
+            this.recipesService = recipesService ?? 
+                                  throw new ArgumentNullException(nameof(recipesService), 
+                                      RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.ingredientsService = ingredientsService ??
+                                  throw new ArgumentNullException(nameof(ingredientsService),
+                                      RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+            this.Filters = new RecipeFilters();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the visible recipes from the server.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user.&lt;/param&gt;
+        /// &lt;param name=&quot;searchTerm&quot;&gt;The search term to query for.&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public Recipe[] GetRecipes(string sessionKey, string searchTerm = &quot;&quot;)
+        {
+            if (this.Filters.OnlyAvailableIngredients)
+            {
+                return this.GetFilteredRecipes(sessionKey, searchTerm);
+            }
+            return this.recipesService.GetRecipes(sessionKey, searchTerm);
+        }
+
+        private Recipe[] GetFilteredRecipes(string sessionKey, string searchTerm = &quot;&quot;)
+        {
+            var filteredRecipes = new List&lt;Recipe&gt;();
+            var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
+            var ingredientsCache = new Dictionary&lt;string, int&gt;();
+
+            foreach (var ingredient in pantryIngredients)
+            {
+                ingredientsCache[ingredient.Name] = ingredient.Amount;
+            }
+
+            var visibleRecipes = this.recipesService.GetRecipes(sessionKey, searchTerm);
+            foreach (var recipe in visibleRecipes)
+            {
+                var requiredIngredients = this.recipesService.GetIngredientsForRecipe(sessionKey, recipe.Id);
+                var canMake = true;
+                foreach (var ingredient in requiredIngredients)
+                {
+                    if (!ingredientsCache.ContainsKey(ingredient.Name))
+                    {
+                        canMake = false;
+                        break;
+                    }
+                }
+
+                if (canMake)
+                {
+                    filteredRecipes.Add(recipe);
+                }
+            }
+
+            return filteredRecipes.ToArray();
+        }
+
+        /// &lt;summary&gt;
+        /// Opens a dialog for selecting the recipe Filters. &lt;br/&gt;
+        /// Updates the displayed recipes if changes are saved.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;Selected Filters reflect changes in the dialog, if saved.
+        /// &lt;/summary&gt;
+        public void OpenFiltersDialog()
+        {
+            var filtersDialog = new RecipeListFilterDialog(this.Filters);
+            if (filtersDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.Filters = filtersDialog.Filters;
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Adds a recipe authored by the active user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key of the active user.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is publicly viewable or not.&lt;/param&gt;
+        public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        {
+            this.recipesService.AddRecipe(sessionKey, name, description, isPublic);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a recipe from the database, if the user is the author of the recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the current user.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to remove.&lt;/param&gt;
+        public void RemoveRecipe(string sessionKey, int recipeId)
+        {
+            this.recipesService.RemoveRecipe(sessionKey, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Edits a recipe, updating the name, description, and public status.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(name)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(description)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the current user.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to update.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is public or not.&lt;/param&gt;
+        public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
+        {
+            this.recipesService.EditRecipe(sessionKey, recipeId, name, description, isPublic);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,40,23,44,1],[23,45,23,49,1],[32,41,32,93,1],[33,9,33,10,1],[35,9,35,10,1],[43,9,43,108,1],[44,9,44,10,1],[45,13,47,97,1],[48,13,50,101,1],[51,13,51,48,1],[52,9,52,10,1],[64,9,64,10,1],[65,13,65,55,1],[66,13,66,14,0],[67,17,67,72,0],[69,13,69,75,1],[70,9,70,10,1],[73,9,73,10,0],[74,13,74,54,0],[75,13,75,88,0],[76,13,76,66,0],[78,13,78,20,0],[78,22,78,36,0],[78,37,78,39,0],[78,40,78,57,0],[79,13,79,14,0],[80,17,80,71,0],[81,13,81,14,0],[83,13,83,89,0],[84,13,84,20,0],[84,22,84,32,0],[84,33,84,35,0],[84,36,84,50,0],[85,13,85,14,0],[86,17,86,110,0],[87,17,87,36,0],[88,17,88,24,0],[88,26,88,40,0],[88,41,88,43,0],[88,44,88,63,0],[89,17,89,18,0],[90,21,90,72,0],[91,21,91,22,0],[92,25,92,41,0],[93,25,93,31,0],[95,17,95,18,0],[97,17,97,29,0],[98,17,98,18,0],[99,21,99,49,0],[100,17,100,18,0],[101,13,101,14,0],[103,13,103,46,0],[104,9,104,10,0],[114,9,114,10,0],[115,13,115,74,0],[116,13,116,63,0],[117,13,117,14,0],[118,17,118,54,0],[119,13,119,14,0],[120,9,120,10,0],[133,9,133,10,1],[134,13,134,84,1],[135,9,135,10,1],[146,9,146,10,1],[147,13,147,68,1],[148,9,148,10,1],[164,9,164,10,1],[165,13,165,95,1],[166,9,166,10,1]]);
+    </script>
+  </body>
+</html>

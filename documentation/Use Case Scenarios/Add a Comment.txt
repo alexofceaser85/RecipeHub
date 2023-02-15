@@ -1,0 +1,21 @@
+Use-Case Scenario: Add a Comment
+Users: Chef
+Context: User is viewing a recipe
+Primary Flow:
+    1: The user expands the comments section
+    2: The user enters their comment into the text box
+    3: The user submits their comment
+    4: The comment is added to the recipe
+    5: The screen is updated to display the new comment
+Alternate Flows:
+    a1-2:
+        1: The user collapses the comments section
+        2: The user is returned to step 1
+    a3:
+        1: The application is unable to connect to the server
+        2: The user is informed of the connection issues
+        3: The user is returned to step 2
+    a3:
+        1: The comment text box is empty
+        2: The user is informed that the text box must not be empty
+        2: The user is returned to step 2

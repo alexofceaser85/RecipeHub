@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Recipes\RecipesTests\GetSetIsPublicTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared_Resources.Model.Recipes;
+
+namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
+{
+    public class GetSetIsPublicTests
+    {
+        [Test]
+        public void AssignIsPublic()
+        {
+            var recipe = new Recipe();
+            recipe.IsPublic = true;
+
+            Assert.That(recipe.IsPublic, Is.EqualTo(true));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,39,1],[16,13,16,36,1],[18,13,18,60,1],[19,9,19,10,1]]);
+    </script>
+  </body>
+</html>

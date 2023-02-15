@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Json\JsonUtilsTests\ParseToJsonNodeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Json;
+
+namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
+{
+    public class ParseToJsonNodeTests
+    {
+        [Test]
+        public void ShouldNotAllowJsonToParseToBeNull()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.ParseToJsonNode(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonToParseCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotAllowJsonToParseToBeEmpty()
+        {
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.ParseToJsonNode(&quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonToParseCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotAllowParsedJsonToBeNull()
+        {
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.ParseToJsonNode(&quot;null&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,50,1],[13,50,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,94,1],[16,9,16,10,1],[20,9,20,10,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,24,50,1],[24,50,25,13,1],[25,13,25,14,0],[25,14,25,25,1],[26,13,26,95,1],[27,9,27,10,1],[31,9,31,10,1],[33,13,34,13,1],[34,13,34,14,1],[34,14,35,17,1],[35,17,35,51,1],[35,51,36,13,1],[36,13,36,14,0],[36,14,36,25,1],[37,13,37,93,1],[38,9,38,10,1]]);
+    </script>
+  </body>
+</html>

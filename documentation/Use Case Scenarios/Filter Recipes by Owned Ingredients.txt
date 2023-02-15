@@ -1,0 +1,22 @@
+Use-Case Scenario: Filter Recipes by Owned Ingredients
+Users: Chef
+Context: User has successfully logged into the application and is viewing the recipes page
+Primary Flow:
+    1: The user selects the "filter recipes" option
+    2: The filter display appears
+    3: The user toggles the option to filter by owned ingredients
+    4: The user applies the filter
+    5: The system queries the server for recipes that match the filter
+    4: The application displays only recipes that the user has incredients to cook
+Alternate Flows:
+    a2-3:
+        1: The user closes out of the filter display
+        2: The user is returned to step 1
+    a5:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1
+    a5:
+        1: There are no matching recipes
+        2: The user is informed that there are no matching recipes
+        3: The application returns to step 1

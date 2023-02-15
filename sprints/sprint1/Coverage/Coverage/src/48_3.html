@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\Recipes\RecipesListViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Recipes;
+using Web_Client.Endpoints.Recipes;
+using Web_Client.Service.Recipes;
+
+namespace Web_Client.ViewModel.Recipes
+{
+    /// &lt;inheritdoc cref=&quot;IRecipesEndpoints&quot;/&gt;
+    public class RecipesListViewModel
+    {
+        private readonly IRecipesService service;
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel() : this(new RecipesService())
+        {
+
+        }
+        
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesEndpoints&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;service != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel(IRecipesService service)
+        {
+            this.service = service ?? 
+                             throw new ArgumentNullException(nameof(service), 
+                                 RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the visible recipes from the server.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user.&lt;/param&gt;
+        /// &lt;param name=&quot;searchTerm&quot;&gt;The search term to query for.&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public Recipe[] GetRecipes(string sessionKey, string searchTerm = &quot;&quot;)
+        {
+            return this.service.GetRecipes(sessionKey, searchTerm);
+        }
+
+        /// &lt;summary&gt;
+        /// Adds a recipe authored by the active user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key of the active user.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is publicly viewable or not.&lt;/param&gt;
+        public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        {
+            this.service.AddRecipe(sessionKey, name, description, isPublic);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a recipe from the database, if the user is the author of the recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the current user.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to remove.&lt;/param&gt;
+        public void RemoveRecipe(string sessionKey, int recipeId)
+        {
+            this.service.RemoveRecipe(sessionKey, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Edits a recipe, updating the name, description, and public status.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(name)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(description)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the current user.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to update.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is public or not.&lt;/param&gt;
+        public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
+        {
+            this.service.EditRecipe(sessionKey, recipeId, name, description, isPublic);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,41,20,67,0],[21,9,21,10,0],[23,9,23,10,0],[31,9,31,61,0],[32,9,32,10,0],[33,13,35,92,0],[36,9,36,10,0],[48,9,48,10,0],[49,13,49,68,0],[50,9,50,10,0],[63,9,63,10,0],[64,13,64,77,0],[65,9,65,10,0],[76,9,76,10,0],[77,13,77,61,0],[78,9,78,10,0],[94,9,94,10,0],[95,13,95,88,0],[96,9,96,10,0]]);
+    </script>
+  </body>
+</html>
