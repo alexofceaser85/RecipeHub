@@ -7,9 +7,11 @@
 @{
    var ViewModel = new IngredientsViewModel();
     var Ingredients = ViewModel.GetAllIngredientsForUser();
-}
 <h1>Ingredients</h1>
-<p>Use this page to add ingredients to your recipes.</p>
+<div>
+    <p>Use this page to add ingredients to your recipes.</p>
+    <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
+</div>
 
 @foreach (var ingredient in Ingredients)
 {
@@ -19,12 +21,165 @@
             <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
         </div>
         <div class="ingredient-actions">
-            <form method="post">
-                <button class="ingredient-edit-button">Edit</button>
-            </form>
-            <button class="ingredient-delete-button">Delete</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
         </div>
-
     </div>
+}
+
+<button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="remove-all-modal">Remove All</button>
+
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="edit-modal-label">Edit Ingredient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="edit-amount-button" placeholder="Enter your desired amount"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="edit-amount-submit-button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove this ingredient?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button id="remove-ingredient-button" type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove-all-modal" tabindex="-1" aria-labelledby="remove-all-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="remove-all-modal-label">Remove All</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to remove this ingredient?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button id="remove-all-button" type="button" class="btn btn-primary">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="add-ingredient-modal-title">Add Ingredient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-page-handler="AddIngredient" method="post" >
+            <div class="modal-body">
+                <input name="Name" asp-for="AddedIngredient.Name" id="add-ingredient-name" type="text" placeholder="Ingrediate Name" />
+                <input name="Amount"asp-for="AddedIngredient.Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
+                @Html.DropDownListFor(value => value.AddedIngredient.MeasurementType, Model.MeasurementTypesList, "Measurement", "-Please Select-")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>  
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script type="text/javascript">
+        //var ingredientName = "";
+
+        ////Edit Ingredient
+        //$(".ingredient-edit-button").click(function () {
+        //    ingredientName = $(this).data('ingredient-name');
+        //});
+
+        //$("#edit-amount-submit-button").click(function () {
+        //    var amount = $("#edit-amount-button").val();
+        //    $.ajax({
+        //        url: "/Ingredients?handler=EditIngredient",
+        //        type: "POST",
+        //        data: {
+        //            ingredientName: ingredientName,
+        //            amount: amount
+        //        },
+        //        success: function (data) {
+        //            location.reload();
+        //        }
+        //    });
+        //});
+
+        ////Remove Ingredient
+        //$(".ingredient-delete-button").click(function () {
+        //    ingredientName = $(this).data('ingredient-name');
+        //});
+
+        //$("#remove-ingredient-button").click(function () {
+        //    $.ajax({
+        //        url: "/Ingredients?handler=RemoveIngredient",
+        //        type: "POST",
+        //        data: {
+        //            ingredientName: ingredientName
+        //        },
+        //        success: function (data) {
+        //            location.reload();
+        //        }
+        //    });
+        //});
+
+        ////Remove All
+        //$("#remove-all-button").click(function () {
+        //    $.ajax({
+        //        url: "/Ingredients?handler=RemoveAll",
+        //        type: "POST",
+        //        success: function (data) {
+        //            location.reload();
+        //        }
+        //    });
+        //});
+
+        ////Add Ingredient
+        //$("#add-ingredient-submit-button").click(function () {
+        //var ingredientName = $("#add-ingredient-name").val();
+        //var amount = $("#add-ingredient-number").val();
+        //var measurementType = $("#measurement-type-dropdown").val();
+        //$.ajax({
+        //    url: "@Url.Page("/Ingredients")?handler=AddIngredient",
+        //    type: "POST",
+        //    data: {
+        //        ingredientName: ingredientName,
+        //        amount: amount,
+        //        measurementType: measurementType
+        //    },
+        //    success: function (data) {
+        //        location.reload();
+        //    }
+        //});
+        //});
+        //function addIngredient() {
+           
+        //}
+    </script>
+}
 }
 
