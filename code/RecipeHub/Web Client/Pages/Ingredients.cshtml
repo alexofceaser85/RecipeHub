@@ -83,27 +83,31 @@
     </div>
 </div>
 
-<div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="add-ingredient-modal-title">Add Ingredient</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-ingredient-modal-title">Add Ingredient</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-page-handler="AddIngredient" method="post" >
+                    <div class="modal-body">
+                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Ingrediate Name" />
+                        <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
+                        <select name="Measurement" >
+                            <option value="0">Quantity</option>
+                            <option value="1">Mass</option>
+                            <option value="2">Volume</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>  
             </div>
-            <form asp-page-handler="AddIngredient" method="post" >
-            <div class="modal-body">
-                <input name="Name" asp-for="AddedIngredient.Name" id="add-ingredient-name" type="text" placeholder="Ingrediate Name" />
-                <input name="Amount"asp-for="AddedIngredient.Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
-                @Html.DropDownListFor(value => value.AddedIngredient.MeasurementType, Model.MeasurementTypesList, "Measurement", "-Please Select-")
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
-            </div>
-            </form>  
         </div>
     </div>
-</div>
 @section Scripts
 {
     <script type="text/javascript">
@@ -158,24 +162,24 @@
         //    });
         //});
 
-        ////Add Ingredient
-        //$("#add-ingredient-submit-button").click(function () {
-        //var ingredientName = $("#add-ingredient-name").val();
-        //var amount = $("#add-ingredient-number").val();
-        //var measurementType = $("#measurement-type-dropdown").val();
-        //$.ajax({
-        //    url: "@Url.Page("/Ingredients")?handler=AddIngredient",
-        //    type: "POST",
-        //    data: {
-        //        ingredientName: ingredientName,
-        //        amount: amount,
-        //        measurementType: measurementType
-        //    },
-        //    success: function (data) {
-        //        location.reload();
-        //    }
-        //});
-        //});
+        //Add Ingredient
+        $("#add-ingredient-submit-button").click(function () {
+        var ingredientName = $("#add-ingredient-name").val();
+        var amount = $("#add-ingredient-number").val();
+        var measurementType = $("added-measurement-text").val();
+        $.ajax({
+            url: "/Ingredients?handler=AddIngredient2",
+            type: "POST",
+            data: {
+                ingredientName: ingredientName,
+                amount: amount,
+                measurementType: measurementType
+            },
+            success: function (data) {
+                location.reload();
+            }
+        });
+        });
         //function addIngredient() {
            
         //}

@@ -15,15 +15,9 @@ namespace Web_Client.Pages
         [BindProperty]
         public IngredientBindingModel AddedIngredient { get; set; }
 
-        public SelectList MeasurementTypesList { get; set; }
-
-
-
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
-            this.AddedIngredient = new IngredientBindingModel();
-            this.MeasurementTypesList = new SelectList(new string[] {"Quantity", "Mass", "Volume"});
         }
 
         public void OnGet()
@@ -33,26 +27,12 @@ namespace Web_Client.Pages
 
         public IActionResult OnPostAddIngredient()
         {
-            MeasurementType type;
-            switch (this.MeasurementTypesList.SelectedValue)
-            {
-                case "Quantity":
-                    type = MeasurementType.Quantity;
-                    break;
-                case "Mass":
-                    type = MeasurementType.Mass;
-                    break;
-                case "Volume":
-                    type = MeasurementType.Volume;
-                    break;
-                default:
-                    type = MeasurementType.Quantity;
-                    break;
-            }
-            this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount, type));
+            this.AddedIngredient.Name = Request.Form["name"];
+            this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
+            this.AddedIngredient.MeasurementType = (MeasurementType) int.Parse(Request.Form["measurement"]!);
+            this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount, this.AddedIngredient.MeasurementType));
             return this.Page();
         }
-
         //public IActionResult OnPostDeleteIngredient([FromBody] string ingredientName)
         //{
         //    this.viewModel.RemoveIngredient(new Ingredient(ingredientName, 0, MeasurementType.Quantity));
