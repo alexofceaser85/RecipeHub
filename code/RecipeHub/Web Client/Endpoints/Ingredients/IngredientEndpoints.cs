@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Shared_Resources.Data.Settings;
+﻿using Shared_Resources.Data.Settings;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Json;
 using Shared_Resources.Utils.Server;
 
-namespace Desktop_Client.Endpoints.Ingredients
+namespace Web_Client.Endpoints.Ingredients
 {
     /// <summary>
     /// Endpoints for the Ingredients Functionality.

@@ -10,10 +10,6 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="View\Components\Ingredient\" />
-  </ItemGroup>
-
   <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
 
 </Project>

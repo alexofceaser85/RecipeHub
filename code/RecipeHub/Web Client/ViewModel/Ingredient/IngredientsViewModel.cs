@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Service.Ingredients;
-using Shared_Resources.Model.Ingredients;
+﻿using Web_Client.Service.Ingredients;
 
-namespace Desktop_Client.ViewModel.Ingredients
+namespace Web_Client.ViewModel.Ingredient
 {
     /// <summary>
     /// View Model for the Ingredients.
@@ -45,7 +39,7 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// Postcondition: None<br />
         /// </summary>
         /// <returns>the list of all ingredients for the user.</returns>
-        public IList<Ingredient> GetAllIngredientsForUser()
+        public IList<Shared_Resources.Model.Ingredients.Ingredient> GetAllIngredientsForUser()
         {
             return this.service.GetAllIngredientsForUser();
         }
@@ -58,7 +52,7 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// </summary>
         /// <param name="ingredient">The ingredient.</param>
         /// <returns>Whether the ingredient was removed or not.</returns>
-        public bool RemoveIngredient(Ingredient ingredient)
+        public bool RemoveIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
         {
             return this.service.DeleteIngredient(ingredient);
         }
@@ -73,6 +67,52 @@ namespace Desktop_Client.ViewModel.Ingredients
         public bool RemoveAllIngredients()
         {
             return this.service.DeleteAllIngredientsForUser();
+        }
+
+        /// <summary>
+        /// Adds the specified ingredient to the logged in user's pantry.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: The ingredient is added to the logged in user's pantry.<br />
+        /// </summary>
+        /// <param name="ingredient">The ingredient.</param>
+        /// <returns>Whether the ingredient was successfully added or not.</returns>
+        public bool AddIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
+        {
+            try
+            {
+                return this.service.AddIngredient(ingredient);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Gets the suggestions for the ingredients based on the inputted text.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: None<br />
+        /// </summary>
+        /// <param name="ingredientName">Name of the ingredient.</param>
+        /// <returns>The list of suggestions.</returns>
+        public string[] GetSuggestions(string ingredientName)
+        {
+            return this.service.GetSuggestions(ingredientName);
+        }
+
+        /// <summary>
+        /// Edits the ingredient.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: Ingredient has been updated.<br />
+        /// </summary>
+        /// <param name="ingredient">The ingredient.</param>
+        /// <returns>True if the ingredient was edited, false otherwise.</returns>
+        public bool EditIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
+        {
+            return this.service.UpdateIngredient(ingredient);
         }
     }
 }

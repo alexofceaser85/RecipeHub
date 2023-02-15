@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hashing\Hashes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Json\JsonUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Server\ServerUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Units\BaseUnitUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Validation\PasswordValidation.cs" />
   </ItemGroup>
   <ItemGroup>

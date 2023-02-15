@@ -92,9 +92,9 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
-            if (this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
-                throw new ArgumentException("Ingredient must not be in system already.");
+                throw new ArgumentException("Ingredient must be in system already.");
             }
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
 
@@ -102,7 +102,7 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentException("User must exist in the system.");
             }
-            if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
             {
                 throw new ArgumentException("Ingredient must be in pantry already.");
             }
