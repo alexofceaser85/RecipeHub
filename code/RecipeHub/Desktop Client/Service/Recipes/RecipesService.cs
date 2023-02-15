@@ -1,5 +1,6 @@
 ﻿using Desktop_Client.Endpoints.Recipes;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.Service.Recipes
@@ -68,6 +69,22 @@ namespace Desktop_Client.Service.Recipes
             }
 
             return this.endpoints.GetRecipe(sessionKey, recipeId);
+        }
+
+        /// <inheritdoc/>
+        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
         }
 
         /// <inheritdoc/>

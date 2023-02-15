@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Desktop_Client.Service.Recipes;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.ViewModel.Recipes
@@ -45,5 +47,11 @@ namespace Desktop_Client.ViewModel.Recipes
         {
             return this.service.GetRecipe(sessionKey, recipeId);
         }
+
+        public Ingredient[] LoadIngredients(string sessionKey, int recipeId)
+        {
+            return this.service.GetIngredientsForRecipe(sessionKey, recipeId);
+        }
+
     }
 }

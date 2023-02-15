@@ -1,4 +1,5 @@
-﻿using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
 
 namespace Server.Service.Recipes
 {
@@ -22,6 +23,8 @@ namespace Server.Service.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
         
         public Recipe GetRecipe(string sessionKey, int recipeId);
+
+        public Ingredient[] GetRecipeIngredients(string sessionKey, int recipeId);
 
         /// <summary>
         /// Attempts to add a recipe to the database.<br/>

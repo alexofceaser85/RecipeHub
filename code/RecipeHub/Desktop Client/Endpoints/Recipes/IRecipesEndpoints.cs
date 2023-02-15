@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.Endpoints.Recipes
@@ -27,7 +28,7 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>
         /// The account associated with the session key must by the author if the recipe is private.<br/>
-        /// </br>
+        /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
@@ -35,6 +36,17 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <param name="recipeId">The recipe id for the recipe to fetch</param>
         /// <returns>The recipe</returns>
         public Recipe GetRecipe(string sessionKey, int recipeId);
+
+        /// <summary>
+        /// Gets all of the ingredients for a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the account</param>
+        /// <param name="recipeId">The id for the recipe.</param>
+        /// <returns>The ingredients for the recipe.</returns>
+        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
 
         /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>

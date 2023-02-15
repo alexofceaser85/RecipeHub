@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Data;
-using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Recipes;
 
 namespace Server.DAL.Recipes
 {
@@ -119,7 +117,7 @@ namespace Server.DAL.Recipes
         /// </summary>
         /// <param name="recipeId">The ID of the recipe.</param>
         /// <returns>An array containing all of the ingredients.</returns>
-        public Ingredient[] GetIngredientsForRecipe(int recipeId);
+        public Shared_Resources.Model.Ingredients.Ingredient[] GetIngredientsForRecipe(int recipeId);
 
         /// <summary>
         /// Gets all of the steps for a recipe using the recipe's ID.<br/>

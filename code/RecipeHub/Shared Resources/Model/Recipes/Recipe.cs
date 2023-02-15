@@ -4,6 +4,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 
 namespace Shared_Resources.Model.Recipes
 {
@@ -66,13 +67,7 @@ namespace Shared_Resources.Model.Recipes
         /// </summary>
         [JsonPropertyName("isPublic")]
         public bool IsPublic { get; set; }
-
-        /// <summary>
-        /// The ingredients for the recipe.
-        /// </summary>
-        [JsonPropertyName("ingredients")]
-        public List<Ingredient> Ingredients { get; set; }
-
+        
         /// <summary>
         /// Creates an instance of <see cref="Recipe"/> with a specified id, author name, name, description, and public setting.<br/>
         /// <br/>
@@ -117,7 +112,6 @@ namespace Shared_Resources.Model.Recipes
             this.Name = name;
             this.Description = description;
             this.IsPublic = isPublic;
-            this.Ingredients = new List<Ingredient>();
         }
 
         /// <inheritdoc/>
@@ -137,28 +131,7 @@ namespace Shared_Resources.Model.Recipes
             return base.GetHashCode();
         }
     }
-
-    /// <summary>
-    /// A stub class used as a placeholder
-    /// </summary>
-    public struct Ingredient
-    {
-        /// <summary>
-        /// Name stub
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        /// Id stub
-        /// </summary>
-        public int Id;
-
-        /// <summary>
-        /// Amount stub
-        /// </summary>
-        public int Amount;
-    }
-
+    
     /// <summary>
     /// A stub class used as a placeholder
     /// </summary>

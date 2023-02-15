@@ -5,6 +5,7 @@ using Server.Data.Settings;
 using Server.ErrorMessages;
 using Server.Service.Recipes;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Server.Controllers.Recipes
@@ -55,31 +56,21 @@ namespace Server.Controllers.Recipes
             }
         }
 
-        /// <summary>
-        /// Gets all of the recipes who's name contains the search term for the user.<br/>
-        /// If no search term is provided, all recipes visible to the user are fetched.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>None
-        /// </summary>
-        /// <param name="sessionKey">The active user's session key.</param>
-        /// <param name="searchTerm">The term to search recipe names for.</param>
-        /// <returns>The server's response.</returns>
         [HttpGet]
-        [Route("Recipes")]
-        public RecipeListResponseModel GetRecipes(string sessionKey, string searchTerm = "")
+        [Route("RecipeIngredients")]
+        public RecipeIngredientsResponseModel GetRecipeIngredients(string sessionKey, int recipeId)
         {
             try
             {
-                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage, 
-                    this.service.GetRecipes(sessionKey, searchTerm));
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeIngredients(sessionKey, recipeId));
             }
             catch (Exception ex)
             {
-                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Recipe>());
+                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Ingredient>());
             }
-        }
-        
+        } 
+
         /// <summary>
         /// Adds a recipe with the user associated with the session key as the author.<br/>
         /// <br/>
@@ -92,7 +83,7 @@ namespace Server.Controllers.Recipes
         /// <param name="isPublic">Whether the recipe is public or not.</param>
         /// <returns>The server's response.</returns>
         [HttpPost]
-        [Route("Recipes")]
+        [Route("Recipe")]
         public StandardResponseModel AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {
             try
@@ -123,7 +114,7 @@ namespace Server.Controllers.Recipes
         /// <param name="recipeId">Thee ID for the recipe to remove.</param>
         /// <returns>Thee server's response.</returns>
         [HttpDelete]
-        [Route("Recipes")]
+        [Route("Recipe")]
         public StandardResponseModel RemoveRecipe(string sessionKey, int recipeId)
         {
             try
@@ -157,7 +148,7 @@ namespace Server.Controllers.Recipes
         /// <param name="isPublic">Whether the recipe is public or not.</param>
         /// <returns>The server's response.</returns>
         [HttpPut]
-        [Route("Recipes")]
+        [Route("Recipe")]
         public StandardResponseModel EditRecipe(string sessionKey, int recipeId, string name, string description,
             bool isPublic)
         {
@@ -177,5 +168,31 @@ namespace Server.Controllers.Recipes
                 return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        
+        /// <summary>
+        /// Gets all of the recipes who's name contains the search term for the user.<br/>
+        /// If no search term is provided, all recipes visible to the user are fetched.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The active user's session key.</param>
+        /// <param name="searchTerm">The term to search recipe names for.</param>
+        /// <returns>The server's response.</returns>
+        [HttpGet]
+        [Route("Recipes")]
+        public RecipeListResponseModel GetRecipes(string sessionKey, string searchTerm = "")
+        {
+            try
+            {
+                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipes(sessionKey, searchTerm));
+            }
+            catch (Exception ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Recipe>());
+            }
+        }
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
 using Server.Data.Settings;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Server.DAL.Recipes
@@ -117,12 +118,6 @@ namespace Server.DAL.Recipes
                 recipes.Add(new Recipe(recipeId, authorName, name, description, isPublic));
             }
 
-            //TODO Get the ingredients for a recipe
-            for (var i = 0; i < recipes.Count; i++)
-            {
-                recipes[i].Ingredients = new List<Ingredient>();
-            }
-
             return recipes.ToArray();
         }
 
@@ -204,10 +199,10 @@ namespace Server.DAL.Recipes
         }
 
         /// <inheritdoc/>
-        public Ingredient[] GetIngredientsForRecipe(int recipeId)
+        public Shared_Resources.Model.Ingredients.Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
-            var ingredients = new List<Ingredient>();
-            var query = "SELECT RecipeIngredients.ingredientId, Ingredients.name, RecipeIngredients.amount " +
+            var ingredients = new List<Shared_Resources.Model.Ingredients.Ingredient>();
+            var query = "SELECT RecipeIngredients.ingredientId, TRIM(Ingredients.name) AS name, RecipeIngredients.amount " +
                         "FROM RecipeIngredients, Ingredients WHERE RecipeIngredients.ingredientId = Ingredients.ingredientId AND recipeId = @recipeId";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -225,12 +220,7 @@ namespace Server.DAL.Recipes
                 var ingredientId = reader.GetInt32(ingredientIdOrdinal);
                 var name = reader.GetString(nameOrdinal);
                 var amount = reader.GetInt32(amountOrdinal);
-                ingredients.Add(new Ingredient()
-                {
-                    Id = ingredientId,
-                    Name = name,
-                    Amount = amount,
-                });
+                ingredients.Add(new(name, amount, MeasurementType.Volume));
             }
 
             return ingredients.ToArray();

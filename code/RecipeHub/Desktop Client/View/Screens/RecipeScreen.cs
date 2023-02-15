@@ -1,5 +1,6 @@
 ﻿using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
+using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.View.Screens
 {
@@ -21,6 +22,7 @@ namespace Desktop_Client.View.Screens
             this.InitializeComponent();
             this.viewModel = new RecipesViewModel();
             this.LoadRecipe(recipeId);
+            this.LoadIngredients(recipeId);
         }
 
         private void LoadRecipe(int recipeId)
@@ -32,9 +34,30 @@ namespace Desktop_Client.View.Screens
             this.descriptionLabel.Text = recipe.Description;
         }
 
+        private void LoadIngredients(int recipeId)
+        {
+            var ingredients = this.viewModel.LoadIngredients(Session.Key!, recipeId);
+            if (ingredients.Length == 0)
+            {
+                this.ingredientsListLabel.Text = "No ingredients have been added... Yet!";
+                return;
+            }
+
+            this.ingredientsListLabel.Text = "";
+            foreach (var ingredient in ingredients)
+            {
+                this.ingredientsListLabel.Text += $"{ingredient.Name} - {ingredient.Amount} {ingredient.MeasurementType}\n";
+            }
+        }
+        
         private void backButton_Click(object sender, EventArgs e)
         {
             base.ChangeScreens(new RecipeListScreen());
+        }
+
+        private void hamburgerButton_MouseClick(object sender, MouseEventArgs e)
+        {
+            base.ToggleHamburgerMenu();
         }
     }
 }
