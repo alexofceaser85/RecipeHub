@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Json\JsonUtilsTests\TwoParameterGetJsonStringTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json.Nodes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Json;
+
+namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
+{
+    public class TwoParameterGetJsonStringTests
+    {
+        [Test]
+        public void ShouldNotGetJsonStringForNullParsedJson()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(null!, &quot;element&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotGetJsonStringForNullElementName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotGetJsonStringForEmptyElementName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, &quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldGetJsonString()
+        {
+            var jsonString = JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, &quot;key&quot;);
+            Assert.That(jsonString, Is.EqualTo(&quot;value&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,59,1],[14,59,15,13,1],[15,13,15,14,0],[15,14,15,25,1],[16,13,16,93,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,24,88,1],[24,88,25,13,1],[25,13,25,14,0],[25,14,25,25,1],[26,13,26,98,1],[27,9,27,10,1],[31,9,31,10,1],[32,13,33,13,1],[33,13,33,14,1],[33,14,34,17,1],[34,17,34,88,1],[34,88,35,13,1],[35,13,35,14,0],[35,14,35,25,1],[36,13,36,99,1],[37,9,37,10,1],[41,9,41,10,1],[42,13,42,101,1],[43,13,43,58,1],[44,9,44,10,1]]);
+    </script>
+  </body>
+</html>

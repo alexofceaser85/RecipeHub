@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Users\UsersControllerTests\LogoutTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.Controllers.Users;
+using System.Net;
+using Server.Data.Settings;
+using Server.Service.Users;
+
+namespace ServerTests.Server.Controllers.Users.UsersControllerTests
+{
+    public class LogoutTests
+    {
+        [Test]
+        public void TestSuccessfulLogout()
+        {
+            var userService = new Mock&lt;IUsersService&gt;();
+
+            userService.Setup(mock =&gt; mock.Logout(&quot;key&quot;));
+            var service = new UsersController(userService.Object);
+
+            var returnedValue = service.Logout(&quot;key&quot;);
+
+            userService.Verify(mock =&gt; mock.Logout(&quot;key&quot;), Times.Once());
+            Assert.That(returnedValue.Code, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(returnedValue.Message, Is.EqualTo(ServerSettings.DefaultSuccessfulConnectionMessage));
+        }
+
+        [Test]
+        public void TestUnsuccessfulLogout()
+        {
+            var userService = new Mock&lt;IUsersService&gt;();
+
+            userService.Setup(mock =&gt; mock.Logout(&quot;key&quot;)).Throws(new ArgumentException(&quot;Sample message&quot;));
+            var service = new UsersController(userService.Object);
+
+            var returnedValue = service.Logout(&quot;key&quot;);
+
+            userService.Verify(mock =&gt; mock.Logout(&quot;key&quot;), Times.Once());
+            Assert.That(returnedValue.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+            Assert.That(returnedValue.Message, Is.EqualTo(&quot;Sample message&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,57,1],[16,13,16,59,1],[17,13,17,67,1],[19,13,19,55,1],[21,13,21,74,1],[22,13,22,76,1],[23,13,23,111,1],[24,9,24,10,1],[28,9,28,10,1],[29,13,29,57,1],[31,13,31,107,1],[32,13,32,67,1],[34,13,34,55,1],[36,13,36,74,1],[37,13,37,93,1],[38,13,38,78,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

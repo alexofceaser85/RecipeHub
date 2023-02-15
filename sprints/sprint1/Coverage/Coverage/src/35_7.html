@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Recipes\RecipesServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Endpoints.Recipes;
+using Web_Client.Service.Recipes;
+using Shared_Resources.ErrorMessages;
+
+namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ValidDefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; new RecipesService());
+        }
+
+        [Test]
+        public void ValidOneParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; new RecipesService(new RecipesEndpoints()));
+        }
+
+        [Test]
+        public void NullRecipesEndpoint()
+        {
+            var errorMessage = RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull + &quot; (Parameter &#39;endpoints&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                {
+                    _ = new RecipesService(null!);
+                })?.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,12,39,1],[12,39,12,59,1],[12,59,12,61,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,18,39,1],[18,39,18,81,1],[18,81,18,83,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,24,118,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,28,17,1],[28,17,28,18,1],[28,18,29,21,1],[29,21,29,51,1],[29,51,30,17,1],[30,17,30,18,0],[30,18,30,29,1],[30,29,31,17,1],[31,17,31,64,1],[31,64,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1]]);
+    </script>
+  </body>
+</html>

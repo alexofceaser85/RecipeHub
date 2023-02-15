@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Validation\PasswordValidationTests\ValidateTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Validation;
+
+namespace SharedResourcesTests.SharedResources.Utils.Validation.PasswordValidationTests
+{
+    public class ValidateTests
+    {
+        [Test]
+        public void ShouldNotValidateNullPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                PasswordValidation.Validate(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotValidateEmptyPassword()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(PasswordValidationErrorMessages.PasswordIsTooShort));
+        }
+
+        [Test]
+        public void ShouldNotValidatePasswordOneBelowMinimum()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;12345&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(PasswordValidationErrorMessages.PasswordIsTooShort));
+        }
+
+        [Test]
+        public void ShouldValidatePasswordAtMinimum()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;123456&quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldValidatePasswordOneAboveMinimum()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;1234567&quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldValidatePasswordWellBetweenMinimumAndMaximum()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;12345678910&quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldValidatePasswordOneBelowMaximum()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;1234567891234567891&quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldValidatePasswordAtMaximum()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;12345678912345678912&quot;);
+            });
+        }
+
+        [Test]
+        public void ShouldValidatePasswordOneAboveMaximum()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;123456789123456789123&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(PasswordValidationErrorMessages.PasswordIsTooLong));
+        }
+
+        [Test]
+        public void ShouldValidatePasswordWellAboveMaximum()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                PasswordValidation.Validate(&quot;123456789123456789123456789&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(PasswordValidationErrorMessages.PasswordIsTooLong));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,52,1],[13,52,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,92,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,49,1],[23,49,24,13,1],[24,13,24,14,0],[24,14,24,25,1],[25,13,25,98,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,32,13,1],[32,13,32,14,1],[32,14,33,17,1],[33,17,33,54,1],[33,54,34,13,1],[34,13,34,14,0],[34,14,34,25,1],[35,13,35,98,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,42,13,1],[42,13,42,14,1],[42,14,43,17,1],[43,17,43,55,1],[43,55,44,13,1],[44,13,44,14,1],[44,14,44,16,1],[45,9,45,10,1],[49,9,49,10,1],[50,13,51,13,1],[51,13,51,14,1],[51,14,52,17,1],[52,17,52,56,1],[52,56,53,13,1],[53,13,53,14,1],[53,14,53,16,1],[54,9,54,10,1],[58,9,58,10,1],[59,13,60,13,1],[60,13,60,14,1],[60,14,61,17,1],[61,17,61,60,1],[61,60,62,13,1],[62,13,62,14,1],[62,14,62,16,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,69,13,1],[69,13,69,14,1],[69,14,70,17,1],[70,17,70,68,1],[70,68,71,13,1],[71,13,71,14,1],[71,14,71,16,1],[72,9,72,10,1],[76,9,76,10,1],[77,13,78,13,1],[78,13,78,14,1],[78,14,79,17,1],[79,17,79,69,1],[79,69,80,13,1],[80,13,80,14,1],[80,14,80,16,1],[81,9,81,10,1],[85,9,85,10,1],[86,13,87,13,1],[87,13,87,14,1],[87,14,88,17,1],[88,17,88,70,1],[88,70,89,13,1],[89,13,89,14,0],[89,14,89,25,1],[90,13,90,97,1],[91,9,91,10,1],[95,9,95,10,1],[96,13,97,13,1],[97,13,97,14,1],[97,14,98,17,1],[98,17,98,76,1],[98,76,99,13,1],[99,13,99,14,0],[99,14,99,25,1],[100,13,100,97,1],[101,9,101,10,1]]);
+    </script>
+  </body>
+</html>

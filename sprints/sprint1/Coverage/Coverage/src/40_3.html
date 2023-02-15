@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Service\Ingredients\IngredientsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Endpoints.Ingredients;
+
+namespace Web_Client.Service.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Service for the Ingredients functionality.
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;IIngredientsService&quot; /&gt;
+    public class IngredientsService : IIngredientsService
+    {
+        private readonly IIngredientEndpoints endpoints;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Endpoints are set to default value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService()
+        {
+            this.endpoints = new IngredientEndpoints();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Endpoints are set to specified value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;endpoints&quot;&gt;The endpoints.&lt;/param&gt;
+        public IngredientsService(IIngredientEndpoints endpoints)
+        {
+            this.endpoints = endpoints;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public Ingredient[] GetAllIngredientsForUser()
+        {
+            return this.endpoints.GetAllIngredientsForUser();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool AddIngredient(Ingredient ingredient)
+        {
+            return this.endpoints.AddIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteIngredient(Ingredient ingredient)
+        {
+            return this.endpoints.DeleteIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool UpdateIngredient(Ingredient ingredient)
+        {
+            return this.endpoints.UpdateIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteAllIngredientsForUser()
+        {
+            return this.endpoints.DeleteAllIngredientsForUser();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public string[] GetSuggestions(string ingredientName)
+        {
+            return this.endpoints.GetSuggestions(ingredientName);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,9,20,36,0],[21,9,21,10,0],[22,13,22,56,0],[23,9,23,10,0],[32,9,32,66,0],[33,9,33,10,0],[34,13,34,40,0],[35,9,35,10,0],[39,9,39,10,0],[40,13,40,62,0],[41,9,41,10,0],[45,9,45,10,0],[46,13,46,61,0],[47,9,47,10,0],[51,9,51,10,0],[52,13,52,64,0],[53,9,53,10,0],[57,9,57,10,0],[58,13,58,64,0],[59,9,59,10,0],[63,9,63,10,0],[64,13,64,65,0],[65,9,65,10,0],[69,9,69,10,0],[70,13,70,66,0],[71,9,71,10,0]]);
+    </script>
+  </body>
+</html>

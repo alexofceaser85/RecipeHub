@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Recipes\RecipesServiceTests\GetRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.Service.Recipes;
+using Shared_Resources.Model.Recipes;
+
+namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
+{
+    public class GetRecipeTests
+    {
+        [Test]
+        public void RetrieveValidRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 0;
+            const int userId = 0;
+            var recipe = new Recipe(0, &quot;name&quot;, &quot;name&quot;, &quot;description&quot;, true);
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.GetRecipe(recipeId)).Returns(recipe);
+            recipesDal.Setup(mock =&gt; mock.UserCanSeeRecipe(userId, recipeId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var result = service.GetRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                recipesDal.Verify(mock =&gt; mock.GetRecipe(recipeId), Times.Once);
+                recipesDal.Verify(mock =&gt; mock.UserCanSeeRecipe(userId, recipeId), Times.Once);
+                usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once);
+                Assert.That(result, Is.EqualTo(recipe));
+            });
+            
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().GetRecipe(null!, 0));
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().GetRecipe(&quot;&quot;, 0));
+        }
+
+        [Test]
+        public void SessionKeyIsUnused()
+        {
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(&quot;0&quot;)).Returns((int?)null);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.GetRecipe(&quot;0&quot;, 0));
+        }
+
+        [Test]
+        public void UserCannotSeeRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 0;
+            const int userId = 0;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.UserCanSeeRecipe(userId, recipeId)).Returns(false);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.Throws &lt;ArgumentException&gt;(() =&gt; service.GetRecipe(sessionKey, recipeId));
+                recipesDal.Verify(mock =&gt; mock.UserCanSeeRecipe(userId, recipeId), Times.Once);
+                usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[17,13,17,77,1],[19,13,19,54,1],[20,13,20,50,1],[21,13,21,80,1],[22,13,22,93,1],[23,13,23,89,1],[25,13,25,82,1],[26,13,26,66,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,81,1],[30,81,31,17,1],[31,17,31,96,1],[31,96,32,17,1],[32,17,32,90,1],[32,90,33,17,1],[33,17,33,57,1],[33,57,34,13,1],[34,13,34,14,1],[34,14,34,16,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,56,1],[41,56,41,96,1],[41,96,41,98,1],[42,9,42,10,1],[46,9,46,10,1],[47,13,47,52,1],[47,52,47,89,1],[47,89,47,91,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,53,54,1],[54,13,54,50,1],[55,13,55,86,1],[57,13,57,82,1],[58,13,58,52,1],[58,52,58,77,1],[58,77,58,79,1],[59,9,59,10,1],[63,9,63,10,1],[68,13,68,54,1],[69,13,69,50,1],[70,13,70,94,1],[71,13,71,89,1],[73,13,73,82,1],[75,13,76,13,1],[76,13,76,14,1],[76,14,77,17,1],[77,17,77,57,1],[77,57,77,96,1],[77,96,77,98,1],[77,98,78,17,1],[78,17,78,96,1],[78,96,79,17,1],[79,17,79,90,1],[79,90,80,13,1],[80,13,80,14,1],[80,14,80,16,1],[81,9,81,10,1]]);
+    </script>
+  </body>
+</html>

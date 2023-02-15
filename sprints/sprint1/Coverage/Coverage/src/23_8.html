@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Users\UsersServiceTests\LoginTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Users;
+using Server.ErrorMessages;
+using Server.Service.Users;
+using Shared_Resources.ErrorMessages;
+
+namespace ServerTests.Server.Service.Users.UsersServiceTests
+{
+    public class LoginTests
+    {
+        [Test]
+        public void ShouldNotLoginWithNullUsername()
+        {
+            var usersService = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = usersService.Login(null!, &quot;password&quot;, &quot;key&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.UsernameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithBlankUsername()
+        {
+            var usersService = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = usersService.Login(&quot;   &quot;, &quot;password&quot;, &quot;key&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.UsernameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithNullPassword()
+        {
+            var usersService = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = usersService.Login(&quot;username&quot;, null!, &quot;key&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.PasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithBlankPassword()
+        {
+            var usersService = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = usersService.Login(&quot;username&quot;, &quot;   &quot;, &quot;key&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.PasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithBlankSessionKey()
+        {
+            var usersService = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = usersService.Login(&quot;username&quot;, &quot;password&quot;, &quot;   &quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty));
+        }
+
+
+
+        [Test]
+        public void ShouldNotAllowWrongUserNameAndPasswordCombination()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;)).Returns((int?)null);
+
+            var service = new UsersService(userDal.Object);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.Login(&quot;username&quot;, &quot;password&quot;, &quot;key&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ServerUsersServiceErrorMessages.UsernameAndPasswordCombinationIsWrong));
+        }
+
+        [Test]
+        public void ShouldLoginWithNonExistingSessionKey()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;)).Returns(1);
+            userDal.Setup(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;())).Returns(true);
+
+            var service = new UsersService(userDal.Object);
+
+            var returnedValue = service.Login(&quot;username&quot;, &quot;password&quot;, null);
+
+            userDal.Verify(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;), Times.Once());
+            userDal.Verify(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;()), Times.Once());
+            userDal.Verify(mock =&gt; mock.RemoveSessionKey(&quot;key&quot;), Times.Never());
+            userDal.Verify(mock =&gt; mock.AddUserSession(1, It.IsAny&lt;string&gt;()), Times.Once());
+            Assert.That(returnedValue, Is.Not.Empty);
+        }
+
+        [Test]
+        public void ShouldLoginWithExistingSessionKey()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;)).Returns(1);
+            userDal.Setup(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;())).Returns(true);
+
+            var service = new UsersService(userDal.Object);
+
+            var returnedValue = service.Login(&quot;username&quot;, &quot;password&quot;, &quot;key&quot;);
+
+            userDal.Verify(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;), Times.Once());
+            userDal.Verify(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;()), Times.Once());
+            userDal.Verify(mock =&gt; mock.RemoveSessionKey(&quot;key&quot;), Times.Once());
+            userDal.Verify(mock =&gt; mock.AddUserSession(1, It.IsAny&lt;string&gt;()), Times.Once());
+            Assert.That(returnedValue, Is.Not.Empty);
+        }
+
+        [Test]
+        public void ShouldLoginIfNewSessionKeyIsTaken()
+        {
+            var userDal = new Mock&lt;IUsersDal&gt;();
+
+            userDal.Setup(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;)).Returns(1);
+            userDal.SetupSequence(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;())).Returns(false).Returns(false).Returns(true);
+
+            var service = new UsersService(userDal.Object);
+
+            var returnedValue = service.Login(&quot;username&quot;, &quot;password&quot;, &quot;key&quot;);
+
+            userDal.Verify(mock =&gt; mock.VerifyUserNameAndPasswordCombination(&quot;username&quot;, &quot;password&quot;), Times.Once());
+            userDal.Verify(mock =&gt; mock.VerifySessionKeyDoesNotExist(It.IsAny&lt;string&gt;()), Times.Exactly(3));
+            userDal.Verify(mock =&gt; mock.RemoveSessionKey(&quot;key&quot;), Times.Once());
+            userDal.Verify(mock =&gt; mock.AddUserSession(1, It.IsAny&lt;string&gt;()), Times.Once());
+            Assert.That(returnedValue, Is.Not.Empty);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,51,1],[15,13,16,13,1],[16,13,16,14,1],[16,14,17,17,1],[17,17,17,66,1],[17,66,18,13,1],[18,13,18,14,0],[18,14,18,25,1],[20,13,20,94,1],[21,9,21,10,1],[25,9,25,10,1],[26,13,26,51,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,66,1],[29,66,30,13,1],[30,13,30,14,0],[30,14,30,25,1],[32,13,32,95,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,38,51,1],[39,13,40,13,1],[40,13,40,14,1],[40,14,41,17,1],[41,17,41,66,1],[41,66,42,13,1],[42,13,42,14,0],[42,14,42,25,1],[44,13,44,94,1],[45,9,45,10,1],[49,9,49,10,1],[50,13,50,51,1],[51,13,52,13,1],[52,13,52,14,1],[52,14,53,17,1],[53,17,53,66,1],[53,66,54,13,1],[54,13,54,14,0],[54,14,54,25,1],[56,13,56,95,1],[57,9,57,10,1],[61,9,61,10,1],[62,13,62,51,1],[63,13,64,13,1],[64,13,64,14,1],[64,14,65,17,1],[65,17,65,71,1],[65,71,66,13,1],[66,13,66,14,0],[66,14,66,25,1],[68,13,68,111,1],[69,9,69,10,1],[75,9,75,10,1],[76,13,76,49,1],[78,13,78,122,1],[80,13,80,60,1],[82,13,83,13,1],[83,13,83,14,1],[83,14,84,17,1],[84,17,84,62,1],[84,62,85,13,1],[85,13,85,14,0],[85,14,85,25,1],[87,13,87,117,1],[88,9,88,10,1],[92,9,92,10,1],[93,13,93,49,1],[95,13,95,113,1],[96,13,96,104,1],[98,13,98,60,1],[100,13,100,77,1],[102,13,102,117,1],[103,13,103,105,1],[104,13,104,81,1],[105,13,105,94,1],[106,13,106,54,1],[107,9,107,10,1],[111,9,111,10,1],[112,13,112,49,1],[114,13,114,113,1],[115,13,115,104,1],[117,13,117,60,1],[119,13,119,78,1],[121,13,121,117,1],[122,13,122,105,1],[123,13,123,80,1],[124,13,124,94,1],[125,13,125,54,1],[126,9,126,10,1],[130,9,130,10,1],[131,13,131,49,1],[133,13,133,113,1],[134,13,134,142,1],[136,13,136,60,1],[138,13,138,78,1],[140,13,140,117,1],[141,13,141,109,1],[142,13,142,80,1],[143,13,143,94,1],[144,13,144,54,1],[145,9,145,10,1]]);
+    </script>
+  </body>
+</html>

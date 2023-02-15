@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Ingredients\IngredientsServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.DAL.Ingredients;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.Service.Ingredients;
+using Server.Service.Recipes;
+
+namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
+{
+    [TestFixture]
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientsService());
+        }
+
+        [Test]
+        public void NullRecipesDal()
+        {
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                _ = new IngredientsService(null!, new IngredientsDal()));
+        }
+        
+        [Test]
+        public void NullUsersDal()
+        {
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                _ = new IngredientsService(new UsersDal(), null!));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,39,1],[15,39,15,67,1],[15,67,15,69,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,17,1],[22,17,22,72,1],[22,72,22,74,1],[23,9,23,10,1],[27,9,27,10,1],[28,13,29,17,1],[29,17,29,66,1],[29,66,29,68,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

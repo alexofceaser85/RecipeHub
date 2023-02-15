@@ -1,0 +1,17 @@
+Use-Case Scenario: Remove an Ingredient
+Users: Chef
+Context: User is viewing the ingredients screen
+Primary Flow:
+    1: User selects the "remove" option for an ingredient
+    2: User is prompted to confirm the removal
+    3: User confirms the removal of the ingredient
+    4: The confirmation prompt is closed
+    5: The screen is updated to reflect the removed ingredient
+Alternative Flows:
+    a1:
+        1: The user does not have any ingredients added
+        2: The user is unable to remove ingredients until at least one ingredient is added
+    a2:
+        1: The user rejects the confirmation prompt
+        2: The prompt is closed
+        3: The user is returned to the ingredients page without any changes

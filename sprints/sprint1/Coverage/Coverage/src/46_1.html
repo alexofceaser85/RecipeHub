@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ResponseModels\FlagResponseModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.ErrorMessages;
+using System.Net;
+
+namespace Server.Controllers.ResponseModels
+{
+    /// &lt;summary&gt;
+    /// Response model for requests that include a boolean flag.
+    /// &lt;/summary&gt;
+    public class FlagResponseModel : BaseResponseModel
+    {
+        /// &lt;summary&gt;
+        /// Represents a flag value, an extra value that
+        /// indicates whether an operation was successfully performed or not.
+        /// &lt;/summary&gt;
+        public bool? Flag { get; set; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;FlagResponseModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: message != null&lt;br /&gt;
+        /// AND !string.IsNullOrWhitespace(message)&lt;br /&gt;
+        /// Postcondition: Code == code&lt;br /&gt;
+        /// AND Message == message&lt;br /&gt;
+        /// AND Flag == flag&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;code&quot;&gt;The code.&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The message.&lt;/param&gt;
+        /// &lt;param name=&quot;flag&quot;&gt;The flag.&lt;/param&gt;
+        public FlagResponseModel(HttpStatusCode code, string message, bool? flag) : base(code, message)
+        {
+            this.Flag = flag;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,29,15,33,1],[15,34,15,38,1],[29,85,29,104,1],[30,9,30,10,1],[31,13,31,30,1],[32,9,32,10,1]]);
+    </script>
+  </body>
+</html>

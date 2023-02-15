@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\User\UserEndpointsTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Users;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.User.UserEndpointsTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldCreateZeroParameterUserEndpoints()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new UsersEndpoints();
+            });
+        }
+
+        [Test]
+        public void ShouldNotAllowNullHttpClient()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UsersEndpoints(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UsersEndpointsErrorMessages.ClientCannotBeNull));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,42,1],[13,42,14,13,1],[14,13,14,14,1],[14,14,14,16,1],[15,9,15,10,1],[19,9,19,10,1],[20,13,21,13,1],[21,13,21,14,1],[21,14,22,17,1],[22,17,22,47,1],[22,47,23,13,1],[23,13,23,14,0],[23,14,23,25,1],[24,13,24,94,1],[25,9,25,10,1]]);
+    </script>
+  </body>
+</html>

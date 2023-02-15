@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Model\Users\NewAccount.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.RegularExpressions;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.ErrorMessages;
+
+namespace Shared_Resources.Model.Users
+{
+    /// &lt;summary&gt;
+    /// Holds the information for a new account
+    /// &lt;/summary&gt;
+    public class NewAccount
+    {
+        private string password;
+        private string verifyPassword;
+
+        /// &lt;summary&gt;
+        /// Gets or sets the username.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The username.
+        /// &lt;/value&gt;
+        public string Username { get; }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the password.
+        ///
+        /// Precondition: value != null AND value IS NOT empty
+        /// Postcondition: this.password == value
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The password.
+        /// &lt;/value&gt;
+        public string Password { 
+            get =&gt; this.password;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentException(NewAccountErrorMessages.PasswordCannotBeNull);
+                }
+
+                if (value.Trim().Length == 0)
+                {
+                    throw new ArgumentException(NewAccountErrorMessages.PasswordCannotBeEmpty);
+                }
+
+                this.password = value;
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the verified password.
+        ///
+        /// Precondition: value != null AND value IS NOT empty
+        /// Postcondition: this.verifyPassword == value
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The verified password.
+        /// &lt;/value&gt;
+        public string VerifyPassword
+        {
+            get =&gt; this.verifyPassword;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentException(NewAccountErrorMessages.VerifiedPasswordCannotBeNull);
+                }
+
+                if (value.Trim().Length == 0)
+                {
+                    throw new ArgumentException(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty);
+                }
+
+                this.verifyPassword = value;
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the first name.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The first name.
+        /// &lt;/value&gt;
+        public string FirstName { get; }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the last name.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The last name.
+        /// &lt;/value&gt;
+        public string LastName { get; }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the email.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The email.
+        /// &lt;/value&gt;
+        public string Email { get; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;NewAccount&quot;/&gt; class.
+        ///
+        /// Precondition:
+        /// username != null
+        /// AND username IS NOT empty
+        /// AND password != null
+        /// AND password IS NOT empty
+        /// AND verifyPassword != null
+        /// AND verifyPassword IS NOT empty
+        /// AND verifiedPassword == password
+        /// AND firstName != null
+        /// AND firstName IS NOT empty
+        /// AND lastName != null
+        /// AND lastName IS NOT empty
+        /// AND email != null
+        /// AND email IS NOT empty
+        /// AND email IS IN an email format
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;username&quot;&gt;The username.&lt;/param&gt;
+        /// &lt;param name=&quot;password&quot;&gt;The password.&lt;/param&gt;
+        /// &lt;param name=&quot;verifyPassword&quot;&gt;The verified password.&lt;/param&gt;
+        /// &lt;param name=&quot;firstName&quot;&gt;The first name.&lt;/param&gt;
+        /// &lt;param name=&quot;lastName&quot;&gt;The last name.&lt;/param&gt;
+        /// &lt;param name=&quot;email&quot;&gt;The email.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public NewAccount(string username, string password, string verifyPassword, string firstName, string lastName, string email)
+        {
+            if (username == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.UsernameCannotBeNull);
+            }
+
+            if (username.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.UsernameCannotBeEmpty);
+            }
+
+            if (password == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.PasswordCannotBeNull);
+            }
+
+            if (password.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.PasswordCannotBeEmpty);
+            }
+
+            if (verifyPassword == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.VerifiedPasswordCannotBeNull);
+            }
+
+            if (verifyPassword.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty);
+            }
+
+            if (!verifyPassword.Equals(password))
+            {
+                throw new ArgumentException(NewAccountErrorMessages.VerifiedPasswordMustMatchPassword);
+            }
+
+            if (firstName == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.FirstNameCannotBeNull);
+            }
+
+            if (firstName.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.FirstNameCannotBeEmpty);
+            }
+
+            if (lastName == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.LastNameCannotBeNull);
+            }
+
+            if (lastName.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.LastNameCannotBeEmpty);
+            }
+
+            if (email == null)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.EmailCannotBeNull);
+            }
+
+            if (email.Trim().Length == 0)
+            {
+                throw new ArgumentException(NewAccountErrorMessages.EmailCannotBeEmpty);
+            }
+
+            if (!Regex.IsMatch(email, NewAccountSettings.EmailFormat))
+            {
+                throw new ArgumentException(NewAccountErrorMessages.EmailIsInWrongFormat);
+            }
+
+            this.Username = username;
+            this.password = password;
+            this.verifyPassword = verifyPassword;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Email = email;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,34,21,38,1],[33,20,33,33,1],[35,13,35,14,1],[36,17,36,35,1],[37,17,37,18,0],[38,21,38,95,0],[41,17,41,46,1],[42,17,42,18,0],[43,21,43,96,0],[46,17,46,39,1],[47,13,47,14,1],[61,20,61,39,1],[63,13,63,14,1],[64,17,64,35,1],[65,17,65,18,0],[66,21,66,103,0],[69,17,69,46,1],[70,17,70,18,0],[71,21,71,104,0],[74,17,74,45,1],[75,13,75,14,1],[84,35,84,39,1],[92,34,92,38,1],[100,31,100,35,1],[129,9,129,132,1],[130,9,130,10,1],[131,13,131,34,1],[132,13,132,14,0],[133,17,133,91,0],[136,13,136,45,1],[137,13,137,14,0],[138,17,138,92,0],[141,13,141,34,1],[142,13,142,14,0],[143,17,143,91,0],[146,13,146,45,1],[147,13,147,14,0],[148,17,148,92,0],[151,13,151,40,1],[152,13,152,14,0],[153,17,153,99,0],[156,13,156,51,1],[157,13,157,14,0],[158,17,158,100,0],[161,13,161,50,1],[162,13,162,14,0],[163,17,163,104,0],[166,13,166,35,1],[167,13,167,14,0],[168,17,168,92,0],[171,13,171,46,1],[172,13,172,14,0],[173,17,173,93,0],[176,13,176,34,1],[177,13,177,14,0],[178,17,178,91,0],[181,13,181,45,1],[182,13,182,14,0],[183,17,183,92,0],[186,13,186,31,1],[187,13,187,14,0],[188,17,188,88,0],[191,13,191,42,1],[192,13,192,14,0],[193,17,193,89,0],[196,13,196,71,1],[197,13,197,14,0],[198,17,198,91,0],[201,13,201,38,1],[202,13,202,38,1],[203,13,203,50,1],[204,13,204,40,1],[205,13,205,38,1],[206,13,206,32,1],[207,9,207,10,1]]);
+    </script>
+  </body>
+</html>

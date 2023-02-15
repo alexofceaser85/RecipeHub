@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Model\Recipes\Recipe.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Security.Policy;
+using System.Text;
+using System.Text.Json.Serialization;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+
+namespace Shared_Resources.Model.Recipes
+{
+    /// &lt;summary&gt;
+    /// Stores information for a recipe.
+    /// &lt;/summary&gt;
+    public class Recipe
+    {
+        private string authorName;
+        private string name;
+        private string description;
+
+        /// &lt;summary&gt;
+        /// The recipe&#39;s unique identifier.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;id&quot;)]
+        public int Id { get; set; }
+
+        /// &lt;summary&gt;
+        /// The name of the recipe&#39;s author.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;authorName&quot;)]
+        public string AuthorName
+        {
+            get =&gt; this.authorName;
+            set =&gt; this.authorName = value ?? 
+                                     throw new ArgumentNullException(nameof(value), RecipesErrorMessages.AuthorNameCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// The name of the recipe.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;name&quot;)] 
+        public string Name
+        {
+            get =&gt; this.name;
+            set =&gt; this.name = value ?? 
+                               throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeNameCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// The description for the recipe.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;description&quot;)]
+        public string Description
+        {
+            get =&gt; this.description;
+            set =&gt; this.description = value ?? 
+                                      throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeDescriptionCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// The average rating for the recipe.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;rating&quot;)]
+        public int Rating { get; set; }
+
+        /// &lt;summary&gt;
+        /// Whether the recipe is publicly viewable.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;isPublic&quot;)]
+        public bool IsPublic { get; set; }
+        
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;Recipe&quot;/&gt; with a specified id, author name, name, description, and public setting.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.Id == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Name == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IsPublic == false&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Rating == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients.IsEmpty()
+        /// &lt;/summary&gt;
+        public Recipe() : this(0, string.Empty, string.Empty, string.Empty, false)
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;Recipe&quot;/&gt; with a specified id, author name, name, description, and public setting.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.Id == id&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == authorName&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Name == name&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == description&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IsPublic == isPublic&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Rating == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients.IsEmpty()
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;id&quot;&gt;The recipe ID.&lt;/param&gt;
+        /// &lt;param name=&quot;authorName&quot;&gt;The author&#39;s name.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The recipe&#39;s name.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The recipe&#39;s description.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is publicly viewable.&lt;/param&gt;
+        public Recipe(int id, string authorName, string name, string description, bool isPublic)
+        {
+            this.authorName = authorName;
+            this.name = name;
+            this.description = description;
+            this.Id = id;
+            this.AuthorName = authorName;
+            this.Name = name;
+            this.Description = description;
+            this.IsPublic = isPublic;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public override bool Equals(object? obj)
+        {
+            if (obj is not Recipe other)
+            {
+                return false;
+            }
+            return this.Id == other.Id &amp;&amp; this.authorName == other.authorName &amp;&amp; this.Name == other.Name 
+                   &amp;&amp; this.Description == other.Description &amp;&amp; this.Rating == other.Rating &amp;&amp; this.IsPublic == other.IsPublic;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,25,24,29,1],[24,30,24,34,1],[32,20,32,35,0],[33,20,34,129,1],[43,20,43,29,0],[44,20,45,123,1],[54,20,54,36,0],[55,20,56,137,1],[63,29,63,33,0],[63,34,63,38,0],[69,32,69,36,0],[69,37,69,41,1],[83,27,83,83,1],[84,9,84,10,1],[86,9,86,10,1],[105,9,105,97,1],[106,9,106,10,1],[107,13,107,42,1],[108,13,108,30,1],[109,13,109,44,1],[110,13,110,26,1],[111,13,111,42,1],[112,13,112,30,1],[113,13,113,44,1],[114,13,114,38,1],[115,9,115,10,1],[119,9,119,10,1],[120,13,120,41,1],[121,13,121,14,0],[122,17,122,30,0],[124,13,125,127,1],[126,9,126,10,1],[130,9,130,10,0],[131,13,131,39,0],[132,9,132,10,0]]);
+    </script>
+  </body>
+</html>

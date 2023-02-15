@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\Ingredient\IngredientsViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Service.Ingredients;
+
+namespace Web_Client.ViewModel.Ingredient
+{
+    /// &lt;summary&gt;
+    /// View Model for the Ingredients.
+    /// &lt;/summary&gt;
+    public class IngredientsViewModel
+    {
+        private readonly IIngredientsService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Service is set to default value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsViewModel()
+        {
+            this.service = new IngredientsService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Service is set to specified value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+        public IngredientsViewModel(IIngredientsService service)
+        {
+            this.service = service;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all ingredients for user.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: None&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;the list of all ingredients for the user.&lt;/returns&gt;
+        public IList&lt;Shared_Resources.Model.Ingredients.Ingredient&gt; GetAllIngredientsForUser()
+        {
+            return this.service.GetAllIngredientsForUser();
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the specified ingredient.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Removes the ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredient&quot;&gt;The ingredient.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the ingredient was removed or not.&lt;/returns&gt;
+        public bool RemoveIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
+        {
+            return this.service.DeleteIngredient(ingredient);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes all ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Removes all ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;Whether all ingredients were removed or not.&lt;/returns&gt;
+        public bool RemoveAllIngredients()
+        {
+            return this.service.DeleteAllIngredientsForUser();
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the specified ingredient to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: The ingredient is added to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredient&quot;&gt;The ingredient.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the ingredient was successfully added or not.&lt;/returns&gt;
+        public bool AddIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
+        {
+            try
+            {
+                return this.service.AddIngredient(ingredient);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the suggestions for the ingredients based on the inputted text.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: None&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredientName&quot;&gt;Name of the ingredient.&lt;/param&gt;
+        /// &lt;returns&gt;The list of suggestions.&lt;/returns&gt;
+        public string[] GetSuggestions(string ingredientName)
+        {
+            return this.service.GetSuggestions(ingredientName);
+        }
+
+        /// &lt;summary&gt;
+        /// Edits the ingredient.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Ingredient has been updated.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredient&quot;&gt;The ingredient.&lt;/param&gt;
+        /// &lt;returns&gt;True if the ingredient was edited, false otherwise.&lt;/returns&gt;
+        public bool EditIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
+        {
+            return this.service.UpdateIngredient(ingredient);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,9,18,38,0],[19,9,19,10,0],[20,13,20,53,0],[21,9,21,10,0],[30,9,30,65,0],[31,9,31,10,0],[32,13,32,36,0],[33,9,33,10,0],[43,9,43,10,0],[44,13,44,60,0],[45,9,45,10,0],[56,9,56,10,0],[57,13,57,62,0],[58,9,58,10,0],[68,9,68,10,0],[69,13,69,63,0],[70,9,70,10,0],[81,9,81,10,0],[83,13,83,14,0],[84,17,84,63,0],[86,13,86,30,0],[87,13,87,14,0],[88,17,88,30,0],[90,9,90,10,0],[101,9,101,10,0],[102,13,102,64,0],[103,9,103,10,0],[114,9,114,10,0],[115,13,115,62,0],[116,9,116,10,0]]);
+    </script>
+  </body>
+</html>
