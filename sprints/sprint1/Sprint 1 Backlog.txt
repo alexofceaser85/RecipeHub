@@ -1,12 +1,13 @@
-Adding Initial Projects for Visual Studio to Code Folder
-Create Account
-Login
-Add Ingredient
-View Ingredient
-Delete Ingredient
-Update Ingredient
-Implement DB of Recipes
-Link Recipes to Ingredients
-Search Recipes by Ingredients by Ingredients User Has
-View All Recipes
-View Individual Recipe
+Task - Assignee - Estimate
+Adding Initial Projects for Visual Studio to Code Folder - Alexander Ayers - 2 Story Points
+Create Account - Alex Decesare - 3 Story Points
+Login  - Alex Decesare  - 3 Story Points
+Add Ingredient  - Alexander Ayers  - 3 Story Points
+View Ingredient - Alexander Ayers  - 3 Story Points
+Delete Ingredient - Alexander Ayers  - 3 Story Points
+Update Ingredient - Alexander Ayers  - 3 Story Points
+Implement DB of Recipes - Shawn Carter  - 3 Story Points
+Link Recipes to Ingredients   - 3 Story Points
+Search Recipes by Ingredients by Ingredients User Has - Shawn Carter  - 3 Story Points
+View All Recipes - Shawn Carter  - 3 Story Points
+View Individual Recipe - Shawn Carter  - 3 Story Points
