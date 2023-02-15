@@ -7,7 +7,7 @@ View Ingredient - Alexander Ayers  - 3 Story Points
 Delete Ingredient - Alexander Ayers  - 3 Story Points
 Update Ingredient - Alexander Ayers  - 3 Story Points
 Implement DB of Recipes - Shawn Carter  - 3 Story Points
-Link Recipes to Ingredients   - 3 Story Points
+Link Recipes to Ingredients - Shawn Carter - 3 Story Points
 Search Recipes by Ingredients by Ingredients User Has - Shawn Carter  - 3 Story Points
 View All Recipes - Shawn Carter  - 3 Story Points
 View Individual Recipe - Shawn Carter  - 3 Story Points
