@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Recipes\RecipesControllerTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.Controllers.Recipes;
+using Server.Controllers.Users;
+using Server.ErrorMessages;
+using Shared_Resources.ErrorMessages;
+
+namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldCreateZeroParameterRecipesController()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new RecipesController();
+            });
+        }
+
+        [Test]
+        public void ShouldNotAllowNullRecipesService()
+        {
+            var errorMessage = RecipesControllerErrorMessages.RecipesServiceCannotBeNull +
+                               &quot; (Parameter &#39;recipesService&#39;)&quot;;
+            var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+            {
+                _ = new RecipesController(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(errorMessage));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,14,13,1],[14,13,14,14,1],[14,14,15,17,1],[15,17,15,45,1],[15,45,16,13,1],[16,13,16,14,1],[16,14,16,16,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,23,64,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,50,1],[26,50,27,13,1],[27,13,27,14,0],[27,14,27,25,1],[28,13,28,60,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\ResponseModels\StandardResponseModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Server.Controllers.ResponseModels;
+using Server.ErrorMessages;
+
+namespace ServerTests.Server.Controllers.ResponseModels.StandardResponseModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotCreateStandardResponseModelWithNullMessage()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new StandardResponseModel(HttpStatusCode.Continue, null!);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateStandardResponseModelWithEmptyMessage()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new StandardResponseModel(HttpStatusCode.Continue, &quot;   &quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotSetNullMessageForStandardResponseModel()
+        {
+            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, &quot;message&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                responseModel.Message = null!;
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotSetEmptyMessageForStandardResponseModel()
+        {
+            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, &quot;message&quot;);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                responseModel.Message = &quot;   &quot;;
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldSetValidMessageValueForStandardResponseModel()
+        {
+            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, &quot;message&quot;);
+            responseModel.Message = &quot;my message&quot;;
+            Assert.That(responseModel.Message, Is.EqualTo(&quot;my message&quot;));
+        }
+
+        [Test]
+        public void ShouldCreateStandardResponseModelWithValidData()
+        {
+            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, &quot;message&quot;);
+
+            Assert.That(responseModel.Code, Is.EqualTo(HttpStatusCode.Continue));
+            Assert.That(responseModel.Message, Is.EqualTo(&quot;message&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,79,1],[14,79,15,13,1],[15,13,15,14,0],[15,14,15,25,1],[17,13,17,94,1],[18,9,18,10,1],[22,9,22,10,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,25,79,1],[25,79,26,13,1],[26,13,26,14,0],[26,14,26,25,1],[28,13,28,95,1],[29,9,29,10,1],[33,9,33,10,1],[34,13,34,95,1],[36,13,37,13,1],[37,13,37,14,1],[37,14,38,17,1],[38,17,38,47,1],[38,47,39,13,1],[39,13,39,14,0],[39,14,39,25,1],[41,13,41,94,1],[42,9,42,10,1],[46,9,46,10,1],[47,13,47,95,1],[49,13,50,13,1],[50,13,50,14,1],[50,14,51,17,1],[51,17,51,47,1],[51,47,52,13,1],[52,13,52,14,0],[52,14,52,25,1],[54,13,54,95,1],[55,9,55,10,1],[59,9,59,10,1],[60,13,60,95,1],[61,13,61,50,1],[62,13,62,74,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,68,95,1],[70,13,70,82,1],[71,13,71,71,1],[72,9,72,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Endpoints\User\UserEndpointsTests\GetUserInfoTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Web_Client.Endpoints.Users;
+
+namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
+{
+    internal class GetUserInfoTests
+    {
+        [Test]
+        public void ShouldHandleSuccessfulGetUserInfo()
+        {
+            var json = &quot;{\&quot;message\&quot;:\&quot;mysessioncode\&quot;, \&quot;code\&quot;:\&quot;200\&quot;, \&quot;userInfo\&quot;:{\&quot;userName\&quot;:\&quot;username\&quot;,\&quot;firstName\&quot;:\&quot;firstname\&quot;,\&quot;lastName\&quot;:\&quot;lastname\&quot;,\&quot;email\&quot;:\&quot;email@email.com\&quot;}}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new UsersEndpoints(httpClient);
+            var userInfo = endpoints.GetUserInfo(&quot;mykey&quot;);
+
+            Assert.That(userInfo.UserName, Is.EqualTo(&quot;username&quot;));
+            Assert.That(userInfo.FirstName, Is.EqualTo(&quot;firstname&quot;));
+            Assert.That(userInfo.LastName, Is.EqualTo(&quot;lastname&quot;));
+            Assert.That(userInfo.Email, Is.EqualTo(&quot;email@email.com&quot;));
+
+            mockHttpMessageHandler
+                .Protected()
+                .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+        }
+
+        [Test]
+        public void ShouldHandleUnsuccessfulGetUserInfo()
+        {
+            var json = &quot;{\&quot;message\&quot;:\&quot;myerrormessage\&quot;, \&quot;code\&quot;:\&quot;500\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new UsersEndpoints(httpClient);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                endpoints.GetUserInfo(&quot;mysessionkey&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(&quot;myerrormessage&quot;));
+
+            mockHttpMessageHandler
+                .Protected()
+                .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,202,1],[15,13,15,73,1],[16,13,23,20,1],[25,13,25,76,1],[26,13,26,60,1],[27,13,27,59,1],[29,13,29,68,1],[30,13,30,70,1],[31,13,31,68,1],[32,13,32,72,1],[34,13,36,150,1],[37,9,37,10,1],[41,9,41,10,1],[42,13,42,77,1],[44,13,44,73,1],[45,13,52,20,1],[54,13,54,76,1],[55,13,55,60,1],[57,13,58,13,1],[58,13,58,14,1],[58,14,59,17,1],[59,17,59,55,1],[59,55,60,13,1],[60,13,60,14,0],[60,14,60,25,1],[62,13,62,64,1],[64,13,66,150,1],[67,9,67,10,1]]);
+    </script>
+  </body>
+</html>

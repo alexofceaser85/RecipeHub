@@ -1,0 +1,132 @@
+﻿@page
+@using Shared_Resources.Model.Ingredients
+@using Web_Client.ViewModel.Ingredient
+@using Shared_Resources.Data.UserData
+@using Shared_Resources.Utils.Units
+@model Web_Client.Pages.IngredientsModel
+@{
+   var ViewModel = new IngredientsViewModel();
+    var Ingredients = ViewModel.GetAllIngredientsForUser();
+<h1>Ingredients</h1>
+<div>
+    <p>Use this page to add ingredients to your recipes.</p>
+    <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
+</div>
+
+@foreach (var ingredient in Ingredients)
+{
+    <div class="ingredient">
+        <div class="ingredient-name">
+            <p class="ingredient-name-title">@ingredient.Name</p>
+            <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
+        </div>
+        <div class="ingredient-actions">
+            <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
+        </div>
+    </div>
+}
+
+<button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="remove-all-modal">Remove All</button>
+
+<div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="edit-modal-label">Edit Ingredient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="UpdateIngredient">
+                <div class="modal-body">
+                    <input name="Name" id="edit-ingredient-text" type="text" hidden/>
+                    <input name="Amount" type="number" id="edit-amount-button" placeholder="Enter your desired amount"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="edit-amount-submit-button" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="DeleteIngredient">
+            <div class="modal-body">
+                <p>Are you sure you want to remove this ingredient?</p>
+                <input name="Name" type="text" id="remove-ingredient-text"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <button id="remove-ingredient-button" type="button" class="btn btn-primary">Yes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="remove-all-modal" tabindex="-1" aria-labelledby="remove-all-modal-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="remove-all-modal-label">Remove All</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" asp-page-handler="DeleteAllIngredients">
+                <div class="modal-body">
+                    <p>Are you sure you want to remove this ingredient?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <button type="submit" id="remove-all-button" type="button" class="btn btn-primary">Yes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-ingredient-modal-title">Add Ingredient</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-page-handler="AddIngredient" method="post" >
+                    <div class="modal-body">
+                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Ingrediate Name" />
+                        <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
+                        <select name="Measurement" >
+                            <option value="0">Quantity</option>
+                            <option value="1">Mass</option>
+                            <option value="2">Volume</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+@section Scripts
+{
+    <script type="text/javascript">
+            $(".ingredient-edit-button").click(function () {
+                $("#remove-ingredient-text").val($(this).data('ingredient-name'));
+            });
+
+            $(".ingredient-delete-button").click(function () {
+                $("edit-ingredient-text").val($(this).data('ingredient-name'));
+            });
+    </script>
+}
+}
+

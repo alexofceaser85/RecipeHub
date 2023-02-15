@@ -28,6 +28,98 @@
     }
 
     /// <summary>
+    /// The error messages for the recipes service
+    /// </summary>
+    public static class ServerRecipesServiceErrorMessages
+    {
+        /// <summary>
+        /// The recipes data access layer cannot be null error message
+        /// </summary>
+        public const string RecipesDataAccessLayerCannotBeNull = "The recipes data access layer cannot be null";
+
+        /// <summary>
+        /// The users data access layer cannot be null error message
+        /// </summary>
+        public const string UsersDataAccessLayerCannotBeNull = "The users data access layer cannot be null";
+
+        /// <summary>
+        /// The search term cannot be null error message
+        /// </summary>
+        public const string SearchTermCannotBeNull = "The search term cannot be null";
+
+        /// <summary>
+        /// The recipe name cannot be null error message
+        /// </summary>
+        public const string RecipeNameCannotBeNull = "The recipe name cannot be null";
+
+        /// <summary>
+        /// The recipe name cannot be empty error message
+        /// </summary>
+        public const string RecipeNameCannotBeEmpty = "The recipe name cannot be empty";
+
+        /// <summary>
+        /// The recipe description cannot be null error message
+        /// </summary>
+        public const string RecipeDescriptionCannotBeNull = "The recipe description cannot be null";
+
+        /// <summary>
+        /// The recipe description cannot be empty error message
+        /// </summary>
+        public const string RecipeDescriptionCannotBeEmpty = "The recipe description cannot be empty";
+
+        /// <summary>
+        /// The user did not make the recipe error message
+        /// </summary>
+        public const string UserDidNotMakeRecipe = "The user did not make the recipe";
+
+        /// <summary>
+        /// The recipe description cannot be empty error message
+        /// </summary>
+        public const string AuthorIdDoesNotExist = "The recipe description cannot be empty";
+
+        /// <summary>
+        /// The session key cannot be null error message
+        /// </summary>
+        public const string SessionKeyCannotBeNull = "The session key cannot be null";
+
+        /// <summary>
+        /// The session key cannot be empty error message
+        /// </summary>
+        public const string SessionKeyCannotBeEmpty = "The session key cannot be empty";
+        
+        /// <summary>
+        /// The session key is not valid error message
+        /// </summary>
+        public const string SessionKeyIsNotValid = "The session key is not valid";
+    }
+
+    /// <summary>
+    /// The error messages for the recipes controller
+    /// </summary>
+    public static class RecipesControllerErrorMessages
+    {
+        /// <summary>
+        /// The recipes service cannot be null error message
+        /// </summary>
+        public const string RecipesServiceCannotBeNull = "The recipes service cannot be null";
+
+        /// <summary>
+        /// The recipe failed to add error message
+        /// </summary>
+        public const string RecipeFailedToAdd = "The recipe failed to be added";
+
+        /// <summary>
+        /// The recipe failed to remove error message
+        /// </summary>
+        public const string RecipeFailedToRemove = "The recipe failed to be removed";
+
+        /// <summary>
+        /// The recipe failed to edit error message
+        /// </summary>
+        public const string RecipeFailedToEdit = "The recipe failed to be edited";
+    }
+
+    /// <summary>
     /// The user info response model error message
     /// </summary>
     public static class ResponseModelErrorMessages

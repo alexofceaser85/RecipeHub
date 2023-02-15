@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\User\UserEndpointsTests\CreateAccountTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Desktop_Client.Endpoints.Users;
+using Shared_Resources.Model.Users;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.User.UserEndpointsTests
+{
+    public class CreateAccountTests
+    {
+        [Test]
+        public void ShouldHandleSuccessfulCreateAccount()
+        {
+            var json = &quot;{\&quot;message\&quot;:\&quot;mysessioncode\&quot;, \&quot;code\&quot;:\&quot;200\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new UsersEndpoints(httpClient);
+
+            Assert.That(endpoints.CreateAccount(new NewAccount(&quot;username&quot;, &quot;password&quot;, &quot;password&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;)), Is.EqualTo(&quot;mysessioncode&quot;));
+
+            mockHttpMessageHandler
+                .Protected()
+                .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+        }
+
+        [Test]
+        public void ShouldHandleUnsuccessfulCreateAccount()
+        {
+            var json = &quot;{\&quot;message\&quot;:\&quot;myerrormessage\&quot;, \&quot;code\&quot;:\&quot;500\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new UsersEndpoints(httpClient);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                endpoints.CreateAccount(new NewAccount(&quot;username&quot;, &quot;password&quot;, &quot;password&quot;, &quot;fname&quot;, &quot;lname&quot;, &quot;email@email.com&quot;));
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(&quot;myerrormessage&quot;));
+
+            mockHttpMessageHandler
+                .Protected()
+                .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,76,1],[16,13,16,73,1],[17,13,24,20,1],[26,13,26,76,1],[27,13,27,60,1],[29,13,29,168,1],[31,13,33,150,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,77,1],[41,13,41,73,1],[42,13,49,20,1],[51,13,51,76,1],[52,13,52,60,1],[54,13,55,13,1],[55,13,55,14,1],[55,14,56,17,1],[56,17,56,130,1],[56,130,57,13,1],[57,13,57,14,0],[57,14,57,25,1],[59,13,59,64,1],[61,13,63,150,1],[64,9,64,10,1]]);
+    </script>
+  </body>
+</html>

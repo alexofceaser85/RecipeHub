@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Ingredients\IngredientsServiceTests\RemoveAllIngredientsFromPantryTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Ingredient;
+using Server.DAL.Users;
+using Server.Service.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
+{
+    public class RemoveAllIngredientsFromPantryTests
+    {
+        [Test]
+        public void SuccessfullyGetIngredients()
+        {
+            const int userId = 1;
+            const string sessionKey = &quot;Key&quot;;
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            ingredientsDal.Setup(mock =&gt; mock.RemoveAllIngredientsFromPantry(userId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+            usersDal.Setup(mock =&gt; mock.UserIdExists(userId)).Returns(true);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            var result = service.RemoveAllIngredientsFromPantry(sessionKey);
+
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            ingredientsDal.Verify(mock =&gt; mock.RemoveAllIngredientsFromPantry(userId), Times.Once);
+            Assert.That(result, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            const string sessionKey = null!;
+
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey!));
+        }
+        
+        [Test]
+        public void EmptySessionKey()
+        {
+            const string sessionKey = &quot;&quot;;
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey));
+        }
+        
+        [Test]
+        public void SessionKeyIsUnused()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.RemoveAllIngredientsFromPantry(sessionKey));
+        }
+        
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,0],[17,13,17,62,0],[18,13,18,50,0],[19,13,19,101,0],[20,13,20,89,0],[21,13,21,77,0],[23,13,23,90,0],[24,13,24,77,0],[26,13,26,88,0],[27,13,27,100,0],[28,13,28,51,0],[29,9,29,10,0],[33,9,33,10,0],[36,13,37,17,0],[37,17,37,85,0],[37,85,37,87,0],[38,9,38,10,0],[42,9,42,10,1],[44,13,44,52,1],[44,52,44,119,1],[44,119,44,121,1],[45,9,45,10,1],[49,9,49,10,1],[51,13,51,80,1],[53,13,53,62,1],[54,13,54,50,1],[55,13,55,93,1],[57,13,57,90,1],[58,13,58,52,1],[58,52,58,102,1],[58,102,58,104,1],[59,9,59,10,1]]);
+    </script>
+  </body>
+</html>

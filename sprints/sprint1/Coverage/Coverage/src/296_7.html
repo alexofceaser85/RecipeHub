@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Ingredients\IngredientsControllerTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Newtonsoft.Json.Linq;
+using Server.Controllers.Ingredients;
+using Server.Controllers.Recipes;
+using Server.ErrorMessages;
+using System.Reflection.Metadata;
+using Server.Service.Ingredients;
+
+namespace ServerTests.Server.Controllers.Ingredients.IngredientsControllerTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldCreateZeroParameterRecipesController()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new IngredientsController();
+            });
+        }
+
+        [Test]
+        public void ShouldCreateOneParameterRecipesController()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new IngredientsController(new IngredientsService());
+            });
+        }
+
+        [Test]
+        public void ShouldNotAllowNullRecipesService()
+        {
+            var errorMessage = &quot;Value cannot be null. (Parameter &#39;service&#39;)&quot;;
+            var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+            {
+                _ = new IngredientsController(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(errorMessage));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,16,13,1],[16,13,16,14,1],[16,14,17,17,1],[17,17,17,49,1],[17,49,18,13,1],[18,13,18,14,1],[18,14,18,16,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,73,1],[26,73,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1],[32,9,32,10,1],[33,13,33,78,1],[34,13,35,13,1],[35,13,35,14,1],[35,14,36,17,1],[36,17,36,54,1],[36,54,37,13,1],[37,13,37,14,0],[37,14,37,25,1],[38,13,38,60,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Ingredients\IngredientsViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Desktop_Client.Service.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace Desktop_Client.ViewModel.Ingredients
+{
+    /// &lt;summary&gt;
+    /// View Model for the Ingredients.
+    /// &lt;/summary&gt;
+    public class IngredientsViewModel
+    {
+        private readonly IIngredientsService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Service is set to default value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsViewModel()
+        {
+            this.service = new IngredientsService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Service is set to specified value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+        public IngredientsViewModel(IIngredientsService service)
+        {
+            this.service = service;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all ingredients for user.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: None&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;the list of all ingredients for the user.&lt;/returns&gt;
+        public IList&lt;Ingredient&gt; GetAllIngredientsForUser()
+        {
+            return this.service.GetAllIngredientsForUser();
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the specified ingredient.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Removes the ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredient&quot;&gt;The ingredient.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the ingredient was removed or not.&lt;/returns&gt;
+        public bool RemoveIngredient(Ingredient ingredient)
+        {
+            return this.service.DeleteIngredient(ingredient);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes all ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Removes all ingredients from the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;Whether all ingredients were removed or not.&lt;/returns&gt;
+        public bool RemoveAllIngredients()
+        {
+            return this.service.DeleteAllIngredientsForUser();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,9,24,38,0],[25,9,25,10,0],[26,13,26,53,0],[27,9,27,10,0],[36,9,36,65,0],[37,9,37,10,0],[38,13,38,36,0],[39,9,39,10,0],[49,9,49,10,0],[50,13,50,60,0],[51,9,51,10,0],[62,9,62,10,0],[63,13,63,62,0],[64,9,64,10,0],[74,9,74,10,0],[75,13,75,63,0],[76,9,76,10,0]]);
+    </script>
+  </body>
+</html>

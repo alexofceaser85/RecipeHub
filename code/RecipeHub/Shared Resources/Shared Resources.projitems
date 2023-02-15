@@ -13,12 +13,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Settings\UserInterfaceSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorMessages\ErrorMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\RecipeStep.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\Recipe.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Ingredients\Ingredient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Ingredients\MeasurementType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\NewAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IO\SessionKeySerializers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hashing\Hashes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Json\JsonUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Server\ServerUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Units\BaseUnitUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Validation\PasswordValidation.cs" />
   </ItemGroup>
   <ItemGroup>

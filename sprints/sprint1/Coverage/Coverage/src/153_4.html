@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Users\UsersServiceTests\GetUserInfoTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Users;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+
+namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
+{
+    public class GetUserInfoTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            Session.Key = null;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Session.Key = null;
+        }
+
+        [Test]
+        public void ShouldNotGetUserInfoIfSessionKeyIsNull()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.GetUserInfo();
+            })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotGetUserInfoIfSessionKeyIsEmpty()
+        {
+            Session.Key = &quot;   &quot;;
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.GetUserInfo();
+            })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeEmpty));
+        }
+
+        [Test]
+        public void TestSuccessfulGetUserInfo()
+        {
+            Session.Key = &quot;sessionkey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+            var expectedUserInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+
+            mockedEndpoints.Setup(mock =&gt; mock.GetUserInfo(Session.Key)).Returns(expectedUserInfo);
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            var actualUserInfo = service.GetUserInfo();
+            Assert.That(expectedUserInfo, Is.EqualTo(actualUserInfo));
+        }
+
+        [Test]
+        public void TestUnsuccessfulGetUserInfo()
+        {
+            Session.Key = &quot;sessionkey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+
+            mockedEndpoints.Setup(mock =&gt; mock.GetUserInfo(Session.Key)).Throws(new ArgumentException(&quot;testexception&quot;));
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.GetUserInfo();
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(&quot;testexception&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,32,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,21,32,1],[22,9,22,10,1],[26,9,26,10,1],[27,13,27,46,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,39,1],[30,39,31,13,1],[31,13,31,14,0],[31,14,31,25,1],[32,13,32,94,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,38,33,1],[39,13,39,46,1],[40,13,41,13,1],[41,13,41,14,1],[41,14,42,17,1],[42,17,42,39,1],[42,39,43,13,1],[43,13,43,14,0],[43,14,43,25,1],[44,13,44,95,1],[45,9,45,10,1],[49,9,49,10,1],[50,13,50,40,1],[51,13,51,63,1],[52,13,52,105,1],[54,13,54,100,1],[56,13,56,68,1],[58,13,58,56,1],[59,13,59,71,1],[60,9,60,10,1],[64,9,64,10,1],[65,13,65,40,1],[66,13,66,63,1],[68,13,68,121,1],[70,13,70,68,1],[72,13,73,13,1],[73,13,73,14,1],[73,14,74,17,1],[74,17,74,39,1],[74,39,75,13,1],[75,13,75,14,0],[75,14,75,25,1],[77,13,77,63,1],[78,9,78,10,1]]);
+    </script>
+  </body>
+</html>

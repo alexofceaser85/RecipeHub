@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Model\Users\NewAccountInfoBindingModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Model.Users;
+
+namespace WebClientTests.WebClient.Model.Users.NewAccountInfoBindingModelTests
+{
+    public class ConstructorTests
+    {
+        public class NewAccountInfoBindingModelTests
+        {
+            [Test]
+            public void ShouldCreateNewAccountInfoBindingModel()
+            {
+                var bindingModel = new NewAccountInfoBindingModel();
+                bindingModel.Username = &quot;username&quot;;
+                bindingModel.Password = &quot;password&quot;;
+                bindingModel.VerifyPassword = &quot;password&quot;;
+                bindingModel.FirstName = &quot;fname&quot;;
+                bindingModel.LastName = &quot;lname&quot;;
+                bindingModel.Email = &quot;email@email.com&quot;;
+
+                Assert.That(bindingModel.Username, Is.EqualTo(&quot;username&quot;));
+                Assert.That(bindingModel.Password, Is.EqualTo(&quot;password&quot;));
+                Assert.That(bindingModel.VerifyPassword, Is.EqualTo(&quot;password&quot;));
+                Assert.That(bindingModel.FirstName, Is.EqualTo(&quot;fname&quot;));
+                Assert.That(bindingModel.LastName, Is.EqualTo(&quot;lname&quot;));
+                Assert.That(bindingModel.Email, Is.EqualTo(&quot;email@email.com&quot;));
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,13,11,14,1],[12,17,12,69,1],[13,17,13,52,1],[14,17,14,52,1],[15,17,15,58,1],[16,17,16,50,1],[17,17,17,49,1],[18,17,18,56,1],[20,17,20,76,1],[21,17,21,76,1],[22,17,22,82,1],[23,17,23,74,1],[24,17,24,73,1],[25,17,25,80,1],[26,13,26,14,1]]);
+    </script>
+  </body>
+</html>

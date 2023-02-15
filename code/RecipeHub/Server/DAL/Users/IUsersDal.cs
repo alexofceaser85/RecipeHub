@@ -1,4 +1,7 @@
-﻿using Shared_Resources.Model.Users;
+﻿using Microsoft.Data.SqlClient;
+using Server.Data.Settings;
+using Shared_Resources.Model.Users;
+using System.Data;
 
 namespace Server.DAL.Users
 {
@@ -69,5 +72,26 @@ namespace Server.DAL.Users
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The user info for the session key</returns>
         public UserInfo? GetUserInfo(string sessionKey);
+
+        /// <summary>
+        /// Gets whether a user with a specified ID exists.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="userId">The user's ID.</param>
+        /// <returns>Whether a user with the specified ID exists.</returns>
+        public bool UserIdExists(int userId);
+
+        /// <summary>
+        /// Gets the user ID that is currently associated with a specified session key.<br/>
+        /// If none are found, null is returned.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The user ID associated with the session key, if it exists. Otherwise, null.</returns>
+        public int? GetIdForSessionKey(string sessionKey);
     }
 }

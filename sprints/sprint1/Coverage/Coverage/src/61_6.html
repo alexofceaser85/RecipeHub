@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Recipes\RecipesControllerTests\GetRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using System.Net;
+using Server.Controllers.Recipes;
+using Server.Data.Settings;
+using Server.Service.Recipes;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
+{
+    public class GetRecipeTests
+    {
+        [Test]
+        public void RecipeStepsSuccessfullyRetrieved()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 0;
+            var recipe = new Recipe();
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.GetRecipe(sessionKey, recipeId)).Returns(recipe);
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.GetRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(result.Message, Is.EqualTo(ServerSettings.DefaultSuccessfulConnectionMessage));
+                Assert.That(result.Recipe, Is.EqualTo(recipe));
+                recipesService.Verify(mock =&gt; mock.GetRecipe(sessionKey, recipeId), Times.Once());
+            });
+        }
+        
+        [Test]
+        public void ServiceFailedToFetchIngredients()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 0;
+            const string errorMessage = &quot;This is an exception&quot;;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.GetRecipe(sessionKey, recipeId)).Throws(new ArgumentException(errorMessage));
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.GetRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(errorMessage));
+                recipesService.Verify(mock =&gt; mock.GetRecipe(sessionKey, recipeId), Times.Once());
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[18,13,18,39,1],[20,13,20,62,1],[22,13,22,96,1],[23,13,23,72,1],[25,13,25,66,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,73,1],[29,73,30,17,1],[30,17,30,108,1],[30,108,31,17,1],[31,17,31,64,1],[31,64,32,17,1],[32,17,32,99,1],[32,99,33,13,1],[33,13,33,14,1],[33,14,33,16,1],[34,9,34,10,1],[38,9,38,10,1],[43,13,43,62,1],[45,13,45,124,1],[46,13,46,72,1],[48,13,48,66,1],[50,13,51,13,1],[51,13,51,14,1],[51,14,52,17,1],[52,17,52,90,1],[52,90,53,17,1],[53,17,53,71,1],[53,71,54,17,1],[54,17,54,99,1],[54,99,55,13,1],[55,13,55,14,1],[55,14,55,16,1],[56,9,56,10,1]]);
+    </script>
+  </body>
+</html>

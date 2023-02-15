@@ -15,6 +15,10 @@ namespace Shared_Resources.Data.IO
         /// </summary>
         public static void SaveSessionKey(string sessionKey, string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                File.Create(filePath);
+            }
             var fileStream = new FileStream(filePath, FileMode.Truncate, FileAccess.Write);
 
             try

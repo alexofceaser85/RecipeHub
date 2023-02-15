@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Users\UsersViewModelTests\GetUserInfoTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Model.Users;
+using Web_Client.Service.Users;
+using Web_Client.ViewModel.Users;
+
+namespace WebClientTests.WebClient.ViewModel.Users.UsersViewModelTests
+{
+    public class GetUserInfoTests
+    {
+        [Test]
+        public void ShouldGetUserInfo()
+        {
+            var expectedUserInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            var service = new Mock&lt;IUsersService&gt;();
+            var viewModel = new UsersViewModel(service.Object);
+            service.Setup(mock =&gt; mock.GetUserInfo()).Returns(expectedUserInfo);
+
+            var actualUserInfo = viewModel.GetUserInfo();
+            service.Verify(mock =&gt; mock.GetUserInfo(), Times.Once);
+            Assert.That(actualUserInfo, Is.EqualTo(expectedUserInfo));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,105,1],[14,13,14,53,1],[15,13,15,64,1],[16,13,16,81,1],[18,13,18,58,1],[19,13,19,68,1],[20,13,20,71,1],[21,9,21,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Recipes\RecipesControllerTests\AddRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using System.Net;
+using Server.Controllers.Recipes;
+using Server.Data.Settings;
+using Server.ErrorMessages;
+using Server.Service.Recipes;
+
+namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
+{
+    public class AddRecipeTests
+    {
+        [Test]
+        public void RecipeSuccessfullyAdded()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic)).Returns(true);
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.AddRecipe(sessionKey, name, description, isPublic);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(result.Message, Is.EqualTo(ServerSettings.DefaultSuccessfulConnectionMessage));
+                recipesService.Verify(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic), Times.Once());
+            });
+        }
+
+        [Test]
+        public void DatabaseFailedToAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic)).Returns(false);
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.AddRecipe(sessionKey, name, description, isPublic);
+
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(RecipesControllerErrorMessages.RecipeFailedToAdd));
+            });
+        }
+
+        [Test]
+        public void ServiceFailedToAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+            const string exceptionMessage = &quot;An exception was thrown&quot;;
+
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic)).Throws(new ArgumentException(exceptionMessage));
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.AddRecipe(sessionKey, name, description, isPublic);
+            
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.AddRecipe(sessionKey, name, description, isPublic), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(exceptionMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[20,13,20,62,1],[22,13,22,113,1],[23,13,23,72,1],[25,13,25,85,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,73,1],[29,73,30,17,1],[30,17,30,108,1],[30,108,31,17,1],[31,17,31,118,1],[31,118,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1],[37,9,37,10,1],[43,13,43,62,1],[45,13,45,114,1],[46,13,46,72,1],[48,13,48,85,1],[50,13,51,13,1],[51,13,51,14,1],[51,14,52,17,1],[52,17,52,118,1],[52,118,53,17,1],[53,17,53,90,1],[53,90,54,17,1],[54,17,54,107,1],[54,107,55,13,1],[55,13,55,14,1],[55,14,55,16,1],[56,9,56,10,1],[60,9,60,10,1],[67,13,67,62,1],[69,13,69,147,1],[70,13,70,72,1],[72,13,72,85,1],[74,13,75,13,1],[75,13,75,14,1],[75,14,76,17,1],[76,17,76,118,1],[76,118,77,17,1],[77,17,77,90,1],[77,90,78,17,1],[78,17,78,75,1],[78,75,79,13,1],[79,13,79,14,1],[79,14,79,16,1],[80,9,80,10,1]]);
+    </script>
+  </body>
+</html>

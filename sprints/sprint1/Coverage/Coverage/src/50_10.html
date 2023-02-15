@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Hashing\HashesTests\HashToSha512Tests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Hashing;
+
+namespace SharedResourcesTests.SharedResources.Utils.Hashing.HashesTests
+{
+    public class HashesTests
+    {
+        [Test]
+        public void ShouldNotHashNullString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                Hashes.HashToSha512(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(HashesErrorMessages.PasswordToHashCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotHashEmptyString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                Hashes.HashToSha512(&quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(HashesErrorMessages.PasswordToHashCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldHashValidString()
+        {
+            var hashedString = Hashes.HashToSha512(&quot;000000&quot;);
+            const string expectedHashedString =
+                &quot;64fcc6f6bc7a815041b4db51f00f4bea8e51c13b27f422da0a8522c94641c7e483c3f17b28d0a59add0c8a44a4e4fc1dd3a9ea48bad8cf5b707ac0f44a5f3536&quot;;
+
+            Assert.That(hashedString, Is.EqualTo(expectedHashedString));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,44,1],[13,44,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,94,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,44,1],[23,44,24,13,1],[24,13,24,14,0],[24,14,24,25,1],[25,13,25,95,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,31,62,1],[35,13,35,73,1],[36,9,36,10,1]]);
+    </script>
+  </body>
+</html>
