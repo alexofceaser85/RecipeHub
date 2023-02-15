@@ -113,6 +113,28 @@ namespace Server.Service.Recipes
             return this.recipesDal.GetIngredientsForRecipe(recipeId);
         }
 
+        public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey),
+                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.GetStepsForRecipe(recipeId);
+        }
+
         /// <inheritdoc/>
         public bool AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {

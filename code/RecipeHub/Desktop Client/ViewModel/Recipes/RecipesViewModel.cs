@@ -53,5 +53,9 @@ namespace Desktop_Client.ViewModel.Recipes
             return this.service.GetIngredientsForRecipe(sessionKey, recipeId);
         }
 
+        public RecipeStep[] LoadSteps(string sessionKey, int recipeId)
+        {
+            return this.service.GetStepsForRecipe(sessionKey, recipeId);
+        }
     }
 }

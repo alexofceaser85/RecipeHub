@@ -69,7 +69,23 @@ namespace Server.Controllers.Recipes
             {
                 return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Ingredient>());
             }
-        } 
+        }
+
+        [HttpGet]
+        [Route("RecipeSteps")]
+        public RecipeStepsResponseModel GetRecipeSteps(string sessionKey, int recipeId)
+        {
+            try
+            {
+                var response = new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeSteps(sessionKey, recipeId));
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<RecipeStep>());
+            }
+        }
 
         /// <summary>
         /// Adds a recipe with the user associated with the session key as the author.<br/>

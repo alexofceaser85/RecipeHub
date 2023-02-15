@@ -87,6 +87,21 @@ namespace Desktop_Client.Service.Recipes
             return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
         }
 
+        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.endpoints.GetStepsForRecipe(sessionKey, recipeId);
+        }
+
         /// <inheritdoc/>
         public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {

@@ -131,25 +131,4 @@ namespace Shared_Resources.Model.Recipes
             return base.GetHashCode();
         }
     }
-    
-    /// <summary>
-    /// A stub class used as a placeholder
-    /// </summary>
-    public struct RecipeStep
-    {
-        /// <summary>
-        /// Name stub
-        /// </summary>
-        public string Name;
-
-        /// <summary>
-        /// Number stub
-        /// </summary>
-        public int Number;
-
-        /// <summary>
-        /// Instructions stub
-        /// </summary>
-        public string Instructions;
-    }
 }

@@ -13,12 +13,14 @@ namespace Desktop_Client.Endpoints.Recipes
     public class RecipesEndpoints : IRecipesEndpoints
     {
         private const string RecipeRoute = "Recipe";
-        private const string RecipeIngrdientsRoute = "RecipeIngredients";
+        private const string RecipeIngredientsRoute = "RecipeIngredients";
+        private const string RecipeStepsRoute = "RecipeSteps";
         private const string RecipesRoute = "Recipes";
         
         private const string RecipeElementName = "recipe";
         private const string RecipesElementName = "recipes";
         private const string IngredientsElementName = "ingredients";
+        private const string StepsElementName = "steps";
 
         private readonly HttpClient client;
 
@@ -55,7 +57,7 @@ namespace Desktop_Client.Endpoints.Recipes
 
             return recipes!;
         }
-
+        
         /// <inheritdoc/>
         public Recipe GetRecipe(string sessionKey, int recipeId)
         {
@@ -73,7 +75,7 @@ namespace Desktop_Client.Endpoints.Recipes
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
         {
             var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
-            var requestUri = $"{ServerSettings.ServerUri}{RecipeIngrdientsRoute}{serverMethodParameters}";
+            var requestUri = $"{ServerSettings.ServerUri}{RecipeIngredientsRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
@@ -89,6 +91,18 @@ namespace Desktop_Client.Endpoints.Recipes
             }
 
             return ingredients.ToArray();
+        }
+
+        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
+        {
+            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var requestUri = $"{ServerSettings.ServerUri}{RecipeStepsRoute}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var steps = json.AsObject()[StepsElementName].Deserialize<RecipeStep[]>();
+
+            return steps!;
         }
 
         /// <inheritdoc/>

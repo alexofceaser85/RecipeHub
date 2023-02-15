@@ -23,6 +23,7 @@ namespace Desktop_Client.View.Screens
             this.viewModel = new RecipesViewModel();
             this.LoadRecipe(recipeId);
             this.LoadIngredients(recipeId);
+            this.LoadInstructions(recipeId);
         }
 
         private void LoadRecipe(int recipeId)
@@ -49,7 +50,23 @@ namespace Desktop_Client.View.Screens
                 this.ingredientsListLabel.Text += $"{ingredient.Name} - {ingredient.Amount} {ingredient.MeasurementType}\n";
             }
         }
-        
+
+        private void LoadInstructions(int recipeId)
+        {
+            var steps = this.viewModel.LoadSteps(Session.Key!, recipeId);
+            if (steps.Length == 0)
+            {
+                this.stepsLabel.Text = "No steps have been added... Yet!";
+                return;
+            }
+
+            this.stepsLabel.Text = "";
+            foreach (var step in steps)
+            {
+                this.stepsLabel.Text += $"{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n";
+            }
+        }
+
         private void backButton_Click(object sender, EventArgs e)
         {
             base.ChangeScreens(new RecipeListScreen());

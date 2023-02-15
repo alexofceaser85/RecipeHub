@@ -230,7 +230,8 @@ namespace Server.DAL.Recipes
         public RecipeStep[] GetStepsForRecipe(int recipeId)
         {
             var steps = new List<RecipeStep>();
-            var query = "SELECT stepNumber, stepName, instructions FROM RecipeSteps WHERE recipeId = @recipeId";
+            var query = "SELECT stepNumber, TRIM(stepName) AS stepName, TRIM(instructions) AS instructions " +
+                        "FROM RecipeSteps WHERE recipeId = @recipeId ORDER BY stepNumber";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -247,12 +248,7 @@ namespace Server.DAL.Recipes
                 var stepNumber = reader.GetInt32(stepNumberOrdinal);
                 var name = reader.GetString(stepNameOrdinal);
                 var instructions = reader.GetString(instructionsOrdinal);
-                steps.Add(new RecipeStep()
-                {
-                    Number = stepNumber,
-                    Name = name,
-                    Instructions = instructions,
-                });
+                steps.Add(new RecipeStep(stepNumber, name, instructions));
             }
 
             return steps.ToArray();

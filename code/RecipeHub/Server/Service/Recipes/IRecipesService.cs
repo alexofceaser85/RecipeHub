@@ -26,6 +26,8 @@ namespace Server.Service.Recipes
 
         public Ingredient[] GetRecipeIngredients(string sessionKey, int recipeId);
 
+        public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId);
+
         /// <summary>
         /// Attempts to add a recipe to the database.<br/>
         /// <br/>

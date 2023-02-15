@@ -48,6 +48,8 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <returns>The ingredients for the recipe.</returns>
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
 
+        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
+
         /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>
         /// <br/>
