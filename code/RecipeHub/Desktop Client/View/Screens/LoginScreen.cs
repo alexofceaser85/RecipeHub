@@ -26,7 +26,7 @@
 
         private void LoginFormOnLoggedIn(object? sender, EventArgs e)
         {
-            this.ChangeScreens(new UserInfoScreen());
+            this.ChangeScreens(new RecipeListScreen());
         }
     }
 }

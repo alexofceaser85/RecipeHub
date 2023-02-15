@@ -13,10 +13,10 @@
   <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
 
   <ItemGroup>
-    <Compile Update="View\Screens\LoginScreen.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="View\Screens\RegistrationScreen.cs">
+    <Compile Update="View\Screens\LoginScreen.cs" />
+    <Compile Update="View\Screens\RegistrationScreen.cs" />
+    <Compile Update="View\Screens\RecipeListScreen.cs" />
+    <Compile Update="View\Screens\RecipeScreen.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\Screens\UserInfoScreen.cs" />

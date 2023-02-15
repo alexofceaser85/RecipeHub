@@ -5,7 +5,9 @@ using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.ViewModel.Recipes
 {
-    /// <inheritdoc cref="IRecipesEndpoints"/>
+    /// <summary>
+    /// The view model for the Recipes List screen.
+    /// </summary>
     public class RecipesListViewModel
     {
         private readonly IRecipesService service;
