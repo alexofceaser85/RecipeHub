@@ -24,8 +24,9 @@ namespace Desktop_Client.View.Screens
             this.InitializeComponent();
             
             this.viewmodel = new RecipesListViewModel();
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key));
+            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
         }
+        
         private void PopulateRecipeList(Recipe[] recipes)
         {
             this.ClearRecipeList();
@@ -57,6 +58,12 @@ namespace Desktop_Client.View.Screens
         private void hamburgerButton_MouseClick(object sender, EventArgs e)
         {
             base.ToggleHamburgerMenu();
+        }
+
+        private void filtersButton_Click(object sender, EventArgs e)
+        {
+            this.viewmodel.OpenFiltersDialog();
+            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
         }
     }
 }

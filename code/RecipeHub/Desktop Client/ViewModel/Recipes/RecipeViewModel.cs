@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Desktop_Client.Model;
 using Desktop_Client.Service.Recipes;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
@@ -14,7 +15,7 @@ namespace Desktop_Client.ViewModel.Recipes
     /// <summary>
     /// The view model for the Recipes screen.
     /// </summary>
-    public class RecipesViewModel
+    public class RecipeViewModel
     {
         private readonly IRecipesService service;
 
@@ -25,7 +26,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesViewModel() : this(new RecipesService())
+        public RecipeViewModel() : this(new RecipesService())
         {
 
         }
@@ -36,7 +37,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <b>Precondition: </b>service != null<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesViewModel(IRecipesService service)
+        public RecipeViewModel(IRecipesService service)
         {
             this.service = service ??
                            throw new ArgumentNullException(nameof(service),

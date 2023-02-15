@@ -322,9 +322,14 @@ namespace Shared_Resources.ErrorMessages
     public class RecipesViewModelErrorMessages
     {
         /// <summary>
-        /// The users service cannot be null error messages
+        /// The recipes service cannot be null error messages
         /// </summary>
-        public static string RecipesServiceCannotBeNull = "The users service cannot be null";
+        public static string RecipesServiceCannotBeNull = "The recipes service cannot be null";
+        
+        /// <summary>
+        /// The ingredients service cannot be null error messages
+        /// </summary>
+        public static string IngredientsServiceCannotBeNull = "The ingredients service cannot be null";
     }
 
     /// <summary>

@@ -1,6 +1,10 @@
 ﻿using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Model;
+using Desktop_Client.Service.Ingredients;
 using Desktop_Client.Service.Recipes;
+using Desktop_Client.View.Dialog;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.ViewModel.Recipes
@@ -10,7 +14,9 @@ namespace Desktop_Client.ViewModel.Recipes
     /// </summary>
     public class RecipesListViewModel
     {
-        private readonly IRecipesService service;
+        private readonly IRecipesService recipesService;
+        private readonly IIngredientsService ingredientsService;
+        private RecipeFilters filters;
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
@@ -19,7 +25,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesListViewModel() : this(new RecipesService())
+        public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
 
         }
@@ -27,14 +33,18 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <summary>
         /// Creates a instance of <see cref="RecipesListViewModel"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
-        /// <b>Precondition: </b>service != null<br/>
+        /// <b>Precondition: </b>recipesService != null<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesListViewModel(IRecipesService service)
+        public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {
-            this.service = service ?? 
-                             throw new ArgumentNullException(nameof(service), 
-                                 RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.recipesService = recipesService ?? 
+                                  throw new ArgumentNullException(nameof(recipesService), 
+                                      RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.ingredientsService = ingredientsService ??
+                                  throw new ArgumentNullException(nameof(ingredientsService),
+                                      RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+            this.filters = new RecipeFilters();
         }
 
         /// <summary>
@@ -48,7 +58,54 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <returns></returns>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "")
         {
-            return this.service.GetRecipes(sessionKey, searchTerm);
+            if (this.filters.OnlyAvailableIngredients)
+            {
+                return this.GetFilteredRecipes(sessionKey, searchTerm);
+            }
+            return this.recipesService.GetRecipes(sessionKey, searchTerm);
+        }
+
+        private Recipe[] GetFilteredRecipes(string sessionKey, string searchTerm = "")
+        {
+            var filteredRecipes = new List<Recipe>();
+            var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
+            var ingredientsCache = new Dictionary<string, int>();
+
+            foreach (var ingredient in pantryIngredients)
+            {
+                ingredientsCache[ingredient.Name] = ingredient.Amount;
+            }
+
+            var visibleRecipes = this.recipesService.GetRecipes(sessionKey, searchTerm);
+            foreach (var recipe in visibleRecipes)
+            {
+                var requiredIngredients = this.recipesService.GetIngredientsForRecipe(sessionKey, recipe.Id);
+                var canMake = true;
+                foreach (var ingredient in requiredIngredients)
+                {
+                    if (!ingredientsCache.ContainsKey(ingredient.Name))
+                    {
+                        canMake = false;
+                        break;
+                    }
+                }
+
+                if (canMake)
+                {
+                    filteredRecipes.Add(recipe);
+                }
+            }
+
+            return filteredRecipes.ToArray();
+        }
+
+        public void OpenFiltersDialog()
+        {
+            var filtersDialog = new RecipeListFilterDialog(this.filters);
+            if (filtersDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.filters = filtersDialog.Filters;
+            }
         }
 
         /// <summary>
@@ -63,7 +120,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <param name="isPublic">Whether the recipe is publicly viewable or not.</param>
         public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {
-            this.service.AddRecipe(sessionKey, name, description, isPublic);
+            this.recipesService.AddRecipe(sessionKey, name, description, isPublic);
         }
 
         /// <summary>
@@ -76,7 +133,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <param name="recipeId">The ID for the recipe to remove.</param>
         public void RemoveRecipe(string sessionKey, int recipeId)
         {
-            this.service.RemoveRecipe(sessionKey, recipeId);
+            this.recipesService.RemoveRecipe(sessionKey, recipeId);
         }
 
         /// <summary>
@@ -94,7 +151,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <param name="isPublic">Whether the recipe is public or not.</param>
         public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
         {
-            this.service.EditRecipe(sessionKey, recipeId, name, description, isPublic);
+            this.recipesService.EditRecipe(sessionKey, recipeId, name, description, isPublic);
         }
     }
 }

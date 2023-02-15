@@ -35,8 +35,8 @@
             this.searchTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.hamburgerButton = new System.Windows.Forms.Button();
+            this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -107,6 +107,7 @@
             this.filtersButton.TabIndex = 6;
             this.filtersButton.Text = "Filters";
             this.filtersButton.UseVisualStyleBackColor = false;
+            this.filtersButton.Click += new System.EventHandler(this.filtersButton_Click);
             // 
             // searchTextBox
             // 
@@ -148,19 +149,6 @@
             this.label1.Text = "Recipes";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // recipeListTablePanel
-            // 
-            this.recipeListTablePanel.AutoScroll = true;
-            this.recipeListTablePanel.ColumnCount = 1;
-            this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.recipeListTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recipeListTablePanel.Location = new System.Drawing.Point(20, 280);
-            this.recipeListTablePanel.Name = "recipeListTablePanel";
-            this.recipeListTablePanel.RowCount = 1;
-            this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.recipeListTablePanel.Size = new System.Drawing.Size(673, 1032);
-            this.recipeListTablePanel.TabIndex = 1;
-            // 
             // hamburgerButton
             // 
             this.hamburgerButton.BackColor = System.Drawing.Color.Transparent;
@@ -174,6 +162,19 @@
             this.hamburgerButton.Text = "☰";
             this.hamburgerButton.UseVisualStyleBackColor = false;
             this.hamburgerButton.Click += new System.EventHandler(this.hamburgerButton_MouseClick);
+            // 
+            // recipeListTablePanel
+            // 
+            this.recipeListTablePanel.AutoScroll = true;
+            this.recipeListTablePanel.ColumnCount = 1;
+            this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.recipeListTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.recipeListTablePanel.Location = new System.Drawing.Point(20, 280);
+            this.recipeListTablePanel.Name = "recipeListTablePanel";
+            this.recipeListTablePanel.RowCount = 1;
+            this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
+            this.recipeListTablePanel.Size = new System.Drawing.Size(673, 1032);
+            this.recipeListTablePanel.TabIndex = 1;
             // 
             // RecipeListScreen
             // 

@@ -10,7 +10,7 @@ namespace Desktop_Client.View.Screens
     /// </summary>
     public partial class RecipeScreen : Screen
     {
-        private readonly RecipesViewModel viewModel;
+        private readonly RecipeViewModel viewModel;
         /// <summary>
         /// Creates a default instance of <see cref="Screen"/>.<br/>
         /// <br/>
@@ -20,7 +20,7 @@ namespace Desktop_Client.View.Screens
         public RecipeScreen(int recipeId)
         {
             this.InitializeComponent();
-            this.viewModel = new RecipesViewModel();
+            this.viewModel = new RecipeViewModel();
             this.LoadRecipe(recipeId);
             this.LoadIngredients(recipeId);
             this.LoadInstructions(recipeId);
