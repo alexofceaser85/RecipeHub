@@ -189,7 +189,7 @@ namespace Server.Controllers.Ingredients
             }
             catch (Exception ex)
             {
-                return new SuggestionResponseModel(HttpStatusCode.InternalServerError, ex.Message, null);
+                return new SuggestionResponseModel(HttpStatusCode.InternalServerError, ex.Message, new List<string>());
             }
         }
     }

@@ -16,7 +16,11 @@ namespace Desktop_Client.ViewModel.Recipes
     {
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
-        private RecipeFilters filters;
+
+        /// <summary>
+        /// The filters for recipe queries.
+        /// </summary>
+        public RecipeFilters Filters { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
@@ -44,7 +48,7 @@ namespace Desktop_Client.ViewModel.Recipes
             this.ingredientsService = ingredientsService ??
                                   throw new ArgumentNullException(nameof(ingredientsService),
                                       RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
-            this.filters = new RecipeFilters();
+            this.Filters = new RecipeFilters();
         }
 
         /// <summary>
@@ -58,7 +62,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <returns></returns>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "")
         {
-            if (this.filters.OnlyAvailableIngredients)
+            if (this.Filters.OnlyAvailableIngredients)
             {
                 return this.GetFilteredRecipes(sessionKey, searchTerm);
             }
@@ -100,18 +104,18 @@ namespace Desktop_Client.ViewModel.Recipes
         }
 
         /// <summary>
-        /// Opens a dialog for selecting the recipe filters. <br/>
+        /// Opens a dialog for selecting the recipe Filters. <br/>
         /// Updates the displayed recipes if changes are saved.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>Selected filters reflect changes in the dialog, if saved.
+        /// <b>Postcondition: </b>Selected Filters reflect changes in the dialog, if saved.
         /// </summary>
         public void OpenFiltersDialog()
         {
-            var filtersDialog = new RecipeListFilterDialog(this.filters);
+            var filtersDialog = new RecipeListFilterDialog(this.Filters);
             if (filtersDialog.ShowDialog() == DialogResult.OK)
             {
-                this.filters = filtersDialog.Filters;
+                this.Filters = filtersDialog.Filters;
             }
         }
 

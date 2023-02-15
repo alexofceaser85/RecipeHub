@@ -19,7 +19,7 @@ namespace Desktop_Client.View.Dialog
         private RecipeFilters filters;
 
         /// <summary>
-        /// The filters to be applied to the recipe list.
+        /// The Filters to be applied to the recipe list.
         /// </summary>
         public RecipeFilters Filters
         {
@@ -28,12 +28,12 @@ namespace Desktop_Client.View.Dialog
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="RecipeListFilterDialog"/> with a specified set of filters.<br/>
+        /// Creates an instance of <see cref="RecipeListFilterDialog"/> with a specified set of Filters.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>The filter options are reflected in the UI.
         /// </summary>
-        /// <param name="filters">The currently selected filters.</param>
+        /// <param name="filters">The currently selected Filters.</param>
         public RecipeListFilterDialog(RecipeFilters filters)
         {
             InitializeComponent();

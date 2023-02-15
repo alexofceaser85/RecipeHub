@@ -6,36 +6,8 @@ namespace Server.Controllers.ResponseModels
     /// <summary>
     /// Response model for requests that include a boolean flag.
     /// </summary>
-    public class FlagResponseModel
+    public class FlagResponseModel : BaseResponseModel
     {
-        private string message;
-
-        /// <summary>
-        /// The code representing the status of the request.
-        /// </summary>
-        public HttpStatusCode Code { get; set; }
-        /// <summary>
-        /// The response message to be displayed to client.
-        /// </summary>
-        public string Message
-        {
-            get => this.message;
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeEmpty);
-                }
-
-                this.message = value;
-            }
-        }
-
         /// <summary>
         /// Represents a flag value, an extra value that
         /// indicates whether an operation was successfully performed or not.
@@ -54,19 +26,8 @@ namespace Server.Controllers.ResponseModels
         /// <param name="code">The code.</param>
         /// <param name="message">The message.</param>
         /// <param name="flag">The flag.</param>
-        public FlagResponseModel(HttpStatusCode code, string message, bool? flag)
+        public FlagResponseModel(HttpStatusCode code, string message, bool? flag) : base(code, message)
         {
-            if (message == null)
-            {
-                throw new ArgumentNullException(nameof(message));
-            }
-
-            if (string.IsNullOrWhiteSpace(message))
-            {
-                throw new ArgumentException(ResponseModelErrorMessages.MessageCannotBeEmpty);
-            }
-            this.Code = code;
-            this.message = message;
             this.Flag = flag;
         }
     }

@@ -41,6 +41,15 @@ namespace Server.Controllers.Recipes
                            throw new ArgumentNullException(nameof(recipesService), RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
         }
 
+        /// <summary>
+        /// Gets a specified recipe, if the recipe exists and is visible to the user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the user</param>
+        /// <param name="recipeId">The id of the recipe to search.</param>
+        /// <returns>A response containing the recipe.</returns>
         [HttpGet]
         [Route("Recipe")]
         public RecipeResponseModel GetRecipe(string sessionKey, int recipeId)
@@ -56,6 +65,15 @@ namespace Server.Controllers.Recipes
             }
         }
 
+        /// <summary>
+        /// Gets the ingredients for a specified recipe, if the recipe exists and is visible to the user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the user</param>
+        /// <param name="recipeId">The id of the recipe to search.</param>
+        /// <returns>A response containing the ingredients for recipe.</returns>
         [HttpGet]
         [Route("RecipeIngredients")]
         public RecipeIngredientsResponseModel GetRecipeIngredients(string sessionKey, int recipeId)
@@ -71,15 +89,23 @@ namespace Server.Controllers.Recipes
             }
         }
 
+        /// <summary>
+        /// Gets the steps for a recipe, if the recipe exists and is visible to the user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the user</param>
+        /// <param name="recipeId">The id of the recipe to search.</param>
+        /// <returns>A response containing the steps for the recipe.</returns>
         [HttpGet]
         [Route("RecipeSteps")]
         public RecipeStepsResponseModel GetRecipeSteps(string sessionKey, int recipeId)
         {
             try
             {
-                var response = new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
-                    this.service.GetRecipeSteps(sessionKey, recipeId));
-                return response;
+                return new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeSteps(sessionKey, recipeId)); ;
             }
             catch (Exception ex)
             {

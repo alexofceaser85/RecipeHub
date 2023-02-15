@@ -8,7 +8,7 @@ namespace Shared_Resources.Model.Recipes
     /// <summary>
     /// Represents a single step for a recipe.
     /// </summary>
-    public class RecipeStep
+    public struct RecipeStep
     {
         /// <summary>
         /// The number of the step in a list of steps.

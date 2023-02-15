@@ -93,6 +93,7 @@ namespace Desktop_Client.Endpoints.Recipes
             return ingredients.ToArray();
         }
 
+        /// <inheritdoc/>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
         {
             var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";

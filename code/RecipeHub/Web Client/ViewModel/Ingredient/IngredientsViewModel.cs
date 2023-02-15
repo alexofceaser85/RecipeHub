@@ -83,7 +83,7 @@ namespace Web_Client.ViewModel.Ingredient
             {
                 return this.service.AddIngredient(ingredient);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

@@ -1,4 +1,5 @@
-﻿using Desktop_Client.Service.Recipes;
+﻿using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.Recipes;
 using Moq;
 
@@ -18,7 +19,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             var service = new Mock<IRecipesService>();
             service.Setup(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic));
 
-            var viewmodel = new RecipesListViewModel(service.Object);
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
 
             Assert.Multiple(() =>
             {

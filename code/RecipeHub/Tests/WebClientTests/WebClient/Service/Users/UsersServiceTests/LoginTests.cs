@@ -97,7 +97,18 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
             const string hashedPassword =
                 "64fcc6f6bc7a815041b4db51f00f4bea8e51c13b27f422da0a8522c94641c7e483c3f17b28d0a59add0c8a44a4e4fc1dd3a9ea48bad8cf5b707ac0f44a5f3536";
 
-            SessionKeySerializers.SaveSessionKey(previousSessionKey, "logintest.txt");
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    SessionKeySerializers.SaveSessionKey(previousSessionKey, "logintest.txt");
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(100);
+                }
+            }
             mockedEndpoints.Setup(mock => mock.Login("username", hashedPassword, previousSessionKey)).Returns("newsessionkey");
 
             var service = new UsersService(mockedEndpoints.Object);
@@ -124,7 +135,21 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
 
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                service.Login("username", "000000");
+                for (int i = 0; i < 10; i++)
+                {
+                    try
+                    {
+                        service.Login("username", "000000");
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        throw;
+                    }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
             })?.Message;
             Assert.That(message, Is.EqualTo("testexception"));
             Assert.That(Session.Key, Is.Null);

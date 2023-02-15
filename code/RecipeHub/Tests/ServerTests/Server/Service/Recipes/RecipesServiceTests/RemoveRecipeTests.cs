@@ -67,7 +67,6 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const int recipeId = 1;
             const int authorId = 1;
             const string sessionKey = "Key";
-            const bool expected = true;
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();

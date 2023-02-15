@@ -1,5 +1,6 @@
 ﻿using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Ingredients;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Units;
 
 namespace Desktop_Client.View.Screens
@@ -23,6 +24,7 @@ namespace Desktop_Client.View.Screens
         {
             this.InitializeComponent();
             this.viewModel = new IngredientsViewModel();
+            this.ingredients = new List<Ingredient>();
             this.SetupIngredientList();
         }
 
