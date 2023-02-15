@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Endpoints\Recipes\RecipesEndpointsTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Endpoints.Recipes;
+using Shared_Resources.ErrorMessages;
+
+namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesEndpoints());
+        }
+
+        [Test]
+        public void OneParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesEndpoints(new HttpClient()));
+        }
+
+        [Test]
+        public void NullHttpClient()
+        {
+            const string errorMessage = RecipesEndpointsErrorMessages.ClientCannotBeNull + &quot; (Parameter &#39;client&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(
+                    () =&gt; _ = new RecipesEndpoints(null!))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,11,39,1],[11,39,11,65,1],[11,65,11,67,1],[12,9,12,10,1],[16,9,16,10,1],[17,13,17,39,1],[17,39,17,81,1],[17,81,17,83,1],[18,9,18,10,1],[22,9,22,10,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,27,27,1],[27,27,27,58,1],[27,58,27,69,1],[27,69,28,17,1],[28,17,28,64,1],[28,64,29,13,1],[29,13,29,14,1],[29,14,29,16,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

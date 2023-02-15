@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Users\UsersServiceTests\LogoutTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Web_Client.Endpoints.Users;
+using Web_Client.Service.Users;
+
+namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
+{
+    public class LogoutTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            Session.Key = null;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Session.Key = null;
+        }
+
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsNull()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.Logout();
+            })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsEmpty()
+        {
+            Session.Key = &quot;   &quot;;
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.Logout();
+            })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeEmpty));
+        }
+
+        [Test]
+        public void TestSuccessfulLogout()
+        {
+            Session.Key = &quot;sessionkey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+
+            mockedEndpoints.Setup(mock =&gt; mock.Logout(Session.Key)).Returns(&quot;newsessionkey&quot;);
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            service.Logout();
+            Assert.That(Session.Key, Is.Null);
+        }
+
+        [Test]
+        public void TestUnsuccessfulLogout()
+        {
+            Session.Key = &quot;sessionkey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+
+            mockedEndpoints.Setup(mock =&gt; mock.Logout(Session.Key)).Throws(new ArgumentException(&quot;testexception&quot;));
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                service.Logout();
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(&quot;testexception&quot;));
+            Assert.That(Session.Key, Is.EqualTo(&quot;sessionkey&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,32,1],[15,9,15,10,1],[19,9,19,10,1],[20,13,20,32,1],[21,9,21,10,1],[25,9,25,10,1],[26,13,26,46,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,34,1],[29,34,30,13,1],[30,13,30,14,0],[30,14,30,25,1],[31,13,31,94,1],[32,9,32,10,1],[36,9,36,10,1],[37,13,37,33,1],[38,13,38,46,1],[39,13,40,13,1],[40,13,40,14,1],[40,14,41,17,1],[41,17,41,34,1],[41,34,42,13,1],[42,13,42,14,0],[42,14,42,25,1],[43,13,43,95,1],[44,9,44,10,1],[48,9,48,10,1],[49,13,49,40,1],[50,13,50,63,1],[52,13,52,94,1],[54,13,54,68,1],[56,13,56,30,1],[57,13,57,47,1],[58,9,58,10,1],[62,9,62,10,1],[63,13,63,40,1],[64,13,64,63,1],[66,13,66,116,1],[68,13,68,68,1],[70,13,71,13,1],[71,13,71,14,1],[71,14,72,17,1],[72,17,72,34,1],[72,34,73,13,1],[73,13,73,14,0],[73,14,73,25,1],[75,13,75,63,1],[76,13,76,64,1],[77,9,77,10,1]]);
+    </script>
+  </body>
+</html>

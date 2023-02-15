@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\ResponseModels\UserInfoResponseModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Server.Controllers.ResponseModels;
+using Server.ErrorMessages;
+using Shared_Resources.Model.Users;
+
+namespace ServerTests.Server.Controllers.ResponseModels.UserInfoResponseModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotCreateUserInfoResponseModelWithNullMessage()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfoResponseModel(HttpStatusCode.Continue, null!, null);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoResponseModelWithEmptyMessage()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfoResponseModel(HttpStatusCode.Continue, &quot;   &quot;, null);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotSetNullMessageForUserInfoResponseModel()
+        {
+            var userInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, &quot;message&quot;, userInfo);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                responseModel.Message = null!;
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotSetEmptyMessageForUserInfoResponseModel()
+        {
+            var userInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, &quot;message&quot;, userInfo);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                responseModel.Message = &quot;   &quot;;
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldSetValidMessageValueForUserInfoResponseModel()
+        {
+            var userInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, &quot;message&quot;, userInfo);
+            responseModel.Message = &quot;my message&quot;;
+            Assert.That(responseModel.Message, Is.EqualTo(&quot;my message&quot;));
+        }
+
+        [Test]
+        public void ShouldCreateUserInfoResponseModelWithValidData()
+        {
+            var userInfo = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, &quot;message&quot;, userInfo);
+
+            Assert.That(responseModel.Code, Is.EqualTo(HttpStatusCode.Continue));
+            Assert.That(responseModel.Message, Is.EqualTo(&quot;message&quot;));
+            Assert.That(responseModel.UserInfo, Is.EqualTo(userInfo));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,14,13,1],[14,13,14,14,1],[14,14,15,17,1],[15,17,15,85,1],[15,85,16,13,1],[16,13,16,14,0],[16,14,16,25,1],[18,13,18,94,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,85,1],[26,85,27,13,1],[27,13,27,14,0],[27,14,27,25,1],[29,13,29,95,1],[30,9,30,10,1],[34,9,34,10,1],[35,13,35,97,1],[36,13,36,105,1],[38,13,39,13,1],[39,13,39,14,1],[39,14,40,17,1],[40,17,40,47,1],[40,47,41,13,1],[41,13,41,14,0],[41,14,41,25,1],[43,13,43,94,1],[44,9,44,10,1],[48,9,48,10,1],[49,13,49,97,1],[50,13,50,105,1],[52,13,53,13,1],[53,13,53,14,1],[53,14,54,17,1],[54,17,54,47,1],[54,47,55,13,1],[55,13,55,14,0],[55,14,55,25,1],[57,13,57,95,1],[58,9,58,10,1],[62,9,62,10,1],[63,13,63,97,1],[64,13,64,105,1],[65,13,65,50,1],[66,13,66,74,1],[67,9,67,10,1],[71,9,71,10,1],[72,13,72,97,1],[73,13,73,105,1],[75,13,75,82,1],[76,13,76,71,1],[77,13,77,71,1],[78,9,78,10,1]]);
+    </script>
+  </body>
+</html>

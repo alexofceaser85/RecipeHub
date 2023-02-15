@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Utils\Server\ServerUtilsTests\RequestJsonTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Server;
+
+namespace ServerTests.Utils.Server.ServerUtilsTests
+{
+    public class RequestJsonTests
+    {
+        [Test]
+        public void NullHttpMethod()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; ServerUtils.RequestJson(null!, &quot;str&quot;, new HttpClient()))!.Message;
+                Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.HttpMethodCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void NullRequestUri()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; ServerUtils.RequestJson(new HttpMethod(&quot;get&quot;), null!, new HttpClient()))!.Message;
+                Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.RequestUriCannotBeNull));
+            });
+        }
+
+        [Test]
+        public void EmptyRequestUri()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; ServerUtils.RequestJson(new HttpMethod(&quot;get&quot;), &quot;   &quot;, new HttpClient()))!.Message;
+                Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.RequestUriCannotBeEmpty));
+            });
+        }
+
+        [Test]
+        public void NullHttpClient()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; ServerUtils.RequestJson(new HttpMethod(&quot;get&quot;), &quot;str&quot;, null!))!.Message;
+                Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.HttpClientCannotBeNull));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[16,13,17,13,1],[17,13,17,14,1],[17,14,18,17,1],[18,17,19,27,1],[19,27,19,82,1],[19,82,19,93,1],[19,93,20,17,1],[20,17,20,99,1],[20,99,21,13,1],[21,13,21,14,1],[21,14,21,16,1],[22,9,22,10,1],[26,9,26,10,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,30,27,1],[30,27,30,98,1],[30,98,30,109,1],[30,109,31,17,1],[31,17,31,99,1],[31,99,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,39,13,1],[39,13,39,14,1],[39,14,40,17,1],[40,17,41,27,1],[41,27,41,98,1],[41,98,41,109,1],[41,109,42,17,1],[42,17,42,100,1],[42,100,43,13,1],[43,13,43,14,1],[43,14,43,16,1],[44,9,44,10,1],[48,9,48,10,1],[49,13,50,13,1],[50,13,50,14,1],[50,14,51,17,1],[51,17,52,27,1],[52,27,52,87,1],[52,87,52,98,1],[52,98,53,17,1],[53,17,53,99,1],[53,99,54,13,1],[54,13,54,14,1],[54,14,54,16,1],[55,9,55,10,1]]);
+    </script>
+  </body>
+</html>

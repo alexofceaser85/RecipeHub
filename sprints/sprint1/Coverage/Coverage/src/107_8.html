@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\ResponseModels\RecipeListResponseModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Server.Controllers.ResponseModels;
+using Server.ErrorMessages;
+using Shared_Resources.Model.Recipes;
+using Shared_Resources.Model.Users;
+
+namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotCreateRecipeListResponseModelWithNullMessage()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            const string errorMessage = ResponseModelErrorMessages.MessageCannotBeNull + &quot; (Parameter &#39;value&#39;)&quot;;
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                {
+                    _ = new RecipeListResponseModel(HttpStatusCode.Continue, null!, recipes);
+                })?.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void ShouldNotCreateRecipeListResponseModelWithEmptyMessage()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                {
+                    _ = new RecipeListResponseModel(HttpStatusCode.Continue, &quot;   &quot;, recipes);
+                })?.Message;
+                Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+            });
+        }
+
+        [Test]
+        public void ShouldNotSetNullMessageForRecipeListResponseModel()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            const string errorMessage = ResponseModelErrorMessages.MessageCannotBeNull + &quot; (Parameter &#39;value&#39;)&quot;;
+            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, &quot;message&quot;, recipes);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                {
+                    responseModel.Message = null!;
+                })?.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void ShouldNotSetEmptyMessageForRecipeListResponseModel()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, &quot;message&quot;, recipes);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                {
+                    responseModel.Message = &quot;   &quot;;
+                })?.Message;
+                Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
+            });
+        }
+
+        [Test]
+        public void ShouldSetValidMessageValueForRecipeListResponseModel()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, &quot;message&quot;, recipes);
+            responseModel.Message = &quot;my message&quot;;
+            Assert.That(responseModel.Message, Is.EqualTo(&quot;my message&quot;));
+        }
+
+        [Test]
+        public void ShouldCreateRecipeListResponseModelWithValidData()
+        {
+            var recipes = new Recipe[] {
+                new (1, &quot;authorName1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (2, &quot;authorName2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (3, &quot;authorName3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, &quot;message&quot;, recipes);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(responseModel.Code, Is.EqualTo(HttpStatusCode.Continue));
+                Assert.That(responseModel.Message, Is.EqualTo(&quot;message&quot;));
+                Assert.That(responseModel.Recipes, Is.EquivalentTo(recipes));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,18,15,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,24,17,1],[24,17,24,18,1],[24,18,25,21,1],[25,21,25,94,1],[25,94,26,17,1],[26,17,26,18,0],[26,18,26,29,1],[26,29,27,17,1],[27,17,27,64,1],[27,64,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1],[33,9,33,10,1],[34,13,38,15,1],[40,13,41,13,1],[41,13,41,14,1],[41,14,42,17,1],[42,17,43,17,1],[43,17,43,18,1],[43,18,44,21,1],[44,21,44,94,1],[44,94,45,17,1],[45,17,45,18,0],[45,18,45,29,1],[45,29,46,17,1],[46,17,46,99,1],[46,99,47,13,1],[47,13,47,14,1],[47,14,47,16,1],[48,9,48,10,1],[52,9,52,10,1],[53,13,57,15,1],[59,13,59,106,1],[61,13,62,13,1],[62,13,62,14,1],[62,14,63,17,1],[63,17,64,17,1],[64,17,64,18,1],[64,18,65,21,1],[65,21,65,51,1],[65,51,66,17,1],[66,17,66,18,0],[66,18,66,29,1],[66,29,67,17,1],[67,17,67,64,1],[67,64,68,13,1],[68,13,68,14,1],[68,14,68,16,1],[69,9,69,10,1],[73,9,73,10,1],[74,13,78,15,1],[79,13,79,106,1],[81,13,82,13,1],[82,13,82,14,1],[82,14,83,17,1],[83,17,84,17,1],[84,17,84,18,1],[84,18,85,21,1],[85,21,85,51,1],[85,51,86,17,1],[86,17,86,18,0],[86,18,86,29,1],[86,29,87,17,1],[87,17,87,99,1],[87,99,88,13,1],[88,13,88,14,1],[88,14,88,16,1],[89,9,89,10,1],[93,9,93,10,1],[94,13,98,15,1],[99,13,99,106,1],[100,13,100,50,1],[101,13,101,74,1],[102,9,102,10,1],[106,9,106,10,1],[107,13,111,15,1],[112,13,112,106,1],[114,13,115,13,1],[115,13,115,14,1],[115,14,116,17,1],[116,17,116,86,1],[116,86,117,17,1],[117,17,117,75,1],[117,75,118,17,1],[118,17,118,78,1],[118,78,119,13,1],[119,13,119,14,1],[119,14,119,16,1],[120,9,120,10,1]]);
+    </script>
+  </body>
+</html>

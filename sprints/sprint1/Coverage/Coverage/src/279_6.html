@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Recipes\RecipesServiceTests\RemoveRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.Service.Recipes;
+
+namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
+{
+    public class RemoveRecipeTests
+    {
+        [Test]
+        public void SuccessfullyRemoveRecipe()
+        {
+            const int recipeId = 1;
+            const int authorId = 1;
+            const string sessionKey = &quot;Key&quot;;
+            const bool expected = true;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.RemoveRecipe(recipeId)).Returns(expected);
+            recipesDal.Setup(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var result = service.RemoveRecipe(sessionKey, recipeId);
+
+            Assert.That(result, Is.EqualTo(expected));
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            recipesDal.Verify(mock =&gt; mock.RemoveRecipe(recipeId), Times.Once);
+            recipesDal.Verify(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once);
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            const string sessionKey = null!;
+            const int recipeId = 1;
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().RemoveRecipe(sessionKey!, recipeId));
+        }
+        
+        [Test]
+        public void EmptySessionKey()
+        {
+            const string sessionKey = &quot;&quot;;
+            const int recipeId = 1;
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().RemoveRecipe(sessionKey, recipeId));
+        }
+
+        [Test]
+        public void SessionKeyIsUnused()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.RemoveRecipe(sessionKey, recipeId));
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+        }
+
+        [Test]
+        public void UserNotAuthorOfRecipe()
+        {
+            const int recipeId = 1;
+            const int authorId = 1;
+            const string sessionKey = &quot;Key&quot;;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(false);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.RemoveRecipe(sessionKey, recipeId));
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            recipesDal.Verify(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[18,13,18,54,1],[19,13,19,50,1],[20,13,20,85,1],[21,13,21,95,1],[22,13,22,91,1],[24,13,24,82,1],[25,13,25,69,1],[27,13,27,55,1],[28,13,28,88,1],[29,13,29,80,1],[30,13,30,94,1],[31,9,31,10,1],[35,9,35,10,1],[38,13,38,56,1],[38,56,38,112,1],[38,112,38,114,1],[39,9,39,10,1],[43,9,43,10,1],[46,13,46,52,1],[46,52,46,107,1],[46,107,46,109,1],[47,9,47,10,1],[51,9,51,10,1],[55,13,55,54,1],[56,13,56,50,1],[57,13,57,93,1],[59,13,59,82,1],[60,13,60,52,1],[60,52,60,94,1],[60,94,60,96,1],[61,13,61,88,1],[62,9,62,10,1],[66,9,66,10,1],[71,13,71,54,1],[72,13,72,50,1],[73,13,73,96,1],[74,13,74,91,1],[76,13,76,82,1],[78,13,78,52,1],[78,52,78,94,1],[78,94,78,96,1],[79,13,79,88,1],[80,13,80,94,1],[81,9,81,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Users\UserInfoTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+
+namespace SharedResourcesTests.SharedResources.Model.Users.UserInfoTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotCreateUserInfoWithNullUserName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(null!, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.UsernameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithEmptyUserName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;   &quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.UsernameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithNullFirstName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, null!, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.FirstNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithEmptyFirstName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, &quot;   &quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.FirstNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithNullLastName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, null!, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.LastNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithEmptyLastName()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;   &quot;, &quot;email@email.com&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.LastNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithNullEmail()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.EmailCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotCreateUserInfoWithEmptyEmail()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UserInfoErrorMessages.EmailCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldCreateUserInfoWithValidInfo()
+        {
+            var user = new UserInfo(&quot;username&quot;, &quot;firstname&quot;, &quot;lastname&quot;, &quot;email@email.com&quot;);
+            Assert.That(user.UserName, Is.EqualTo(&quot;username&quot;));
+            Assert.That(user.FirstName, Is.EqualTo(&quot;firstname&quot;));
+            Assert.That(user.LastName, Is.EqualTo(&quot;lastname&quot;));
+            Assert.That(user.Email, Is.EqualTo(&quot;email@email.com&quot;));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,85,1],[13,85,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,90,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,85,1],[23,85,24,13,1],[24,13,24,14,0],[24,14,24,25,1],[25,13,25,91,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,32,13,1],[32,13,32,14,1],[32,14,33,17,1],[33,17,33,84,1],[33,84,34,13,1],[34,13,34,14,0],[34,14,34,25,1],[35,13,35,91,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,42,13,1],[42,13,42,14,1],[42,14,43,17,1],[43,17,43,84,1],[43,84,44,13,1],[44,13,44,14,0],[44,14,44,25,1],[45,13,45,92,1],[46,9,46,10,1],[50,9,50,10,1],[51,13,52,13,1],[52,13,52,14,1],[52,14,53,17,1],[53,17,53,85,1],[53,85,54,13,1],[54,13,54,14,0],[54,14,54,25,1],[55,13,55,90,1],[56,9,56,10,1],[60,9,60,10,1],[61,13,62,13,1],[62,13,62,14,1],[62,14,63,17,1],[63,17,63,85,1],[63,85,64,13,1],[64,13,64,14,0],[64,14,64,25,1],[65,13,65,91,1],[66,9,66,10,1],[70,9,70,10,1],[71,13,72,13,1],[72,13,72,14,1],[72,14,73,17,1],[73,17,73,78,1],[73,78,74,13,1],[74,13,74,14,0],[74,14,74,25,1],[75,13,75,87,1],[76,9,76,10,1],[80,9,80,10,1],[81,13,82,13,1],[82,13,82,14,1],[82,14,83,17,1],[83,17,83,78,1],[83,78,84,13,1],[84,13,84,14,0],[84,14,84,25,1],[85,13,85,88,1],[86,9,86,10,1],[90,9,90,10,1],[91,13,91,93,1],[92,13,92,64,1],[93,13,93,66,1],[94,13,94,64,1],[95,13,95,68,1],[96,9,96,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Users\UsersServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Web_Client.Service.Users;
+
+namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldNotAllowNullUsersEndpoints()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UsersService(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.UsersEndpointsCannotBeNull));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,45,1],[13,45,14,13,1],[14,13,14,14,0],[14,14,14,25,1],[15,13,15,100,1],[16,9,16,10,1]]);
+    </script>
+  </body>
+</html>

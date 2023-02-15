@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Recipes\RecipesServiceTests\EditRecipesTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.Service.Recipes;
+
+namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
+{
+    public class EditRecipeTests
+    {
+        [Test]
+        public void SuccessfullyModifyRecipe()
+        {
+            const int authorId = 1;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+            const string sessionKey = &quot;Key&quot;;
+            const bool expected = true;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.EditRecipe(recipeId, name, description, isPublic)).Returns(expected);
+            recipesDal.Setup(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var result = service.EditRecipe(sessionKey, recipeId, name, description, isPublic);
+
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            recipesDal.Verify(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once());
+            recipesDal.Verify(mock =&gt; mock.EditRecipe(recipeId, name, description, isPublic), Times.Once);
+            Assert.That(result, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            const string sessionKey = null!;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+        
+        [Test]
+        public void EmptySessionKey()
+        {
+            const string sessionKey = &quot;&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+
+        [Test]
+        public void NullRecipeName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = null!;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+
+        [Test]
+        public void EmptyRecipeName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+
+        [Test]
+        public void NullRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = null!;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+
+        [Test]
+        public void EmptyRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;&quot;;
+            const bool isPublic = false;
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+        }
+
+        [Test]
+        public void SessionKeyIsUnused()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+        }
+
+        [Test]
+        public void UserNotAuthorOfRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const int authorId = 1;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = false;
+
+            var recipesDal = new Mock&lt;IRecipesDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            recipesDal.Setup(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(false);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
+
+            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            recipesDal.Verify(mock =&gt; mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[21,13,21,54,1],[22,13,22,50,1],[23,13,23,112,1],[24,13,24,95,1],[25,13,25,91,1],[27,13,27,82,1],[28,13,28,96,1],[30,13,30,88,1],[31,13,31,96,1],[32,13,32,107,1],[33,13,33,51,1],[34,9,34,10,1],[38,9,38,10,1],[44,13,44,56,1],[44,56,44,139,1],[44,139,44,141,1],[45,9,45,10,1],[49,9,49,10,1],[55,13,55,52,1],[55,52,55,135,1],[55,135,55,137,1],[56,9,56,10,1],[60,9,60,10,1],[66,13,66,56,1],[66,56,66,139,1],[66,139,66,141,1],[67,9,67,10,1],[71,9,71,10,1],[77,13,77,52,1],[77,52,77,135,1],[77,135,77,137,1],[78,9,78,10,1],[82,9,82,10,1],[88,13,88,56,1],[88,56,88,139,1],[88,139,88,141,1],[89,9,89,10,1],[93,9,93,10,1],[99,13,99,52,1],[99,52,99,135,1],[99,135,99,137,1],[100,9,100,10,1],[104,9,104,10,1],[111,13,111,54,1],[112,13,112,50,1],[113,13,113,93,1],[115,13,115,82,1],[116,13,116,52,1],[116,52,116,122,1],[116,122,116,124,1],[117,13,117,88,1],[118,9,118,10,1],[122,9,122,10,1],[130,13,130,54,1],[131,13,131,50,1],[132,13,132,96,1],[133,13,133,91,1],[135,13,135,82,1],[137,13,137,52,1],[137,52,137,121,1],[137,121,137,123,1],[138,13,138,88,1],[139,13,139,94,1],[140,9,140,10,1]]);
+    </script>
+  </body>
+</html>

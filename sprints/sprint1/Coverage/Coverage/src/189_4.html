@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Recipes\RecipesListViewModelTests\GetRecipesTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.ViewModel.Recipes;
+using Moq;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewModelTests
+{
+    public class GetRecipesTests
+    {
+        [Test]
+        public void SuccessfullyGetRecipes()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string searchTerm = &quot;&quot;;
+            var recipes = new Recipe[] {
+                new (0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new (1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new (2, &quot;author3 name3&quot;, &quot;name3&quot;, &quot;description3&quot;, false),
+            };
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipes(sessionKey, searchTerm)).Returns(recipes);
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+            var result = viewmodel.GetRecipes(sessionKey, searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(recipes));
+                service.Verify(mock =&gt; mock.GetRecipes(sessionKey, searchTerm), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,9,18,10,1],[21,13,25,15,1],[26,13,26,55,1],[27,13,27,93,1],[29,13,29,96,1],[30,13,30,71,1],[32,13,33,13,1],[33,13,33,14,1],[33,14,34,17,1],[34,17,34,58,1],[34,58,35,17,1],[35,17,35,93,1],[35,93,36,13,1],[36,13,36,14,1],[36,14,36,16,1],[37,9,37,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ValidDefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientsService());
+        }
+
+        [Test]
+        public void ValidOneParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientsService(new IngredientEndpoints()));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,39,1],[13,39,13,67,1],[13,67,13,69,1],[14,9,14,10,1],[18,9,18,10,1],[19,13,19,39,1],[19,39,19,92,1],[19,92,19,94,1],[20,9,20,10,1]]);
+    </script>
+  </body>
+</html>

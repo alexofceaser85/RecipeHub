@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Recipes\RecipesTests\GetSetRatingsTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Shared_Resources.Model.Recipes;
+
+namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
+{
+    public class GetSetRatingsTests
+    {
+        [Test]
+        public void AssignDescription()
+        {
+            var recipe = new Recipe();
+            recipe.Rating = 5;
+
+            Assert.That(recipe.Rating, Is.EqualTo(5));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,39,1],[16,13,16,31,1],[18,13,18,55,1],[19,9,19,10,1]]);
+    </script>
+  </body>
+</html>

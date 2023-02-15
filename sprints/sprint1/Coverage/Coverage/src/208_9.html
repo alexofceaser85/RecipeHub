@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Service\Ingredients\IngredientsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.DAL.Ingredient;
+using Server.DAL.Ingredients;
+using Server.DAL.Users;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Service.Ingredients
+{
+    /// &lt;summary&gt;
+    /// An interface for interacting with the DAL layer for the Ingredients table.
+    /// &lt;/summary&gt;
+    public class IngredientsService : IIngredientsService
+    {
+        private readonly IUsersDal usersDal;
+        private readonly IIngredientsDal ingredientsDal;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        ///&lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: All fields have been assigned to default values.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService()
+        {
+            this.usersDal = new UsersDal();
+            this.ingredientsDal = new IngredientsDal();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        ///&lt;br /&gt;
+        /// Precondition: usersDal != null&lt;br /&gt;
+        /// AND ingredientsDal != null&lt;br /&gt;
+        /// Postcondition: All fields have been assigned to specified values.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService(IUsersDal usersDal, IIngredientsDal ingredientsDal)
+        {
+            this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal));
+            this.ingredientsDal = ingredientsDal ?? throw new ArgumentNullException(nameof(ingredientsDal));
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool AddIngredientToPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey));
+            }
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new ArgumentException(&quot;Session key must exist in the system.&quot;);
+            }
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                this.ingredientsDal.AddIngredientToSystem(ingredient);
+            }
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            }
+            if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must not be in pantry already.&quot;);
+            }
+
+            return this.ingredientsDal.AddIngredientToPantry(ingredient, (int)userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool RemoveIngredientFromPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey));
+            }
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new ArgumentException(&quot;Session key must exist in the system.&quot;);
+            }
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in system already.&quot;);
+            }
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                         throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in pantry already.&quot;);
+            }
+
+            return this.ingredientsDal.RemoveIngredientFromPantry(ingredient, (int)userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool UpdateIngredientInPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey));
+            }
+
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new ArgumentException(&quot;Session key must exist in the system.&quot;);
+            }
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            }
+
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in the system.&quot;);
+            }
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in the pantry.&quot;);
+            }
+
+
+            return this.ingredientsDal.UpdateIngredientInPantry(ingredient, (int)userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool RemoveAllIngredientsFromPantry(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new ArgumentException(&quot;Session key must exist in the system.&quot;);
+            }
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            }
+
+            return this.ingredientsDal.RemoveAllIngredientsFromPantry((int)userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public IList&lt;string&gt; GetAllIngredientsThatMatch(string ingredientName)
+        {
+            if (ingredientName == null)
+            {
+                throw new ArgumentNullException(nameof(ingredientName));
+            }
+
+            return this.ingredientsDal.GetIngredientNamesThatMatchText(ingredientName);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public IList&lt;Ingredient&gt; GetIngredientsFor(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentNullException(nameof(sessionKey));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new ArgumentException(&quot;Session key must exist in the system.&quot;);
+            }
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            }
+
+            return this.ingredientsDal.GetIngredientsFor((int)userId);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[22,9,22,36,1],[23,9,23,10,1],[24,13,24,44,1],[25,13,25,56,1],[26,9,26,10,1],[35,9,35,86,1],[36,9,36,10,1],[37,13,37,91,1],[38,13,38,109,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,44,36,1],[45,13,45,14,1],[46,17,46,69,1],[48,13,48,41,1],[49,13,49,14,1],[50,17,50,69,1],[52,13,52,72,1],[53,13,53,14,1],[54,17,54,86,1],[56,13,56,76,1],[57,13,57,14,1],[58,17,58,71,1],[59,13,59,14,1],[60,13,60,72,1],[62,13,62,59,1],[63,13,63,14,1],[64,17,64,79,1],[66,13,66,88,1],[67,13,67,14,1],[68,17,68,90,1],[71,13,71,87,1],[72,9,72,10,1],[76,9,76,10,1],[77,13,77,36,1],[78,13,78,14,1],[79,17,79,69,1],[81,13,81,41,1],[82,13,82,14,1],[83,17,83,69,1],[85,13,85,72,1],[86,13,86,14,1],[87,17,87,86,1],[89,13,89,76,1],[90,13,90,14,1],[91,17,91,86,1],[93,13,94,88,1],[96,13,96,89,1],[97,13,97,14,0],[98,17,98,86,0],[101,13,101,92,1],[102,9,102,10,1],[106,9,106,10,0],[107,13,107,36,0],[108,13,108,14,0],[109,17,109,69,0],[112,13,112,41,0],[113,13,113,14,0],[114,17,114,69,0],[117,13,117,72,0],[118,13,118,14,0],[119,17,119,86,0],[121,13,121,72,0],[122,13,122,59,0],[123,13,123,14,0],[124,17,124,79,0],[127,13,127,76,0],[128,13,128,14,0],[129,17,129,82,0],[131,13,131,89,0],[132,13,132,14,0],[133,17,133,82,0],[137,13,137,90,0],[138,9,138,10,0],[142,9,142,10,0],[143,13,143,36,0],[144,13,144,14,0],[145,17,145,69,0],[148,13,148,72,0],[149,13,149,14,0],[150,17,150,86,0],[152,13,152,72,0],[153,13,153,59,0],[154,13,154,14,0],[155,17,155,79,0],[158,13,158,84,0],[159,9,159,10,0],[163,9,163,10,0],[164,13,164,40,0],[165,13,165,14,0],[166,17,166,73,0],[169,13,169,88,0],[170,9,170,10,0],[174,9,174,10,0],[175,13,175,36,0],[176,13,176,14,0],[177,17,177,69,0],[180,13,180,72,0],[181,13,181,14,0],[182,17,182,86,0],[184,13,184,72,0],[185,13,185,59,0],[186,13,186,14,0],[187,17,187,79,0],[190,13,190,71,0],[191,9,191,10,0]]);
+    </script>
+  </body>
+</html>

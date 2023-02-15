@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Controllers\Ingredients\IngredientsControllerTests\RemoveAllIngredientsFromPantryTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using System.Net;
+using Server.Controllers.Ingredients;
+using Server.Controllers.Recipes;
+using Server.Data.Settings;
+using Server.ErrorMessages;
+using Server.Service.Ingredients;
+using Server.Service.Recipes;
+using Shared_Resources.Model.Ingredients;
+
+namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
+{
+    public class RemoveAllIngredientsFromPantryTests
+    {
+        [Test]
+        public void IngredientSuccessfullyUpdated()
+        {
+            const string sessionKey = &quot;Key&quot;;
+
+            var recipesService = new Mock&lt;IIngredientsService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.RemoveAllIngredientsFromPantry(sessionKey)).Returns(true);
+            var controller = new IngredientsController(recipesService.Object);
+
+            var result = controller.RemoveAllIngredientsFromPantry(sessionKey);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.OK));
+                Assert.That(result.Message, Is.EqualTo(&quot;Pantry successfully cleared.&quot;));
+                recipesService.Verify(mock =&gt; mock.RemoveAllIngredientsFromPantry(sessionKey), Times.Once());
+            });
+        }
+        
+        [Test]
+        public void ServiceFailedToUpdateIngredient()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string exceptionMessage = &quot;An exception was thrown&quot;;
+
+            var recipesService = new Mock&lt;IIngredientsService&gt;();
+
+            recipesService.Setup(mock =&gt; mock.RemoveAllIngredientsFromPantry(sessionKey)).Throws(new ArgumentException(exceptionMessage));
+            var service = new IngredientsController(recipesService.Object);
+
+            var result = service.RemoveAllIngredientsFromPantry(sessionKey);
+            
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.RemoveAllIngredientsFromPantry(sessionKey), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.InternalServerError));
+                Assert.That(result.Message, Is.EqualTo(exceptionMessage));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,10,1],[20,13,20,66,1],[22,13,22,105,1],[23,13,23,79,1],[25,13,25,80,1],[27,13,28,13,1],[28,13,28,14,1],[28,14,29,17,1],[29,17,29,73,1],[29,73,30,17,1],[30,17,30,89,1],[30,89,31,17,1],[31,17,31,110,1],[31,110,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1],[37,9,37,10,1],[41,13,41,66,1],[43,13,43,139,1],[44,13,44,76,1],[46,13,46,77,1],[48,13,49,13,1],[49,13,49,14,1],[49,14,50,17,1],[50,17,50,110,1],[50,110,51,17,1],[51,17,51,90,1],[51,90,52,17,1],[52,17,52,75,1],[52,75,53,13,1],[53,13,53,14,1],[53,14,53,16,1],[54,9,54,10,1]]);
+    </script>
+  </body>
+</html>

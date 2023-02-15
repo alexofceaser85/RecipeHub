@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\Recipes\RecipesEndpointsTests\GetIngredientsForRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Desktop_Client.Endpoints.Recipes;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTests
+{
+    public class GetIngredientsForRecipeTests
+    {
+        [Test]
+        public void SuccessfullyRetrieveList()
+        {
+            var recipes = new Ingredient[] {
+                new (&quot;Potatoes&quot;, 5, (MeasurementType)2),
+            };
+            const string json = &quot;{ \&quot;ingredients\&quot;: [ { \&quot;name\&quot;: \&quot;Potatoes\&quot;, \&quot;amount\&quot;: 5, \&quot;measurementType\&quot;: 2 }], &quot; +
+                                &quot;\&quot;code\&quot;: 200, \&quot;message\&quot;: \&quot;Returned Okay\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, 
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+            var result = endpoints.GetIngredientsForRecipe(&quot;key&quot;, 2);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EquivalentTo(recipes));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), 
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+
+        [Test]
+        public void UnsuccessfullyRetrieveList()
+        {
+            const string errorMessage = &quot;error message&quot;;
+            const string json = $&quot;{{\&quot;code\&quot;: 500, \&quot;message\&quot;: \&quot;{errorMessage}\&quot;, \&quot;recipes\&quot;: []}}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+            
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; _ = endpoints.GetIngredientsForRecipe(&quot;key&quot;, 2))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,17,15,1],[21,13,21,73,1],[22,13,30,20,1],[32,13,32,76,1],[33,13,33,62,1],[34,13,34,70,1],[36,13,37,13,1],[37,13,37,14,1],[37,14,38,17,1],[38,17,38,63,1],[38,63,40,17,1],[40,17,43,96,1],[43,96,44,13,1],[44,13,44,14,1],[44,14,44,16,1],[45,9,45,10,1],[49,9,49,10,1],[53,13,53,73,1],[54,13,62,20,1],[64,13,64,76,1],[65,13,65,62,1],[67,13,68,13,1],[68,13,68,14,1],[68,14,69,17,1],[69,17,69,70,1],[69,70,69,117,1],[69,117,69,128,1],[69,128,70,17,1],[70,17,70,64,1],[70,64,72,17,1],[72,17,75,96,1],[75,96,76,13,1],[76,13,76,14,1],[76,14,76,16,1],[77,9,77,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\ServerTests\Server\Service\Ingredients\IngredientsServiceTests\AddIngredientToPantryTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Server.DAL.Ingredient;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.Service.Ingredients;
+using Server.Service.Recipes;
+using Shared_Resources.Model.Ingredients;
+
+namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
+{
+    public class AddIngredientToPantryTests
+    {
+        [Test]
+        public void SuccessfullyAddedIngredient()
+        {
+            const int userId = 1;
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            ingredientsDal.Setup(mock =&gt; mock.AddIngredientToPantry(ingredient, userId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+            usersDal.Setup(mock =&gt; mock.UserIdExists(userId)).Returns(true);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            var result = service.AddIngredientToPantry(ingredient, sessionKey);
+
+            usersDal.Verify(mock =&gt; mock.GetIdForSessionKey(sessionKey), Times.Once());
+            ingredientsDal.Verify(mock =&gt; mock.AddIngredientToPantry(ingredient, userId), Times.Once);
+            Assert.That(result, Is.EqualTo(true));
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            const string sessionKey = null!;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                new IngredientsService().AddIngredientToPantry(ingredient, sessionKey!));
+        }
+        
+        [Test]
+        public void EmptySessionKey()
+        {
+            const string sessionKey = &quot;&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
+        }
+
+        [Test]
+        public void NullIngredientName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient();
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
+        }
+        
+        [Test]
+        public void SessionKeyIsUnused()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            Assert.Throws&lt;InvalidOperationException&gt;(() =&gt; service.AddIngredientToPantry(ingredient, sessionKey));
+        }
+
+        [Test]
+        public void UserDoesNotExist()
+        {
+            const int userId = 1;
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            ingredientsDal.Setup(mock =&gt; mock.AddIngredientToPantry(ingredient, userId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+            usersDal.Setup(mock =&gt; mock.UserIdExists(userId)).Returns(false);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.AddIngredientToPantry(ingredient, sessionKey));
+        }
+
+        [Test]
+        public void IngredientAlreadyInPantry()
+        {
+            const int userId = 1;
+            const string sessionKey = &quot;Key&quot;;
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Volume);
+
+            var ingredientsDal = new Mock&lt;IIngredientsDal&gt;();
+            var usersDal = new Mock&lt;IUsersDal&gt;();
+            ingredientsDal.Setup(mock =&gt; mock.AddIngredientToPantry(ingredient, userId)).Returns(true);
+            ingredientsDal.Setup(mock =&gt; mock.IsIngredientInPantry(ingredient.Name, userId)).Returns(true);
+            usersDal.Setup(mock =&gt; mock.GetIdForSessionKey(sessionKey)).Returns(userId);
+            usersDal.Setup(mock =&gt; mock.UserIdExists(userId)).Returns(true);
+
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            Assert.Throws&lt;ArgumentException&gt;(() =&gt; service.AddIngredientToPantry(ingredient, sessionKey));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[18,13,18,80,1],[20,13,20,62,1],[21,13,21,50,1],[22,13,22,104,1],[23,13,23,89,1],[24,13,24,77,1],[26,13,26,90,1],[27,13,27,80,1],[29,13,29,88,1],[30,13,30,103,1],[31,13,31,51,1],[32,9,32,10,1],[36,9,36,10,1],[38,13,38,80,1],[40,13,41,17,1],[41,17,41,88,1],[41,88,41,90,1],[42,9,42,10,1],[46,9,46,10,1],[48,13,48,80,1],[49,13,49,52,1],[49,52,49,122,1],[49,122,49,124,1],[50,9,50,10,1],[54,9,54,10,1],[56,13,56,47,1],[57,13,57,56,1],[57,56,57,126,1],[57,126,57,128,1],[58,9,58,10,1],[62,9,62,10,1],[64,13,64,80,1],[66,13,66,62,1],[67,13,67,50,1],[68,13,68,93,1],[70,13,70,90,1],[71,13,71,60,1],[71,60,71,113,1],[71,113,71,115,1],[72,9,72,10,1],[76,9,76,10,1],[79,13,79,80,1],[81,13,81,62,1],[82,13,82,50,1],[83,13,83,104,1],[84,13,84,89,1],[85,13,85,78,1],[87,13,87,90,1],[88,13,88,52,1],[88,52,88,105,1],[88,105,88,107,1],[89,9,89,10,1],[93,9,93,10,1],[96,13,96,80,1],[98,13,98,62,1],[99,13,99,50,1],[100,13,100,104,1],[101,13,101,108,1],[102,13,102,89,1],[103,13,103,77,1],[105,13,105,90,1],[106,13,106,52,1],[106,52,106,105,1],[106,105,106,107,1],[107,9,107,10,1]]);
+    </script>
+  </body>
+</html>
