@@ -52,7 +52,7 @@ namespace Desktop_Client.ViewModel.Ingredients
             {
                 return this.service.AddIngredient(ingredient);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

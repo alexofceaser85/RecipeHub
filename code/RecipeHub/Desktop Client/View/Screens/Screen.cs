@@ -38,6 +38,12 @@ namespace Desktop_Client.View.Screens
             this.ScreenChanged?.Invoke(this, screen);
         }
 
+        /// <summary>
+        /// Toggles whether or not the hamburger menu is displayed.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>The menu is displayed, if it wasn't before. It is hidden if it was displayed before.
+        /// </summary>
         protected void ToggleHamburgerMenu()
         {
             if (this.menu == null)
@@ -59,8 +65,10 @@ namespace Desktop_Client.View.Screens
 
         private void SetupMenu()
         {
-            this.menu = new UserMenu();
-            this.menu.Visible = false;
+            this.menu = new UserMenu() 
+            {
+                Visible = false
+            };
             this.Controls.Add(this.menu);
             this.menu.Location = new Point(this.Size.Width - this.menu.Size.Width, 0);
             this.menu.Size = new Size(this.menu.Width, this.Size.Height);

@@ -9,6 +9,9 @@ namespace Server.Controllers.ResponseModels
     /// </summary>
     public class RecipeIngredientsResponseModel : BaseResponseModel
     {
+        /// <summary>
+        /// The list of ingredients for a recipe.
+        /// </summary>
         public Ingredient[] Ingredients { get; set; }
 
         /// <summary>

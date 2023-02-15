@@ -87,6 +87,7 @@ namespace Desktop_Client.Service.Recipes
             return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
         }
 
+        /// <inheritdoc/>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
         {
             if (sessionKey == null)

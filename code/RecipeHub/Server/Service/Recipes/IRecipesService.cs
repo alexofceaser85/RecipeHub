@@ -21,11 +21,47 @@ namespace Server.Service.Recipes
         /// <exception cref="ArgumentException"></exception>
         /// <exception cref="NullReferenceException"></exception>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
-        
+
+        /// <summary>
+        /// Gets the recipe information for a specified recipe, if the user can view it.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The user can view the recipe<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key for the active user.</param>
+        /// <param name="recipeId">The id for the recipe to retrieve</param>
+        /// <returns>The recipe information</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Recipe GetRecipe(string sessionKey, int recipeId);
 
+        /// <summary>
+        /// Gets the list of ingredients for a recipe, if the user can view it.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The user can view the recipe<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key for the active user.</param>
+        /// <param name="recipeId">The id for the recipe to retrieve</param>
+        /// <returns>The ingredients for the recipe</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Ingredient[] GetRecipeIngredients(string sessionKey, int recipeId);
 
+        /// <summary>
+        /// Gets the list of steps for a recipe, if the user can view it.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The user can view the recipe<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key for the active user.</param>
+        /// <param name="recipeId">The id for the recipe to retrieve</param>
+        /// <returns>The steps for the recipe</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId);
 
         /// <summary>

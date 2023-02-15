@@ -17,7 +17,7 @@ namespace Desktop_Client.Endpoints.Recipes
         /// Gets all of the visible recipes for the active user that match the search term.<br/>
         /// If the search term is empty, all recipes will be fetched<br/>
         /// <br/>
-        /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey) &amp;&amp; searchTerm != null<br/>
+        /// <b>Precondition: </b> The session key is valid.<br/>
         /// <b>Postcondition: </b> None
         /// </summary>
         /// <param name="sessionKey">The session key for the current user.</param>
@@ -29,7 +29,7 @@ namespace Desktop_Client.Endpoints.Recipes
         /// Gets a recipe from the server with a specified recipeId.<br/>
         /// The account associated with the session key must by the author if the recipe is private.<br/>
         /// <br/>
-        /// <b>Precondition: </b>None<br/>
+        /// <b>Precondition: </b>The session key is valid and the user has access to the recipe<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
         /// <param name="sessionKey">The session key associated with the active user.</param>
@@ -40,7 +40,7 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <summary>
         /// Gets all of the ingredients for a recipe.<br/>
         /// <br/>
-        /// <b>Precondition: </b>None<br/>
+        /// <b>Precondition: </b>The session key is valid and the user has access to the recipe.<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
         /// <param name="sessionKey">The session key associated with the account</param>
@@ -48,6 +48,15 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <returns>The ingredients for the recipe.</returns>
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
 
+        /// <summary>
+        /// Gets all of the steps for a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>The user has access to the recipe.<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the account</param>
+        /// <param name="recipeId">The id for the recipe.</param>
+        /// <returns>The steps for the recipe.</returns>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
 
         /// <summary>

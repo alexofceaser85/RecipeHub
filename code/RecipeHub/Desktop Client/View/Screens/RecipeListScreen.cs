@@ -47,7 +47,7 @@ namespace Desktop_Client.View.Screens
 
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key, this.searchTextBox.Text));
+            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!, this.searchTextBox.Text));
         }
 
         private void RecipeListItemMouseClick(object? sender, int recipeId)

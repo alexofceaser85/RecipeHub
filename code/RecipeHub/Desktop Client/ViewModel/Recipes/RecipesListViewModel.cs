@@ -99,6 +99,13 @@ namespace Desktop_Client.ViewModel.Recipes
             return filteredRecipes.ToArray();
         }
 
+        /// <summary>
+        /// Opens a dialog for selecting the recipe filters. <br/>
+        /// Updates the displayed recipes if changes are saved.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>Selected filters reflect changes in the dialog, if saved.
+        /// </summary>
         public void OpenFiltersDialog()
         {
             var filtersDialog = new RecipeListFilterDialog(this.filters);

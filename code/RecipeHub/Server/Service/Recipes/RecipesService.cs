@@ -91,6 +91,7 @@ namespace Server.Service.Recipes
             return this.recipesDal.GetRecipe((int)recipeId)!;
         }
 
+        /// <inheritdoc/>
         public Ingredient[] GetRecipeIngredients(string sessionKey, int recipeId)
         {
             if (sessionKey == null)
@@ -112,7 +113,8 @@ namespace Server.Service.Recipes
 
             return this.recipesDal.GetIngredientsForRecipe(recipeId);
         }
-
+        
+        /// <inheritdoc/>
         public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId)
         {
             if (sessionKey == null)

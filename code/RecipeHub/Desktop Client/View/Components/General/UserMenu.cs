@@ -12,13 +12,42 @@ namespace Desktop_Client.View.Components.General
 {
     public partial class UserMenu : UserControl
     {
+        /// <summary>
+        /// Occurs when the user presses the close button.
+        /// </summary>
         public EventHandler? MenuClosed;
+
+        /// <summary>
+        /// Occurs when the user presses the logout button.
+        /// </summary>
         public EventHandler? LogoutSelected;
+
+        /// <summary>
+        /// Occurs when the user presses the ingredients button
+        /// </summary>
         public EventHandler? IngredientsSelected;
+
+        /// <summary>
+        /// Occurs when the user presses the recipes button
+        /// </summary>
         public EventHandler? RecipesSelected;
+
+        /// <summary>
+        /// Occurs when the user presses the planned meals button
+        /// </summary>
         public EventHandler? PlannedMealsSelected;
+
+        /// <summary>
+        /// Occurs when the user presses the users button
+        /// </summary>
         public EventHandler? UserSelected;
 
+        /// <summary>
+        /// Creates a default instance of <see cref="UserMenu"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
         public UserMenu()
         {
             InitializeComponent();

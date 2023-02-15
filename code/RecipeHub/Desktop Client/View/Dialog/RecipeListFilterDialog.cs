@@ -11,16 +11,29 @@ using Desktop_Client.Model;
 
 namespace Desktop_Client.View.Dialog
 {
+    /// <summary>
+    /// A dialog window containing filtering options for the recipe list screen.
+    /// </summary>
     public partial class RecipeListFilterDialog : Form
     {
         private RecipeFilters filters;
 
+        /// <summary>
+        /// The filters to be applied to the recipe list.
+        /// </summary>
         public RecipeFilters Filters
         {
             get => this.filters;
             set => this.filters = value;
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="RecipeListFilterDialog"/> with a specified set of filters.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>The filter options are reflected in the UI.
+        /// </summary>
+        /// <param name="filters">The currently selected filters.</param>
         public RecipeListFilterDialog(RecipeFilters filters)
         {
             InitializeComponent();
