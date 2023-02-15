@@ -42,16 +42,6 @@ namespace Desktop_Client.View.Dialog
             this.DialogResult = DialogResult.OK;
         }
 
-        private void amountTextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
-                (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-        }
-
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -63,6 +53,35 @@ namespace Desktop_Client.View.Dialog
         {
             //var suggestions = this.viewModel.GetSuggestions(this.nameComboBox.Text);
             //this.nameComboBox.DataSource = suggestions;
+        }
+
+        private void amountTextBox_TextChanged(object sender, EventArgs e)
+        {
+            bool enteredLetter = false;
+            Queue<char> text = new Queue<char>();
+            foreach (var ch in this.amountTextBox.Text)
+            {
+                if (char.IsDigit(ch))
+                {
+                    text.Enqueue(ch);
+                }
+                else
+                {
+                    enteredLetter = true;
+                }
+            }
+
+            if (enteredLetter)
+            {
+                StringBuilder sb = new StringBuilder();
+                while (text.Count > 0)
+                {
+                    sb.Append(text.Dequeue());
+                }
+
+                this.amountTextBox.Text = sb.ToString();
+                this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
+            }
         }
     }
 }

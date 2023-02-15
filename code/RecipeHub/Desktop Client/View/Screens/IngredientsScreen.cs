@@ -67,7 +67,10 @@ namespace Desktop_Client.View.Screens
                 var cellValue = this.dataGridView1.Rows[e.RowIndex].Cells["Name"].Value;
                 if (e.ColumnIndex == 1)
                 {
-                    
+                    var editIngredientDialog = new EditIngredientDialog(cellValue.ToString()!.Split("\nQuantity:")[0]);
+                    editIngredientDialog.ShowDialog();
+                    this.AddIngredientsFromServer();
+
                 }
                 else if (e.ColumnIndex == 2)
                 {

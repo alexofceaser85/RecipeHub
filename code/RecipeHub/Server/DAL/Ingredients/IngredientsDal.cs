@@ -45,10 +45,10 @@ namespace Server.DAL.Ingredients
         /// <inheritdoc />
         public IList<string> GetIngredientNamesThatMatchText(string ingredientName)
         {
-            var query = "SELECT name FROM Ingredients WHERE name LIKE '%" + ingredientName + "%'";
+            var query = "SELECT name FROM Ingredients WHERE name LIKE '%@name%'";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
-            //command.Parameters.Add("@name", SqlDbType.VarChar).Value = "%" + ingredientName + "%";
+            command.Parameters.Add("@name", SqlDbType.VarChar).Value = "%" + ingredientName + "%";
             connection.Open();
             using var reader = command.ExecuteReader();
             var ingredientNames = new List<string>();
@@ -85,7 +85,7 @@ namespace Server.DAL.Ingredients
         public bool UpdateIngredientInPantry(Shared_Resources.Model.Ingredients.Ingredient ingredient, int userId)
         {
             var query =
-                "UPDATE PantryItems SET amount = @amount WHERE userId = @userId AND ingredientName = @ingredientName";
+                "UPDATE PantryItems SET amount = @amount WHERE userId = @userId AND ingredientId = @ingredientId";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;

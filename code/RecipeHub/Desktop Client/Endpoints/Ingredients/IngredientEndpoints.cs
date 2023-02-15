@@ -92,20 +92,34 @@ namespace Desktop_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public bool DeleteIngredient(Ingredient ingredient)
         {
+            var parameters = $"?name={ingredient.Name}&measurementType={(int)ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{this.deleteIngredientEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
 
-            throw new NotImplementedException();
+            return json["flag"]!.GetValue<bool>();
         }
 
         /// <inheritdoc />
         public bool UpdateIngredient(Ingredient ingredient)
         {
-            throw new NotImplementedException();
+            var parameters = $"?name={ingredient.Name}&measurementType={(int)ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{this.updateIngredientEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json["flag"]!.GetValue<bool>();
         }
 
         /// <inheritdoc />
         public bool DeleteAllIngredientsForUser()
         {
-            throw new NotImplementedException();
+            string parameters = $"?sessionKey={Session.Key}";
+            string requestUri = $"{ServerSettings.ServerUri}{this.getIngredientsEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json["flag"]!.GetValue<bool>();
         }
 
         /// <inheritdoc />
