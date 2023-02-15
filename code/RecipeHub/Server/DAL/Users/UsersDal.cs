@@ -191,7 +191,6 @@ namespace Server.DAL.Users
         public bool UserIdExists(int userId)
         {
             var query = "SELECT userId FROM Users WHERE userId = @userId";
-            
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
 

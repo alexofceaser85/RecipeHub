@@ -49,7 +49,9 @@ namespace Shared_Resources.Utils.Server
             var request = new HttpRequestMessage(method, requestUri);
             var response = client.SendAsync(request).Result;
             using var content = response.Content;
+            
             var json = content.ReadAsStringAsync().Result;
+            Console.WriteLine(json);
             return JsonUtils.ParseToJsonNode(json);
         }
     }

@@ -1,0 +1,30 @@
+﻿@page
+@using Shared_Resources.Model.Ingredients
+@using Web_Client.ViewModel.Ingredient
+@using Shared_Resources.Data.UserData
+@using Shared_Resources.Utils.Units
+@model Web_Client.Pages.IngredientsModel
+@{
+   var ViewModel = new IngredientsViewModel();
+    var Ingredients = ViewModel.GetAllIngredientsForUser();
+}
+<h1>Ingredients</h1>
+<p>Use this page to add ingredients to your recipes.</p>
+
+@foreach (var ingredient in Ingredients)
+{
+    <div class="ingredient">
+        <div class="ingredient-name">
+            <p class="ingredient-name-title">@ingredient.Name</p>
+            <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
+        </div>
+        <div class="ingredient-actions">
+            <form method="post">
+                <button class="ingredient-edit-button">Edit</button>
+            </form>
+            <button class="ingredient-delete-button">Delete</button>
+        </div>
+
+    </div>
+}
+
