@@ -31,6 +31,7 @@
             this.mainLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.topBar = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.hamburgerButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.recipieNameLabel = new System.Windows.Forms.Label();
             this.authorNameLabel = new System.Windows.Forms.Label();
@@ -43,12 +44,12 @@
             this.yourRatingLabel = new System.Windows.Forms.Label();
             this.descriptionLabel = new System.Windows.Forms.Label();
             this.tabsPlaceholderLabel = new System.Windows.Forms.Label();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.pevImageButton = new System.Windows.Forms.Button();
-            this.nextImageButton = new System.Windows.Forms.Button();
             this.ingredientsListLabel = new System.Windows.Forms.Label();
             this.stepsLabel = new System.Windows.Forms.Label();
             this.commentsLabel = new System.Windows.Forms.Label();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.pevImageButton = new System.Windows.Forms.Button();
+            this.nextImageButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -98,6 +99,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel2.Controls.Add(this.hamburgerButton, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.backButton, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -107,6 +109,20 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(667, 137);
             this.tableLayoutPanel2.TabIndex = 8;
+            // 
+            // hamburgerButton
+            // 
+            this.hamburgerButton.BackColor = System.Drawing.Color.Transparent;
+            this.hamburgerButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hamburgerButton.Font = new System.Drawing.Font("Segoe UI Black", 42F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.hamburgerButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.hamburgerButton.Location = new System.Drawing.Point(502, 3);
+            this.hamburgerButton.Name = "hamburgerButton";
+            this.hamburgerButton.Size = new System.Drawing.Size(162, 131);
+            this.hamburgerButton.TabIndex = 2;
+            this.hamburgerButton.Text = "☰";
+            this.hamburgerButton.UseVisualStyleBackColor = false;
+            this.hamburgerButton.Click += new System.EventHandler(this.hamburgerButton_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -274,6 +290,33 @@
             this.tabsPlaceholderLabel.TabIndex = 2;
             this.tabsPlaceholderLabel.Text = "Tags go here";
             // 
+            // ingredientsListLabel
+            // 
+            this.ingredientsListLabel.AutoSize = true;
+            this.ingredientsListLabel.Location = new System.Drawing.Point(4, 286);
+            this.ingredientsListLabel.Name = "ingredientsListLabel";
+            this.ingredientsListLabel.Size = new System.Drawing.Size(101, 25);
+            this.ingredientsListLabel.TabIndex = 3;
+            this.ingredientsListLabel.Text = "Ingredients";
+            // 
+            // stepsLabel
+            // 
+            this.stepsLabel.AutoSize = true;
+            this.stepsLabel.Location = new System.Drawing.Point(4, 476);
+            this.stepsLabel.Name = "stepsLabel";
+            this.stepsLabel.Size = new System.Drawing.Size(55, 25);
+            this.stepsLabel.TabIndex = 4;
+            this.stepsLabel.Text = "Steps";
+            // 
+            // commentsLabel
+            // 
+            this.commentsLabel.AutoSize = true;
+            this.commentsLabel.Location = new System.Drawing.Point(4, 696);
+            this.commentsLabel.Name = "commentsLabel";
+            this.commentsLabel.Size = new System.Drawing.Size(99, 25);
+            this.commentsLabel.TabIndex = 5;
+            this.commentsLabel.Text = "Comments";
+            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 3;
@@ -312,33 +355,6 @@
             this.nextImageButton.TabIndex = 1;
             this.nextImageButton.Text = ">";
             this.nextImageButton.UseVisualStyleBackColor = true;
-            // 
-            // ingredientsListLabel
-            // 
-            this.ingredientsListLabel.AutoSize = true;
-            this.ingredientsListLabel.Location = new System.Drawing.Point(4, 286);
-            this.ingredientsListLabel.Name = "ingredientsListLabel";
-            this.ingredientsListLabel.Size = new System.Drawing.Size(101, 25);
-            this.ingredientsListLabel.TabIndex = 3;
-            this.ingredientsListLabel.Text = "Ingredients";
-            // 
-            // stepsLabel
-            // 
-            this.stepsLabel.AutoSize = true;
-            this.stepsLabel.Location = new System.Drawing.Point(4, 476);
-            this.stepsLabel.Name = "stepsLabel";
-            this.stepsLabel.Size = new System.Drawing.Size(55, 25);
-            this.stepsLabel.TabIndex = 4;
-            this.stepsLabel.Text = "Steps";
-            // 
-            // commentsLabel
-            // 
-            this.commentsLabel.AutoSize = true;
-            this.commentsLabel.Location = new System.Drawing.Point(4, 696);
-            this.commentsLabel.Name = "commentsLabel";
-            this.commentsLabel.Size = new System.Drawing.Size(99, 25);
-            this.commentsLabel.TabIndex = 5;
-            this.commentsLabel.Text = "Comments";
             // 
             // RecipeScreen
             // 
@@ -385,5 +401,6 @@
         private Label ingredientsListLabel;
         private Label stepsLabel;
         private Label commentsLabel;
+        private Button hamburgerButton;
     }
 }

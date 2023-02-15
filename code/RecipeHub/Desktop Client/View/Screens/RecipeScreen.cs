@@ -55,7 +55,7 @@ namespace Desktop_Client.View.Screens
             base.ChangeScreens(new RecipeListScreen());
         }
 
-        private void hamburgerButton_MouseClick(object sender, MouseEventArgs e)
+        private void hamburgerButton_Click(object sender, EventArgs e)
         {
             base.ToggleHamburgerMenu();
         }

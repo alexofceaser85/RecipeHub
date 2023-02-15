@@ -36,6 +36,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.hamburgerButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -56,7 +57,7 @@
             this.mainLayoutPanel.Name = "mainLayoutPanel";
             this.mainLayoutPanel.Padding = new System.Windows.Forms.Padding(16, 8, 16, 8);
             this.mainLayoutPanel.RowCount = 2;
-            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 180F));
+            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 267F));
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainLayoutPanel.Size = new System.Drawing.Size(713, 1324);
             this.mainLayoutPanel.TabIndex = 0;
@@ -73,36 +74,36 @@
             this.topBar.RowCount = 2;
             this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 54.02299F));
             this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 45.97701F));
-            this.topBar.Size = new System.Drawing.Size(673, 174);
+            this.topBar.Size = new System.Drawing.Size(673, 261);
             this.topBar.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 153F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 166F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.filtersButton, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.searchTextBox, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 97);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 144);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(667, 74);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(667, 114);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
             // filtersButton
             // 
-            this.filtersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.filtersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.filtersButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
             this.filtersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.filtersButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.filtersButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.filtersButton.Location = new System.Drawing.Point(4, 12);
+            this.filtersButton.Location = new System.Drawing.Point(4, 32);
             this.filtersButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
-            this.filtersButton.MaximumSize = new System.Drawing.Size(429, 0);
+            this.filtersButton.MaximumSize = new System.Drawing.Size(429, 50);
             this.filtersButton.Name = "filtersButton";
-            this.filtersButton.Size = new System.Drawing.Size(145, 50);
+            this.filtersButton.Size = new System.Drawing.Size(158, 50);
             this.filtersButton.TabIndex = 6;
             this.filtersButton.Text = "Filters";
             this.filtersButton.UseVisualStyleBackColor = false;
@@ -111,11 +112,11 @@
             // 
             this.searchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.searchTextBox.Location = new System.Drawing.Point(161, 12);
+            this.searchTextBox.Location = new System.Drawing.Point(174, 32);
             this.searchTextBox.Margin = new System.Windows.Forms.Padding(8);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.PlaceholderText = "Search Recipes by Name";
-            this.searchTextBox.Size = new System.Drawing.Size(498, 50);
+            this.searchTextBox.Size = new System.Drawing.Size(485, 50);
             this.searchTextBox.TabIndex = 7;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 
@@ -126,12 +127,13 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.hamburgerButton, 2, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(667, 88);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(667, 135);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // label1
@@ -141,7 +143,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.label1.Location = new System.Drawing.Point(169, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(327, 88);
+            this.label1.Size = new System.Drawing.Size(327, 135);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recipes";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -152,12 +154,26 @@
             this.recipeListTablePanel.ColumnCount = 1;
             this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.recipeListTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recipeListTablePanel.Location = new System.Drawing.Point(20, 193);
+            this.recipeListTablePanel.Location = new System.Drawing.Point(20, 280);
             this.recipeListTablePanel.Name = "recipeListTablePanel";
             this.recipeListTablePanel.RowCount = 1;
             this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 160F));
-            this.recipeListTablePanel.Size = new System.Drawing.Size(673, 1119);
+            this.recipeListTablePanel.Size = new System.Drawing.Size(673, 1032);
             this.recipeListTablePanel.TabIndex = 1;
+            // 
+            // hamburgerButton
+            // 
+            this.hamburgerButton.BackColor = System.Drawing.Color.Transparent;
+            this.hamburgerButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.hamburgerButton.Font = new System.Drawing.Font("Segoe UI Black", 42F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.hamburgerButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.hamburgerButton.Location = new System.Drawing.Point(502, 3);
+            this.hamburgerButton.Name = "hamburgerButton";
+            this.hamburgerButton.Size = new System.Drawing.Size(162, 129);
+            this.hamburgerButton.TabIndex = 1;
+            this.hamburgerButton.Text = "☰";
+            this.hamburgerButton.UseVisualStyleBackColor = false;
+            this.hamburgerButton.Click += new System.EventHandler(this.hamburgerButton_MouseClick);
             // 
             // RecipeListScreen
             // 
@@ -185,5 +201,6 @@
         private TextBox searchTextBox;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
+        private Button hamburgerButton;
     }
 }
