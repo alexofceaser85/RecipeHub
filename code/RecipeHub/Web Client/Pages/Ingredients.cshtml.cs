@@ -33,23 +33,26 @@ namespace Web_Client.Pages
             this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount, this.AddedIngredient.MeasurementType));
             return this.Page();
         }
-        //public IActionResult OnPostDeleteIngredient([FromBody] string ingredientName)
-        //{
-        //    this.viewModel.RemoveIngredient(new Ingredient(ingredientName, 0, MeasurementType.Quantity));
-        //    return this.Page();
-        //}
+        public IActionResult OnPostDeleteIngredient()
+        {
+            var name = Request.Form["Name"];
+            this.viewModel.RemoveIngredient(new Ingredient(name, 0, MeasurementType.Quantity));
+            return this.Page();
+        }
 
-        //public IActionResult OnPostUpdateIngredient([FromBody] string ingredientName, [FromBody] int measurementType, [FromBody] int amount)
-        //{
-        //    this.viewModel.EditIngredient(new Ingredient(ingredientName, amount, (MeasurementType)measurementType));
-        //    return this.Page();
-        //}
+        public IActionResult OnPostUpdateIngredient()
+        {
+            var name = Request.Form["Name"];
+            var amount = int.Parse(Request.Form["Amount"]!);
+            this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
+            return this.Page();
+        }
 
-        //public IActionResult OnPostDeleteAllIngredients()
-        //{
-        //    this.viewModel.RemoveAllIngredients();
-        //    return this.Page();
-        //}
+        public IActionResult OnPostDeleteAllIngredients()
+        {
+            this.viewModel.RemoveAllIngredients();
+            return this.Page();
+        }
 
 
     }
