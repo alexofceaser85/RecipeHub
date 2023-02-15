@@ -3,22 +3,28 @@ using Shared_Resources.Data.UserData;
 
 namespace Desktop_Client.View.Screens
 {
-    public partial class UserInfoScreen : Form
+    /// <summary>
+    /// Displays the active user's information.
+    /// </summary>
+    public partial class UserInfoScreen : Screen
     {
         private readonly string sessionMessage = $"Session Key {Session.Key}";
         private readonly UsersViewModel viewModel;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserInfoScreen"/> class.
+        /// Creates a default instance of <see cref="UserInfoScreen"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
         /// </summary>
         public UserInfoScreen()
         {
             this.InitializeComponent();
             this.viewModel = new UsersViewModel();
-            this.getAndPopulateUserInfo();
+            this.GetAndPopulateUserInfo();
         }
-
-        private void getAndPopulateUserInfo()
+        
+        private void GetAndPopulateUserInfo()
         {
             var userInfo = this.viewModel.GetUserInfo();
 
@@ -32,7 +38,7 @@ namespace Desktop_Client.View.Screens
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.viewModel.Logout();
-            Close();
+            base.ChangeScreens(new LoginScreen());
         }
     }
 }
