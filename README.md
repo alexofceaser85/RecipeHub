@@ -7,10 +7,11 @@ See below for setup instructions.
 1. Clone Project to Visual Studio
 2. Publish Database using Database.publish.xml in PublishScripts folder of Database.
 3. Open `Database>PopulateDB.sql`, then run the script with `ctrl+shift+e` to clear the database and load dummy data.
-  - If you don't want to load the dummy data, manually add the following rows to the `MeasurementTypes` table:
-    - typeId - name
-    - 1 - Quantity
-    - 2 - Mass
-    - 3 - Volume
+   - Dummy data includes three users: `MasterChef`, `Onion_King`, and `hotlava77`. Each have different pantries, and all thre use `password` for their password.
+   - If you don't want to load the dummy data, manually add the following rows to the `MeasurementTypes` table:
+     - typeId - name
+     - 1 - Quantity
+     - 2 - Mass
+     - 3 - Volume
 5. Run Server
 6. Run Either Desktop Client or Web Client
