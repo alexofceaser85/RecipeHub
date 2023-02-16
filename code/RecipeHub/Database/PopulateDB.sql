@@ -12,9 +12,9 @@ SET IDENTITY_INSERT MeasurementTypes ON;
 INSERT INTO MeasurementTypes
 	(typeId, name)
 VALUES
-    (0, 'Quantity'),
-    (1, 'Mass'),
-    (2, 'Volume');
+    (1, 'Quantity'),
+    (2, 'Mass'),
+    (3, 'Volume');
 SET IDENTITY_INSERT MeasurementTypes OFF;
 	
 SET IDENTITY_INSERT Users ON;
@@ -37,38 +37,38 @@ SET IDENTITY_INSERT Ingredients ON;
 INSERT INTO Ingredients
 	(ingredientId, name, measurementType)
 VALUES
-    (1, 'Carrot', 0), --Veggies
-    (10, 'Lettuce', 1),
-    (11, 'Tomato', 0),
-    (12, 'Garlic', 0),
-    (16, 'Lemon', 0),
-    (17, 'Orange', 0),
-    (21, 'Potato', 0),
-    (23, 'Nori', 0),
+    (1, 'Carrot', 1), --Veggies
+    (10, 'Lettuce', 2),
+    (11, 'Tomato', 1),
+    (12, 'Garlic', 1),
+    (16, 'Lemon', 1),
+    (17, 'Orange', 1),
+    (21, 'Potato', 1),
+    (23, 'Nori', 1),
 
-    (2, 'Chicken Breast', 0), --Meats
-    (5, 'Porkchop', 0),
-    (6, 'Egg', 0),
-    (24, 'Ground Beef', 1),
-    (28, 'Shrimp', 1),
+    (2, 'Chicken Breast', 1), --Meats
+    (5, 'Porkchop', 1),
+    (6, 'Egg', 1),
+    (24, 'Ground Beef', 2),
+    (28, 'Shrimp', 2),
 
-    (3, 'Flour', 2), --Grains
-    (4, 'Panko', 2),
-    (8, 'Spaghetti Noodles', 1),
-    (9, 'Macaroni', 1),
-    (14, 'Granola', 2),
-    (22, 'White Rice', 1),
+    (3, 'Flour', 3), --Grains
+    (4, 'Panko', 3),
+    (8, 'Spaghetti Noodles', 2),
+    (9, 'Macaroni', 2),
+    (14, 'Granola', 3),
+    (22, 'White Rice', 2),
 
-    (7, 'Sugar', 2), --Condiments and Spices
-    (13, 'Salt', 1),
-    (18, 'Soysauce', 2),
-    (19, 'Vegetable Oil', 2),
-    (20, 'White Pepper Powder', 2),
-    (26, 'Tomato Sauce', 2),
+    (7, 'Sugar', 3), --Condiments and Spices
+    (13, 'Salt', 2),
+    (18, 'Soysauce', 3),
+    (19, 'Vegetable Oil', 3),
+    (20, 'White Pepper Powder', 3),
+    (26, 'Tomato Sauce', 3),
 
-    (15, 'Milk', 2), --Dairy
-    (25, 'Sliced Cheddar', 0),
-    (27, 'Butter', 2);
+    (15, 'Milk', 3), --Dairy
+    (25, 'Sliced Cheddar', 1),
+    (27, 'Butter', 3);
 SET IDENTITY_INSERT Ingredients OFF;
 
 SET IDENTITY_INSERT Recipes ON;
