@@ -1,0 +1,13 @@
+Use-Case Scenario: Filter Recipes by Tags
+Users: Chef
+Context: User is viewing the recipes list
+Primary Flow:
+    1: The user selects a tag from a list of Tags
+    2: The user confims to add a tag
+    3: The tag is added to the filtered tags list
+    4: The list of recipes is updated to only display recipes that have all selected tags
+Alternate Flows:
+    a3: 
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 3
