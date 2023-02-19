@@ -35,7 +35,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             const string sessionKey = null!;
             const int recipeId = 1;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().RemoveRecipe(sessionKey!, recipeId));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().RemoveRecipe(sessionKey!, recipeId));
         }
         
         [Test]
@@ -43,7 +43,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             const string sessionKey = "";
             const int recipeId = 1;
-            Assert.Throws<ArgumentException>(() => new RecipesService().RemoveRecipe(sessionKey, recipeId));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().RemoveRecipe(sessionKey, recipeId));
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.RemoveRecipe(sessionKey, recipeId));
+            Assert.Throws<UnauthorizedAccessException>(() => service.RemoveRecipe(sessionKey, recipeId));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
         }
 

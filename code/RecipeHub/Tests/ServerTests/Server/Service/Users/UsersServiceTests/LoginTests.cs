@@ -2,6 +2,7 @@
 using Server.DAL.Users;
 using Server.ErrorMessages;
 using Server.Service.Users;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 
 namespace ServerTests.Server.Service.Users.UsersServiceTests
@@ -101,14 +102,15 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
 
             userDal.Verify(mock => mock.VerifyUserNameAndPasswordCombination("username", "password"), Times.Once());
             userDal.Verify(mock => mock.VerifySessionKeyDoesNotExist(It.IsAny<string>()), Times.Once());
-            userDal.Verify(mock => mock.RemoveSessionKey("key"), Times.Never());
-            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>()), Times.Once());
+            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once());
             Assert.That(returnedValue, Is.Not.Empty);
         }
 
         [Test]
         public void ShouldLoginWithExistingSessionKey()
         {
+            Session.Key = "key";
+
             var userDal = new Mock<IUsersDal>();
 
             userDal.Setup(mock => mock.VerifyUserNameAndPasswordCombination("username", "password")).Returns(1);
@@ -120,18 +122,20 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
 
             userDal.Verify(mock => mock.VerifyUserNameAndPasswordCombination("username", "password"), Times.Once());
             userDal.Verify(mock => mock.VerifySessionKeyDoesNotExist(It.IsAny<string>()), Times.Once());
-            userDal.Verify(mock => mock.RemoveSessionKey("key"), Times.Once());
-            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>()), Times.Once());
+            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once());
             Assert.That(returnedValue, Is.Not.Empty);
         }
 
         [Test]
         public void ShouldLoginIfNewSessionKeyIsTaken()
         {
+            Session.Key = "key";
             var userDal = new Mock<IUsersDal>();
 
             userDal.Setup(mock => mock.VerifyUserNameAndPasswordCombination("username", "password")).Returns(1);
             userDal.SetupSequence(mock => mock.VerifySessionKeyDoesNotExist(It.IsAny<string>())).Returns(false).Returns(false).Returns(true);
+            userDal.Setup(mock => mock.RemoveSessionKey("Key"));
+            userDal.Setup(mock => mock.AddUserSession(1, It.IsAny<string>(), It.IsAny<DateTime>()));
 
             var service = new UsersService(userDal.Object);
 
@@ -140,7 +144,7 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
             userDal.Verify(mock => mock.VerifyUserNameAndPasswordCombination("username", "password"), Times.Once());
             userDal.Verify(mock => mock.VerifySessionKeyDoesNotExist(It.IsAny<string>()), Times.Exactly(3));
             userDal.Verify(mock => mock.RemoveSessionKey("key"), Times.Once());
-            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>()), Times.Once());
+            userDal.Verify(mock => mock.AddUserSession(1, It.IsAny<string>(), It.IsAny<DateTime>()), Times.Once());
             Assert.That(returnedValue, Is.Not.Empty);
         }
     }

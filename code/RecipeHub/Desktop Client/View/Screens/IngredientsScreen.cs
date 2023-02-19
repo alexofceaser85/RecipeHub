@@ -2,6 +2,7 @@
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Units;
+using System;
 
 namespace Desktop_Client.View.Screens
 {
@@ -30,6 +31,7 @@ namespace Desktop_Client.View.Screens
 
         private void SetupIngredientList()
         {
+            //TODO This really needs to be cleaned up. This should be a component similar to the Recipe List Item
             DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn();
             nameColumn.Name = "Name";
             nameColumn.HeaderText = "Name";
@@ -72,18 +74,49 @@ namespace Desktop_Client.View.Screens
 
                 if (e.ColumnIndex == 1)
                 {
-                    var editIngredientDialog = new EditIngredientDialog(name);
-                    editIngredientDialog.ShowDialog();
-                    this.LoadIngredientsFromServer();
+                    try
+                    {
+                        var editIngredientDialog = new EditIngredientDialog(name);
+                        editIngredientDialog.ShowDialog();
+                        this.LoadIngredientsFromServer();
+                    }
+                    catch (ArgumentException exception)
+                    {
+                        MessageBox.Show(exception.Message);
+                    }
+                    catch (UnauthorizedAccessException exception)
+                    {
+                        var result = MessageBox.Show(exception.Message);
+                        if (result == DialogResult.OK)
+                        {
+                            base.ChangeScreens(new LoginScreen());
+                        }
+                    }
+
                 }
                 else if (e.ColumnIndex == 2)
                 {
-                    var result = MessageBox.Show($@"Are you sure you want to remove {name} from your pantry?",
-                        @"Remove Ingredient", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
+                    try
                     {
-                        this.viewModel.RemoveIngredient(new Ingredient(name, quantity, measurementType));
-                        this.LoadIngredientsFromServer();
+                        var result = MessageBox.Show($@"Are you sure you want to remove {name} from your pantry?", "Remove Ingredient", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                        {
+                            this.viewModel.RemoveIngredient(new Shared_Resources.Model.Ingredients.Ingredient(name, quantity, measurementType));
+                            this.LoadIngredientsFromServer();
+                        }
+
+                    }
+                    catch (ArgumentException exception)
+                    {
+                        MessageBox.Show(exception.Message);
+                    }
+                    catch (UnauthorizedAccessException exception)
+                    {
+                        var result = MessageBox.Show(exception.Message);
+                        if (result == DialogResult.OK)
+                        {
+                            base.ChangeScreens(new LoginScreen());
+                        }
                     }
                 }
             };
@@ -102,6 +135,7 @@ namespace Desktop_Client.View.Screens
                     $"{BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)}",
                     "Edit", "Delete");
             }
+
         }
 
         private void hamburgerButton_Click(object sender, EventArgs e)
@@ -113,14 +147,47 @@ namespace Desktop_Client.View.Screens
         {
             ChangeScreens(new RecipeListScreen());
         }
+            try
+            {
+                base.ChangeScreens(new RecipeListScreen());
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
+            }
+        }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
-            var addIngredientDialog = new AddIngredientDialog();
-            addIngredientDialog.ShowDialog();
-            if (addIngredientDialog.DialogResult == DialogResult.OK)
+
+            try
             {
-                this.LoadIngredientsFromServer();
+                var addIngredientDialog = new AddIngredientDialog();
+                addIngredientDialog.ShowDialog();
+                if (addIngredientDialog.DialogResult == DialogResult.OK)
+                {
+                    this.LoadIngredientsFromServer();
+                }
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
             }
         }
 
@@ -134,6 +201,29 @@ namespace Desktop_Client.View.Screens
             }
 
             this.LoadIngredientsFromServer();
+        }
+            try
+            {
+                var result = MessageBox.Show("Are you sure you want to remove all ingredients?",
+                    "Remove All Ingredients", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    this.viewModel.RemoveAllIngredients();
+                }
+                this.LoadIngredientsFromServer();
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
+            }
         }
     }
 }

@@ -267,6 +267,10 @@ namespace Shared_Resources.ErrorMessages
         /// The account to create cannot be null error message
         /// </summary>
         public const string AccountToCreateCannotBeNull = "The account to create cannot be null";
+        /// <summary>
+        /// The unauthorized access error message
+        /// </summary>
+        public const string UnauthorizedAccessErrorMessage = "The session timed out redirecting to login";
     }
 
     /// <summary>
@@ -278,6 +282,11 @@ namespace Shared_Resources.ErrorMessages
         /// The recipes endpoints cannot be null error message
         /// </summary>
         public static string RecipesEndpointsCannotBeNull = "The recipes endpoints cannot be null";
+
+        /// <summary>
+        /// The user service cannot be null
+        /// </summary>
+        public static string UserServiceCannotBeNull = "The user service cannot be null";
 
         /// <summary>
         /// The search term cannot be null error message

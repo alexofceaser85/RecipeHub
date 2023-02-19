@@ -49,13 +49,12 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             if (searchTerm == null)
@@ -65,7 +64,7 @@ namespace Server.Service.Recipes
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
 
             return this.recipesDal.GetRecipesWithName((int) userId, searchTerm);
         }
@@ -75,18 +74,16 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ?? throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
@@ -99,18 +96,17 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
@@ -123,18 +119,17 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
@@ -147,13 +142,12 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             if (name == null)
@@ -178,8 +172,7 @@ namespace Server.Service.Recipes
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
 
-            int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                            throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ?? throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
 
             return this.recipesDal.AddRecipe((int) authorId, name, description, isPublic);
         }
@@ -189,18 +182,17 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                            throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.IsAuthorOfRecipe((int) authorId, recipeId))
+                            throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
@@ -213,13 +205,12 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey),
-                    ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
-                throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             if (name == null)
@@ -245,8 +236,8 @@ namespace Server.Service.Recipes
             }
 
             int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                            throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.IsAuthorOfRecipe((int) authorId, recipeId))
+                            throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }

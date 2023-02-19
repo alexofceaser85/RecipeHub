@@ -37,7 +37,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
             const string sessionKey = null!;
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<UnauthorizedAccessException>(() => 
                 new IngredientsService().RemoveIngredientFromPantry(ingredient, sessionKey!));
         }
 
@@ -46,8 +46,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = "";
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
-            Assert.Throws<ArgumentException>(() =>
-                new IngredientsService().RemoveIngredientFromPantry(ingredient, sessionKey));
+            Assert.Throws<UnauthorizedAccessException>(() => new IngredientsService().RemoveIngredientFromPantry(ingredient, sessionKey));
         }
 
         [Test]

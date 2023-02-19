@@ -47,12 +47,42 @@ namespace Desktop_Client.View.Screens
 
         private void searchTextBox_TextChanged(object sender, EventArgs e)
         {
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!, this.searchTextBox.Text));
+            try
+            {
+                this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
+            }
         }
 
         private void RecipeListItemMouseClick(object? sender, int recipeId)
         {
-            ChangeScreens(new RecipeScreen(recipeId));
+            try
+            {
+                base.ChangeScreens(new RecipeScreen(recipeId));
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
+            }
         }
 
         private void hamburgerButton_MouseClick(object sender, EventArgs e)
@@ -62,8 +92,23 @@ namespace Desktop_Client.View.Screens
 
         private void filtersButton_Click(object sender, EventArgs e)
         {
-            this.viewmodel.OpenFiltersDialog();
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
+            try
+            {
+                this.viewmodel.OpenFiltersDialog();
+                this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
+            }
         }
     }
 }
