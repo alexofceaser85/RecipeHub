@@ -50,7 +50,7 @@ namespace Desktop_Client.Service.Recipes
         /// <param name="sessionKey">The session key associated with the current user.</param>
         /// <param name="recipeId">The id for the recipe to look up.</param>
         /// <returns>A list of steps for the specified recipe.</returns>
-        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
+        public RecipeStep[] GetStepsForRecipe(int recipeId);
 
         /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>

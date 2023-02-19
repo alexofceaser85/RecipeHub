@@ -11,7 +11,7 @@ namespace Server.Controllers.ResponseModels
         /// <summary>
         /// Gets or sets the recipe.
         /// </summary>
-        public Recipe Recipe { get; set; }
+        public Recipe? Recipe { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeResponseModel"/> class.<br/>
@@ -22,7 +22,7 @@ namespace Server.Controllers.ResponseModels
         /// <param name="code">The status code.</param>
         /// <param name="message">The response content.</param>
         /// <param name="recipe">The recipe to send back to the client</param>
-        public RecipeResponseModel(HttpStatusCode code, string message, Recipe recipe) : base(code, message)
+        public RecipeResponseModel(HttpStatusCode code, string message, Recipe? recipe) : base(code, message)
         {
             this.Recipe = recipe;
         }

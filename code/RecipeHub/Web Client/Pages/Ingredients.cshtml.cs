@@ -13,8 +13,6 @@ namespace Web_Client.Pages
     {
         private readonly IngredientsViewModel viewModel;
 
-        public bool DidErrorOccur = false;
-
         /// <summary>
         /// The data binding model for the ingredient being added.
         /// </summary>
@@ -56,6 +54,11 @@ namespace Web_Client.Pages
                 return RedirectToPage("/Index");
             }
         }
+
+        /// <summary>
+        /// Called when [post delete ingredient].
+        /// </summary>
+        /// <returns></returns>
         public IActionResult OnPostDeleteIngredient()
         {
             try
