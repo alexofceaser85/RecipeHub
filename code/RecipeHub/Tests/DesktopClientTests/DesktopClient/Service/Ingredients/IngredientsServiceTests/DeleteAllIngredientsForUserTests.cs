@@ -1,7 +1,6 @@
 ﻿using Desktop_Client.Endpoints.Ingredients;
 using Desktop_Client.Service.Ingredients;
 using Moq;
-using Shared_Resources.Model.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
 {

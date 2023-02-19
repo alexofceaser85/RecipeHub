@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Xml.Linq;
 using Shared_Resources.Data.Settings;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
@@ -16,7 +15,7 @@ namespace Desktop_Client.Endpoints.Recipes
         private const string RecipeIngredientsRoute = "RecipeIngredients";
         private const string RecipeStepsRoute = "RecipeSteps";
         private const string RecipesRoute = "Recipes";
-        
+
         private const string RecipeElementName = "recipe";
         private const string RecipesElementName = "recipes";
         private const string IngredientsElementName = "ingredients";
@@ -31,7 +30,7 @@ namespace Desktop_Client.Endpoints.Recipes
         {
             this.client = new HttpClient();
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipesEndpoints"/> class.
         ///
@@ -48,7 +47,7 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <inheritdoc/>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "")
         {
-            var serverMethodParameters =$"?sessionKey={sessionKey}&searchTerm={searchTerm}";
+            var serverMethodParameters = $"?sessionKey={sessionKey}&searchTerm={searchTerm}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -57,7 +56,7 @@ namespace Desktop_Client.Endpoints.Recipes
 
             return recipes!;
         }
-        
+
         /// <inheritdoc/>
         public Recipe GetRecipe(string sessionKey, int recipeId)
         {
@@ -70,7 +69,7 @@ namespace Desktop_Client.Endpoints.Recipes
 
             return recipe!;
         }
-        
+
         /// <inheritdoc/>
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
         {
@@ -84,10 +83,10 @@ namespace Desktop_Client.Endpoints.Recipes
             foreach (var ingredient in json[IngredientsElementName]!.AsArray())
             {
                 var name = ingredient!["name"]!.GetValue<string>();
-                var amount = ingredient!["amount"]!.GetValue<int>();
+                var amount = ingredient["amount"]!.GetValue<int>();
                 var measurementType = ingredient["measurementType"]!.GetValue<int>();
 
-                ingredients.Add(new Ingredient(name, amount, (MeasurementType)measurementType));
+                ingredients.Add(new Ingredient(name, amount, (MeasurementType) measurementType));
             }
 
             return ingredients.ToArray();
@@ -109,7 +108,8 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <inheritdoc/>
         public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&name={name}&description={description}&isPublic={isPublic}";
+            var serverMethodParameters =
+                $"?sessionKey={sessionKey}&name={name}&description={description}&isPublic={isPublic}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
 
@@ -129,7 +129,8 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <inheritdoc/>
         public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}&name={name}&description={description}&isPublic={isPublic}";
+            var serverMethodParameters =
+                $"?sessionKey={sessionKey}&recipeId={recipeId}&name={name}&description={description}&isPublic={isPublic}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Put, requestUri, this.client);
 

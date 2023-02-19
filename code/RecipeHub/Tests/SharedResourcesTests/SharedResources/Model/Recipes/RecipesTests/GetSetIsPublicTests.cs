@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Recipes;
 
 namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
 {
@@ -12,8 +7,9 @@ namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
         [Test]
         public void AssignIsPublic()
         {
-            var recipe = new Recipe();
-            recipe.IsPublic = true;
+            var recipe = new Recipe {
+                IsPublic = true
+            };
 
             Assert.That(recipe.IsPublic, Is.EqualTo(true));
         }

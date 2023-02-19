@@ -1,6 +1,5 @@
 ﻿using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
-using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.View.Screens
 {
@@ -11,6 +10,7 @@ namespace Desktop_Client.View.Screens
     public partial class RecipeScreen : Screen
     {
         private readonly RecipeViewModel viewModel;
+
         /// <summary>
         /// Creates a default instance of <see cref="Screen"/>.<br/>
         /// <br/>
@@ -31,7 +31,7 @@ namespace Desktop_Client.View.Screens
             var recipe = this.viewModel.LoadRecipe(Session.Key!, recipeId);
             this.recipieNameLabel.Text = recipe.Name;
             this.authorNameLabel.Text = recipe.AuthorName;
-            this.userRatingLabel.Text = $"User Ratings: {recipe.Rating}/5";
+            this.userRatingLabel.Text = @$"User Ratings: {recipe.Rating}/5";
             this.descriptionLabel.Text = recipe.Description;
         }
 
@@ -40,7 +40,7 @@ namespace Desktop_Client.View.Screens
             var ingredients = this.viewModel.LoadIngredients(Session.Key!, recipeId);
             if (ingredients.Length == 0)
             {
-                this.ingredientsListLabel.Text = "No ingredients have been added... Yet!";
+                this.ingredientsListLabel.Text = @"No ingredients have been added... Yet!";
                 return;
             }
 
@@ -56,7 +56,7 @@ namespace Desktop_Client.View.Screens
             var steps = this.viewModel.LoadSteps(Session.Key!, recipeId);
             if (steps.Length == 0)
             {
-                this.stepsLabel.Text = "No steps have been added... Yet!";
+                this.stepsLabel.Text = @"No steps have been added... Yet!";
                 return;
             }
 
@@ -69,12 +69,12 @@ namespace Desktop_Client.View.Screens
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            base.ChangeScreens(new RecipeListScreen());
+            ChangeScreens(new RecipeListScreen());
         }
 
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
-            base.ToggleHamburgerMenu();
+            ToggleHamburgerMenu();
         }
     }
 }

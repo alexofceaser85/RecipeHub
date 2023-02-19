@@ -33,10 +33,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.StandardResponseModelTes
         {
             var responseModel = new StandardResponseModel(HttpStatusCode.Continue, "message");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = null!;
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = null!; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
         }
@@ -46,10 +43,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.StandardResponseModelTes
         {
             var responseModel = new StandardResponseModel(HttpStatusCode.Continue, "message");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = "   ";
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = "   "; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
         }
@@ -57,8 +51,9 @@ namespace ServerTests.Server.Controllers.ResponseModels.StandardResponseModelTes
         [Test]
         public void ShouldSetValidMessageValueForStandardResponseModel()
         {
-            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, "message");
-            responseModel.Message = "my message";
+            var responseModel = new StandardResponseModel(HttpStatusCode.Continue, "message") {
+                Message = "my message"
+            };
             Assert.That(responseModel.Message, Is.EqualTo("my message"));
         }
 

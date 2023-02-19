@@ -10,19 +10,19 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         [Test]
         public void DefaultConstructor()
         {
-            Assert.DoesNotThrow(() => new RecipesService());
+            Assert.DoesNotThrow(() => _ = new RecipesService());
         }
 
         [Test]
         public void NullRecipesDal()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService(null!, new UsersDal()));
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(null!, new UsersDal()));
         }
-        
+
         [Test]
         public void NullUsersDal()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService(new RecipeDal(), null!));
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(new RecipeDal(), null!));
         }
     }
 }

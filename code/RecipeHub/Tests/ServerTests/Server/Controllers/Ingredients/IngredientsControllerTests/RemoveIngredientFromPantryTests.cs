@@ -1,11 +1,7 @@
 ﻿using Moq;
 using System.Net;
 using Server.Controllers.Ingredients;
-using Server.Controllers.Recipes;
-using Server.Data.Settings;
-using Server.ErrorMessages;
 using Server.Service.Ingredients;
-using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
@@ -23,7 +19,8 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
             recipesService.Setup(mock => mock.RemoveIngredientFromPantry(ingredient, sessionKey)).Returns(true);
             var controller = new IngredientsController(recipesService.Object);
 
-            var result = controller.RemoveIngredientFromPantry(ingredient.Name, (int)ingredient.MeasurementType, ingredient.Amount, sessionKey);
+            var result = controller.RemoveIngredientFromPantry(ingredient.Name, (int) ingredient.MeasurementType,
+                ingredient.Amount, sessionKey);
 
             Assert.Multiple(() =>
             {
@@ -32,7 +29,7 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
                 recipesService.Verify(mock => mock.RemoveIngredientFromPantry(ingredient, sessionKey), Times.Once());
             });
         }
-        
+
         [Test]
         public void ServiceFailedToRemoveIngredient()
         {
@@ -42,11 +39,13 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
 
             var recipesService = new Mock<IIngredientsService>();
 
-            recipesService.Setup(mock => mock.RemoveIngredientFromPantry(ingredient, sessionKey)).Throws(new ArgumentException(exceptionMessage));
+            recipesService.Setup(mock => mock.RemoveIngredientFromPantry(ingredient, sessionKey))
+                          .Throws(new ArgumentException(exceptionMessage));
             var service = new IngredientsController(recipesService.Object);
 
-            var result = service.RemoveIngredientFromPantry(ingredient.Name, (int)ingredient.MeasurementType, ingredient.Amount, sessionKey);
-            
+            var result = service.RemoveIngredientFromPantry(ingredient.Name, (int) ingredient.MeasurementType,
+                ingredient.Amount, sessionKey);
+
             Assert.Multiple(() =>
             {
                 recipesService.Verify(mock => mock.RemoveIngredientFromPantry(ingredient, sessionKey), Times.Once());

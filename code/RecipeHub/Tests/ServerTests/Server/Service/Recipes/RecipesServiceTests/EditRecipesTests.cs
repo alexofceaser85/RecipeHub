@@ -41,9 +41,10 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentNullException>(() =>
+                new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
         }
-        
+
         [Test]
         public void EmptySessionKey()
         {
@@ -52,7 +53,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -63,7 +65,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = null!;
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentNullException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name!, description, isPublic));
         }
 
         [Test]
@@ -74,7 +77,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -85,7 +89,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = null!;
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentNullException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description!, isPublic));
         }
 
         [Test]
@@ -96,7 +101,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -110,10 +116,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?) null);
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(
+                () => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
         }
 
@@ -134,7 +141,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
 
-            Assert.Throws<ArgumentException>(() => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(
+                () => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
             recipesDal.Verify(mock => mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once);
         }

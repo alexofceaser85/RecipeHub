@@ -1,5 +1,4 @@
-﻿using Server.ErrorMessages;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json.Serialization;
 using Shared_Resources.Model.Recipes;
 
@@ -10,6 +9,9 @@ namespace Server.Controllers.ResponseModels
     /// </summary>
     public class RecipeStepsResponseModel : BaseResponseModel
     {
+        /// <summary>
+        /// The list of steps to complete a recipe.
+        /// </summary>
         [JsonPropertyName("steps")]
         public RecipeStep[] Steps { get; set; }
 

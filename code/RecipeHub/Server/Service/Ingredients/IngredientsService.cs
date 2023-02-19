@@ -1,5 +1,4 @@
-﻿using Server.DAL.Ingredient;
-using Server.DAL.Ingredients;
+﻿using Server.DAL.Ingredients;
 using Server.DAL.Users;
 using Shared_Resources.Model.Ingredients;
 
@@ -45,30 +44,35 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentNullException(nameof(sessionKey));
             }
+
             if (ingredient.Name == null)
             {
                 throw new ArgumentNullException(nameof(ingredient));
             }
+
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
+
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
                 this.ingredientsDal.AddIngredientToSystem(ingredient);
             }
-            int? userId = this.usersDal.GetIdForSessionKey(sessionKey);
 
-            if (!this.usersDal.UserIdExists((int)userId!))
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int) userId!))
             {
                 throw new ArgumentException("User must exist in the system.");
             }
-            if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+
+            if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int) userId))
             {
                 throw new ArgumentException("Ingredient must not be in pantry already.");
             }
 
-            return this.ingredientsDal.AddIngredientToPantry(ingredient, (int)userId);
+            return this.ingredientsDal.AddIngredientToPantry(ingredient, (int) userId);
         }
 
         /// <inheritdoc />
@@ -78,27 +82,31 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentNullException(nameof(sessionKey));
             }
+
             if (ingredient.Name == null)
             {
                 throw new ArgumentNullException(nameof(ingredient));
             }
+
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
+
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
                 throw new ArgumentException("Ingredient must be in system already.");
             }
+
             var userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                          throw new ArgumentException("User must exist in the system.");
-            
-            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, userId))
             {
                 throw new ArgumentException("Ingredient must be in pantry already.");
             }
 
-            return this.ingredientsDal.RemoveIngredientFromPantry(ingredient, (int)userId);
+            return this.ingredientsDal.RemoveIngredientFromPantry(ingredient, userId);
         }
 
         /// <inheritdoc />
@@ -118,20 +126,21 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
-            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ?? 
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException("User must exist in the system.");
 
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
                 throw new ArgumentException("Ingredient must be in the system.");
             }
-            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int) userId))
             {
                 throw new ArgumentException("Ingredient must be in the pantry.");
             }
 
-
-            return this.ingredientsDal.UpdateIngredientInPantry(ingredient, (int)userId);
+            return this.ingredientsDal.UpdateIngredientInPantry(ingredient, (int) userId);
         }
 
         /// <inheritdoc />
@@ -146,10 +155,11 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
+
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException("User must exist in the system.");
 
-            return this.ingredientsDal.RemoveAllIngredientsFromPantry((int)userId);
+            return this.ingredientsDal.RemoveAllIngredientsFromPantry((int) userId);
         }
 
         /// <inheritdoc />
@@ -175,10 +185,11 @@ namespace Server.Service.Ingredients
             {
                 throw new ArgumentException("Session key must exist in the system.");
             }
+
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException("User must exist in the system.");
 
-            return this.ingredientsDal.GetIngredientsFor((int)userId);
+            return this.ingredientsDal.GetIngredientsFor((int) userId);
         }
     }
 }

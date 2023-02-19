@@ -2,7 +2,6 @@
 using Web_Client.Service.Recipes;
 using Moq;
 using Shared_Resources.ErrorMessages;
-using Shared_Resources.Model.Recipes;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
 {
@@ -35,7 +34,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => 
+                var message = Assert.Throws<ArgumentNullException>(() =>
                     new RecipesService().RemoveRecipe(sessionKey!, recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -50,7 +49,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => 
+                var message = Assert.Throws<ArgumentException>(() =>
                     new RecipesService().RemoveRecipe(sessionKey, recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });

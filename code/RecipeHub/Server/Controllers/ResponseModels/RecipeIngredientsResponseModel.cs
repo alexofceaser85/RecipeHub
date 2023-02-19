@@ -1,5 +1,4 @@
-﻿using Server.ErrorMessages;
-using System.Net;
+﻿using System.Net;
 using Shared_Resources.Model.Ingredients;
 
 namespace Server.Controllers.ResponseModels
@@ -23,7 +22,7 @@ namespace Server.Controllers.ResponseModels
         /// <param name="code">The status code.</param>
         /// <param name="message">The response content.</param>
         /// <param name="ingredients">The list of ingredients</param>
-        public RecipeIngredientsResponseModel(HttpStatusCode code, string message, Ingredient[] ingredients) 
+        public RecipeIngredientsResponseModel(HttpStatusCode code, string message, Ingredient[] ingredients)
             : base(code, message)
         {
             this.Ingredients = ingredients;

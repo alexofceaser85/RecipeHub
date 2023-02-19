@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Service.Ingredients;
+﻿using Desktop_Client.Service.Ingredients;
 using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.Recipes;
 

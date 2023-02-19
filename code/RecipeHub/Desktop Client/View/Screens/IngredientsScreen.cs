@@ -12,7 +12,7 @@ namespace Desktop_Client.View.Screens
     public partial class IngredientsScreen : Screen
     {
         private readonly IngredientsViewModel viewModel;
-        private IList<Shared_Resources.Model.Ingredients.Ingredient> ingredients;
+        private IList<Ingredient> ingredients;
 
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsScreen"/>.<br/>
@@ -63,7 +63,7 @@ namespace Desktop_Client.View.Screens
             this.ingredientDataGridView.AllowUserToOrderColumns = false;
             this.ingredientDataGridView.MultiSelect = false;
 
-            this.ingredientDataGridView.CellContentClick += (sender, e) =>
+            this.ingredientDataGridView.CellContentClick += (_, e) =>
             {
                 var ingredient = this.ingredients[e.RowIndex];
                 var name = ingredient.Name;
@@ -75,14 +75,14 @@ namespace Desktop_Client.View.Screens
                     var editIngredientDialog = new EditIngredientDialog(name);
                     editIngredientDialog.ShowDialog();
                     this.LoadIngredientsFromServer();
-
                 }
                 else if (e.ColumnIndex == 2)
                 {
-                    var result = MessageBox.Show($@"Are you sure you want to remove {name} from your pantry?", "Remove Ingredient", MessageBoxButtons.YesNo);
+                    var result = MessageBox.Show($@"Are you sure you want to remove {name} from your pantry?",
+                        @"Remove Ingredient", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
-                        this.viewModel.RemoveIngredient(new Shared_Resources.Model.Ingredients.Ingredient(name, quantity, measurementType));
+                        this.viewModel.RemoveIngredient(new Ingredient(name, quantity, measurementType));
                         this.LoadIngredientsFromServer();
                     }
                 }
@@ -99,19 +99,19 @@ namespace Desktop_Client.View.Screens
             {
                 this.ingredientDataGridView.Rows.Add(
                     $"{ingredient.Name}\nQuantity:{ingredient.Amount}" +
-                    $"{BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)}", 
+                    $"{BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)}",
                     "Edit", "Delete");
             }
         }
-        
+
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
-            base.ToggleHamburgerMenu();
+            ToggleHamburgerMenu();
         }
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            base.ChangeScreens(new RecipeListScreen());
+            ChangeScreens(new RecipeListScreen());
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
@@ -126,12 +126,13 @@ namespace Desktop_Client.View.Screens
 
         private void removeAllButton_Click(object sender, EventArgs e)
         {
-            var result = MessageBox.Show("Are you sure you want to remove all ingredients?", 
+            var result = MessageBox.Show("Are you sure you want to remove all ingredients?",
                 "Remove All Ingredients", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
                 this.viewModel.RemoveAllIngredients();
             }
+
             this.LoadIngredientsFromServer();
         }
     }

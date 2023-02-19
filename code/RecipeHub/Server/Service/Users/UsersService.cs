@@ -83,18 +83,22 @@ namespace Server.Service.Users
             {
                 throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeNull);
             }
+
             if (username.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeEmpty);
             }
+
             if (password == null)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeNull);
             }
+
             if (password.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
             }
+
             if (previousSessionKey != null && previousSessionKey.Trim().Length == 0)
             {
                 throw new ArgumentException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty);
@@ -170,8 +174,10 @@ namespace Server.Service.Users
         {
             var random = new Random();
 
-            var randomKey = new string(Enumerable.Repeat(SessionKeySettings.SessionKeyCharacters, SessionKeySettings.SessionKeyLength)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            var randomKey = new string(Enumerable
+                                       .Repeat(SessionKeySettings.SessionKeyCharacters,
+                                           SessionKeySettings.SessionKeyLength)
+                                       .Select(s => s[random.Next(s.Length)]).ToArray());
 
             var hashedKey = Hashes.HashToSha512(randomKey);
 

@@ -4,7 +4,6 @@ using Desktop_Client.Service.Ingredients;
 using Desktop_Client.Service.Recipes;
 using Desktop_Client.View.Dialog;
 using Shared_Resources.ErrorMessages;
-using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.ViewModel.Recipes
@@ -31,9 +30,8 @@ namespace Desktop_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
-
         }
-        
+
         /// <summary>
         /// Creates a instance of <see cref="RecipesListViewModel"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
@@ -42,12 +40,12 @@ namespace Desktop_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {
-            this.recipesService = recipesService ?? 
-                                  throw new ArgumentNullException(nameof(recipesService), 
+            this.recipesService = recipesService ??
+                                  throw new ArgumentNullException(nameof(recipesService),
                                       RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
             this.ingredientsService = ingredientsService ??
-                                  throw new ArgumentNullException(nameof(ingredientsService),
-                                      RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+                                      throw new ArgumentNullException(nameof(ingredientsService),
+                                          RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
             this.Filters = new RecipeFilters();
         }
 
@@ -66,6 +64,7 @@ namespace Desktop_Client.ViewModel.Recipes
             {
                 return this.GetFilteredRecipes(sessionKey, searchTerm);
             }
+
             return this.recipesService.GetRecipes(sessionKey, searchTerm);
         }
 

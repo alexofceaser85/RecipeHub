@@ -141,6 +141,7 @@ namespace Desktop_Client.Service.Users
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             this.endpoints.Logout(Session.Key);
             Session.Key = null;
         }
@@ -164,6 +165,7 @@ namespace Desktop_Client.Service.Users
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             return this.endpoints.GetUserInfo(Session.Key);
         }
     }

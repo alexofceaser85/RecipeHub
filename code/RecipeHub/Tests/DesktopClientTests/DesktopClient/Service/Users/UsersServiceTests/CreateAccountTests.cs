@@ -12,10 +12,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         public void ShouldNotCreateAccountWithNullNewAccount()
         {
             var service = new UsersService();
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.CreateAccount(null!);
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.CreateAccount(null!); })?.Message;
             Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.AccountToCreateCannotBeNull));
         }
 
@@ -24,7 +21,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         {
             var endpoints = new Mock<IUsersEndpoints>();
             var service = new UsersService(endpoints.Object);
-            var account = new NewAccount("username", "password", "password", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "password", "password", "first", "lname", "email@email.com");
             endpoints.Setup(mock => mock.CreateAccount(account));
 
             service.CreateAccount(account);

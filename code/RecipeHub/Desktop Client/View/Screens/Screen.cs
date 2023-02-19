@@ -65,7 +65,7 @@ namespace Desktop_Client.View.Screens
 
         private void SetupMenu()
         {
-            this.menu = new UserMenu() 
+            this.menu = new UserMenu
             {
                 Visible = false
             };

@@ -12,7 +12,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         public void SuccessfullyGetRecipeSteps()
         {
             var steps = new RecipeStep[] {
-                new (0, "name", "instructions"),
+                new (0, "name", "instructions")
             };
             const string sessionKey = "Key";
             const int recipeId = 0;
@@ -33,7 +33,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullSessionKey()
         {
-            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(
@@ -45,7 +45,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
-            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(

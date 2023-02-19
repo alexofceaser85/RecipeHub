@@ -25,10 +25,7 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         public void ShouldNotGetUserInfoIfSessionKeyIsNull()
         {
             var service = new UsersService();
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.GetUserInfo();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.GetUserInfo(); })?.Message;
             Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeNull));
         }
 
@@ -37,17 +34,14 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         {
             Session.Key = "   ";
             var service = new UsersService();
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.GetUserInfo();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.GetUserInfo(); })?.Message;
             Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeEmpty));
         }
 
         [Test]
         public void TestSuccessfulGetUserInfo()
         {
-            Session.Key = "sessionkey";
+            Session.Key = "sessionKey";
             var mockedEndpoints = new Mock<IUsersEndpoints>();
             var expectedUserInfo = new UserInfo("username", "firstname", "lastname", "email@email.com");
 
@@ -62,19 +56,16 @@ namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
         [Test]
         public void TestUnsuccessfulGetUserInfo()
         {
-            Session.Key = "sessionkey";
+            Session.Key = "sessionKey";
             var mockedEndpoints = new Mock<IUsersEndpoints>();
 
-            mockedEndpoints.Setup(mock => mock.GetUserInfo(Session.Key)).Throws(new ArgumentException("testexception"));
+            mockedEndpoints.Setup(mock => mock.GetUserInfo(Session.Key)).Throws(new ArgumentException("testException"));
 
             var service = new UsersService(mockedEndpoints.Object);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.GetUserInfo();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.GetUserInfo(); })?.Message;
 
-            Assert.That(message, Is.EqualTo("testexception"));
+            Assert.That(message, Is.EqualTo("testException"));
         }
     }
 }

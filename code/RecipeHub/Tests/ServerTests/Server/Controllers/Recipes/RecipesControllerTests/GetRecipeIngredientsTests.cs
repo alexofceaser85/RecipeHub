@@ -4,7 +4,6 @@ using Server.Controllers.Recipes;
 using Server.Data.Settings;
 using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Model.Recipes;
 
 namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
 {
@@ -16,7 +15,7 @@ namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
             const string sessionKey = "Key";
             const int recipeId = 0;
             var ingredients = new Ingredient[] {
-                new ("name", 1, MeasurementType.Volume),
+                new("name", 1, MeasurementType.Volume)
             };
 
             var recipesService = new Mock<IRecipesService>();
@@ -34,7 +33,7 @@ namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
                 recipesService.Verify(mock => mock.GetRecipeIngredients(sessionKey, recipeId), Times.Once());
             });
         }
-        
+
         [Test]
         public void ServiceFailedToFetchIngredients()
         {
@@ -44,7 +43,8 @@ namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
 
             var recipesService = new Mock<IRecipesService>();
 
-            recipesService.Setup(mock => mock.GetRecipeIngredients(sessionKey, recipeId)).Throws(new ArgumentException(errorMessage));
+            recipesService.Setup(mock => mock.GetRecipeIngredients(sessionKey, recipeId))
+                          .Throws(new ArgumentException(errorMessage));
             var service = new RecipesController(recipesService.Object);
 
             var result = service.GetRecipeIngredients(sessionKey, recipeId);

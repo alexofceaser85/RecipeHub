@@ -2,7 +2,6 @@
 using Desktop_Client.Service.Recipes;
 using Moq;
 using Shared_Resources.ErrorMessages;
-using Shared_Resources.Model.Recipes;
 
 namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
 {
@@ -25,7 +24,8 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
-                recipesEndpoint.Verify(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic), Times.Once);
+                recipesEndpoint.Verify(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic),
+                    Times.Once);
             });
         }
 
@@ -41,7 +41,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => 
+                var message = Assert.Throws<ArgumentNullException>(() =>
                     new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -59,7 +59,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => 
+                var message = Assert.Throws<ArgumentException>(() =>
                     new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -77,7 +77,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeNull + " (Parameter 'name')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => 
+                var message = Assert.Throws<ArgumentNullException>(() =>
                     new RecipesService().EditRecipe(sessionKey, recipeId, name!, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -95,7 +95,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeEmpty;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => 
+                var message = Assert.Throws<ArgumentException>(() =>
                     new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -110,10 +110,11 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string description = null!;
             const bool isPublic = true;
 
-            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull + " (Parameter 'description')";
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull +
+                                        " (Parameter 'description')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => 
+                var message = Assert.Throws<ArgumentNullException>(() =>
                     new RecipesService().EditRecipe(sessionKey, recipeId, name, description!, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -131,7 +132,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => 
+                var message = Assert.Throws<ArgumentException>(() =>
                     new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });

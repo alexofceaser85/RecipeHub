@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared_Resources.ErrorMessages;
+﻿using Shared_Resources.ErrorMessages;
 using Shared_Resources.Utils.Validation;
 
 namespace ServerTests.Utils.Validation.PasswordValidationTests
@@ -41,7 +36,9 @@ namespace ServerTests.Utils.Validation.PasswordValidationTests
         {
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => PasswordValidation.Validate("123456789012345678901"))!.Message;
+                var message =
+                    Assert.Throws<ArgumentException>(() => PasswordValidation.Validate("123456789012345678901"))!
+                          .Message;
                 Assert.That(message, Is.EqualTo(PasswordValidationErrorMessages.PasswordIsTooLong));
             });
         }

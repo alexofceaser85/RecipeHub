@@ -8,7 +8,7 @@ namespace Desktop_Client.View.Screens
     public partial class RegistrationScreen : Screen
     {
         private readonly UsersViewModel viewModel;
-        
+
         /// <summary>
         /// Creates a default instance of <see cref="RegistrationScreen"/>.<br/>
         /// <br/>
@@ -40,8 +40,8 @@ namespace Desktop_Client.View.Screens
                     this.createAccountForm.LastNameTextBox.Text,
                     this.createAccountForm.EmailTextBox.Text
                 );
-                
-                base.ChangeScreens(new LoginScreen());
+
+                ChangeScreens(new LoginScreen());
             }
             catch (Exception ex)
             {
@@ -51,7 +51,7 @@ namespace Desktop_Client.View.Screens
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            base.ChangeScreens(new LoginScreen());
+            ChangeScreens(new LoginScreen());
         }
     }
 }

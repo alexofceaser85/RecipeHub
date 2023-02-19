@@ -22,12 +22,12 @@ namespace Desktop_Client.View.Screens
         public RecipeListScreen()
         {
             this.InitializeComponent();
-            
+
             this.viewmodel = new RecipesListViewModel();
             this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
         }
-        
-        private void PopulateRecipeList(Recipe[] recipes)
+
+        private void PopulateRecipeList(IEnumerable<Recipe> recipes)
         {
             this.ClearRecipeList();
             foreach (var recipe in recipes)
@@ -52,12 +52,12 @@ namespace Desktop_Client.View.Screens
 
         private void RecipeListItemMouseClick(object? sender, int recipeId)
         {
-            base.ChangeScreens(new RecipeScreen(recipeId));
+            ChangeScreens(new RecipeScreen(recipeId));
         }
 
         private void hamburgerButton_MouseClick(object sender, EventArgs e)
         {
-            base.ToggleHamburgerMenu();
+            ToggleHamburgerMenu();
         }
 
         private void filtersButton_Click(object sender, EventArgs e)

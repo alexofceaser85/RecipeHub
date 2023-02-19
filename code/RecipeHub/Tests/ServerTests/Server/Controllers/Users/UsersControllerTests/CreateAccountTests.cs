@@ -16,7 +16,8 @@ namespace ServerTests.Server.Controllers.Users.UsersControllerTests
             userService.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()));
             var service = new UsersController(userService.Object);
 
-            var returnedValue = service.CreateAccount("username", "password", "password", "fname", "lname", "email@email.com");
+            var returnedValue =
+                service.CreateAccount("username", "password", "password", "first", "lname", "email@email.com");
 
             userService.Verify(mock => mock.CreateAccount(It.IsAny<NewAccount>()), Times.Once());
             Assert.That(returnedValue.Code, Is.EqualTo(HttpStatusCode.OK));
@@ -28,10 +29,12 @@ namespace ServerTests.Server.Controllers.Users.UsersControllerTests
         {
             var userService = new Mock<IUsersService>();
 
-            userService.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>())).Throws(new ArgumentException("Sample Exception"));
+            userService.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()))
+                       .Throws(new ArgumentException("Sample Exception"));
             var service = new UsersController(userService.Object);
 
-            var returnedValue = service.CreateAccount("username", "password", "password", "fname", "lname", "email@email.com");
+            var returnedValue =
+                service.CreateAccount("username", "password", "password", "first", "lname", "email@email.com");
 
             userService.Verify(mock => mock.CreateAccount(It.IsAny<NewAccount>()), Times.Once());
             Assert.That(returnedValue.Code, Is.EqualTo(HttpStatusCode.InternalServerError));

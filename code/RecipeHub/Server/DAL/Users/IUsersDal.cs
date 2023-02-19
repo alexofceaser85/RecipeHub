@@ -1,7 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Server.Data.Settings;
-using Shared_Resources.Model.Users;
-using System.Data;
+﻿using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
 {
@@ -18,6 +15,7 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="accountToCreate">The account to create.</param>
         public void CreateAccount(NewAccount accountToCreate);
+
         /// <summary>
         /// Verifies the user name does not exist.
         ///
@@ -27,6 +25,7 @@ namespace Server.DAL.Users
         /// <param name="userName">Name of the user.</param>
         /// <returns>Whether or not the username exists</returns>
         public bool CheckIfUserNameExists(string userName);
+
         /// <summary>
         /// Verifies the session key does not exist.
         ///
@@ -36,6 +35,7 @@ namespace Server.DAL.Users
         /// <param name="sessionKey">The session key.</param>
         /// <returns>Whether or not the session key exists</returns>
         public bool VerifySessionKeyDoesNotExist(string sessionKey);
+
         /// <summary>
         /// Removes the session key.
         ///
@@ -44,6 +44,7 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         public void RemoveSessionKey(string sessionKey);
+
         /// <summary>
         /// Verifies the user name and password combination.
         ///
@@ -54,6 +55,7 @@ namespace Server.DAL.Users
         /// <param name="password">The password.</param>
         /// <returns>Whether or not the username and password combination exists</returns>
         public int? VerifyUserNameAndPasswordCombination(string username, string password);
+
         /// <summary>
         /// Adds the user session.
         ///
@@ -63,6 +65,7 @@ namespace Server.DAL.Users
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
         public void AddUserSession(int userId, string sessionKey);
+
         /// <summary>
         /// Gets the user information.
         ///

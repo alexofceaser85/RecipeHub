@@ -10,14 +10,14 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
         [Test]
         public void ShouldHandleSuccessfulLogin()
         {
-            var json = "{\"message\":\"mysessioncode\", \"code\":\"200\"}";
+            const string json = "{\"message\":\"mySessionCode\", \"code\":\"200\"}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
@@ -25,24 +25,25 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new UsersEndpoints(httpClient);
 
-            Assert.That(endpoints.Login("myname", "mypassword", null!), Is.EqualTo("mysessioncode"));
+            Assert.That(endpoints.Login("myName", "myPassword", null!), Is.EqualTo("mySessionCode"));
 
             mockHttpMessageHandler
                 .Protected()
-                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>());
         }
 
         [Test]
         public void ShouldHandleUnsuccessfulLogin()
         {
-            var json = "{\"message\":\"myerrormessage\", \"code\":\"500\"}";
+            const string json = "{\"message\":\"myErrorMessage\", \"code\":\"500\"}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
@@ -50,16 +51,15 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new UsersEndpoints(httpClient);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                endpoints.Login("myname", "mypassword", null!);
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { endpoints.Login("myName", "myPassword", null!); })
+                                ?.Message;
 
-            Assert.That(message, Is.EqualTo("myerrormessage"));
+            Assert.That(message, Is.EqualTo("myErrorMessage"));
 
             mockHttpMessageHandler
                 .Protected()
-                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>());
         }
     }
 }
