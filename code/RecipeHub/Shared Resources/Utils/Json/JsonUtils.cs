@@ -9,6 +9,8 @@ namespace Shared_Resources.Utils.Json
     public class JsonUtils
     {
         private const int ServerErrorRequestCode = 500;
+        private const int ServerAuthenticationNotValidErrorCode = 401;
+
         private const string RequestMessageJsonElementName = "message";
         private const string RequestCodeJsonElementName = "code";
 
@@ -120,6 +122,10 @@ namespace Shared_Resources.Utils.Json
             if (int.Parse(requestCode) == ServerErrorRequestCode)
             {
                 throw new ArgumentException(requestContent);
+            }
+            if (int.Parse(requestCode) == ServerAuthenticationNotValidErrorCode)
+            {
+                throw new UnauthorizedAccessException(UsersServiceErrorMessages.UnauthorizedAccessErrorMessage);
             }
 
             return requestContent;

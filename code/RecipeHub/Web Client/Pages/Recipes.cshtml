@@ -2,10 +2,21 @@
 @using Web_Client.ViewModel.Users
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Shared_Resources.Data.UserData
+@using Shared_Resources.Model.Users
 @model Web_Client.Pages.RecipesModel
 @{
-    var viewModel = new UsersViewModel();
-    var userInfo = viewModel.GetUserInfo();
+    //TODO The user info page should at some point should be removed
+    UserInfo userInfo = null;
+    try
+    {
+        var viewModel = new UsersViewModel();
+        userInfo = viewModel.GetUserInfo();
+    }             
+    catch (UnauthorizedAccessException exception)
+    {
+        TempData["Message"] = exception.Message;
+        Response.Redirect("/Index");
+    }
 }
 
 <h1>Welcome Your Session Key is: @Session.Key</h1>

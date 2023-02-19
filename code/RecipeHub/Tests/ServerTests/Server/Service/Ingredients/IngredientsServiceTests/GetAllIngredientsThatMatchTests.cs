@@ -29,7 +29,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string name = null!;
 
-            Assert.Throws<ArgumentNullException>(() => 
+            Assert.Throws<UnauthorizedAccessException>(() => 
                 new IngredientsService().GetIngredientsFor(name!));
         }
         

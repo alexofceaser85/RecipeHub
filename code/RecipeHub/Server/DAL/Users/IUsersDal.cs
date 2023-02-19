@@ -1,7 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Server.Data.Settings;
-using Shared_Resources.Model.Users;
-using System.Data;
+﻿using Shared_Resources.Model.Users;
 
 namespace Server.DAL.Users
 {
@@ -18,6 +15,14 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="accountToCreate">The account to create.</param>
         public void CreateAccount(NewAccount accountToCreate);
+
+        /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys();
+
         /// <summary>
         /// Verifies the user name does not exist.
         ///
@@ -54,6 +59,7 @@ namespace Server.DAL.Users
         /// <param name="password">The password.</param>
         /// <returns>Whether or not the username and password combination exists</returns>
         public int? VerifyUserNameAndPasswordCombination(string username, string password);
+
         /// <summary>
         /// Adds the user session.
         ///
@@ -62,7 +68,9 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
-        public void AddUserSession(int userId, string sessionKey);
+        /// <param name="lastUserSession">The time of the last user session</param>
+        public void AddUserSession(int userId, string sessionKey, DateTime lastUserSession);
+
         /// <summary>
         /// Gets the user information.
         ///

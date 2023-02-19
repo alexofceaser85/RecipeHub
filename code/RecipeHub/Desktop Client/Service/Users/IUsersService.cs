@@ -25,6 +25,13 @@ namespace Desktop_Client.Service.Users
         /// <param name="password">The password.</param>
         public void Login(string username, string password);
         /// <summary>
+        /// Refreshes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RefreshSessionKey();
+        /// <summary>
         /// Logs the current user out.
         ///
         /// Precondition: None

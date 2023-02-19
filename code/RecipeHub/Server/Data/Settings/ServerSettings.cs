@@ -9,6 +9,10 @@
         /// The default successful connection message
         /// </summary>
         public static string DefaultSuccessfulConnectionMessage = "Returned Okay";
+        /// <summary>
+        /// The session time out length in minutes
+        /// </summary>
+        public static double SessionTimeOutLengthInMinutes = -1;
     }
 
     /// <summary>

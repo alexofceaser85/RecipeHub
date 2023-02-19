@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Text;
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
 
@@ -22,6 +14,11 @@ namespace Desktop_Client.View.Dialog
         private readonly string ingredientName;
 
         /// <summary>
+        /// The error occured event handler
+        /// </summary>
+        public EventHandler<ErrorEventArgs> ErrorOccurred;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EditIngredientDialog"/> class. <br />
         /// <br />
         /// Precondition: None<br />
@@ -32,15 +29,23 @@ namespace Desktop_Client.View.Dialog
         {
             this.viewModel = new EditIngredientViewModel();
             this.ingredientName = ingredientName;
-            InitializeComponent();
+            this.InitializeComponent();
             this.editTitle.Text = $@"Edit {ingredientName}?";
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)
         {
-            this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text), MeasurementType.Quantity));
-            this.Close();
-            this.Dispose();
+            try
+            {
+                this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text),
+                    MeasurementType.Quantity));
+                this.Close();
+                this.Dispose();
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

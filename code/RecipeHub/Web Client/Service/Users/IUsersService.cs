@@ -32,6 +32,13 @@ namespace Web_Client.Service.Users
         /// </summary>
         public void Logout();
         /// <summary>
+        /// Refreshes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RefreshSessionKey();
+        /// <summary>
         /// Gets the user information.
         ///
         /// Precondition: None

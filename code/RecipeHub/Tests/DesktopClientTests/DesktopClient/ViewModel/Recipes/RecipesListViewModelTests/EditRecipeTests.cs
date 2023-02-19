@@ -10,21 +10,20 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
         [Test]
         public void SuccessfullyEditRecipe()
         {
-            const string sessionKey = "Key";
             const int recipeId = 1;
             const string name = "name";
             const string description = "description";
             const bool isPublic = true;
 
             var service = new Mock<IRecipesService>();
-            service.Setup(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            service.Setup(mock => mock.EditRecipe(recipeId, name, description, isPublic));
 
             var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => viewmodel.EditRecipe(sessionKey, recipeId, name, description, isPublic));
-                service.Verify(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic), Times.Once);
+                Assert.DoesNotThrow(() => viewmodel.EditRecipe(recipeId, name, description, isPublic));
+                service.Verify(mock => mock.EditRecipe(recipeId, name, description, isPublic), Times.Once);
             });
         }
     }

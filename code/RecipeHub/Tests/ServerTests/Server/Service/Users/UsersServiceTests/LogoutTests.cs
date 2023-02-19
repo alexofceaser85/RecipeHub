@@ -31,6 +31,9 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
         {
             var userDal = new Mock<IUsersDal>();
             var service = new UsersService(userDal.Object);
+
+            userDal.Setup(mock => mock.RemoveSessionKey("Key"));
+
             service.Logout("Key");
             userDal.Verify(mock => mock.RemoveSessionKey("Key"), Times.Once());
         }

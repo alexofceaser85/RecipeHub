@@ -1,18 +1,27 @@
 ﻿@page
 @using Shared_Resources.Model.Ingredients
 @using Web_Client.ViewModel.Ingredient
-@using Shared_Resources.Data.UserData
 @using Shared_Resources.Utils.Units
 @model Web_Client.Pages.IngredientsModel
 @{
-   var ViewModel = new IngredientsViewModel();
-    var Ingredients = ViewModel.GetAllIngredientsForUser();
-<h1>Ingredients</h1>
+    IList<Ingredient> Ingredients = new List<Ingredient>();
+
+    try
+    {
+        var ViewModel = new IngredientsViewModel();
+        Ingredients = ViewModel.GetAllIngredientsForUser();
+    }             
+    catch (UnauthorizedAccessException exception)
+    {
+        TempData["Message"] = exception.Message;
+        Response.Redirect("/Index");
+    }
+    <h1>Ingredients</h1>
 <div>
     <p>Use this page to add ingredients to your recipes.</p>
     <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
-</div>
-
+</div> 
+    
 @foreach (var ingredient in Ingredients)
 {
     <div class="ingredient">
@@ -119,13 +128,13 @@
 @section Scripts
 {
     <script type="text/javascript">
-            $(".ingredient-edit-button").click(function () {
-                $("#remove-ingredient-text").val($(this).data('ingredient-name'));
-            });
+        $(".ingredient-edit-button").click(function () {
+            $("#remove-ingredient-text").val($(this).data('ingredient-name'));
+        });
 
-            $(".ingredient-delete-button").click(function () {
-                $("edit-ingredient-text").val($(this).data('ingredient-name'));
-            });
+        $(".ingredient-delete-button").click(function () {
+            $("edit-ingredient-text").val($(this).data('ingredient-name'));
+        });
     </script>
 }
 }

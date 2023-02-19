@@ -97,6 +97,25 @@ namespace Server.Controllers.Users
         }
 
         /// <summary>
+        /// Refreshes the session key.
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key.</param>
+        /// <returns>The server response</returns>
+        [HttpGet]
+        [Route("RefreshKey")]
+        public BaseResponseModel RefreshSessionKey(string previousSessionKey)
+        {
+            try
+            {
+                return new BaseResponseModel(HttpStatusCode.OK, this.service.RefreshSessionKey(previousSessionKey));
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Logs the user with the specified session key out of the system.
         ///
         /// Precondition: None

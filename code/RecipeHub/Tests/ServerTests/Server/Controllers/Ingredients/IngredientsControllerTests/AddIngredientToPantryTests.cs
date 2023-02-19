@@ -1,11 +1,7 @@
 ﻿using Moq;
 using System.Net;
 using Server.Controllers.Ingredients;
-using Server.Controllers.Recipes;
-using Server.Data.Settings;
-using Server.ErrorMessages;
 using Server.Service.Ingredients;
-using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
@@ -20,6 +16,7 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
 
             var recipesService = new Mock<IIngredientsService>();
 
+            recipesService.Setup(mock => mock.AddIngredientToPantry(ingredient, sessionKey)).Returns(true);
             recipesService.Setup(mock => mock.AddIngredientToPantry(ingredient, sessionKey)).Returns(true);
             var controller = new IngredientsController(recipesService.Object);
 

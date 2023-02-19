@@ -41,7 +41,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
         }
         
         [Test]
@@ -52,7 +52,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<UnauthorizedAccessException>(() => service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
         }
 

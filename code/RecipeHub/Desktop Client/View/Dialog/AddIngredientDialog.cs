@@ -1,13 +1,5 @@
 ﻿using Desktop_Client.ViewModel.Ingredients;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.View.Dialog
@@ -21,6 +13,11 @@ namespace Desktop_Client.View.Dialog
         private readonly AddIngredientsViewModel viewModel;
 
         /// <summary>
+        /// The error occured event handler
+        /// </summary>
+        public EventHandler<ErrorEventArgs> ErrorOccurred;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="AddIngredientDialog"/> class.<br />
         /// <br />
         /// Precondition: None<br />
@@ -28,18 +25,25 @@ namespace Desktop_Client.View.Dialog
         /// </summary>
         public AddIngredientDialog()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             this.viewModel = new AddIngredientsViewModel();
             this.measurementComboBox.DataSource = Enum.GetValues(typeof(MeasurementType));
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
-            this.viewModel.AddIngredient(new Shared_Resources.Model.Ingredients.Ingredient(this.nameComboBox.Text,
-                int.Parse(this.amountTextBox.Text), (MeasurementType)this.measurementComboBox.SelectedValue!));
-            this.Close();
-            this.Dispose();
-            this.DialogResult = DialogResult.OK;
+            try
+            {
+                this.viewModel.AddIngredient(new Shared_Resources.Model.Ingredients.Ingredient(this.nameComboBox.Text,
+                    int.Parse(this.amountTextBox.Text), (MeasurementType)this.measurementComboBox.SelectedValue!));
+                this.Close();
+                this.Dispose();
+                this.DialogResult = DialogResult.OK;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

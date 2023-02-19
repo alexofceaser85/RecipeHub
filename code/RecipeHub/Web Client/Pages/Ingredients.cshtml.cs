@@ -12,6 +12,8 @@ namespace Web_Client.Pages
     {
         private readonly IngredientsViewModel viewModel;
 
+        public bool DidErrorOccur = false;
+
         [BindProperty]
         public IngredientBindingModel AddedIngredient { get; set; }
 
@@ -27,31 +29,64 @@ namespace Web_Client.Pages
 
         public IActionResult OnPostAddIngredient()
         {
-            this.AddedIngredient.Name = Request.Form["name"];
-            this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
-            this.AddedIngredient.MeasurementType = (MeasurementType) int.Parse(Request.Form["measurement"]!);
-            this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount, this.AddedIngredient.MeasurementType));
-            return this.Page();
+            try
+            {
+                this.AddedIngredient.Name = Request.Form["name"];
+                this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
+                this.AddedIngredient.MeasurementType = (MeasurementType)int.Parse(Request.Form["measurement"]!);
+                this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount,
+                    this.AddedIngredient.MeasurementType));
+                return this.Page();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                return RedirectToPage("/Index");
+            }
         }
         public IActionResult OnPostDeleteIngredient()
         {
-            var name = Request.Form["Name"];
-            this.viewModel.RemoveIngredient(new Ingredient(name, 0, MeasurementType.Quantity));
-            return this.Page();
+            try
+            {
+                var name = Request.Form["Name"];
+                this.viewModel.RemoveIngredient(new Ingredient(name, 0, MeasurementType.Quantity));
+                return this.Page();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                return RedirectToPage("/Index");
+            }
         }
 
         public IActionResult OnPostUpdateIngredient()
         {
-            var name = Request.Form["Name"];
-            var amount = int.Parse(Request.Form["Amount"]!);
-            this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
-            return this.Page();
+            try
+            {
+                var name = Request.Form["Name"];
+                var amount = int.Parse(Request.Form["Amount"]!);
+                this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
+                return this.Page();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                return RedirectToPage("/Index");
+            }
         }
 
         public IActionResult OnPostDeleteAllIngredients()
         {
-            this.viewModel.RemoveAllIngredients();
-            return this.Page();
+            try
+            {
+                this.viewModel.RemoveAllIngredients();
+                return this.Page();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                return RedirectToPage("/Index");
+            }
         }
 
 

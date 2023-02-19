@@ -15,7 +15,12 @@
     {
         <p>Could not login, @Model.ExceptionText</p>
     }
-
+    
+    @if (TempData.Peek("Message") != null)
+    {
+        <div class="alert alert-success">@TempData["Message"]</div>
+        TempData.Remove("Message");
+    }
     @using (Html.BeginForm())
     {
         <form autocomplete="off" action="" method="post">

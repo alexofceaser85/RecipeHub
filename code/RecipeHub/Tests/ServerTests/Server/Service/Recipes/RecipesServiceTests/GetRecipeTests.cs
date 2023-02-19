@@ -38,13 +38,13 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullSessionKey()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().GetRecipe(null!, 0));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().GetRecipe(null!, 0));
         }
 
         [Test]
         public void EmptySessionKey()
         {
-            Assert.Throws<ArgumentException>(() => new RecipesService().GetRecipe("", 0));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().GetRecipe("", 0));
         }
 
         [Test]
@@ -55,7 +55,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?)null);
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.GetRecipe("0", 0));
+            Assert.Throws<UnauthorizedAccessException>(() => service.GetRecipe("0", 0));
         }
 
         [Test]

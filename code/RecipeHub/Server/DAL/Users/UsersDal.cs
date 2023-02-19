@@ -34,6 +34,25 @@ namespace Server.DAL.Users
             connection.Open();
             command.ExecuteNonQuery();
         }
+
+        /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys()
+        {
+            var query = "DELETE FROM Sessions " +
+                        "WHERE lastUpdateTime < DATEADD(minute, @timeoutLength, GETUTCDATE())";
+
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@timeoutLength", SqlDbType.Int).Value = ServerSettings.SessionTimeOutLengthInMinutes;
+
+            connection.Open(); 
+            command.ExecuteNonQuery();
+        }
+
         /// <summary>
         /// Verifies the user name does not exist.
         ///
@@ -141,13 +160,15 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
-        public void AddUserSession(int userId, string sessionKey)
+        /// <param name="lastUserSession">The time of the last user session</param>
+        public void AddUserSession(int userId, string sessionKey, DateTime lastUserSession)
         {
-            var query = "insert into Sessions(sessionKey, userId) values(@sessionkey, @userId)";
+            var query = "insert into Sessions(sessionKey, userId, lastUpdateTime) values(@sessionkey, @userId, @lastUpdateTime)";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@sessionkey", SqlDbType.VarChar).Value = sessionKey;
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+            command.Parameters.Add("@lastUpdateTime", SqlDbType.DateTime).Value = lastUserSession;
             connection.Open();
             command.ExecuteNonQuery();
         }
