@@ -1,0 +1,16 @@
+Task - Assignee - Estimate
+Add Ingredients Suggestion to Desktop - Shawn Carter - 3 Story Points
+Add Ingredients Suggestion to Web - Alexander Ayers - 3 Story Points
+Add Ingredients Suggestion to Server - Shawn Carter - 3 Story Points
+Add Refreshing of Keys - Alex Decesare - 3 Story Points
+Add of Blocking Web Page Access by Non-Authorized Users - Alex Decesare  - 3 Story Points
+Add Filtering System for Recipes on Server - Alex Decesare  - 3 Story Points
+Add Filtering for Web UI - Alex Decesare - 3 Story Points
+Add Filtering for Desktop - Alex Decesare - 3 Story Points
+Fix Ingredients on Website  - Alexander Ayers - 3 Story Points
+Add Individual Recipe Page for Website  - Alexander Ayers - 3 Story Points
+Add Filtering by Ingredients on Web  - Alexander Ayers - 3 Story Points
+Add Filtering by Name on Web  - Alexander Ayers - 3 Story Points
+Add Data Binding to WinForms  - Shawn Carter
+Add Missing Tests  - Shawn Carter - 3 Story Points
+Unify Web Interface  - Shawn Carter - 3 Story Points
