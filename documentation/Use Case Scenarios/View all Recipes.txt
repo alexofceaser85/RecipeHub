@@ -1,18 +1,22 @@
 Use-Case Scenario: View all Recipes
 Users: Chef
-Context: User has successfully logged into the application.
+Context: User is viewing the recipes list screen.
 Primary Flow:
-    1: The user opens the menu
-    2: The user selects the "Recipes" option
-    3: The application navigates to the recipes screen
-    4: The application loads recipes from the server
-    5: The application displays the loaded recipe summaries as a list, including: 
-        a: descriptions
-        b: ratings
-        c: authors
-        d: tags
+    1: The user selects the "filter recipes" option
+    2: The filter display appears
+    3: The user toggles off the option to filter by owned ingredients
+    4: The user applies the filter
+    5: The system queries the server for all recipes
+    6: The application refreshes the recipee list to display all recipes
 Alternate Flows:
-    a4: 
+    a2-3:
+        1: The user closes out of the filter display
+        2: The user is returned to step 1
+    a4:
         1: The application is unable to connect to the server
         2: The application informs the user about the connection error
-        3: The application returns to step 4
+        3: The application returns to step 1
+    a4:
+        1: There are no matching recipes
+        2: The user is informed that there are no matching recipes
+        3: The application returns to step 1
