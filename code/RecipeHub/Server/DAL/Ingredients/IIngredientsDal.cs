@@ -1,4 +1,4 @@
-﻿namespace Server.DAL.Ingredient
+﻿namespace Server.DAL.Ingredients
 {
     /// <summary>
     /// Interface for the Data Access Layer to the Ingredients Table.
@@ -35,7 +35,6 @@
         /// <returns>whether the ingredient is added or not.</returns>
         public bool AddIngredientToSystem(Shared_Resources.Model.Ingredients.Ingredient ingredient);
 
-
         /// <summary>
         /// Adds the ingredient to pantry of the specified user.<br />
         /// <br />
@@ -46,7 +45,6 @@
         /// <param name="userId">The id for the user.</param>
         /// <returns>whether the ingredient was added to the user's pantry or not.</returns>
         public bool AddIngredientToPantry(Shared_Resources.Model.Ingredients.Ingredient ingredient, int userId);
-
 
         /// <summary>
         /// Removes the ingredient from specified user's pantry.<br />

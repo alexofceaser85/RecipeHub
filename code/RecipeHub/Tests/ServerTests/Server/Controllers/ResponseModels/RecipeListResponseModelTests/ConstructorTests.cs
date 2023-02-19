@@ -2,7 +2,6 @@
 using Server.Controllers.ResponseModels;
 using Server.ErrorMessages;
 using Shared_Resources.Model.Recipes;
-using Shared_Resources.Model.Users;
 
 namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelTests
 {
@@ -12,9 +11,9 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldNotCreateRecipeListResponseModelWithNullMessage()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
             const string errorMessage = ResponseModelErrorMessages.MessageCannotBeNull + " (Parameter 'value')";
 
@@ -32,9 +31,9 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldNotCreateRecipeListResponseModelWithEmptyMessage()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
 
             Assert.Multiple(() =>
@@ -51,19 +50,16 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldNotSetNullMessageForRecipeListResponseModel()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
             const string errorMessage = ResponseModelErrorMessages.MessageCannotBeNull + " (Parameter 'value')";
             var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, "message", recipes);
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() =>
-                {
-                    responseModel.Message = null!;
-                })?.Message;
+                var message = Assert.Throws<ArgumentNullException>(() => { responseModel.Message = null!; })?.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -72,18 +68,15 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldNotSetEmptyMessageForRecipeListResponseModel()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
             var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, "message", recipes);
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() =>
-                {
-                    responseModel.Message = "   ";
-                })?.Message;
+                var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = "   "; })?.Message;
                 Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
             });
         }
@@ -92,12 +85,13 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldSetValidMessageValueForRecipeListResponseModel()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
-            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, "message", recipes);
-            responseModel.Message = "my message";
+            var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, "message", recipes) {
+                Message = "my message"
+            };
             Assert.That(responseModel.Message, Is.EqualTo("my message"));
         }
 
@@ -105,9 +99,9 @@ namespace ServerTests.Server.Controllers.ResponseModels.RecipeListResponseModelT
         public void ShouldCreateRecipeListResponseModelWithValidData()
         {
             var recipes = new Recipe[] {
-                new (1, "authorName1", "name1", "description1", false),
-                new (2, "authorName2", "name2", "description2", false),
-                new (3, "authorName3", "name3", "description3", false),
+                new(1, "authorName1", "name1", "description1", false),
+                new(2, "authorName2", "name2", "description2", false),
+                new(3, "authorName3", "name3", "description3", false)
             };
             var responseModel = new RecipeListResponseModel(HttpStatusCode.Continue, "message", recipes);
 

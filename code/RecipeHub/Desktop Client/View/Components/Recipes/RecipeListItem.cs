@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.View.Components.Recipes
 {
+    /// <summary>
+    /// A item that displays information about a recipe, designed to be shown in a list.
+    /// </summary>
     public partial class RecipeListItem : UserControl
     {
         private int rating;
@@ -30,7 +24,7 @@ namespace Desktop_Client.View.Components.Recipes
             set
             {
                 this.authorName = value;
-                this.authorNameLabel.Text = $"By: {value}";
+                this.authorNameLabel.Text = @$"By: {value}";
             }
         }
 
@@ -52,7 +46,7 @@ namespace Desktop_Client.View.Components.Recipes
             set
             {
                 this.rating = value;
-                this.ratingLabel.Text = $"Rating: {value}/5";
+                this.ratingLabel.Text = @$"Rating: {value}/5";
             }
         }
 

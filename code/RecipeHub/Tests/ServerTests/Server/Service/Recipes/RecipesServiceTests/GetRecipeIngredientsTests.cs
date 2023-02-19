@@ -3,7 +3,6 @@ using Server.DAL.Recipes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Model.Recipes;
 
 namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 {
@@ -16,7 +15,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const int recipeId = 0;
             const int userId = 0;
             var ingredients = new Ingredient[] {
-                new ("name", 5, MeasurementType.Volume)
+                new("name", 5, MeasurementType.Volume)
             };
 
             var recipesDal = new Mock<IRecipesDal>();
@@ -35,7 +34,6 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
                 usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once);
                 Assert.That(result, Is.EqualTo(ingredients));
             });
-            
         }
 
         [Test]
@@ -55,7 +53,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?)null);
+            usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?) null);
 
             var service = new RecipesService(recipesDal.Object, usersDal.Object);
             Assert.Throws<ArgumentException>(() => service.GetRecipeIngredients("0", 0));
@@ -77,7 +75,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             Assert.Multiple(() =>
             {
-                Assert.Throws <ArgumentException>(() => service.GetRecipeIngredients(sessionKey, recipeId));
+                Assert.Throws<ArgumentException>(() => service.GetRecipeIngredients(sessionKey, recipeId));
                 recipesDal.Verify(mock => mock.UserCanSeeRecipe(userId, recipeId), Times.Once);
                 usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once);
             });

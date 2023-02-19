@@ -43,6 +43,15 @@ namespace Web_Client.Service.Recipes
         /// <returns>The ingredients for the recipe.</returns>
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
 
+        /// <summary>
+        /// Gets all of the steps for a recipe<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the account</param>
+        /// <param name="recipeId">The id for the recipe.</param>
+        /// <returns>The steps for the recipe.</returns>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
 
         /// <summary>

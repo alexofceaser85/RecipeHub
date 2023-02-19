@@ -15,7 +15,7 @@ namespace SharedResourcesTests.SharedResources.Data.IO.SessionKeySerializerTests
         [Test]
         public void ShouldHandleLoadingIfFileDoesNotExist()
         {
-            var fileContent = SessionKeySerializers.LoadSessionKey("thisfiledoesnotexist.txt");
+            var fileContent = SessionKeySerializers.LoadSessionKey("thisFileDoesNotExist.txt");
             Assert.That(fileContent, Is.Empty);
         }
     }

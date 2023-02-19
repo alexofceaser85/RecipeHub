@@ -1,8 +1,7 @@
 ﻿using Moq;
-using Server.DAL.Ingredient;
+using Server.DAL.Ingredients;
 using Server.DAL.Users;
 using Server.Service.Ingredients;
-using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 {
@@ -19,7 +18,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
             var result = service.GetAllIngredientsThatMatch(name);
-            
+
             ingredientsDal.Verify(mock => mock.GetIngredientNamesThatMatchText(name), Times.Once);
             Assert.That(result, Is.EquivalentTo(new List<string>()));
         }
@@ -29,9 +28,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string name = null!;
 
-            Assert.Throws<ArgumentNullException>(() => 
+            Assert.Throws<ArgumentNullException>(() =>
                 new IngredientsService().GetIngredientsFor(name!));
         }
-        
     }
 }

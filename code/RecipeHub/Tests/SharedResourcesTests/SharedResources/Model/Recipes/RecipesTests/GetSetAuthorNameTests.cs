@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Recipes;
 
 namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
 {
@@ -14,8 +9,9 @@ namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
         {
             const string authorName = "author name";
 
-            var recipe = new Recipe();
-            recipe.AuthorName = authorName;
+            var recipe = new Recipe {
+                AuthorName = authorName
+            };
 
             Assert.That(recipe.AuthorName, Is.EqualTo(authorName));
         }
@@ -25,8 +21,9 @@ namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                Recipe recipe = new Recipe();
-                recipe.AuthorName = null!;
+                _ = new Recipe {
+                    AuthorName = null!
+                };
             });
         }
     }

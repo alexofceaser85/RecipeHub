@@ -10,21 +10,21 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
         [Test]
         public void ShouldHandleSuccessfulGetUserInfo()
         {
-            var json = "{\"message\":\"mysessioncode\", \"code\":\"200\", \"userInfo\":{\"userName\":\"username\",\"firstName\":\"firstname\",\"lastName\":\"lastname\",\"email\":\"email@email.com\"}}";
+            const string json = "{\"message\":\"mySessionCode\", \"code\":\"200\", \"userInfo\":{\"userName\":\"username\",\"firstName\":\"firstname\",\"lastName\":\"lastname\",\"email\":\"email@email.com\"}}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new UsersEndpoints(httpClient);
-            var userInfo = endpoints.GetUserInfo("mykey");
+            var userInfo = endpoints.GetUserInfo("myKey");
 
             Assert.That(userInfo.UserName, Is.EqualTo("username"));
             Assert.That(userInfo.FirstName, Is.EqualTo("firstname"));
@@ -33,20 +33,21 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
 
             mockHttpMessageHandler
                 .Protected()
-                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>());
         }
 
         [Test]
         public void ShouldHandleUnsuccessfulGetUserInfo()
         {
-            var json = "{\"message\":\"myerrormessage\", \"code\":\"500\"}";
+            const string json = "{\"message\":\"myErrorMessage\", \"code\":\"500\"}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
@@ -54,16 +55,14 @@ namespace WebClientTests.WebClient.Endpoints.User.UserEndpointsTests
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new UsersEndpoints(httpClient);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                endpoints.GetUserInfo("mysessionkey");
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { endpoints.GetUserInfo("mySessionKey"); })?.Message;
 
-            Assert.That(message, Is.EqualTo("myerrormessage"));
+            Assert.That(message, Is.EqualTo("myErrorMessage"));
 
             mockHttpMessageHandler
                 .Protected()
-                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+                .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>());
         }
     }
 }

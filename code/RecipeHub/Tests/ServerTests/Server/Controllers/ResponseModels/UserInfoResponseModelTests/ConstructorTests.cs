@@ -35,10 +35,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.UserInfoResponseModelTes
             var userInfo = new UserInfo("username", "firstname", "lastname", "email@email.com");
             var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, "message", userInfo);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = null!;
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = null!; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
         }
@@ -49,10 +46,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.UserInfoResponseModelTes
             var userInfo = new UserInfo("username", "firstname", "lastname", "email@email.com");
             var responseModel = new UserInfoResponseModel(HttpStatusCode.Continue, "message", userInfo);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = "   ";
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = "   "; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
         }

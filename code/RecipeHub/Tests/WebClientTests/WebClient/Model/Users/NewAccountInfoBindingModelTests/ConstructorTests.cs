@@ -13,14 +13,14 @@ namespace WebClientTests.WebClient.Model.Users.NewAccountInfoBindingModelTests
                 bindingModel.Username = "username";
                 bindingModel.Password = "password";
                 bindingModel.VerifyPassword = "password";
-                bindingModel.FirstName = "fname";
+                bindingModel.FirstName = "first";
                 bindingModel.LastName = "lname";
                 bindingModel.Email = "email@email.com";
 
                 Assert.That(bindingModel.Username, Is.EqualTo("username"));
                 Assert.That(bindingModel.Password, Is.EqualTo("password"));
                 Assert.That(bindingModel.VerifyPassword, Is.EqualTo("password"));
-                Assert.That(bindingModel.FirstName, Is.EqualTo("fname"));
+                Assert.That(bindingModel.FirstName, Is.EqualTo("first"));
                 Assert.That(bindingModel.LastName, Is.EqualTo("lname"));
                 Assert.That(bindingModel.Email, Is.EqualTo("email@email.com"));
             }

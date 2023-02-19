@@ -1,7 +1,6 @@
 ﻿using Desktop_Client.Endpoints.Ingredients;
 using Desktop_Client.Service.Ingredients;
 using Moq;
-using Shared_Resources.Model.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
 {
@@ -10,7 +9,7 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
         [Test]
         public void SuccessfullyGetIngredients()
         {
-            var suggestions = new string[] {
+            var suggestions = new[] {
                 "asd"
             };
             const string ingredientName = "name";

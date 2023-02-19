@@ -63,7 +63,8 @@ namespace Server.Controllers.Users
         {
             try
             {
-                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName, email));
+                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName,
+                    email));
                 return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
@@ -88,7 +89,8 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new BaseResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
+                return new BaseResponseModel(HttpStatusCode.OK,
+                    this.service.Login(username, password, previousSessionKey));
             }
             catch (Exception ex)
             {
@@ -133,7 +135,8 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new UserInfoResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage, this.service.GetUserInfo(sessionKey));
+                return new UserInfoResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetUserInfo(sessionKey));
             }
             catch (Exception ex)
             {

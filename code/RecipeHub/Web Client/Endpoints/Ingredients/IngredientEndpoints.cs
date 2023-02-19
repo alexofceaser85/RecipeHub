@@ -13,13 +13,12 @@ namespace Web_Client.Endpoints.Ingredients
     {
         private readonly HttpClient http;
 
-        private readonly string getIngredientsEndpoint = "GetIngredientsInPantry";
-        private readonly string addIngredientEndpoint = "AddIngredientToPantry";
-        private readonly string deleteIngredientEndpoint = "RemoveIngredientFromPantry";
-        private readonly string deleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
-        private readonly string updateIngredientEndpoint = "UpdateIngredientInPantry";
-        private readonly string getSuggestionsEndpoint = "GetSuggestions";
-
+        private const string GetIngredientsEndpoint = "GetIngredientsInPantry";
+        private const string AddIngredientEndpoint = "AddIngredientToPantry";
+        private const string DeleteIngredientEndpoint = "RemoveIngredientFromPantry";
+        private const string DeleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
+        private const string UpdateIngredientEndpoint = "UpdateIngredientInPantry";
+        private const string GetSuggestionsEndpoint = "GetSuggestions";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientEndpoints"/> class.<br />
@@ -48,34 +47,35 @@ namespace Web_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public Ingredient[] GetAllIngredientsForUser()
         {
-            string parameters = $"?sessionKey={Session.Key}";
-            string requestUri = $"{ServerSettings.ServerUri}{this.getIngredientsEndpoint}{parameters}";
+            var parameters = $"?sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{GetIngredientsEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
             var pantry = json["pantry"];
             var ingredients = new List<Ingredient>();
-            
+
             if (pantry != null)
             {
                 foreach (var ingredient in pantry.AsArray())
                 {
                     var name = ingredient!["name"]!.GetValue<string>();
-                    var amount = ingredient!["amount"]!.GetValue<int>();
+                    var amount = ingredient["amount"]!.GetValue<int>();
                     var measurementType = ingredient["measurementType"]!.GetValue<int>();
 
-                    ingredients.Add(new Ingredient(name, amount, (MeasurementType)measurementType));
+                    ingredients.Add(new Ingredient(name, amount, (MeasurementType) measurementType));
                 }
             }
-            
+
             return ingredients.ToArray();
         }
 
         /// <inheritdoc />
         public bool AddIngredient(Ingredient ingredient)
         {
-            string parameters = $"?name={ingredient.Name}&measurementType={(int)ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
-            string requestUri = $"{ServerSettings.ServerUri}{this.addIngredientEndpoint}{parameters}";
+            var parameters =
+                $"?name={ingredient.Name}&measurementType={(int) ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{AddIngredientEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
@@ -85,8 +85,9 @@ namespace Web_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public bool DeleteIngredient(Ingredient ingredient)
         {
-            var parameters = $"?name={ingredient.Name}&measurementType={(int)ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
-            var requestUri = $"{ServerSettings.ServerUri}{this.deleteIngredientEndpoint}{parameters}";
+            var parameters =
+                $"?name={ingredient.Name}&measurementType={(int) ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{DeleteIngredientEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
@@ -96,8 +97,9 @@ namespace Web_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public bool UpdateIngredient(Ingredient ingredient)
         {
-            var parameters = $"?name={ingredient.Name}&measurementType={(int)ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
-            var requestUri = $"{ServerSettings.ServerUri}{this.updateIngredientEndpoint}{parameters}";
+            var parameters =
+                $"?name={ingredient.Name}&measurementType={(int) ingredient.MeasurementType}&amount={ingredient.Amount}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{UpdateIngredientEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
@@ -107,8 +109,8 @@ namespace Web_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public bool DeleteAllIngredientsForUser()
         {
-            string parameters = $"?sessionKey={Session.Key}";
-            string requestUri = $"{ServerSettings.ServerUri}{this.deleteAllIngredientsEndpoint}{parameters}";
+            var parameters = $"?sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{DeleteAllIngredientsEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
@@ -118,8 +120,8 @@ namespace Web_Client.Endpoints.Ingredients
         /// <inheritdoc />
         public string[] GetSuggestions(string ingredientName)
         {
-            string parameters = $"?text={ingredientName}";
-            string requestUri = $"{ServerSettings.ServerUri}{this.getSuggestionsEndpoint}{parameters}";
+            var parameters = $"?text={ingredientName}";
+            var requestUri = $"{ServerSettings.ServerUri}{GetSuggestionsEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 

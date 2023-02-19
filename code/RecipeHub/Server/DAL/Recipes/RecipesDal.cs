@@ -14,7 +14,7 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public bool RecipeWithIdExists(int recipeId)
         {
-            var query = "SELECT recipeId FROM Recipes WHERE recipeId = @recipeId;";
+            const string query = "SELECT recipeId FROM Recipes WHERE recipeId = @recipeId;";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -34,7 +34,7 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public bool IsAuthorOfRecipe(int authorId, int recipeId)
         {
-            var query = "SELECT authorId FROM Recipes WHERE recipeId = @recipeId AND authorId = @authorId;";
+            const string query = "SELECT authorId FROM Recipes WHERE recipeId = @recipeId AND authorId = @authorId;";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -62,8 +62,8 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public Recipe? GetRecipe(int recipeId)
         {
-            var query = "SELECT CONCAT(TRIM(Users.firstName), ' ', TRIM(Users.lastName)) AS authorName, TRIM(Recipes.name) AS name, " +
-                        "TRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.recipeId = @recipeId;";
+            const string query = "SELECT CONCAT(TRIM(Users.firstName), ' ', TRIM(Users.lastName)) AS authorName, TRIM(Recipes.name) AS name, " +
+                                 "TRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.recipeId = @recipeId;";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
@@ -91,9 +91,9 @@ namespace Server.DAL.Recipes
         public Recipe[] GetRecipesWithName(int userId, string nameFilter)
         {
             var recipes = new List<Recipe>();
-            var query = "SELECT Recipes.recipeId, CONCAT(TRIM(Users.firstName), ' ', TRIM(Users.lastName)) AS authorName, TRIM(Recipes.name) AS name, " +
-                        "TRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.authorId = Users.userId " +
-                        "AND name LIKE @nameFilter AND (Recipes.authorId = @userId OR Recipes.isPublic = 1);";
+            const string query = "SELECT Recipes.recipeId, CONCAT(TRIM(Users.firstName), ' ', TRIM(Users.lastName)) AS authorName, TRIM(Recipes.name) AS name, " +
+                                 "TRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.authorId = Users.userId " +
+                                 "AND name LIKE @nameFilter AND (Recipes.authorId = @userId OR Recipes.isPublic = 1);";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -124,7 +124,7 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public bool AddRecipe(int authorId, string name, string description, bool isPublic)
         {
-            var query = "INSERT INTO Recipes (authorId, name, description, isPublic) VALUES (@authorId, @name, @description, @isPublic);";
+            const string query = "INSERT INTO Recipes (authorId, name, description, isPublic) VALUES (@authorId, @name, @description, @isPublic);";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -136,14 +136,14 @@ namespace Server.DAL.Recipes
             connection.Open();
 
             var rowsAffected = command.ExecuteNonQuery();
-            
+
             return rowsAffected == 1;
         }
 
         /// <inheritdoc/>
         public bool RemoveRecipe(int recipeId)
         {
-            var query = "DELETE FROM Recipes WHERE recipeId = @recipeId";
+            const string query = "DELETE FROM Recipes WHERE recipeId = @recipeId";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -159,8 +159,7 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public bool EditRecipe(int recipeId, string name, string description, bool isPublic)
         {
-            var query = "UPDATE Recipes SET name = @name, description = @description, isPublic = @isPublic " +
-                        "WHERE recipeId = @recipeId;";
+            const string query = "UPDATE Recipes SET name = @name, description = @description, isPublic = @isPublic " + "WHERE recipeId = @recipeId;";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -179,7 +178,7 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public bool UserCanSeeRecipe(int userId, int recipeId)
         {
-            var query = "SELECT authorId FROM Recipes WHERE recipeId = @recipeId AND (authorId = @userId OR isPublic = 1);";
+            const string query = "SELECT authorId FROM Recipes WHERE recipeId = @recipeId AND (authorId = @userId OR isPublic = 1);";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -199,11 +198,11 @@ namespace Server.DAL.Recipes
         }
 
         /// <inheritdoc/>
-        public Shared_Resources.Model.Ingredients.Ingredient[] GetIngredientsForRecipe(int recipeId)
+        public Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
-            var ingredients = new List<Shared_Resources.Model.Ingredients.Ingredient>();
-            var query = "SELECT RecipeIngredients.ingredientId, TRIM(Ingredients.name) AS name, RecipeIngredients.amount " +
-                        "FROM RecipeIngredients, Ingredients WHERE RecipeIngredients.ingredientId = Ingredients.ingredientId AND recipeId = @recipeId";
+            var ingredients = new List<Ingredient>();
+            const string query = "SELECT TRIM(Ingredients.name) AS name, RecipeIngredients.amount " + 
+                                 "FROM RecipeIngredients, Ingredients WHERE RecipeIngredients.ingredientId = Ingredients.ingredientId AND recipeId = @recipeId";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
@@ -211,16 +210,14 @@ namespace Server.DAL.Recipes
             connection.Open();
 
             using var reader = command.ExecuteReader();
-            var ingredientIdOrdinal = reader.GetOrdinal("ingredientId");
             var nameOrdinal = reader.GetOrdinal("name");
             var amountOrdinal = reader.GetOrdinal("amount");
 
             while (reader.Read())
             {
-                var ingredientId = reader.GetInt32(ingredientIdOrdinal);
                 var name = reader.GetString(nameOrdinal);
                 var amount = reader.GetInt32(amountOrdinal);
-                ingredients.Add(new(name, amount, MeasurementType.Volume));
+                ingredients.Add(new Ingredient(name, amount, MeasurementType.Volume));
             }
 
             return ingredients.ToArray();
@@ -230,8 +227,8 @@ namespace Server.DAL.Recipes
         public RecipeStep[] GetStepsForRecipe(int recipeId)
         {
             var steps = new List<RecipeStep>();
-            var query = "SELECT stepNumber, TRIM(stepName) AS stepName, TRIM(instructions) AS instructions " +
-                        "FROM RecipeSteps WHERE recipeId = @recipeId ORDER BY stepNumber";
+            const string query = "SELECT stepNumber, TRIM(stepName) AS stepName, TRIM(instructions) AS instructions " + 
+                                 "FROM RecipeSteps WHERE recipeId = @recipeId ORDER BY stepNumber";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);

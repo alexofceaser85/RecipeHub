@@ -3,7 +3,6 @@ using Desktop_Client.Service.Recipes;
 using Moq;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Model.Recipes;
 
 namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
 {
@@ -13,7 +12,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         public void SuccessfullyGetRecipeSteps()
         {
             var ingredients = new Ingredient[] {
-                new ("name", 0, MeasurementType.Volume),
+                new("name", 0, MeasurementType.Volume)
             };
             const string sessionKey = "Key";
             const int recipeId = 0;
@@ -34,7 +33,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullSessionKey()
         {
-            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(
@@ -46,7 +45,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
-            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(

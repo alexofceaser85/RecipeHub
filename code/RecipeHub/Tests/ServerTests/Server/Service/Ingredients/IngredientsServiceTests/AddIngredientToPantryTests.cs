@@ -1,9 +1,7 @@
 ﻿using Moq;
-using Server.DAL.Ingredient;
-using Server.DAL.Recipes;
+using Server.DAL.Ingredients;
 using Server.DAL.Users;
 using Server.Service.Ingredients;
-using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
@@ -37,16 +35,17 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
             const string sessionKey = null!;
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
 
-            Assert.Throws<ArgumentNullException>(() => 
+            Assert.Throws<ArgumentNullException>(() =>
                 new IngredientsService().AddIngredientToPantry(ingredient, sessionKey!));
         }
-        
+
         [Test]
         public void EmptySessionKey()
         {
             const string sessionKey = "";
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
-            Assert.Throws<ArgumentException>(() => new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
+            Assert.Throws<ArgumentException>(() =>
+                new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
         }
 
         [Test]
@@ -54,9 +53,10 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = "Key";
             var ingredient = new Ingredient();
-            Assert.Throws<ArgumentNullException>(() => new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
+            Assert.Throws<ArgumentNullException>(() =>
+                new IngredientsService().AddIngredientToPantry(ingredient, sessionKey));
         }
-        
+
         [Test]
         public void SessionKeyIsUnused()
         {
@@ -65,7 +65,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var ingredientsDal = new Mock<IIngredientsDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?) null);
 
             var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
             Assert.Throws<InvalidOperationException>(() => service.AddIngredientToPantry(ingredient, sessionKey));

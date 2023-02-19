@@ -4,7 +4,6 @@ using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.ErrorMessages;
 using Server.Service.Recipes;
-using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
@@ -37,8 +36,9 @@ namespace Server.Controllers.Recipes
         /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public RecipesController(IRecipesService recipesService)
         {
-            this.service = recipesService ?? 
-                           throw new ArgumentNullException(nameof(recipesService), RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
+            this.service = recipesService ??
+                           throw new ArgumentNullException(nameof(recipesService),
+                               RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
         }
 
         /// <summary>
@@ -80,12 +80,14 @@ namespace Server.Controllers.Recipes
         {
             try
             {
-                return new RecipeIngredientsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipeIngredients(sessionKey, recipeId));
             }
             catch (Exception ex)
             {
-                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Ingredient>());
+                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Ingredient>());
             }
         }
 
@@ -104,12 +106,14 @@ namespace Server.Controllers.Recipes
         {
             try
             {
-                return new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                return new RecipeStepsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipeSteps(sessionKey, recipeId));
             }
             catch (Exception ex)
             {
-                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<RecipeStep>());
+                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<RecipeStep>());
             }
         }
 
@@ -210,7 +214,7 @@ namespace Server.Controllers.Recipes
                 return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-        
+
         /// <summary>
         /// Gets all of the recipes who's name contains the search term for the user.<br/>
         /// If no search term is provided, all recipes visible to the user are fetched.<br/>
@@ -232,9 +236,9 @@ namespace Server.Controllers.Recipes
             }
             catch (Exception ex)
             {
-                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Recipe>());
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Recipe>());
             }
         }
-
     }
 }

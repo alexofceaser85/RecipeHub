@@ -40,7 +40,7 @@ namespace Server.Service.Recipes
         {
             this.recipesDal = recipesDal ?? throw new ArgumentNullException(nameof(recipesDal),
                 ServerRecipesServiceErrorMessages.RecipesDataAccessLayerCannotBeNull);
-            this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal), 
+            this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal),
                 ServerRecipesServiceErrorMessages.UsersDataAccessLayerCannotBeNull);
         }
 
@@ -49,23 +49,25 @@ namespace Server.Service.Recipes
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), 
+                throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             if (searchTerm == null)
             {
-                throw new ArgumentNullException(nameof(searchTerm), 
+                throw new ArgumentNullException(nameof(searchTerm),
                     ServerRecipesServiceErrorMessages.SearchTermCannotBeNull);
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
 
-            return this.recipesDal.GetRecipesWithName((int)userId, searchTerm);
+            return this.recipesDal.GetRecipesWithName((int) userId, searchTerm);
         }
 
         /// <inheritdoc/>
@@ -76,19 +78,20 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                            throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
 
-            return (Recipe) this.recipesDal.GetRecipe((int)recipeId)!;
+            return (Recipe) this.recipesDal.GetRecipe(recipeId)!;
         }
 
         /// <inheritdoc/>
@@ -99,6 +102,7 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
@@ -106,14 +110,14 @@ namespace Server.Service.Recipes
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
 
             return this.recipesDal.GetIngredientsForRecipe(recipeId);
         }
-        
+
         /// <inheritdoc/>
         public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId)
         {
@@ -122,6 +126,7 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
@@ -129,7 +134,7 @@ namespace Server.Service.Recipes
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                           throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            if (!this.recipesDal.UserCanSeeRecipe((int) userId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
@@ -145,33 +150,38 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             if (name == null)
             {
-                throw new ArgumentNullException(nameof(name), 
+                throw new ArgumentNullException(nameof(name),
                     ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
             }
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
             }
+
             if (description == null)
             {
                 throw new ArgumentNullException(nameof(description),
                     ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
+
             if (string.IsNullOrWhiteSpace(description))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
 
             int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+                            throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
 
-            return this.recipesDal.AddRecipe((int)authorId, name, description, isPublic);
+            return this.recipesDal.AddRecipe((int) authorId, name, description, isPublic);
         }
 
         /// <inheritdoc/>
@@ -182,6 +192,7 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
@@ -189,12 +200,12 @@ namespace Server.Service.Recipes
 
             int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                             throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
+            if (!this.recipesDal.IsAuthorOfRecipe((int) authorId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
 
-            return this.recipesDal.RemoveRecipe((int)recipeId);
+            return this.recipesDal.RemoveRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -205,24 +216,29 @@ namespace Server.Service.Recipes
                 throw new ArgumentNullException(nameof(sessionKey),
                     ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(sessionKey))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             if (name == null)
             {
-                throw new ArgumentNullException(nameof(name), 
+                throw new ArgumentNullException(nameof(name),
                     ServerRecipesServiceErrorMessages.RecipeNameCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(name))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
             }
+
             if (description == null)
             {
-                throw new ArgumentNullException(nameof(description), 
+                throw new ArgumentNullException(nameof(description),
                     ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
             }
+
             if (string.IsNullOrWhiteSpace(description))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
@@ -230,12 +246,12 @@ namespace Server.Service.Recipes
 
             int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
                             throw new ArgumentException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
-            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
+            if (!this.recipesDal.IsAuthorOfRecipe((int) authorId, recipeId))
             {
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
 
-            return this.recipesDal.EditRecipe((int)recipeId, name, description, isPublic);
+            return this.recipesDal.EditRecipe(recipeId, name, description, isPublic);
         }
     }
 }

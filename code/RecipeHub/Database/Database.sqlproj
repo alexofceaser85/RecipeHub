@@ -59,7 +59,6 @@
     <Folder Include="PublishScripts" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PublishScripts\Database_3.publish.xml" />
     <None Include="Database.publish.xml" />
     <None Include="PublishScripts\Database.publish.xml" />
   </ItemGroup>

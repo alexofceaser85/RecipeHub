@@ -9,10 +9,9 @@ namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
         [Test]
         public void ShouldNotAllowNullParsedJsonForGettingNestedJsonString()
         {
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                JsonUtils.GetJsonString(null!, "key", "nestedkey");
-            })?.Message;
+            var message = Assert
+                          .Throws<ArgumentException>(() => { JsonUtils.GetJsonString(null!, "key", "nestedKey"); })
+                          ?.Message;
             Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
         }
 
@@ -21,7 +20,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, null!, "nestedkey");
+                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, null!, "nestedKey");
             })?.Message;
             Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeNull));
         }
@@ -31,7 +30,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, "   ", "nestedkey");
+                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, "   ", "nestedKey");
             })?.Message;
             Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty));
         }
@@ -69,7 +68,8 @@ namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
         [Test]
         public void ShouldGetNestedJsonString()
         {
-            var jsonString = JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":{\"nestedKey\":\"value\"}}")!, "key", "nestedKey");
+            var jsonString = JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":{\"nestedKey\":\"value\"}}")!, "key",
+                "nestedKey");
             Assert.That(jsonString, Is.EqualTo("value"));
         }
 
@@ -78,7 +78,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, "notkey");
+                JsonUtils.GetJsonString(JsonNode.Parse("{\"key\":\"value\"}")!, "notKey");
             })?.Message;
 
             Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.RequestContentNodeCannotBeNull));

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Model;
-using Desktop_Client.Service.Recipes;
-using Shared_Resources.Data.UserData;
+﻿using Desktop_Client.Service.Recipes;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
@@ -28,7 +21,6 @@ namespace Desktop_Client.ViewModel.Recipes
         /// </summary>
         public RecipeViewModel() : this(new RecipesService())
         {
-
         }
 
         /// <summary>

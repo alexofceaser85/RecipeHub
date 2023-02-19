@@ -1,9 +1,7 @@
 ﻿using Web_Client.Endpoints.Recipes;
-using Web_Client.Model;
 using Web_Client.Service.Ingredients;
 using Web_Client.Service.Recipes;
 using Shared_Resources.ErrorMessages;
-using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Web_Client.ViewModel.Recipes
@@ -17,11 +15,6 @@ namespace Web_Client.ViewModel.Recipes
         private readonly IIngredientsService ingredientsService;
 
         /// <summary>
-        /// The filters for recipe queries.
-        /// </summary>
-        //public RecipeFilters Filters { get; set; }
-
-        /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
         /// Uses an instance of <see cref="RecipesEndpoints"/> as the endpoint by default.<br/>
         /// <br/>
@@ -30,9 +23,8 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
-
         }
-        
+
         /// <summary>
         /// Creates a instance of <see cref="RecipesListViewModel"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
@@ -41,12 +33,12 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {
-            this.recipesService = recipesService ?? 
-                                  throw new ArgumentNullException(nameof(recipesService), 
+            this.recipesService = recipesService ??
+                                  throw new ArgumentNullException(nameof(recipesService),
                                       RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
             this.ingredientsService = ingredientsService ??
-                                  throw new ArgumentNullException(nameof(ingredientsService),
-                                      RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+                                      throw new ArgumentNullException(nameof(ingredientsService),
+                                          RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
             //this.Filters = new RecipeFilters();
         }
 

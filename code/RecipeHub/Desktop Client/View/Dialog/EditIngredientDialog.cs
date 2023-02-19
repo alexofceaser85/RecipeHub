@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Text;
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
 
@@ -32,13 +24,14 @@ namespace Desktop_Client.View.Dialog
         {
             this.viewModel = new EditIngredientViewModel();
             this.ingredientName = ingredientName;
-            InitializeComponent();
+            this.InitializeComponent();
             this.editTitle.Text = $@"Edit {ingredientName}?";
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)
         {
-            this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text), MeasurementType.Quantity));
+            this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text),
+                MeasurementType.Quantity));
             this.Close();
             this.Dispose();
         }
@@ -52,8 +45,8 @@ namespace Desktop_Client.View.Dialog
 
         private void amountTextBox_TextChanged(object sender, EventArgs e)
         {
-            bool enteredLetter = false;
-            Queue<char> text = new Queue<char>();
+            var enteredLetter = false;
+            var text = new Queue<char>();
             foreach (var ch in this.amountTextBox.Text)
             {
                 if (char.IsDigit(ch))
@@ -66,17 +59,19 @@ namespace Desktop_Client.View.Dialog
                 }
             }
 
-            if (enteredLetter)
+            if (!enteredLetter)
             {
-                StringBuilder sb = new StringBuilder();
-                while (text.Count > 0)
-                {
-                    sb.Append(text.Dequeue());
-                }
-
-                this.amountTextBox.Text = sb.ToString();
-                this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
+                return;
             }
+
+            var sb = new StringBuilder();
+            while (text.Count > 0)
+            {
+                sb.Append(text.Dequeue());
+            }
+
+            this.amountTextBox.Text = sb.ToString();
+            this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
         }
     }
 }

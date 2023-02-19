@@ -1,5 +1,4 @@
-﻿using Server.ErrorMessages;
-using System.Net;
+﻿using System.Net;
 
 namespace Server.Controllers.ResponseModels
 {
@@ -9,7 +8,7 @@ namespace Server.Controllers.ResponseModels
     public class SuggestionResponseModel : BaseResponseModel
     {
         private IList<string> suggestions;
-        
+
         /// <summary>
         /// Represents a list of suggestions to be sent back to the user.
         /// </summary>
@@ -18,7 +17,7 @@ namespace Server.Controllers.ResponseModels
             get => this.suggestions;
             set => this.suggestions = value ?? throw new ArgumentNullException(nameof(value));
         }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SuggestionResponseModel"/> class.<br />
         /// <br />
@@ -33,7 +32,8 @@ namespace Server.Controllers.ResponseModels
         /// <param name="message">The message.</param>
         /// <param name="suggestions">The list of suggestions sent to the user.</param>
         /// 
-        public SuggestionResponseModel(HttpStatusCode code, string message, IList<string>? suggestions) : base(code, message)
+        public SuggestionResponseModel(HttpStatusCode code, string message, IList<string>? suggestions) : base(code,
+            message)
         {
             this.suggestions = suggestions ?? throw new ArgumentNullException(nameof(suggestions));
         }

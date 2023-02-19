@@ -2,9 +2,6 @@
 using Moq;
 using System.Net;
 using Desktop_Client.Endpoints.Ingredients;
-using Desktop_Client.Endpoints.Recipes;
-using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Model.Recipes;
 
 namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndpointsTests
 {
@@ -13,16 +10,16 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
         [Test]
         public void SuccessfullyUpdateRecipe()
         {
-            const string json = "{\"suggestions\": [\"apple\", \"banana\"], \"code\": 200, \"message\": \"Ingredient successfully updated.\"}";
-            var suggestions = new [] {"apple", "banana"};
+            const string json =
+                "{\"suggestions\": [\"apple\", \"banana\"], \"code\": 200, \"message\": \"Ingredient successfully updated.\"}";
+            var suggestions = new[] {"apple", "banana"};
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", 
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
@@ -36,7 +33,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
                 Assert.That(result, Is.EquivalentTo(suggestions));
                 mockHttpMessageHandler
                     .Protected()
-                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), 
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
                         ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
             });
         }
@@ -52,15 +49,14 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent(json)
                 });
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new IngredientEndpoints(httpClient);
-            
+
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(

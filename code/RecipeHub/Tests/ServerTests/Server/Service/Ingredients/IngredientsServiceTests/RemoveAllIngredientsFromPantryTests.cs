@@ -1,8 +1,7 @@
 ﻿using Moq;
-using Server.DAL.Ingredient;
+using Server.DAL.Ingredients;
 using Server.DAL.Users;
 using Server.Service.Ingredients;
-using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 {
@@ -33,30 +32,28 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = null!;
 
-            Assert.Throws<ArgumentNullException>(() => 
+            Assert.Throws<ArgumentNullException>(() =>
                 new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey!));
         }
-        
+
         [Test]
         public void EmptySessionKey()
         {
             const string sessionKey = "";
             Assert.Throws<ArgumentException>(() => new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey));
         }
-        
+
         [Test]
         public void SessionKeyIsUnused()
         {
             const string sessionKey = "Key";
-            var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
 
             var ingredientsDal = new Mock<IIngredientsDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?) null);
 
             var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
             Assert.Throws<ArgumentException>(() => service.RemoveAllIngredientsFromPantry(sessionKey));
         }
-        
     }
 }

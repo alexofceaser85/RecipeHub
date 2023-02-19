@@ -43,6 +43,15 @@ namespace Desktop_Client.Service.Recipes
         /// <returns>The ingredients for the recipe.</returns>
         public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
 
+        /// <summary>
+        /// Gets the list of steps for a specified recipe, if the user associated with the session key can see it.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrEmpty(sessionKey)<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the current user.</param>
+        /// <param name="recipeId">The id for the recipe to look up.</param>
+        /// <returns>A list of steps for the specified recipe.</returns>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
 
         /// <summary>

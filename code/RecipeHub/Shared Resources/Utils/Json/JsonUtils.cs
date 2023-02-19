@@ -114,8 +114,8 @@ namespace Shared_Resources.Utils.Json
         /// <exception cref="ArgumentException">If the request code indicates a server error</exception>
         public static string VerifyAndGetRequestInfo(JsonNode json)
         {
-            var requestContent = JsonUtils.GetJsonString(json, RequestMessageJsonElementName);
-            var requestCode = JsonUtils.GetJsonString(json, RequestCodeJsonElementName);
+            var requestContent = GetJsonString(json, RequestMessageJsonElementName);
+            var requestCode = GetJsonString(json, RequestCodeJsonElementName);
 
             if (int.Parse(requestCode) == ServerErrorRequestCode)
             {

@@ -17,7 +17,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             var steps = new RecipeStep[] {
                 new (0, "name", "instructions"),
                 new (1, "name", "instructions"),
-                new (2, "name", "instructions"),
+                new (2, "name", "instructions")
             };
 
             var recipesDal = new Mock<IRecipesDal>();

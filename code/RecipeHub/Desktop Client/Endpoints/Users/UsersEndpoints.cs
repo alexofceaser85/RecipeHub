@@ -31,6 +31,7 @@ namespace Desktop_Client.Endpoints.Users
         {
             this.client = new HttpClient();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersEndpoints"/> class.
         ///

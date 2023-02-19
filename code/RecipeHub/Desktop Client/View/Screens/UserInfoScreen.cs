@@ -23,7 +23,7 @@ namespace Desktop_Client.View.Screens
             this.viewModel = new UsersViewModel();
             this.GetAndPopulateUserInfo();
         }
-        
+
         private void GetAndPopulateUserInfo()
         {
             var userInfo = this.viewModel.GetUserInfo();
@@ -38,7 +38,7 @@ namespace Desktop_Client.View.Screens
         private void logoutButton_Click(object sender, EventArgs e)
         {
             this.viewModel.Logout();
-            base.ChangeScreens(new LoginScreen());
+            ChangeScreens(new LoginScreen());
         }
     }
 }
