@@ -122,6 +122,10 @@ namespace Server.Controllers.Recipes
             {
                 return new RecipeStepsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<RecipeStep>());
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<RecipeStep>());
+            }
             catch (Exception ex)
             {
                 return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message,

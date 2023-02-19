@@ -40,12 +40,10 @@ namespace Desktop_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {
-            this.recipesService = recipesService ??
-                                  throw new ArgumentNullException(nameof(recipesService),
-                                      RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
-            this.ingredientsService = ingredientsService ??
-                                      throw new ArgumentNullException(nameof(ingredientsService),
-                                          RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+            this.recipesService = recipesService ?? throw new ArgumentNullException(nameof(recipesService), 
+                RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.ingredientsService = ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService),
+                RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
             this.Filters = new RecipeFilters();
         }
 
