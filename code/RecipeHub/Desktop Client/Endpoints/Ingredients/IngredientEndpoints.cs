@@ -128,19 +128,16 @@ namespace Desktop_Client.Endpoints.Ingredients
             string parameters = $"?text={ingredientName}";
             string requestUri = $"{ServerSettings.ServerUri}{this.getSuggestionsEndpoint}{parameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
-            if (json != null)
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var suggestions = new List<string>();
+            foreach (var suggestion in json["suggestions"]?.AsArray()!)
             {
-                JsonUtils.VerifyAndGetRequestInfo(json);
+                suggestions.Add(suggestion!.GetValue<string>());
+            }
 
-                var suggestions = new List<string>();
-                foreach (var suggestion in json["suggestions"]?.AsArray()!)
-                {
-                    suggestions.Add(suggestion!.GetValue<string>());
-                }
-
-                return suggestions.ToArray();
-            };
-            return Array.Empty<string>();
+            return suggestions.ToArray();
 
         }
     }

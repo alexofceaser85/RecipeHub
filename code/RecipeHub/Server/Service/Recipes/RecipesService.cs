@@ -88,7 +88,7 @@ namespace Server.Service.Recipes
                 throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
             }
 
-            return this.recipesDal.GetRecipe((int)recipeId)!;
+            return (Recipe) this.recipesDal.GetRecipe((int)recipeId)!;
         }
 
         /// <inheritdoc/>

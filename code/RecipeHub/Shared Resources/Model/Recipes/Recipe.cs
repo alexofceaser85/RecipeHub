@@ -11,7 +11,7 @@ namespace Shared_Resources.Model.Recipes
     /// <summary>
     /// Stores information for a recipe.
     /// </summary>
-    public class Recipe
+    public struct Recipe
     {
         private string authorName;
         private string name;
@@ -112,23 +112,6 @@ namespace Shared_Resources.Model.Recipes
             this.Name = name;
             this.Description = description;
             this.IsPublic = isPublic;
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Recipe other)
-            {
-                return false;
-            }
-            return this.Id == other.Id && this.authorName == other.authorName && this.Name == other.Name 
-                   && this.Description == other.Description && this.Rating == other.Rating && this.IsPublic == other.IsPublic;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

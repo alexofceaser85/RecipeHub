@@ -61,7 +61,7 @@ namespace Server.Controllers.Recipes
             }
             catch (Exception ex)
             {
-                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, null!);
+                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, new Recipe());
             }
         }
 
@@ -105,7 +105,7 @@ namespace Server.Controllers.Recipes
             try
             {
                 return new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
-                    this.service.GetRecipeSteps(sessionKey, recipeId)); ;
+                    this.service.GetRecipeSteps(sessionKey, recipeId));
             }
             catch (Exception ex)
             {
