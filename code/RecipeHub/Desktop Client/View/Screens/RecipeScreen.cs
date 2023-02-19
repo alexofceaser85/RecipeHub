@@ -47,8 +47,7 @@ namespace Desktop_Client.View.Screens
             this.ingredientsListLabel.Text = "";
             foreach (var ingredient in ingredients)
             {
-                this.ingredientsListLabel.Text +=
-                    @$"{ingredient.Name} - {ingredient.Amount} {ingredient.MeasurementType}\n";
+                this.ingredientsListLabel.Text += $"{ingredient.Name} - {ingredient.Amount} {ingredient.MeasurementType}\n";
             }
         }
 
@@ -64,7 +63,7 @@ namespace Desktop_Client.View.Screens
             this.stepsLabel.Text = "";
             foreach (var step in steps)
             {
-                this.stepsLabel.Text += @$"{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n";
+                this.stepsLabel.Text += $"{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n";
             }
         }
 
