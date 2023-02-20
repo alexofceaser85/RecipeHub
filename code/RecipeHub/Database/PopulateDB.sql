@@ -1,10 +1,12 @@
 ﻿DELETE FROM PantryItems;
 DELETE FROM RecipeIngredients;
 DELETE FROM RecipeSteps;
+DELETE FROM RecipeTypes;
+DELETE FROM "Type"
 DELETE FROM Recipes;
 DELETE FROM Ingredients;
 DELETE FROM Passwords;
-DELETE FROM Sessions;
+DELETE FROM "Sessions";
 DELETE FROM Users;
 DELETE FROM MeasurementTypes;
 
@@ -87,6 +89,50 @@ VALUES
     (8, 3, 'Spaghetti and Shrimp', 'Another Italian meal.', 1),
     (9, 3, 'Cold Cereal', 'A straightforward breakfase', 0);
 SET IDENTITY_INSERT Recipes OFF;
+
+SET IDENTITY_INSERT "Type" ON;
+INSERT INTO "Type" (typeId, typeName)
+VALUES
+(1, 'Breakfast'),
+(2, 'Lunch'),
+(3, 'Dinner'),
+(4, 'Snack'),
+(5, 'Dessert'),
+(6, 'Vegan'),
+(7, 'Vegitarian'),
+(8, 'Gluten Free'),
+(9, 'Healthy'),
+(10, 'Grilling'),
+(11, 'Fun food'),
+(12, 'Keto')
+SET IDENTITY_INSERT "Type" OFF;
+
+INSERT INTO RecipeTypes (recipeId, typeId)
+VALUES
+(1,1),
+(1,6),
+(1,7),
+(3, 3),
+(3, 6),
+(3, 7),
+(3, 8),
+(3, 9),
+(4, 3),
+(4, 10),
+(4, 11),
+(5, 2),
+(5, 3),
+(5, 6),
+(5, 7),
+(5, 8),
+(5, 9),
+(5, 12),
+(6, 2),
+(6, 3),
+(6, 8),
+(6, 12),
+(7, 3),
+(8, 3)
 
 INSERT INTO
     RecipeIngredients
