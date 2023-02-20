@@ -1,10 +1,12 @@
 ﻿DELETE FROM PantryItems;
 DELETE FROM RecipeIngredients;
 DELETE FROM RecipeSteps;
+DELETE FROM RecipeTypes;
+DELETE FROM "Type"
 DELETE FROM Recipes;
 DELETE FROM Ingredients;
 DELETE FROM Passwords;
-DELETE FROM Sessions;
+DELETE FROM "Sessions";
 DELETE FROM Users;
 DELETE FROM MeasurementTypes;
 
@@ -105,7 +107,6 @@ VALUES
 (12, 'Keto')
 SET IDENTITY_INSERT "Type" OFF;
 
-SET IDENTITY_INSERT RecipeTypes ON;
 INSERT INTO RecipeTypes (recipeId, typeId)
 VALUES
 (1,1),
