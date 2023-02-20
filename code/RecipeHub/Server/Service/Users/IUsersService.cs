@@ -1,4 +1,5 @@
-﻿using Shared_Resources.Model.Users;
+﻿using Server.DAL.Users;
+using Shared_Resources.Model.Users;
 
 namespace Server.Service.Users
 {
@@ -26,6 +27,22 @@ namespace Server.Service.Users
         /// <param name="previousSessionKey">The previous session key.</param>
         /// <returns>The login information</returns>
         public string Login(string username, string password, string? previousSessionKey);
+
+        /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys();
+
+        /// <summary>
+        /// Gets the user identifier for session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key</param>
+        public string RefreshSessionKey(string previousSessionKey);
 
         /// <summary>
         /// Logs the specified session key out of the system.

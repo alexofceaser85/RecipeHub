@@ -1,3 +1,6 @@
+using Server.Data.Settings;
+using Server.Service.Users;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,5 +24,17 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+var thread = new Thread(() =>
+{
+    var usersService = new UsersService();
+    while (true)
+    {
+        usersService.RemoveTimedOutSessionKeys();
+        Thread.Sleep(ServerSettings.RemovedTimeOutSessionKeysThreadInterval);
+    }
+});
+
+thread.Start();
 
 app.Run();

@@ -1,11 +1,21 @@
 ﻿@page
 @using Shared_Resources.Data.UserData
+@using Shared_Resources.Model.Recipes
 @using Web_Client.ViewModel.Recipes
 @{
-var ViewModel = new RecipesListViewModel();
-var recipes = ViewModel.GetRecipes(Session.Key!);
+    Recipe[] recipes = new Recipe[0]!;
+    try
+    {
+        var ViewModel = new RecipesListViewModel();
+        recipes = ViewModel.GetRecipes(Session.Key!);
+    }             
+    catch (UnauthorizedAccessException exception)
+    {
+        TempData["Message"] = exception.Message;
+        Response.Redirect("/Index");
+    }
 
-<div id="recipe-list-wrapper">
+    <div id="recipe-list-wrapper">
     <div id="recipe-list-header">
         <div>Recipes</div>
         <div><span class="text-primary">Home</span> | Planned Meals | <a href="ingredients">Ingredients</a></div>

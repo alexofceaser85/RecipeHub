@@ -32,7 +32,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = null!;
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<UnauthorizedAccessException>(() => 
                 new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey!));
         }
 
@@ -40,7 +40,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         public void EmptySessionKey()
         {
             const string sessionKey = "";
-            Assert.Throws<ArgumentException>(() => new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey));
+            Assert.Throws<UnauthorizedAccessException>(() => new IngredientsService().RemoveAllIngredientsFromPantry(sessionKey));
         }
 
         [Test]

@@ -28,6 +28,12 @@ namespace Web_Client.Endpoints.Users
         /// <returns>The login information</returns>
         public string Login(string username, string password, string previousSessionKey);
         /// <summary>
+        /// Refreshes the session key.
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key.</param>
+        /// <returns>The refreshed session key</returns>
+        public string RefreshSessionKey(string previousSessionKey);
+        /// <summary>
         /// Logs the user out.
         ///
         /// Precondition: None

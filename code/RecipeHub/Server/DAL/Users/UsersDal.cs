@@ -32,25 +32,44 @@ public class UsersDal : IUsersDal
         command.Parameters.Add("@email", SqlDbType.VarChar).Value = accountToCreate.Email;
         command.Parameters.Add("@password", SqlDbType.VarChar).Value = accountToCreate.Password;
 
-        connection.Open();
-        command.ExecuteNonQuery();
-    }
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
 
-    /// <summary>
-    ///     Verifies the user name does not exist.
-    ///     Precondition: None
-    ///     Postcondition: None
-    /// </summary>
-    /// <param name="userName">Name of the user.</param>
-    /// <returns>
-    ///     Whether or not the username exists
-    /// </returns>
-    public bool CheckIfUserNameExists(string userName)
-    {
-        const string query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
-        using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-        using var command = new SqlCommand(query, connection);
-        command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
+        /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys()
+        {
+            var query = "DELETE FROM Sessions " +
+                        "WHERE lastUpdateTime < DATEADD(minute, @timeoutLength, GETUTCDATE())";
+
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@timeoutLength", SqlDbType.Int).Value = ServerSettings.SessionTimeOutLengthInMinutes;
+
+            connection.Open(); 
+            command.ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// Verifies the user name does not exist.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="userName">Name of the user.</param>
+        /// <returns>
+        /// Whether or not the username exists
+        /// </returns>
+        public bool CheckIfUserNameExists(string userName)
+        {
+            var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
 
         connection.Open();
         return command.ExecuteScalar() != null;
@@ -130,23 +149,26 @@ public class UsersDal : IUsersDal
         return null;
     }
 
-    /// <summary>
-    ///     Adds a user session.
-    ///     Precondition: None
-    ///     Postcondition: None
-    /// </summary>
-    /// <param name="userId">The user identifier.</param>
-    /// <param name="sessionKey">The session key.</param>
-    public void AddUserSession(int userId, string sessionKey)
-    {
-        const string query = "insert into Sessions(sessionKey, userId) values(@sessionKey, @userId)";
-        using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-        using var command = new SqlCommand(query, connection);
-        command.Parameters.Add("@sessionKey", SqlDbType.VarChar).Value = sessionKey;
-        command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
-        connection.Open();
-        command.ExecuteNonQuery();
-    }
+        /// <summary>
+        /// Adds a user session.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="lastUserSession">The time of the last user session</param>
+        public void AddUserSession(int userId, string sessionKey, DateTime lastUserSession)
+        {
+            var query = "insert into Sessions(sessionKey, userId, lastUpdateTime) values(@sessionkey, @userId, @lastUpdateTime)";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@sessionkey", SqlDbType.VarChar).Value = sessionKey;
+            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+            command.Parameters.Add("@lastUpdateTime", SqlDbType.DateTime).Value = lastUserSession;
+            connection.Open();
+            command.ExecuteNonQuery();
+        }
 
     /// <summary>
     ///     Gets the user information.

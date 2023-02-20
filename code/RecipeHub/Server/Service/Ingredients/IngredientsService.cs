@@ -42,9 +42,13 @@ namespace Server.Service.Ingredients
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey));
+                throw new UnauthorizedAccessException(nameof(sessionKey));
             }
 
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("Session key cannot be null");
+            }
             if (ingredient.Name == null)
             {
                 throw new ArgumentNullException(nameof(ingredient));
@@ -52,7 +56,7 @@ namespace Server.Service.Ingredients
 
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
-                throw new ArgumentException("Session key must exist in the system.");
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
             }
 
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
@@ -80,7 +84,12 @@ namespace Server.Service.Ingredients
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey));
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("Session Key cannot be empty");
             }
 
             if (ingredient.Name == null)
@@ -90,7 +99,7 @@ namespace Server.Service.Ingredients
 
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
-                throw new ArgumentException("Session key must exist in the system.");
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
             }
 
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
@@ -114,7 +123,11 @@ namespace Server.Service.Ingredients
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey));
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("Session Key cannot be empty");
             }
 
             if (ingredient.Name == null)
@@ -124,11 +137,10 @@ namespace Server.Service.Ingredients
 
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
-                throw new ArgumentException("Session key must exist in the system.");
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
             }
-
-            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
-                          throw new ArgumentException("User must exist in the system.");
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ?? 
+                          throw new UnauthorizedAccessException("User must exist in the system.");
 
             if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
             {
@@ -148,12 +160,17 @@ namespace Server.Service.Ingredients
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey));
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("The session key cannot be empty");
             }
 
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
-                throw new ArgumentException("Session key must exist in the system.");
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
@@ -178,12 +195,17 @@ namespace Server.Service.Ingredients
         {
             if (sessionKey == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey));
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("Session key cannot be empty");
             }
 
             if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
             {
-                throw new ArgumentException("Session key must exist in the system.");
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
             }
 
             int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??

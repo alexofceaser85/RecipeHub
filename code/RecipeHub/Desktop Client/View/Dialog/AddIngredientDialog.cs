@@ -1,6 +1,8 @@
 ﻿using Desktop_Client.ViewModel.Ingredients;
 using System.Text;
 using Shared_Resources.Model.Ingredients;
+using System.IO;
+using System;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -11,6 +13,11 @@ namespace Desktop_Client.View.Dialog
     public partial class AddIngredientDialog : Form
     {
         private readonly AddIngredientsViewModel viewModel;
+
+        /// <summary>
+        /// The error occured event handler
+        /// </summary>
+        public EventHandler<ErrorEventArgs> ErrorOccurred;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddIngredientDialog"/> class.<br />
@@ -27,11 +34,18 @@ namespace Desktop_Client.View.Dialog
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
-            this.viewModel.AddIngredient(new Ingredient(this.nameComboBox.Text,
-                int.Parse(this.amountTextBox.Text), (MeasurementType) this.measurementComboBox.SelectedValue!));
-            this.Close();
-            this.Dispose();
-            this.DialogResult = DialogResult.OK;
+            try
+            {
+                this.viewModel.AddIngredient(new Ingredient(this.nameComboBox.Text,
+                    int.Parse(this.amountTextBox.Text), (MeasurementType)this.measurementComboBox.SelectedValue!));
+                this.Close();
+                this.Dispose();
+                this.DialogResult = DialogResult.OK;
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)

@@ -6,6 +6,10 @@
     public static class ServerUsersServiceErrorMessages
     {
         /// <summary>
+        /// The previous session key cannot be null error message
+        /// </summary>
+        public const string PreviousSessionKeyCannotBeNull = "The previous session key cannot be null";
+        /// <summary>
         /// The previous session key cannot be empty error message
         /// </summary>
         public const string PreviousSessionKeyCannotBeEmpty = "The previous session key cannot be empty";
@@ -25,6 +29,10 @@
         /// The data access layer cannot be null error message
         /// </summary>
         public const string DataAccessLayerCannotBeNull = "The data access layer cannot be null";
+        /// <summary>
+        /// The session key cannot be expired error message
+        /// </summary>
+        public const string SessionKeyCannotBeExpired = "Session Expired Returning to Login Screen";
     }
 
     /// <summary>

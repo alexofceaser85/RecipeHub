@@ -17,6 +17,13 @@ namespace Server.DAL.Users
         public void CreateAccount(NewAccount accountToCreate);
 
         /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys();
+
+        /// <summary>
         /// Verifies the user name does not exist.
         ///
         /// Precondition: None
@@ -64,7 +71,8 @@ namespace Server.DAL.Users
         /// </summary>
         /// <param name="userId">The user identifier.</param>
         /// <param name="sessionKey">The session key.</param>
-        public void AddUserSession(int userId, string sessionKey);
+        /// <param name="lastUserSession">The time of the last user session</param>
+        public void AddUserSession(int userId, string sessionKey, DateTime lastUserSession);
 
         /// <summary>
         /// Gets the user information.

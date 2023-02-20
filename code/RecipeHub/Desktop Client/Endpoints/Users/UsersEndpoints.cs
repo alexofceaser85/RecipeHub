@@ -15,6 +15,7 @@ namespace Desktop_Client.Endpoints.Users
         private const string LogoutUserServerMethodName = "LogoutUser";
         private const string GetUserServerMethodName = "GetUserInfo";
         private const string CreateAccountServerMethodName = "CreateAccount";
+        private const string RefreshSessionKeyMethodName = "RefreshKey";
 
         private const string UserInfoJsonElementName = "userInfo";
         private const string UserNameJsonElementName = "userName";
@@ -107,6 +108,25 @@ namespace Desktop_Client.Endpoints.Users
             var serverMethodParameters = $"?sessionKey={sessionKey}";
             var requestUri = $"{ServerSettings.ServerUri}{LogoutUserServerMethodName}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
+            var requestContent = JsonUtils.VerifyAndGetRequestInfo(json);
+            return requestContent;
+        }
+
+        /// <summary>
+        /// Refreshes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key.</param>
+        /// <returns>
+        /// The refreshed session key
+        /// </returns>
+        public string RefreshSessionKey(string previousSessionKey)
+        {
+            var serverMethodParameters = $"?previousSessionKey={previousSessionKey}";
+            var requestUri = $"{ServerSettings.ServerUri}{RefreshSessionKeyMethodName}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             var requestContent = JsonUtils.VerifyAndGetRequestInfo(json);
             return requestContent;
         }

@@ -17,6 +17,7 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
             var recipesService = new Mock<IIngredientsService>();
 
             recipesService.Setup(mock => mock.AddIngredientToPantry(ingredient, sessionKey)).Returns(true);
+            recipesService.Setup(mock => mock.AddIngredientToPantry(ingredient, sessionKey)).Returns(true);
             var controller = new IngredientsController(recipesService.Object);
 
             var result = controller.AddIngredientToPantry(ingredient.Name, (int) ingredient.MeasurementType,

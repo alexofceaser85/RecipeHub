@@ -60,6 +60,10 @@ namespace Server.Controllers.Ingredients
                     this.service.AddIngredientToPantry(new Ingredient(name, amount, (MeasurementType)measurementType),
                         sessionKey));
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
             catch (Exception ex)
             {
                 return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
@@ -88,6 +92,10 @@ namespace Server.Controllers.Ingredients
                     this.service.RemoveIngredientFromPantry(
                         new Ingredient(name, amount, (MeasurementType)measurementType),
                         sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
             }
             catch (Exception ex)
             {
@@ -118,6 +126,10 @@ namespace Server.Controllers.Ingredients
                         new Ingredient(name, amount, (MeasurementType)measurementType),
                         sessionKey));
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
             catch (Exception ex)
             {
                 return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
@@ -140,6 +152,10 @@ namespace Server.Controllers.Ingredients
             {
                 return new FlagResponseModel(HttpStatusCode.OK, "Pantry successfully cleared.",
                     this.service.RemoveAllIngredientsFromPantry(sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
             }
             catch (Exception ex)
             {
@@ -164,6 +180,10 @@ namespace Server.Controllers.Ingredients
                 return new PantryResponseModel(HttpStatusCode.OK, "Ingredients successfully retrieved.",
                     this.service.GetIngredientsFor(sessionKey).ToArray());
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new PantryResponseModel(HttpStatusCode.Unauthorized, ex.Message, null);
+            }
             catch (Exception ex)
             {
                 return new PantryResponseModel(HttpStatusCode.InternalServerError, ex.Message, null);
@@ -186,6 +206,10 @@ namespace Server.Controllers.Ingredients
             {
                 return new SuggestionResponseModel(HttpStatusCode.OK, "Suggestions successfully retrieved.",
                     this.service.GetAllIngredientsThatMatch(text));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new SuggestionResponseModel(HttpStatusCode.Unauthorized, ex.Message, new List<string>());
             }
             catch (Exception ex)
             {

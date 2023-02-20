@@ -5,6 +5,7 @@ using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
 using Shared_Resources.Utils.Validation;
+using System.Security.Cryptography;
 using Web_Client.Endpoints.Users;
 
 namespace Web_Client.Service.Users
@@ -137,6 +138,23 @@ namespace Web_Client.Service.Users
             }
             this.endpoints.Logout(Session.Key);
             Session.Key = null;
+        }
+
+        /// <summary>
+        /// Refreshes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: Session key equals the refreshed key
+        /// </summary>
+        public void RefreshSessionKey()
+        {
+            var previousSessionKey = Session.Key;
+
+            if (previousSessionKey != null)
+            {
+                var newSessionKey = this.endpoints.RefreshSessionKey(previousSessionKey);
+                Session.Key = newSessionKey;
+            }
         }
 
         /// <summary>
