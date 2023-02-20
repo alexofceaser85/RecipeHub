@@ -12,7 +12,11 @@
         /// <summary>
         /// The session time out length in minutes
         /// </summary>
-        public static double SessionTimeOutLengthInMinutes = -1;
+        public static double SessionTimeOutLengthInMinutes = -5;
+        /// <summary>
+        /// The removed time out session keys thread interval
+        /// </summary>
+        public static int RemovedTimeOutSessionKeysThreadInterval = 60000;
     }
 
     /// <summary>

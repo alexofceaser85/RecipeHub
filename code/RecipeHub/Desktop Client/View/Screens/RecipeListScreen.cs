@@ -24,7 +24,7 @@ namespace Desktop_Client.View.Screens
             this.InitializeComponent();
 
             this.viewmodel = new RecipesListViewModel();
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
+            this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
         }
 
         private void PopulateRecipeList(IEnumerable<Recipe> recipes)

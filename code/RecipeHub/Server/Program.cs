@@ -1,3 +1,4 @@
+using Server.Data.Settings;
 using Server.Service.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +31,7 @@ var thread = new Thread(() =>
     while (true)
     {
         usersService.RemoveTimedOutSessionKeys();
+        Thread.Sleep(ServerSettings.RemovedTimeOutSessionKeysThreadInterval);
     }
 });
 

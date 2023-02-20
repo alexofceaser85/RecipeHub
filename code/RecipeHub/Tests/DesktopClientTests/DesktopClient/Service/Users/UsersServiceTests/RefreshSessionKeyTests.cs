@@ -3,7 +3,7 @@ using Desktop_Client.Service.Users;
 using Moq;
 using Shared_Resources.Data.UserData;
 
-namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
 {
     public class RefreshSessionKeyTests
     {
