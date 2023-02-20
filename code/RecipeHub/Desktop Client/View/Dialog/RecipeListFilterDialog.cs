@@ -1,4 +1,6 @@
-﻿using Desktop_Client.Model;
+﻿using System.Collections.Specialized;
+using Desktop_Client.Model;
+using Desktop_Client.ViewModel.RecipeTypes;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -7,6 +9,7 @@ namespace Desktop_Client.View.Dialog
     /// </summary>
     public partial class RecipeListFilterDialog : Form
     {
+        private AutoCompleteStringCollection suggestionList;
         private RecipeFilters filters;
 
         /// <summary>
@@ -29,7 +32,19 @@ namespace Desktop_Client.View.Dialog
         {
             this.InitializeComponent();
             this.filters = filters;
+
+            var viewModel = new RecipeTypesViewModel();
+
             this.ApplyFilterToControls();
+
+            AutoCompleteStringCollection suggestions = new AutoCompleteStringCollection();
+
+            suggestions.AddRange(viewModel.GetSimilarRecipeTypes());
+
+            this.tagsTextInput.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            this.tagsTextInput.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            this.tagsTextInput.AutoCompleteCustomSource = suggestions;
+            this.tagsTextInput.Focus();
         }
 
         private void ApplyFilterToControls()
@@ -52,6 +67,14 @@ namespace Desktop_Client.View.Dialog
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void tagsTextInput_TextChanged(object sender, EventArgs e)
+        {
+            if (this.tagsTextInput.Text.Trim().Length == 0)
+            {
+                return;
+            }
         }
     }
 }
