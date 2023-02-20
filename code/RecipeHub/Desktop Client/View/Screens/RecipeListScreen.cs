@@ -95,7 +95,7 @@ namespace Desktop_Client.View.Screens
             try
             {
                 this.viewmodel.OpenFiltersDialog();
-                this.PopulateRecipeList(this.viewmodel.GetRecipes(Session.Key!));
+                this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
             }
             catch (ArgumentException exception)
             {
