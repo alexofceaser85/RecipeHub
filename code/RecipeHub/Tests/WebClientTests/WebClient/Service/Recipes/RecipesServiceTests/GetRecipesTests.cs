@@ -3,6 +3,7 @@ using Web_Client.Service.Recipes;
 using Moq;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
 {
@@ -20,9 +21,12 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             const string searchTerm = "a";
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
-            recipesEndpoint.Setup(mock => mock.GetRecipes(sessionKey, searchTerm)).Returns(recipes);
+            var usersService = new Mock<UsersService>();
 
-            var service = new RecipesService(recipesEndpoint.Object);
+            recipesEndpoint.Setup(mock => mock.GetRecipes(sessionKey, searchTerm)).Returns(recipes);
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
             var result = service.GetRecipes(sessionKey, searchTerm);
 
             Assert.Multiple(() =>

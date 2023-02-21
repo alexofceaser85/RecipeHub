@@ -3,6 +3,7 @@ using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Web_Client.Endpoints.Recipes;
 using Web_Client.Service.Recipes;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
 {
@@ -18,9 +19,13 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             const int recipeId = 0;
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
-            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId)).Returns(ingredients);
+            var usersService = new Mock<UsersService>();
 
-            var service = new RecipesService(recipesEndpoint.Object);
+            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId)).Returns(ingredients);
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+
             var result = service.GetIngredientsForRecipe(sessionKey, recipeId);
 
             Assert.Multiple(() =>

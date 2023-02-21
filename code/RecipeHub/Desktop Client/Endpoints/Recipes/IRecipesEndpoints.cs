@@ -20,6 +20,15 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <returns>An array containing all visible recipes that match the search term.</returns>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
+        /// <summary>
+        /// Gets all of the recipes with a given type
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>The recipes with a given type</returns>
         public Recipe[] GetRecipesForType(string sessionKey, string type);
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Web_Client.Service.Recipes;
 using Moq;
 using Shared_Resources.ErrorMessages;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
 {
@@ -17,9 +18,11 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             const bool isPublic = true;
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
+            var usersService = new Mock<UsersService>();
             recipesEndpoint.Setup(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            usersService.Setup(mock => mock.RefreshSessionKey());
 
-            var service = new RecipesService(recipesEndpoint.Object);
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
