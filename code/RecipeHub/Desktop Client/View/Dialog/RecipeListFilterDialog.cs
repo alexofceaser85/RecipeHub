@@ -50,6 +50,7 @@ namespace Desktop_Client.View.Dialog
         private void ApplyFilterToControls()
         {
             this.ingredientFilterCheckBox.Checked = this.filters.OnlyAvailableIngredients;
+            this.tagsTextInput.Text = this.filters.MatchTag;
         }
 
         private void ingredientFilterCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -59,6 +60,7 @@ namespace Desktop_Client.View.Dialog
 
         private void submitButton_Click(object sender, EventArgs e)
         {
+            this.filters.MatchTag = this.tagsTextInput.Text;
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -71,7 +73,7 @@ namespace Desktop_Client.View.Dialog
 
         private void tagsTextInput_TextChanged(object sender, EventArgs e)
         {
-            if (this.tagsTextInput.Text.Trim().Length == 0)
+            if (this.tagsTextInput.Text.Trim().Length > 0)
             {
                 return;
             }

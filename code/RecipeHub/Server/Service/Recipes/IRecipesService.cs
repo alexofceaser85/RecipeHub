@@ -23,6 +23,14 @@ namespace Server.Service.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
         /// <summary>
+        /// Gets the recipes given a recipe type
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="typeName">Name of the type.</param>
+        /// <returns>The recipes for a given recipe type</returns>
+        public Recipe[] GetRecipesForType(string sessionKey, string typeName);
+
+        /// <summary>
         /// Gets the recipe information for a specified recipe, if the user can view it.<br/>
         /// <br/>
         /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>

@@ -69,6 +69,26 @@ namespace Server.Controllers.Recipes
             }
         }
 
+        [HttpGet]
+        [Route("RecipesForType")]
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string type)
+        {
+            try
+            {
+                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipesForType(sessionKey, type));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Recipe>());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Recipe>());
+            }
+        }
+
         /// <summary>
         /// Gets the ingredients for a specified recipe, if the recipe exists and is visible to the user.<br/>
         /// <br/>
