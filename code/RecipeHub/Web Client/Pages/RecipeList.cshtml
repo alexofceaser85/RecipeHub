@@ -3,21 +3,9 @@
 @using Shared_Resources.Model.Recipes
 @using Web_Client.ViewModel.Recipes
 @using Desktop_Client.ViewModel.RecipeTypes
+@model Web_Client.Pages.RecipesListModel
 @{
-    Recipe[] recipes = new Recipe[0]!;
-    try
-    {
-        var ViewModel = new RecipesListViewModel();
-        recipes = ViewModel.GetRecipes(Session.Key!);
-    }             
-    catch (UnauthorizedAccessException exception)
-    {
-        TempData["Message"] = exception.Message;
-        Response.Redirect("/Index");
-    }
 
-    var recipeTagsViewModel = new RecipeTypesViewModel();
-    var recipeTypes = recipeTagsViewModel.GetSimilarRecipeTypes();
 
 <div id="recipe-list-wrapper">
     <div id="recipe-list-header">
@@ -28,28 +16,32 @@
     <div id="recipe-list-body">
         <div id="recipe-filters">
             <div class="text-white bg-info text-center" id="recipe-filter-header">Filters</div>
-            <div id="recipe-filter-by-tag-container">
-                <h4>Tags:</h4>
-                <div id="recipe-filter-by-type-input-container">
-                    <input type="text" id="recipe-filter-by-type-input" list="recipe-types"/>
-                    <datalist id="recipe-types">
-                        @foreach (var type in recipeTypes)
-                        {
-                            <option value="@type">@type</option>
-                        }
-                    </datalist>
-                </div>
-            </div>
-            <div id="apply-filters-container">
-                <button id="apply-filters-button">Apply Filters</button>
-            </div>
+            <form id="filtersForms" method="post" action="">
+                <fieldset>
+                    <div id="recipe-filter-by-tag-container">
+                        <h4>Tags:</h4>
+                        <div id="recipe-filter-by-type-input-container">
+                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="FiltersTypes" asp-for="BindingModel.FiltersTypes"/>
+                            <datalist id="recipe-types">
+                                @foreach (var type in Model.RecipeTypes)
+                                {
+                                    <option value="@type">@type</option>
+                                }
+                            </datalist>
+                        </div>
+                    </div>
+                    <div id="apply-filters-container">
+                        <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
+                    </div>
+                </fieldset>
+            </form>
         </div>
         <div id="recipe-list-main">
             <div id="recipe-search">
                 <text></text>
             </div>
             <div id="recipe-list">
-                @foreach (var recipe in recipes)
+                @foreach (var recipe in Model.Recipes)
                 {
                     <div class="recipe-list-item">
                         <div>
