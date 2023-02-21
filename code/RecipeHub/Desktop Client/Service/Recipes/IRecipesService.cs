@@ -20,6 +20,14 @@ namespace Desktop_Client.Service.Recipes
         /// <returns>An array containing all visible recipes that match the search term.</returns>
         public Recipe[] GetRecipes(string searchTerm = "");
 
+        /// <summary>
+        /// Gets the recipes for a given type
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="type">The type to get recipes for.</param>
+        /// <returns>The recipes with a given type</returns>
         public Recipe[] GetRecipesForType(string type);
 
         /// <summary>

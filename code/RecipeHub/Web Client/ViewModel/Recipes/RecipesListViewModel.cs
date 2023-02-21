@@ -56,6 +56,8 @@ namespace Web_Client.ViewModel.Recipes
             return this.recipesService.GetRecipes(sessionKey, searchTerm);
         }
 
+
+
         private Recipe[] GetFilteredRecipes(string sessionKey, string searchTerm = "")
         {
             var filteredRecipes = new List<Recipe>();

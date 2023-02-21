@@ -1,7 +1,9 @@
-﻿using Web_Client.Endpoints.Recipes;
+﻿using Shared_Resources.Data.UserData;
+using Web_Client.Endpoints.Recipes;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Users;
 
 namespace Web_Client.Service.Recipes
 {
@@ -9,6 +11,7 @@ namespace Web_Client.Service.Recipes
     public class RecipesService : IRecipesService
     {
         private readonly IRecipesEndpoints endpoints;
+        private readonly IUsersService usersService;
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesService"/>.<br/>
@@ -17,7 +20,7 @@ namespace Web_Client.Service.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesService() : this(new RecipesEndpoints())
+        public RecipesService() : this(new RecipesEndpoints(), new UsersService())
         {
 
         }
@@ -28,10 +31,11 @@ namespace Web_Client.Service.Recipes
         /// <b>Precondition: </b>endpoints != null<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesService(IRecipesEndpoints endpoints)
+        public RecipesService(IRecipesEndpoints endpoints, IUsersService usersService)
         {
             this.endpoints = endpoints ?? 
                              throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull);
+            this.usersService = usersService;
         }
 
         /// <inheritdoc/>
@@ -52,7 +56,15 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentNullException(nameof(searchTerm), RecipesServiceErrorMessages.SearchTermCannotBeNull);
             }
 
+            this.usersService.RefreshSessionKey();
             return this.endpoints.GetRecipes(sessionKey, searchTerm);
+        }
+
+        /// <inheritdoc/>
+        public Recipe[] GetRecipesForType(string type)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipesForType(Session.Key, type);
         }
 
         /// <inheritdoc/>
@@ -68,6 +80,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             return this.endpoints.GetRecipe(sessionKey, recipeId);
         }
 
@@ -84,6 +97,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
         }
 
@@ -100,6 +114,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             return this.endpoints.GetStepsForRecipe(sessionKey, recipeId);
         }
 
@@ -137,6 +152,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             this.endpoints.AddRecipe(sessionKey, name, description, isPublic);
         }
 
@@ -153,6 +169,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             this.endpoints.RemoveRecipe(sessionKey, recipeId);
         }
 
@@ -190,6 +207,7 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
 
+            this.usersService.RefreshSessionKey();
             this.endpoints.EditRecipe(sessionKey, recipeId, name, description, isPublic);
         }
     }

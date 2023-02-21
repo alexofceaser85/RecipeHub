@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 using Shared_Resources.Model.Recipes;
@@ -18,10 +19,12 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             };
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+
             recipesDal.Setup(mock => mock.GetRecipesWithName(0, "a")).Returns(recipes);
             usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns(0);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             var result = service.GetRecipes("0", "a");
 
             usersDal.Verify(mock => mock.GetIdForSessionKey("0"), Times.Once());
@@ -52,9 +55,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+
             usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?) null);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             Assert.Throws<UnauthorizedAccessException>(() => service.GetRecipes("0", ""));
             
         }

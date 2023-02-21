@@ -21,6 +21,17 @@ namespace Web_Client.Endpoints.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
         /// <summary>
+        /// Gets all of the recipes with a given type
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>The recipes with a given type</returns>
+        public Recipe[] GetRecipesForType(string sessionKey, string type);
+
+        /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>
         /// The account associated with the session key must by the author if the recipe is private.<br/>
         /// <br/>
