@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\Settings\UserInterfaceSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorMessages\ErrorMessages.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Filters\RecipeFilters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\RecipeStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\Recipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Ingredients\Ingredient.cs" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Data\IO\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Model\Filters\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Session.txt" />

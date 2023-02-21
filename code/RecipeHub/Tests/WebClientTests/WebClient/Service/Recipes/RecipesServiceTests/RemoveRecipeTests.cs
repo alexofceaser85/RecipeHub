@@ -1,6 +1,7 @@
 ﻿using Web_Client.Endpoints.Recipes;
 using Web_Client.Service.Recipes;
 using Moq;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Web_Client.Service.Users;
 
@@ -11,35 +12,35 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void SuccessfullyRemoveRecipe()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
-            var usersService = new Mock<UsersService>();
+            var usersService = new Mock<IUsersService>();
 
-            recipesEndpoint.Setup(mock => mock.RemoveRecipe(sessionKey, recipeId));
+            recipesEndpoint.Setup(mock => mock.RemoveRecipe(Session.Key, recipeId));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => service.RemoveRecipe(sessionKey, recipeId));
-                recipesEndpoint.Verify(mock => mock.RemoveRecipe(sessionKey, recipeId), Times.Once);
+                Assert.DoesNotThrow(() => service.RemoveRecipe(recipeId));
+                recipesEndpoint.Verify(mock => mock.RemoveRecipe(Session.Key, recipeId), Times.Once);
             });
         }
 
         [Test]
         public void NullSessionKey()
         {
-            const string sessionKey = null!;
+            Session.Key = null;
             const int recipeId = 1;
 
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
-                    new RecipesService().RemoveRecipe(sessionKey!, recipeId))!.Message;
+                    new RecipesService().RemoveRecipe(recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -47,14 +48,14 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
-            const string sessionKey = "";
+            Session.Key = "   ";
             const int recipeId = 1;
 
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(() =>
-                    new RecipesService().RemoveRecipe(sessionKey, recipeId))!.Message;
+                    new RecipesService().RemoveRecipe(recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }

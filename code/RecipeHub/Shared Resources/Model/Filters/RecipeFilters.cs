@@ -3,7 +3,7 @@
     /// <summary>
     /// Stores the current filters for a recipe search.
     /// </summary>
-    public struct RecipeFilters
+    public class RecipeFilters
     {
         /// <summary>
         /// Whether to only search for ingredients that the user has all the ingredients for.

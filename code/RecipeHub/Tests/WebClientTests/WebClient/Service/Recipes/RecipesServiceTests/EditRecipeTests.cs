@@ -1,6 +1,7 @@
 ﻿using Web_Client.Endpoints.Recipes;
 using Web_Client.Service.Recipes;
 using Moq;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Web_Client.Service.Users;
 
@@ -11,23 +12,23 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void SuccessfullyEditRecipe()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
             const string name = "name";
             const string description = "description";
             const bool isPublic = true;
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
-            var usersService = new Mock<UsersService>();
-            recipesEndpoint.Setup(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            var usersService = new Mock<IUsersService>();
+            recipesEndpoint.Setup(mock => mock.EditRecipe(Session.Key, recipeId, name, description, isPublic));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
-                recipesEndpoint.Verify(mock => mock.EditRecipe(sessionKey, recipeId, name, description, isPublic),
+                Assert.DoesNotThrow(() => service.EditRecipe(recipeId, name, description, isPublic));
+                recipesEndpoint.Verify(mock => mock.EditRecipe(Session.Key, recipeId, name, description, isPublic),
                     Times.Once);
             });
         }
@@ -35,17 +36,17 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullSessionKey()
         {
-            const string sessionKey = null!;
+            Session.Key = null!;
             const int recipeId = 1;
             const string name = "name";
             const string description = "description";
             const bool isPublic = true;
 
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'sessionKey')";
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
-                    new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -53,7 +54,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
-            const string sessionKey = "";
+            Session.Key = "";
             const int recipeId = 1;
             const string name = "name";
             const string description = "description";
@@ -63,7 +64,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(() =>
-                    new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -71,7 +72,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullRecipeName()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
             const string name = null!;
             const string description = "description";
@@ -81,7 +82,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
-                    new RecipesService().EditRecipe(sessionKey, recipeId, name!, description, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name!, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -89,7 +90,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptyRecipeName()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
             const string name = "";
             const string description = "description";
@@ -99,7 +100,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(() =>
-                    new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -107,7 +108,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullRecipeDescription()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
             const string name = "name";
             const string description = null!;
@@ -118,7 +119,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
-                    new RecipesService().EditRecipe(sessionKey, recipeId, name, description!, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name, description!, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -126,7 +127,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptyRecipeDescription()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
             const string name = "name";
             const string description = "";
@@ -136,7 +137,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(() =>
-                    new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic))!.Message;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }

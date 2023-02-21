@@ -1,4 +1,5 @@
 ﻿using Moq;
+using Shared_Resources.Data.UserData;
 using Web_Client.Service.Ingredients;
 using Web_Client.Service.Recipes;
 using Web_Client.ViewModel.Recipes;
@@ -10,18 +11,18 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
         [Test]
         public void SuccessfullyRemoveRecipe()
         {
-            const string sessionKey = "Key";
+            Session.Key = "Key";
             const int recipeId = 1;
 
             var service = new Mock<IRecipesService>();
-            service.Setup(mock => mock.RemoveRecipe(sessionKey, recipeId));
+            service.Setup(mock => mock.RemoveRecipe(recipeId));
 
             var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => viewmodel.RemoveRecipe(sessionKey, recipeId));
-                service.Verify(mock => mock.RemoveRecipe(sessionKey, recipeId), Times.Once);
+                Assert.DoesNotThrow(() => viewmodel.RemoveRecipe(recipeId));
+                service.Verify(mock => mock.RemoveRecipe(recipeId), Times.Once);
             });
         }
     }
