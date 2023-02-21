@@ -61,6 +61,12 @@ namespace Desktop_Client.Service.Recipes
             return this.endpoints.GetRecipes(Session.Key, searchTerm);
         }
 
+        public Recipe[] GetRecipesForType(string type)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipesForType(Session.Key, type);
+        }
+
         /// <inheritdoc/>
         public Recipe GetRecipe(int recipeId)
         {

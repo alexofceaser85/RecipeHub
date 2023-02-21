@@ -57,14 +57,29 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <returns></returns>
         public Recipe[] GetRecipes(string searchTerm = "")
         {
+            var allRecipes = this.recipesService.GetRecipes(searchTerm);
+            var filteredRecipes = allRecipes;
+
             if (this.Filters.OnlyAvailableIngredients)
             {
-                return this.getFilteredRecipes(searchTerm);
+                filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
             }
-            return this.recipesService.GetRecipes(searchTerm);
+
+            if (this.Filters.MatchTag != null && this.Filters.MatchTag.Trim().Length > 0)
+            {
+                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTag);
+            }
+
+            return filteredRecipes;
         }
 
-        private Recipe[] getFilteredRecipes(string searchTerm = "")
+        private Recipe[] getRecipesMatchingTag(Recipe[] recipes, string tag)
+        {
+            var recipesMatchingTags = this.recipesService.GetRecipesForType(tag);
+            return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();
+        }
+
+        private Recipe[] getFilteredRecipes(Recipe[] visibleRecipes, string searchTerm = "")
         {
             var filteredRecipes = new List<Recipe>();
             var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
@@ -75,7 +90,6 @@ namespace Desktop_Client.ViewModel.Recipes
                 ingredientsCache[ingredient.Name] = ingredient.Amount;
             }
 
-            var visibleRecipes = this.recipesService.GetRecipes(searchTerm);
             foreach (var recipe in visibleRecipes)
             {
                 var requiredIngredients = this.recipesService.GetIngredientsForRecipe(recipe.Id);
