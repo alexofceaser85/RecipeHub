@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Shared_Resources.Data.Settings;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
@@ -59,9 +60,10 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForType(string sessionKey, string type)
+        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&type={type}";
+            var tagList = string.Join(",", tags);
+            var serverMethodParameters = $"?sessionKey={sessionKey}&tags={tagList}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesForTypeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);

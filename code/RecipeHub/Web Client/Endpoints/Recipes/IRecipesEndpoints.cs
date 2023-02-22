@@ -27,9 +27,9 @@ namespace Web_Client.Endpoints.Recipes
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <param name="type">The type.</param>
+        /// <param name="tags">The tags.</param>
         /// <returns>The recipes with a given type</returns>
-        public Recipe[] GetRecipesForType(string sessionKey, string type);
+        public Recipe[] GetRecipesForType(string sessionKey, string[] tags);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>

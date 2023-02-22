@@ -15,7 +15,7 @@
         /// <value>
         /// The only matching tag.
         /// </value>
-        public string? MatchTag { get; set; }
+        public string[] MatchTags { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipeFilters"/>.<br/>
@@ -26,7 +26,7 @@
         public RecipeFilters()
         {
             this.OnlyAvailableIngredients = false;
-            this.MatchTag = null!;
+            this.MatchTags = null!;
         }
     }
 }

@@ -80,16 +80,22 @@ namespace Server.Service.Recipes
         /// <param name="sessionKey">The session key.</param>
         /// <param name="typeName">Name of the type.</param>
         /// <returns>The recipes with the type name</returns>
-        public Recipe[] GetRecipesForType(string sessionKey, string typeName)
+        public Recipe[] GetRecipesForType(string sessionKey, string tags)
         {
-            var typeId = this.recipeTypesDal.GetTypeIdForTypeName(typeName);
+            var tagsList = tags.Split(",");
+            List<int> typeIds = new List<int>();
 
-            if (typeId == null)
+            foreach (string tag in tagsList)
             {
-                return new Recipe[0];
+                var type = this.recipeTypesDal.GetTypeIdForTypeName(tag);
+
+                if (type != null)
+                {
+                    typeIds.Add(type.Value);
+                }
             }
 
-            var recipeIds = this.recipeTypesDal.GetRecipeIdsForTypeId(typeId.Value);
+            var recipeIds = this.recipeTypesDal.GetRecipeIdsForTypeIds(typeIds.ToArray());
             var recipes = new List<Recipe>();
 
             foreach (var id in recipeIds)

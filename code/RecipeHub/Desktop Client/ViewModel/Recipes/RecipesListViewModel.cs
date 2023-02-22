@@ -65,17 +65,17 @@ namespace Desktop_Client.ViewModel.Recipes
                 filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
             }
 
-            if (this.Filters.MatchTag != null && this.Filters.MatchTag.Trim().Length > 0)
+            if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length != 0)
             {
-                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTag);
+                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags.ToArray());
             }
 
             return filteredRecipes;
         }
 
-        private Recipe[] getRecipesMatchingTag(Recipe[] recipes, string tag)
+        private Recipe[] getRecipesMatchingTags(Recipe[] recipes, string[] tags)
         {
-            var recipesMatchingTags = this.recipesService.GetRecipesForType(tag);
+            var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
             return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();
         }
 
