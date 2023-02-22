@@ -15,7 +15,6 @@ namespace Desktop_Client.Service.Recipes
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(Session.Key) &amp;&amp; searchTerm != null<br/>
         /// <b>Postcondition: </b> None
         /// </summary>
-        /// <param name="sessionKey">The session key for the current user.</param>
         /// <param name="searchTerm">The string to search recipe names for. Default to an empty string.</param>
         /// <returns>An array containing all visible recipes that match the search term.</returns>
         public Recipe[] GetRecipes(string searchTerm = "");
@@ -57,7 +56,6 @@ namespace Desktop_Client.Service.Recipes
         /// <b>Precondition: </b>!string.IsNullOrEmpty(sessionKey)<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="sessionKey">The session key associated with the current user.</param>
         /// <param name="recipeId">The id for the recipe to look up.</param>
         /// <returns>A list of steps for the specified recipe.</returns>
         public RecipeStep[] GetStepsForRecipe(int recipeId);

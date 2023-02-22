@@ -1,6 +1,5 @@
 using Desktop_Client.ViewModel.RecipeTypes;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Recipes;
 using Web_Client.Model.Filters;
 using Web_Client.ViewModel.Recipes;
@@ -13,9 +12,26 @@ namespace Web_Client.Pages
     public class RecipesListModel : PageModel
     {
         private RecipesListViewModel viewModel;
+        /// <summary>
+        /// Gets or sets the recipes.
+        /// </summary>
+        /// <value>
+        /// The recipes.
+        /// </value>
         public Recipe[] Recipes { get; set; }
+        /// <summary>
+        /// Gets or sets the recipe types.
+        /// </summary>
+        /// <value>
+        /// The recipe types.
+        /// </value>
         public string[] RecipeTypes { get; set; }
-
+        /// <summary>
+        /// Gets or sets the binding model.
+        /// </summary>
+        /// <value>
+        /// The binding model.
+        /// </value>
         public FiltersBindingModel BindingModel { get; set; }
 
         /// <summary>
@@ -26,13 +42,13 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipesListModel()
         {
-            Recipes = new Recipe[0];
-            RecipeTypes = new string[0];
+            this.Recipes = new Recipe[0];
+            this.RecipeTypes = new string[0];
+            this.viewModel = new RecipesListViewModel();
 
             try
             {
-                this.viewModel = new RecipesListViewModel();
-                Recipes = this.viewModel.GetRecipes("");
+                this.Recipes = this.viewModel.GetRecipes();
             }
             catch (UnauthorizedAccessException exception)
             {
@@ -43,15 +59,19 @@ namespace Web_Client.Pages
             this.BindingModel = new FiltersBindingModel();
 
             var recipeTagsViewModel = new RecipeTypesViewModel();
-            RecipeTypes = recipeTagsViewModel.GetSimilarRecipeTypes();
+            this.RecipeTypes = recipeTagsViewModel.GetAllRecipeTypes();
         }
 
+        /// <summary>
+        /// Called when [post submit].
+        /// </summary>
+        /// <param name="bindingModel">The binding model.</param>
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
             this.BindingModel = bindingModel;
-            this.viewModel.filters.MatchTag = bindingModel.FiltersTypes;
-            var filteredRecipes = this.viewModel.GetRecipes("");
-            Recipes = filteredRecipes;
+            this.viewModel.Filters.MatchTag = bindingModel.FiltersTypes;
+            var filteredRecipes = this.viewModel.GetRecipes();
+            this.Recipes = filteredRecipes;
         }
     }
 }

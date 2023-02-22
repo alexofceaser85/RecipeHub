@@ -39,7 +39,7 @@ namespace Desktop_Client.View.Dialog
 
             AutoCompleteStringCollection suggestions = new AutoCompleteStringCollection();
 
-            suggestions.AddRange(viewModel.GetSimilarRecipeTypes());
+            suggestions.AddRange(viewModel.GetAllRecipeTypes());
 
             this.tagsTextInput.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             this.tagsTextInput.AutoCompleteSource = AutoCompleteSource.CustomSource;

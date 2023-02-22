@@ -72,5 +72,27 @@ namespace ServerTests.Server.Controllers.Recipes.RecipesControllerTests
                 Assert.That(result.Message, Is.EqualTo(errorMessage));
             });
         }
+
+        [Test]
+        public void ServiceWasUnauthorized()
+        {
+            const string sessionKey = "Key";
+            const int recipeId = 1;
+            const string errorMessage = "This is an error message";
+
+            var recipesService = new Mock<IRecipesService>();
+
+            recipesService.Setup(mock => mock.RemoveRecipe(sessionKey, recipeId)).Throws(new UnauthorizedAccessException(errorMessage));
+            var service = new RecipesController(recipesService.Object);
+
+            var result = service.RemoveRecipe(sessionKey, recipeId);
+
+            Assert.Multiple(() =>
+            {
+                recipesService.Verify(mock => mock.RemoveRecipe(sessionKey, recipeId), Times.Once());
+                Assert.That(result.Code, Is.EqualTo(HttpStatusCode.Unauthorized));
+                Assert.That(result.Message, Is.EqualTo(errorMessage));
+            });
+        }
     }
 }

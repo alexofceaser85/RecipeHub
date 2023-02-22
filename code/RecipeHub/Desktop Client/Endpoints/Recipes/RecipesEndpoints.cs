@@ -58,6 +58,7 @@ namespace Desktop_Client.Endpoints.Recipes
             return recipes!;
         }
 
+        /// <inheritdoc/>
         public Recipe[] GetRecipesForType(string sessionKey, string type)
         {
             var serverMethodParameters = $"?sessionKey={sessionKey}&type={type}";

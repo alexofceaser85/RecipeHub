@@ -15,7 +15,13 @@ namespace Web_Client.ViewModel.Recipes
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
 
-        public RecipeFilters filters { get; set; }
+        /// <summary>
+        /// Gets or sets the Filters.
+        /// </summary>
+        /// <value>
+        /// The Filters.
+        /// </value>
+        public RecipeFilters Filters { get; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
@@ -26,7 +32,7 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
-            this.filters = new RecipeFilters();
+            this.Filters = new RecipeFilters();
         }
 
         /// <summary>
@@ -43,7 +49,7 @@ namespace Web_Client.ViewModel.Recipes
             this.ingredientsService = ingredientsService ??
                                       throw new ArgumentNullException(nameof(ingredientsService),
                                           RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
-            this.filters = new RecipeFilters();
+            this.Filters = new RecipeFilters();
         }
 
         /// <summary>
@@ -59,14 +65,14 @@ namespace Web_Client.ViewModel.Recipes
             var allRecipes = this.recipesService.GetRecipes(searchTerm);
             var filteredRecipes = allRecipes;
 
-            if (this.filters.OnlyAvailableIngredients)
+            if (this.Filters.OnlyAvailableIngredients)
             {
                 filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
             }
 
-            if (this.filters.MatchTag != null && this.filters.MatchTag.Trim().Length > 0)
+            if (this.Filters.MatchTag != null && this.Filters.MatchTag.Trim().Length > 0)
             {
-                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.filters.MatchTag);
+                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTag);
             }
 
             return filteredRecipes;

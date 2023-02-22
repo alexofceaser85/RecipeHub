@@ -12,6 +12,6 @@
         /// Postcondition: None
         /// </summary>
         /// <returns>The similar recipe types</returns>
-        public string[] GetSimilarRecipeTypes();
+        public string[] GetAllRecipeTypes();
     }
 }
