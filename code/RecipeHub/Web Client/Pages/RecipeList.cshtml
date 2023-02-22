@@ -1,8 +1,4 @@
 ﻿@page
-@using Shared_Resources.Data.UserData
-@using Shared_Resources.Model.Recipes
-@using Web_Client.ViewModel.Recipes
-@using Desktop_Client.ViewModel.RecipeTypes
 @model Web_Client.Pages.RecipesListModel
 @{
 
@@ -16,22 +12,25 @@
     <div id="recipe-list-body">
         <div id="recipe-filters">
             <div class="text-white bg-info text-center" id="recipe-filter-header">Filters</div>
-            <form id="filtersForms" method="post" action="">
+                <form id="filtersForms" method="post" asp-page-handler="Submit">
                 <fieldset>
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
                         <div id="recipe-filter-by-type-input-container">
-                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="FiltersTypes" asp-for="BindingModel.FiltersTypes"/>
-                            <datalist id="recipe-types">
+                                <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="FiltersTypes" />
+                            <div id="recipe-types">
                                 @foreach (var type in Model.RecipeTypes)
                                 {
-                                    <option value="@type">@type</option>
+                                    <div id="form-check">
+                                        <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" value="@type" />
+                                        <label for="@type">@type</label>
+                                    </div>
                                 }
-                            </datalist>
+                            </div>
                         </div>
                     </div>
                     <div id="apply-filters-container">
-                        <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
+                            <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
                     </div>
                 </fieldset>
             </form>

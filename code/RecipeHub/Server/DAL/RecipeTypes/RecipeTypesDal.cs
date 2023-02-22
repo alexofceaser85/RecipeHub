@@ -17,12 +17,13 @@ namespace Server.DAL.RecipeTypes
         /// The recipe id
         /// </returns>
         /// <exception cref="System.NotImplementedException"></exception>
-        public int[] GetRecipeIdsForTypeId(int typeId)
+        public int[] GetRecipeIdsForTypeIds(int[] typeIds)
         {
-            var query = "select recipeId from RecipeTypes where typeId = @typeId";
+            string typeIdsList = string.Join(",", typeIds);
+            var query = $"SELECT recipeId FROM RecipeTypes WHERE typeId IN ({typeIdsList}) GROUP BY recipeId HAVING COUNT(DISTINCT typeId) = @typeIdLength;";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@typeId", SqlDbType.Int).Value = typeId;
+            command.Parameters.Add("@typeIdLength", SqlDbType.Int).Value = typeIds.Length;
             connection.Open();
             using var reader = command.ExecuteReader();
             var typeOrdinal = reader.GetOrdinal("recipeId");

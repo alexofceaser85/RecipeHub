@@ -70,15 +70,15 @@ namespace Web_Client.ViewModel.Recipes
                 filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
             }
 
-            if (this.Filters.MatchTag != null && this.Filters.MatchTag.Trim().Length > 0)
+            if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length > 0)
             {
-                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTag);
+                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTags);
             }
 
             return filteredRecipes;
         }
 
-        private Recipe[] getRecipesMatchingTag(Recipe[] recipes, string tag)
+        private Recipe[] getRecipesMatchingTag(Recipe[] recipes, string[] tag)
         {
             var recipesMatchingTags = this.recipesService.GetRecipesForType(tag);
             return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();

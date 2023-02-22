@@ -59,9 +59,10 @@ namespace Web_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForType(string sessionKey, string type)
+        public Recipe[] GetRecipesForType(string sessionKey, string[] tags)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&type={type}";
+            var tagList = string.Join(",", tags);
+            var serverMethodParameters = $"?sessionKey={sessionKey}&tags={tagList}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesForTypeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);

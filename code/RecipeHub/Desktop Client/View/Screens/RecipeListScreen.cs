@@ -92,23 +92,8 @@ namespace Desktop_Client.View.Screens
 
         private void filtersButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                this.viewmodel.OpenFiltersDialog();
-                this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
-            }
-            catch (ArgumentException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
-            }
+            this.viewmodel.OpenFiltersDialog();
+            this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
         }
     }
 }

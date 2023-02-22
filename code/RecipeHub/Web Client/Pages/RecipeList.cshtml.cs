@@ -69,7 +69,7 @@ namespace Web_Client.Pages
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
             this.BindingModel = bindingModel;
-            this.viewModel.Filters.MatchTag = bindingModel.FiltersTypes;
+            this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             var filteredRecipes = this.viewModel.GetRecipes();
             this.Recipes = filteredRecipes;
         }

@@ -76,16 +76,16 @@ namespace Server.Controllers.Recipes
         /// Postconidtion: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <param name="type">The type.</param>
+        /// <param name="tags">The tags.</param>
         /// <returns>The recipe types</returns>
         [HttpGet]
         [Route("RecipesForType")]
-        public RecipeListResponseModel GetRecipesForType(string sessionKey, string type)
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string tags)
         {
             try
             {
                 return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
-                    this.service.GetRecipesForType(sessionKey, type));
+                    this.service.GetRecipesForType(sessionKey, tags));
             }
             catch (UnauthorizedAccessException ex)
             {

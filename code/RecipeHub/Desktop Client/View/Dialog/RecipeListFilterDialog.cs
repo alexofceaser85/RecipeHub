@@ -1,5 +1,4 @@
-﻿using System.Collections.Specialized;
-using Desktop_Client.Model;
+﻿using Desktop_Client.Model;
 using Desktop_Client.ViewModel.RecipeTypes;
 
 namespace Desktop_Client.View.Dialog
@@ -9,8 +8,9 @@ namespace Desktop_Client.View.Dialog
     /// </summary>
     public partial class RecipeListFilterDialog : Form
     {
-        private AutoCompleteStringCollection suggestionList;
         private RecipeFilters filters;
+        private readonly string[] recipeTypes;
+        private readonly Dictionary<string, bool> checkedState;
 
         /// <summary>
         /// The Filters to be applied to the recipe list.
@@ -35,22 +35,27 @@ namespace Desktop_Client.View.Dialog
 
             var viewModel = new RecipeTypesViewModel();
 
-            this.ApplyFilterToControls();
+            this.applyFilterToControls();
 
-            AutoCompleteStringCollection suggestions = new AutoCompleteStringCollection();
+            var suggestions = new AutoCompleteStringCollection();
+            this.checkedState = new Dictionary<string, bool>();
+            
+            this.recipeTypes = viewModel.GetAllRecipeTypes();
 
-            suggestions.AddRange(viewModel.GetAllRecipeTypes());
+            foreach (var item in this.recipeTypes)
+            {
+                this.checkedState[item] = false;
+            }
 
-            this.tagsTextInput.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            this.tagsTextInput.AutoCompleteSource = AutoCompleteSource.CustomSource;
+            this.checkedListBox1.Items.AddRange(this.recipeTypes);
+
             this.tagsTextInput.AutoCompleteCustomSource = suggestions;
             this.tagsTextInput.Focus();
         }
 
-        private void ApplyFilterToControls()
+        private void applyFilterToControls()
         {
             this.ingredientFilterCheckBox.Checked = this.filters.OnlyAvailableIngredients;
-            this.tagsTextInput.Text = this.filters.MatchTag;
         }
 
         private void ingredientFilterCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -60,7 +65,7 @@ namespace Desktop_Client.View.Dialog
 
         private void submitButton_Click(object sender, EventArgs e)
         {
-            this.filters.MatchTag = this.tagsTextInput.Text;
+            this.filters.MatchTags = this.checkedListBox1.CheckedItems.OfType<object>().Select(item => item.ToString()).ToArray();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -73,9 +78,44 @@ namespace Desktop_Client.View.Dialog
 
         private void tagsTextInput_TextChanged(object sender, EventArgs e)
         {
-            if (this.tagsTextInput.Text.Trim().Length > 0)
+            // Clear the CheckedListBox and add the new items
+            var checkboxItems = new List<string>();
+            var searchText = this.tagsTextInput.Text;
+            for (int i = 0; i < this.recipeTypes.Length; i++)
             {
-                return;
+                string itemText = this.recipeTypes[i];
+                bool match = itemText.Contains(searchText);
+
+                if (match)
+                {
+                    checkboxItems.Add(itemText);
+                }
+            }
+
+            this.checkedListBox1.Items.Clear();
+            this.checkedListBox1.Items.AddRange(checkboxItems.ToArray());
+
+
+            var checkedListBoxItems = this.checkedListBox1.Items.OfType<object>().ToArray();
+            // Set the checked state of each item based on the dictionary
+            foreach (var item in checkedListBoxItems)
+            {
+                if (this.checkedState.TryGetValue(item.ToString(), out bool isChecked))
+                {
+                    this.checkedListBox1.SetItemChecked(this.checkedListBox1.Items.IndexOf(item), isChecked);
+                }
+            }
+
+            this.checkedListBox1.Refresh();
+        }
+
+        private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            var itemText = this.checkedListBox1.Items[e.Index].ToString();
+
+            if (itemText != null)
+            {
+                this.checkedState[itemText] = e.NewValue == CheckState.Checked;
             }
         }
     }

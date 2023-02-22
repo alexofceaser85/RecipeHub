@@ -22,10 +22,10 @@
         public int? GetTypeIdForTypeName(string typeName);
 
         /// <summary>
-        /// Gets the recipe identifier for type identifier.
+        /// Gets the recipe identifier for type identifiers.
         /// </summary>
-        /// <param name="typeId">The type identifier.</param>
+        /// <param name="typeIds">The type identifiers.</param>
         /// <returns>The recipe id</returns>
-        public int[] GetRecipeIdsForTypeId(int typeId);
+        public int[] GetRecipeIdsForTypeIds(int[] typeIds);
     }
 }

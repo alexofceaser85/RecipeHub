@@ -60,7 +60,7 @@ namespace Web_Client.Service.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForType(string type)
+        public Recipe[] GetRecipesForType(string[] tags)
         {
             if (Session.Key == null)
             {
@@ -73,7 +73,7 @@ namespace Web_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetRecipesForType(Session.Key, type);
+            return this.endpoints.GetRecipesForType(Session.Key, tags);
         }
 
         /// <inheritdoc/>

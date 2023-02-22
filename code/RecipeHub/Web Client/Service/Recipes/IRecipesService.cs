@@ -27,7 +27,7 @@ namespace Web_Client.Service.Recipes
         /// </summary>
         /// <param name="type">The type to get recipes for.</param>
         /// <returns>The recipes with a given type</returns>
-        public Recipe[] GetRecipesForType(string type);
+        public Recipe[] GetRecipesForType(string[] type);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>
