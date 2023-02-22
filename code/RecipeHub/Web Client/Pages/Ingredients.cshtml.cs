@@ -47,7 +47,7 @@ namespace Web_Client.Pages
             this.AddedIngredient.MeasurementType = (MeasurementType) int.Parse(Request.Form["measurement"]!);
             this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount,
                 this.AddedIngredient.MeasurementType));
-            return this.Page();
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace Web_Client.Pages
         /// <b>Postcondition: </b>None
         /// </summary>
         /// <returns>The page</returns>
-        public IActionResult OnPostDeleteIngredient()
+        public IActionResult OnPostDeleteIngredientAsync()
         {
-            var name = Request.Form["Name"];
+            var name = Request.Form["Name"][0]!;
             this.viewModel.RemoveIngredient(new Ingredient(name!, 0, MeasurementType.Quantity));
-            return this.Page();
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
@@ -71,12 +71,12 @@ namespace Web_Client.Pages
         /// <b>Postcondition: </b>None
         /// </summary>
         /// <returns>The page</returns>
-        public IActionResult OnPostUpdateIngredient()
+        public IActionResult OnPostUpdateIngredientAsync()
         {
-            var name = Request.Form["Name"];
+            var name = Request.Form["Name"][0]!;
             var amount = int.Parse(Request.Form["Amount"]!);
             this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
-            return this.Page();
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Web_Client.Pages
         public IActionResult OnPostDeleteAllIngredients()
         {
             this.viewModel.RemoveAllIngredients();
-            return this.Page();
+            return RedirectToPage("Ingredients");
         }
     }
 }

@@ -32,10 +32,10 @@
                     <h1 class="modal-title fs-5" id="edit-modal-label">Edit Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" asp-page-handler="UpdateIngredient">
+                <form id="update-ingredient-form" method="post" asp-page-handler="UpdateIngredient">
                     <div class="modal-body">
-                        <input name="Name" id="edit-ingredient-text" type="text" hidden/>
-                        <input name="Amount" type="number" id="edit-amount-button" placeholder="Enter your desired amount"/>
+                        <input type="text" name="Name" hidden id="edit-ingredient-text"/>
+                        <input name="Amount" type="number" id="edit-amount-number" placeholder="Enter your desired amount"/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        <button id="remove-ingredient-button" type="button" class="btn btn-primary">Yes</button>
+                        <button id="remove-ingredient-button" type="submit" class="btn btn-primary">Yes</button>
                     </div>
                 </form>
             </div>
@@ -86,7 +86,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -117,9 +116,9 @@
 {
     <script type="text/javascript">
             $(".ingredient-edit-button").click(function () {
-                $("edit-ingredient-text").val($(this).data('ingredient-name'));
+                $("#edit-ingredient-text").val($(this).data('ingredient-name'));
             });
-
+            
             $(".ingredient-delete-button").click(function () {
                 $("#remove-ingredient-text").val($(this).data('ingredient-name'));
             });
