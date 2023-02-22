@@ -1,8 +1,6 @@
 ﻿using Desktop_Client.ViewModel.Ingredients;
 using System.Text;
 using Shared_Resources.Model.Ingredients;
-using System.IO;
-using System;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -15,9 +13,9 @@ namespace Desktop_Client.View.Dialog
         private readonly AddIngredientsViewModel viewModel;
 
         /// <summary>
-        /// The error occured event handler
+        /// The error occurred event handler
         /// </summary>
-        public EventHandler<ErrorEventArgs> ErrorOccurred;
+        public EventHandler<ErrorEventArgs>? ErrorOccurred;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddIngredientDialog"/> class.<br />
@@ -30,13 +28,14 @@ namespace Desktop_Client.View.Dialog
             this.InitializeComponent();
             this.viewModel = new AddIngredientsViewModel();
             this.measurementComboBox.DataSource = Enum.GetValues(typeof(MeasurementType));
+            this.nameTextBox.Values = this.viewModel.GetSuggestions("");
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
             try
             {
-                this.viewModel.AddIngredient(new Ingredient(this.nameComboBox.Text,
+                this.viewModel.AddIngredient(new Ingredient(this.nameTextBox.Text,
                     int.Parse(this.amountTextBox.Text), (MeasurementType)this.measurementComboBox.SelectedValue!));
                 this.Close();
                 this.Dispose();
@@ -46,19 +45,6 @@ namespace Desktop_Client.View.Dialog
             {
                 this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
             }
-        }
-
-        private void cancelButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
-            this.Dispose();
-            this.DialogResult = DialogResult.Cancel;
-        }
-
-        private void nameComboBox_TextChanged(object sender, EventArgs e)
-        {
-            //var suggestions = this.viewModel.GetSuggestions(this.nameComboBox.Text);
-            //this.nameComboBox.DataSource = suggestions;
         }
 
         private void amountTextBox_TextChanged(object sender, EventArgs e)
@@ -87,9 +73,13 @@ namespace Desktop_Client.View.Dialog
             {
                 sb.Append(text.Dequeue());
             }
+        }
 
-            this.amountTextBox.Text = sb.ToString();
-            this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            this.Dispose();
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
