@@ -80,8 +80,14 @@ namespace Server.Service.Recipes
         /// <param name="sessionKey">The session key.</param>
         /// <param name="typeName">Name of the type.</param>
         /// <returns>The recipes with the type name</returns>
-        public Recipe[] GetRecipesForType(string sessionKey, string tags)
+        public Recipe[] GetRecipesForType(string sessionKey, string? tags)
         {
+            if (tags == null)
+            {
+                //TODO Intergrate with search term
+                return this.GetRecipes(sessionKey, "");
+            }
+
             var tagsList = tags.Split(",");
             List<int> typeIds = new List<int>();
 

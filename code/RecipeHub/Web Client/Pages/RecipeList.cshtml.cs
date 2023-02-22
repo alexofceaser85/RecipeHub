@@ -1,4 +1,6 @@
+using System.Globalization;
 using Desktop_Client.ViewModel.RecipeTypes;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Recipes;
 using Web_Client.Model.Filters;
@@ -72,6 +74,10 @@ namespace Web_Client.Pages
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             var filteredRecipes = this.viewModel.GetRecipes();
             this.Recipes = filteredRecipes;
+
+            ModelState.Clear();
+            ModelState.SetModelValue("BindingModel.FiltersTypes",
+                new ValueProviderResult(bindingModel.FiltersTypes.ToArray()));
         }
     }
 }

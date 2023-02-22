@@ -80,7 +80,7 @@ namespace Server.Controllers.Recipes
         /// <returns>The recipe types</returns>
         [HttpGet]
         [Route("RecipesForType")]
-        public RecipeListResponseModel GetRecipesForType(string sessionKey, string tags)
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string? tags)
         {
             try
             {
