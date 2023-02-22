@@ -3,15 +3,13 @@
 @using Shared_Resources.Utils.Units
 @model Web_Client.Pages.IngredientsModel
 @{
-    var ViewModel = new IngredientsViewModel();
-    var Ingredients = ViewModel.GetAllIngredientsForUser();
     <h1>Ingredients</h1>
     <div>
         <p>Use this page to add ingredients to your recipes.</p>
         <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
     </div>
 
-    @foreach (var ingredient in Ingredients)
+    @foreach (var ingredient in Model.Ingredients)
     {
         <div class="ingredient">
             <div class="ingredient-name">
@@ -76,15 +74,16 @@
                     <h1 class="modal-title fs-5" id="remove-all-modal-label">Remove All</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" asp-page-handler="DeleteAllIngredients">
+                
                     <div class="modal-body">
                         <p>Are you sure you want to remove this ingredient?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-                        <button type="submit" id="remove-all-button" type="button" class="btn btn-primary">Yes</button>
+                        <form method="post" asp-page-handler="DeleteAllIngredients">
+                            <button type="submit" id="remove-all-button" type="button" class="btn btn-primary">Yes</button>
+                        </form>
                     </div>
-                </form>
             </div>
         </div>
     </div>

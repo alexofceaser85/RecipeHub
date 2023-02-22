@@ -19,6 +19,8 @@ namespace Web_Client.Pages
         [BindProperty]
         public IngredientBindingModel? AddedIngredient { get; set; }
 
+        public IList<Ingredient> Ingredients { get; set; }
+
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsModel"/>.<br/>
         /// <br/>
@@ -28,6 +30,7 @@ namespace Web_Client.Pages
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
+            this.Ingredients = this.viewModel.GetAllIngredientsForUser();
         }
 
         /// <summary>
