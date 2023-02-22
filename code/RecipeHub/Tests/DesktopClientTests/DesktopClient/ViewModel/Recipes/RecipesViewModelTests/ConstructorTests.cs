@@ -1,5 +1,4 @@
-﻿using Desktop_Client.Service.Ingredients;
-using Desktop_Client.Service.Recipes;
+﻿using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.Recipes;
 
 namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTests
@@ -41,7 +40,12 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
         [Test]
         public void NullServiceThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => _ = new RecipeViewModel(null!));
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<ArgumentNullException>(
+                    () => _ = new RecipeViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo("The recipes service cannot be null (Parameter 'service')"));
+            });
         }
     }
 }
