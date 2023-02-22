@@ -6,6 +6,7 @@ using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Users;
 using Shared_Resources.Utils.Hashing;
 using Shared_Resources.Utils.Validation;
+using System.Security.Cryptography;
 
 namespace Desktop_Client.Service.Users
 {
@@ -27,6 +28,24 @@ namespace Desktop_Client.Service.Users
         public UsersService()
         {
             this.endpoints = new UsersEndpoints();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersService"/> class.
+        ///
+        /// Precondition: usersEndpoints != null
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="usersEndpoints">The users endpoints.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
+        public UsersService(IUsersEndpoints usersEndpoints)
+        {
+            if (usersEndpoints == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsersEndpointsCannotBeNull);
+            }
+
+            this.endpoints = usersEndpoints;
         }
 
         /// <summary>
@@ -52,21 +71,20 @@ namespace Desktop_Client.Service.Users
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UsersService"/> class.
+        /// Refreshes the session key.
         ///
-        /// Precondition: usersEndpoints != null
-        /// Postcondition: None
+        /// Precondition: None
+        /// Postcondition: Session key equals the refreshed key
         /// </summary>
-        /// <param name="usersEndpoints">The users endpoints.</param>
-        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
-        public UsersService(IUsersEndpoints usersEndpoints)
+        public void RefreshSessionKey()
         {
-            if (usersEndpoints == null)
-            {
-                throw new ArgumentException(UsersServiceErrorMessages.UsersEndpointsCannotBeNull);
-            }
+            var previousSessionKey = Session.Key;
 
-            this.endpoints = usersEndpoints;
+            if (previousSessionKey != null)
+            {
+                var newSessionKey = this.endpoints.RefreshSessionKey(previousSessionKey);
+                Session.Key = newSessionKey;
+            }
         }
 
         /// <summary>
@@ -113,6 +131,15 @@ namespace Desktop_Client.Service.Users
             if (SessionKeySettings.SaveSessionFilePath.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeEmpty);
+            }
+            
+            byte[] key = new byte[32];
+            byte[] iv = new byte[16];
+
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(key);
+                rng.GetBytes(iv);
             }
 
             this.SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;

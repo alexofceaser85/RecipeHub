@@ -36,7 +36,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = null!;
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<UnauthorizedAccessException>(() => 
                 new IngredientsService().GetIngredientsFor(sessionKey!));
         }
 
@@ -44,7 +44,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         public void EmptySessionKey()
         {
             const string sessionKey = "";
-            Assert.Throws<ArgumentException>(() => new IngredientsService().GetIngredientsFor(sessionKey));
+            Assert.Throws<UnauthorizedAccessException>(() => new IngredientsService().GetIngredientsFor(sessionKey));
         }
 
         [Test]

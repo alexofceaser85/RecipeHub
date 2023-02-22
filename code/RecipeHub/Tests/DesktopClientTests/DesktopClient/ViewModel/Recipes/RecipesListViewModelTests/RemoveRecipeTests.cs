@@ -14,14 +14,14 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             const int recipeId = 1;
 
             var service = new Mock<IRecipesService>();
-            service.Setup(mock => mock.RemoveRecipe(sessionKey, recipeId));
+            service.Setup(mock => mock.RemoveRecipe(recipeId));
 
             var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => viewmodel.RemoveRecipe(sessionKey, recipeId));
-                service.Verify(mock => mock.RemoveRecipe(sessionKey, recipeId), Times.Once);
+                Assert.DoesNotThrow(() => viewmodel.RemoveRecipe(recipeId));
+                service.Verify(mock => mock.RemoveRecipe(recipeId), Times.Once);
             });
         }
     }

@@ -51,10 +51,7 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
-        /// Sends a request to remove a selected ingredient, returning the page model afterwards.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>None
+        /// Called when [post delete ingredient].
         /// </summary>
         /// <returns>The page</returns>
         public IActionResult OnPostDeleteIngredientAsync()

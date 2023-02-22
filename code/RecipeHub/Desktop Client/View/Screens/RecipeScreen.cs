@@ -28,7 +28,7 @@ namespace Desktop_Client.View.Screens
 
         private void LoadRecipe(int recipeId)
         {
-            var recipe = this.viewModel.LoadRecipe(Session.Key!, recipeId);
+            var recipe = this.viewModel.LoadRecipe(recipeId);
             this.recipieNameLabel.Text = recipe.Name;
             this.authorNameLabel.Text = recipe.AuthorName;
             this.userRatingLabel.Text = @$"User Ratings: {recipe.Rating}/5";
@@ -37,7 +37,7 @@ namespace Desktop_Client.View.Screens
 
         private void LoadIngredients(int recipeId)
         {
-            var ingredients = this.viewModel.LoadIngredients(Session.Key!, recipeId);
+            var ingredients = this.viewModel.LoadIngredients(recipeId);
             if (ingredients.Length == 0)
             {
                 this.ingredientsListLabel.Text = @"No ingredients have been added... Yet!";
@@ -53,7 +53,7 @@ namespace Desktop_Client.View.Screens
 
         private void LoadInstructions(int recipeId)
         {
-            var steps = this.viewModel.LoadSteps(Session.Key!, recipeId);
+            var steps = this.viewModel.LoadSteps(recipeId);
             if (steps.Length == 0)
             {
                 this.stepsLabel.Text = @"No steps have been added... Yet!";

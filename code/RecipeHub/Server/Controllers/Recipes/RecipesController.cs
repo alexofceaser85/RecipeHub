@@ -59,6 +59,10 @@ namespace Server.Controllers.Recipes
                 return new RecipeResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipe(sessionKey, recipeId));
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeResponseModel(HttpStatusCode.Unauthorized, ex.Message, null!);
+            }
             catch (Exception ex)
             {
                 return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, new Recipe());
@@ -83,6 +87,10 @@ namespace Server.Controllers.Recipes
                 return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
                     ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipeIngredients(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Ingredient>());
             }
             catch (Exception ex)
             {
@@ -109,6 +117,10 @@ namespace Server.Controllers.Recipes
                 return new RecipeStepsResponseModel(HttpStatusCode.OK,
                     ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipeSteps(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<RecipeStep>());
             }
             catch (Exception ex)
             {
@@ -143,6 +155,10 @@ namespace Server.Controllers.Recipes
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToAdd);
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
             catch (Exception ex)
             {
                 return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
@@ -173,6 +189,10 @@ namespace Server.Controllers.Recipes
 
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToRemove);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
             }
             catch (Exception ex)
             {
@@ -209,6 +229,10 @@ namespace Server.Controllers.Recipes
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToEdit);
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
             catch (Exception ex)
             {
                 return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
@@ -233,6 +257,10 @@ namespace Server.Controllers.Recipes
             {
                 return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipes(sessionKey, searchTerm));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Recipe>());
             }
             catch (Exception ex)
             {

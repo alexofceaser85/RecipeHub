@@ -75,9 +75,39 @@ namespace Desktop_Client.View.Screens
             this.menu.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
 
             this.menu.MenuClosed += (_, _) => this.ToggleHamburgerMenu();
-            this.menu.IngredientsSelected += (_, _) => this.ChangeScreens(new IngredientsScreen());
+            this.menu.IngredientsSelected += (_, _) =>
+            {
+                try
+                {
+                    this.ChangeScreens(new IngredientsScreen());
+                }
+                catch (UnauthorizedAccessException exception)
+                {
+                    var result = MessageBox.Show(exception.Message);
+                    if (result == DialogResult.OK)
+                    {
+                        this.ChangeScreens(new LoginScreen());
+                    }
+                }
+            };
             this.menu.LogoutSelected += (_, _) => this.ChangeScreens(new LoginScreen());
-            this.menu.RecipesSelected += (_, _) => this.ChangeScreens(new RecipeListScreen());
+            this.menu.RecipesSelected += (_, _) =>
+            {
+                try
+                {
+                    this.ChangeScreens(new RecipeListScreen());
+                }
+                catch (UnauthorizedAccessException exception)
+                {
+                    var result = MessageBox.Show(exception.Message);
+                    if (result == DialogResult.OK)
+                    {
+                        this.ChangeScreens(new LoginScreen());
+                    }
+                }
+            };
         }
+
+
     }
 }

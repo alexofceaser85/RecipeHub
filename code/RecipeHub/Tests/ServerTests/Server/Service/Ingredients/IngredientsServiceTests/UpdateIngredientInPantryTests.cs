@@ -37,7 +37,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
             const string sessionKey = null!;
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
 
-            Assert.Throws<ArgumentNullException>(() =>
+            Assert.Throws<UnauthorizedAccessException>(() => 
                 new IngredientsService().UpdateIngredientInPantry(ingredient, sessionKey!));
         }
 
@@ -46,8 +46,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             const string sessionKey = "";
             var ingredient = new Ingredient("name", 1, MeasurementType.Volume);
-            Assert.Throws<ArgumentException>(() =>
-                new IngredientsService().UpdateIngredientInPantry(ingredient, sessionKey));
+            Assert.Throws<UnauthorizedAccessException>(() => new IngredientsService().UpdateIngredientInPantry(ingredient, sessionKey));
         }
 
         [Test]
@@ -70,7 +69,7 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?) null);
 
             var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
-            Assert.Throws<ArgumentException>(() => service.UpdateIngredientInPantry(ingredient, sessionKey));
+            Assert.Throws<UnauthorizedAccessException>(() => service.UpdateIngredientInPantry(ingredient, sessionKey));
         }
 
         [Test]

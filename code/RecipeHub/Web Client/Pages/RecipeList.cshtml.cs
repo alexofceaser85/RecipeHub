@@ -15,6 +15,7 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipesListModel()
         {
+
         }
     }
 }
