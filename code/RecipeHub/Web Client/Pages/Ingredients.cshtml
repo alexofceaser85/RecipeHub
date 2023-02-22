@@ -23,7 +23,7 @@
         </div>
     }
 
-    <button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="remove-all-modal">Remove All</button>
+    <button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-modal">Remove All</button>
 
     <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
         <div class="modal-dialog">
@@ -56,7 +56,7 @@
                 <form method="post" asp-page-handler="DeleteIngredient">
                     <div class="modal-body">
                         <p>Are you sure you want to remove this ingredient?</p>
-                        <input name="Name" type="text" id="remove-ingredient-text"/>
+                        <input name="Name" type="text" id="remove-ingredient-text" hidden/>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -71,22 +71,22 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="remove-all-modal-label">Remove All</h1>
+                    <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                
-                    <div class="modal-body">
-                        <p>Are you sure you want to remove this ingredient?</p>
+            <div class="modal-body">
+                        <p>Are you sure you want to remove all ingredients?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         <form method="post" asp-page-handler="DeleteAllIngredients">
-                            <button type="submit" id="remove-all-button" type="button" class="btn btn-primary">Yes</button>
+                        <button id="remove-ingredient-button" type="submit" class="btn btn-primary">Yes</button>
                         </form>
                     </div>
             </div>
         </div>
     </div>
+
 
     <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -117,11 +117,11 @@
 {
     <script type="text/javascript">
             $(".ingredient-edit-button").click(function () {
-                $("#remove-ingredient-text").val($(this).data('ingredient-name'));
+                $("edit-ingredient-text").val($(this).data('ingredient-name'));
             });
 
             $(".ingredient-delete-button").click(function () {
-                $("edit-ingredient-text").val($(this).data('ingredient-name'));
+                $("#remove-ingredient-text").val($(this).data('ingredient-name'));
             });
     </script>
 }
