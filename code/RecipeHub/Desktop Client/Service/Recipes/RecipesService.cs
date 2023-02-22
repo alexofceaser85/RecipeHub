@@ -36,7 +36,7 @@ namespace Desktop_Client.Service.Recipes
             this.endpoints = endpoints ?? 
                              throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull);
             this.usersService = usersService ??
-                                throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.UserServiceCannotBeNull); ;
+                                throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.UserServiceCannotBeNull);
         }
 
         /// <inheritdoc/>
@@ -64,6 +64,16 @@ namespace Desktop_Client.Service.Recipes
         /// <inheritdoc/>
         public Recipe[] GetRecipesForType(string type)
         {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
             this.usersService.RefreshSessionKey();
             return this.endpoints.GetRecipesForType(Session.Key, type);
         }

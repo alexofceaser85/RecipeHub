@@ -42,9 +42,9 @@ namespace Server.Service.RecipeTypes
         /// <returns>
         /// The similar recipe types
         /// </returns>
-        public string[] GetSimilarRecipeTypes()
+        public string[] GetAllRecipeTypes()
         {
-            return this.recipeTypesDal.GetSimilarRecipeTypes();
+            return this.recipeTypesDal.GetAllRecipeTypes();
         }
     }
 }

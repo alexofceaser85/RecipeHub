@@ -377,4 +377,15 @@ namespace Shared_Resources.ErrorMessages
         /// </summary>
         public const string ClientCannotBeNull = "The client cannot be null";
     }
+
+    /// <summary>
+    /// The recipe types error messages
+    /// </summary>
+    public static class RecipeTypesErrorMessages
+    {
+        /// <summary>
+        /// The endpoints cannot be null error messages
+        /// </summary>
+        public const string EndpointsCannotBeNull = "The recipe types endpoints cannot be null";
+    }
 }

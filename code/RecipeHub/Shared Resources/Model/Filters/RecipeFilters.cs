@@ -1,7 +1,7 @@
 ﻿namespace Desktop_Client.Model
 {
     /// <summary>
-    /// Stores the current filters for a recipe search.
+    /// Stores the current Filters for a recipe search.
     /// </summary>
     public class RecipeFilters
     {

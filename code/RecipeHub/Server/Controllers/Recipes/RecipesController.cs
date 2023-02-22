@@ -69,6 +69,15 @@ namespace Server.Controllers.Recipes
             }
         }
 
+        /// <summary>
+        /// Gets the recipe types
+        ///
+        /// Precondition: None
+        /// Postconidtion: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="type">The type.</param>
+        /// <returns>The recipe types</returns>
         [HttpGet]
         [Route("RecipesForType")]
         public RecipeListResponseModel GetRecipesForType(string sessionKey, string type)

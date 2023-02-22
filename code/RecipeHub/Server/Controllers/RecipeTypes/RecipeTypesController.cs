@@ -44,13 +44,13 @@ namespace Server.Controllers.RecipeTypes
         /// <returns>The similar recipes</returns>
         [HttpGet]
         [Route("SimilarRecipeTypes")]
-        public RecipeTypesResponseModel GetSimilarRecipeTypes()
+        public RecipeTypesResponseModel GetAllRecipeTypes()
         {
             try
             {
                 return new RecipeTypesResponseModel(HttpStatusCode.OK,
                     ServerSettings.DefaultSuccessfulConnectionMessage,
-                    this.service.GetSimilarRecipeTypes());
+                    this.service.GetAllRecipeTypes());
             }
             catch (UnauthorizedAccessException ex)
             {

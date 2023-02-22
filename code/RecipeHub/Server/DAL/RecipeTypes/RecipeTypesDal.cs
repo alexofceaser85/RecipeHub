@@ -71,7 +71,7 @@ namespace Server.DAL.RecipeTypes
         /// <returns>
         /// The similar recipe types
         /// </returns>
-        public string[] GetSimilarRecipeTypes()
+        public string[] GetAllRecipeTypes()
         {
             var query = "select typeName from Type";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);

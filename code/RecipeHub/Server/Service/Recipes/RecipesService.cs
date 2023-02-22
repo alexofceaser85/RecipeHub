@@ -38,6 +38,7 @@ namespace Server.Service.Recipes
         /// </summary>
         /// <param name="recipesDal">The DAL for the recipes table</param>
         /// <param name="usersDal">The DAL for the users table</param>
+        /// <param name="recipeTypesDal">The DAL for the recipe types</param>
         /// <exception cref="ArgumentNullException">recipesDal</exception>
         public RecipesService(IRecipesDal recipesDal, IUsersDal usersDal, IRecipeTypesDal recipeTypesDal)
         {
@@ -45,9 +46,7 @@ namespace Server.Service.Recipes
                 ServerRecipesServiceErrorMessages.RecipesDataAccessLayerCannotBeNull);
             this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal),
                 ServerRecipesServiceErrorMessages.UsersDataAccessLayerCannotBeNull);
-
-            //TODO Add error message
-            this.recipeTypesDal = recipeTypesDal;
+            this.recipeTypesDal = recipeTypesDal ?? throw new ArgumentNullException(nameof(recipeTypesDal), ServerRecipesServiceErrorMessages.RecipeTypesDalCannotBeNull);
         }
 
         /// <inheritdoc/>

@@ -6,7 +6,7 @@ namespace Desktop_Client.Endpoints.RecipeTypes
 {
     internal class RecipeTypesEndpoints : IRecipeTypesEndpoints
     {
-        private const string GetSimilarRecipeTypesServiceMethodName = "SimilarRecipeTypes";
+        private const string GetAllRecipeTypesServiceMethodName = "SimilarRecipeTypes";
 
         private const string RecipeTypesElementName = "types";
 
@@ -43,9 +43,9 @@ namespace Desktop_Client.Endpoints.RecipeTypes
         /// <returns>
         /// The recipe types
         /// </returns>
-        public string[] GetSimilarRecipeTypes()
+        public string[] GetAllRecipeTypes()
         {
-            var requestUri = $"{ServerSettings.ServerUri}{GetSimilarRecipeTypesServiceMethodName}";
+            var requestUri = $"{ServerSettings.ServerUri}{GetAllRecipeTypesServiceMethodName}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
 

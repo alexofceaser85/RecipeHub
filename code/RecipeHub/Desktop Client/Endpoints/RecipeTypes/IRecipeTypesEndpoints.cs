@@ -12,7 +12,7 @@
         /// Postcondition: None
         /// </summary>
         /// <returns>The recipe types</returns>
-        public string[] GetSimilarRecipeTypes();
+        public string[] GetAllRecipeTypes();
 
     }
 }

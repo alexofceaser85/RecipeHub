@@ -99,6 +99,11 @@
         /// The session key is not valid error message
         /// </summary>
         public const string SessionKeyIsNotValid = "The session key is not valid";
+
+        /// <summary>
+        /// The recipe types dal cannot be null error message
+        /// </summary>
+        public const string RecipeTypesDalCannotBeNull = "The recipe types Dal cannot be null";
     }
 
     /// <summary>

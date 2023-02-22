@@ -11,11 +11,9 @@
         /// Precondition: None
         /// Postcondition: None
         /// </summary>
-        /// <param name="partialString">The partial string.</param>
         /// <returns>The similar recipe types</returns>
         ///
-        /// TODO This should be renamed to GetAllRecipeTypes
-        public string[] GetSimilarRecipeTypes();
+        public string[] GetAllRecipeTypes();
         /// <summary>
         /// Gets the name of the type identifier.
         /// </summary>
