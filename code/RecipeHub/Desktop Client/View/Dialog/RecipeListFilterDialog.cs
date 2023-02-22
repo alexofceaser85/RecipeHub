@@ -78,7 +78,6 @@ namespace Desktop_Client.View.Dialog
 
         private void tagsTextInput_TextChanged(object sender, EventArgs e)
         {
-            // Clear the CheckedListBox and add the new items
             var checkboxItems = new List<string>();
             var searchText = this.tagsTextInput.Text;
             for (int i = 0; i < this.recipeTypes.Length; i++)
@@ -97,7 +96,7 @@ namespace Desktop_Client.View.Dialog
 
 
             var checkedListBoxItems = this.checkedListBox1.Items.OfType<object>().ToArray();
-            // Set the checked state of each item based on the dictionary
+
             foreach (var item in checkedListBoxItems)
             {
                 if (this.checkedState.TryGetValue(item.ToString(), out bool isChecked))

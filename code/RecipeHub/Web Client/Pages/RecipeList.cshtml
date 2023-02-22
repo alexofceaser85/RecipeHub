@@ -17,12 +17,14 @@
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
                         <div id="recipe-filter-by-type-input-container">
-                                <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="FiltersTypes" />
+                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes" />
                             <div id="recipe-types">
                                 @foreach (var type in Model.RecipeTypes)
                                 {
                                     <div id="form-check">
-                                        <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" value="@type" />
+                                        <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" value="@type" 
+                                               @(ModelState.TryGetValue("BindingModel.FiltersTypes", out var filters) 
+                                                 && filters.AttemptedValue.Contains(type) ? "checked" : "") />
                                         <label for="@type">@type</label>
                                     </div>
                                 }
@@ -132,6 +134,21 @@
         //function addIngredient() {
            
         //}
+
+        document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
+            // Get the value entered by the user
+            var inputValue = this.value;
+            // Loop through all the checkboxes and hide the ones that don't match the entered value
+                var checkboxes = document.getElementsByClassName('filter-checkbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                if (checkbox.value.indexOf(inputValue) !== 0) {
+                    checkbox.parentNode.style.display = 'none';
+                } else {
+                    checkbox.parentNode.style.display = 'block';
+                }
+            }
+        });
     </script>
 }
 }
