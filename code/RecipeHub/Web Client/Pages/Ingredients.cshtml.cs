@@ -18,6 +18,11 @@ namespace Web_Client.Pages
         /// </summary>
         [BindProperty]
         public IngredientBindingModel? AddedIngredient { get; set; }
+        
+        /// <summary>
+        /// The list of ingredients for the page.
+        /// </summary>
+        public IList<Ingredient> Ingredients { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsModel"/>.<br/>
@@ -28,6 +33,7 @@ namespace Web_Client.Pages
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
+            this.Ingredients = this.viewModel.GetAllIngredientsForUser();
         }
 
         /// <summary>
@@ -39,39 +45,23 @@ namespace Web_Client.Pages
         /// <returns>The page</returns>
         public IActionResult OnPostAddIngredient()
         {
-            try
-            {
-                this.AddedIngredient!.Name = Request.Form["name"];
-                this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
-                this.AddedIngredient.MeasurementType = (MeasurementType)int.Parse(Request.Form["measurement"]!);
-                this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount,
-                    this.AddedIngredient.MeasurementType));
-                return this.Page();
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                TempData["Message"] = exception.Message;
-                return RedirectToPage("/Index");
-            }
+            this.AddedIngredient!.Name = Request.Form["name"];
+            this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
+            this.AddedIngredient.MeasurementType = (MeasurementType) int.Parse(Request.Form["measurement"]!);
+            this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount,
+                this.AddedIngredient.MeasurementType));
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
         /// Called when [post delete ingredient].
         /// </summary>
-        /// <returns></returns>
-        public IActionResult OnPostDeleteIngredient()
+        /// <returns>The page</returns>
+        public IActionResult OnPostDeleteIngredientAsync()
         {
-            try
-            {
-                var name = Request.Form["Name"];
-                this.viewModel.RemoveIngredient(new Ingredient(name!, 0, MeasurementType.Quantity));
-                return this.Page();
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                TempData["Message"] = exception.Message;
-                return RedirectToPage("/Index");
-            }
+            var name = Request.Form["Name"][0]!;
+            this.viewModel.RemoveIngredient(new Ingredient(name!, 0, MeasurementType.Quantity));
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
@@ -81,20 +71,12 @@ namespace Web_Client.Pages
         /// <b>Postcondition: </b>None
         /// </summary>
         /// <returns>The page</returns>
-        public IActionResult OnPostUpdateIngredient()
+        public IActionResult OnPostUpdateIngredientAsync()
         {
-            try
-            {
-                var name = Request.Form["Name"];
-                var amount = int.Parse(Request.Form["Amount"]!);
-                this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
-                return this.Page();
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                TempData["Message"] = exception.Message;
-                return RedirectToPage("/Index");
-            }
+            var name = Request.Form["Name"][0]!;
+            var amount = int.Parse(Request.Form["Amount"]!);
+            this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
+            return RedirectToPage("Ingredients");
         }
 
         /// <summary>
@@ -106,18 +88,8 @@ namespace Web_Client.Pages
         /// <returns>The page</returns>
         public IActionResult OnPostDeleteAllIngredients()
         {
-            try
-            {
-                this.viewModel.RemoveAllIngredients();
-                return this.Page();
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                TempData["Message"] = exception.Message;
-                return RedirectToPage("/Index");
-            }
+            this.viewModel.RemoveAllIngredients();
+            return RedirectToPage("Ingredients");
         }
-
-
     }
 }
