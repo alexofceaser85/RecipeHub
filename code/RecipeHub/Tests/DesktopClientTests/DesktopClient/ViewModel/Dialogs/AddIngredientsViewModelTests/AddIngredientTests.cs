@@ -91,7 +91,6 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewM
         [Test]
         public void IngredientAmountNotAnInteger()
         {
-            var ingredient = new Ingredient("name", 2, MeasurementType.Quantity);
             const string ingredientName = "name";
             const string amount = "a";
             const MeasurementType measurementType = MeasurementType.Quantity;
