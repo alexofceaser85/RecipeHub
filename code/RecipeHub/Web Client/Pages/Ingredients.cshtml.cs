@@ -18,7 +18,10 @@ namespace Web_Client.Pages
         /// </summary>
         [BindProperty]
         public IngredientBindingModel? AddedIngredient { get; set; }
-
+        
+        /// <summary>
+        /// The list of ingredients for the page.
+        /// </summary>
         public IList<Ingredient> Ingredients { get; set; }
 
         /// <summary>
