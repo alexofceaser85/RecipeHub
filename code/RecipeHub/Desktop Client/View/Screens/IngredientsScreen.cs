@@ -1,8 +1,7 @@
 ﻿using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Utils.Units;
-using System;
+using Desktop_Client.View.Components.Ingredients;
 
 namespace Desktop_Client.View.Screens
 {
@@ -13,7 +12,6 @@ namespace Desktop_Client.View.Screens
     public partial class IngredientsScreen : Screen
     {
         private readonly IngredientsViewModel viewModel;
-        private IList<Ingredient> ingredients;
 
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsScreen"/>.<br/>
@@ -25,88 +23,45 @@ namespace Desktop_Client.View.Screens
         {
             this.InitializeComponent();
             this.viewModel = new IngredientsViewModel();
-            this.ingredients = new List<Ingredient>();
-            this.SetupIngredientList();
+            this.PopulateIngredientsList();
         }
 
-        private void SetupIngredientList()
+        private void PopulateIngredientsList()
         {
-            //TODO This really needs to be cleaned up. This should be a component similar to the Recipe List Item
-            DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn();
-            nameColumn.Name = "Name";
-            nameColumn.HeaderText = "Name";
-            nameColumn.ReadOnly = true;
-            nameColumn.Width = 200;
-            nameColumn.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            nameColumn.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-            this.ingredientDataGridView.Columns.Add(nameColumn);
-
-            DataGridViewButtonColumn editButton = new DataGridViewButtonColumn();
-            editButton.Name = "Edit";
-            editButton.Text = "Edit";
-            editButton.UseColumnTextForButtonValue = true;
-            this.ingredientDataGridView.Columns.Add(editButton);
-
-            DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn();
-            deleteButton.Name = "Delete";
-            deleteButton.Text = "Delete";
-            deleteButton.UseColumnTextForButtonValue = true;
-            this.ingredientDataGridView.Columns.Add(deleteButton);
-            this.ingredientDataGridView.RowTemplate.Height = 100;
-
-            this.ingredientDataGridView.RowHeadersVisible = false;
-            this.ingredientDataGridView.ReadOnly = true;
-            this.ingredientDataGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            this.ingredientDataGridView.ColumnHeadersVisible = false;
-            this.ingredientDataGridView.AllowUserToAddRows = false;
-            this.ingredientDataGridView.AllowUserToDeleteRows = false;
-            this.ingredientDataGridView.AllowUserToResizeRows = false;
-            this.ingredientDataGridView.AllowUserToResizeColumns = false;
-            this.ingredientDataGridView.AllowUserToOrderColumns = false;
-            this.ingredientDataGridView.MultiSelect = false;
-
-            this.ingredientDataGridView.CellContentClick += (_, e) =>
+            this.ClearRecipeList();
+            var ingredients = this.viewModel.GetAllIngredientsForUser();
+            foreach (var ingredient in ingredients)
             {
-                var ingredient = this.ingredients[e.RowIndex];
-                var name = ingredient.Name;
-                var quantity = ingredient.Amount;
-                var measurementType = ingredient.MeasurementType;
-
-                if (e.ColumnIndex == 1)
+                var item = new IngredientListItem(ingredient);
+                this.ingredientListTableLayout.Controls.Add(item);
+                this.ingredientListTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
+                item.EditSelected += (_, selectedIngredient) =>
                 {
-                    var editIngredientDialog = new EditIngredientDialog(name);
+                    var editIngredientDialog = new EditIngredientDialog(selectedIngredient.Name);
                     editIngredientDialog.ShowDialog();
-                    this.LoadIngredientsFromServer();
-
-                }
-                else if (e.ColumnIndex == 2)
+                    this.PopulateIngredientsList();
+                };
+                item.RemoveSelected += (_, selectedIngredient) =>
                 {
-                    var result = MessageBox.Show($@"Are you sure you want to remove {name} from your pantry?", "Remove Ingredient", MessageBoxButtons.YesNo);
+                    var ingredientName = selectedIngredient.Name;
+                    var result = MessageBox.Show($@"Are you sure you want to remove {ingredientName} from your pantry?", 
+                        @"Remove Ingredient", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
-                        this.viewModel.RemoveIngredient(new Shared_Resources.Model.Ingredients.Ingredient(name, quantity, measurementType));
-                        this.LoadIngredientsFromServer();
+                        this.viewModel.RemoveIngredient(selectedIngredient);
+                        this.PopulateIngredientsList();
                     }
-                }
-            };
+                };
 
-            this.LoadIngredientsFromServer();
-        }
-
-        private void LoadIngredientsFromServer()
-        {
-            this.ingredientDataGridView.Rows.Clear();
-            this.ingredients = this.viewModel.GetAllIngredientsForUser();
-            foreach (var ingredient in this.ingredients)
-            {
-                this.ingredientDataGridView.Rows.Add(
-                    $"{ingredient.Name}\nQuantity:{ingredient.Amount}" +
-                    $"{BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)}",
-                    "Edit", "Delete");
             }
-
         }
 
+        private void ClearRecipeList()
+        {
+            this.ingredientListTableLayout.Controls.Clear();
+            this.ingredientListTableLayout.RowStyles.Clear();
+        }
+        
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
             ToggleHamburgerMenu();
@@ -141,7 +96,7 @@ namespace Desktop_Client.View.Screens
                 addIngredientDialog.ShowDialog();
                 if (addIngredientDialog.DialogResult == DialogResult.OK)
                 {
-                    this.LoadIngredientsFromServer();
+                    this.PopulateIngredientsList();
                 }
             }
             catch (ArgumentException exception)
@@ -168,7 +123,7 @@ namespace Desktop_Client.View.Screens
                 {
                     this.viewModel.RemoveAllIngredients();
                 }
-                this.LoadIngredientsFromServer();
+                this.PopulateIngredientsList();
             }
             catch (ArgumentException exception)
             {
@@ -182,6 +137,11 @@ namespace Desktop_Client.View.Screens
                     base.ChangeScreens(new LoginScreen());
                 }
             }
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
