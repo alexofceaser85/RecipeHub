@@ -97,6 +97,7 @@
                 this.listBox.Left = Left;
                 this.listBox.Top = Top + Height;
                 this.isAdded = true;
+                this.listBox.Click += (_, _) => this.AcceptSuggestion();
             }
             this.listBox.Visible = true;
             this.listBox.BringToFront();
@@ -105,6 +106,20 @@
         private void ResetListBox()
         {
             this.listBox.Visible = false;
+        }
+
+        private bool AcceptSuggestion()
+        {
+            if (!this.listBox.Visible)
+            {
+                return false;
+            }
+
+            Text = this.listBox.SelectedItem!.ToString();
+            this.ResetListBox();
+            this.formerValue = Text;
+            this.Select(this.Text.Length, 0);
+            return true;
         }
 
         private void this_KeyUp(object? sender, KeyEventArgs e)
@@ -120,14 +135,7 @@
                 case Keys.Enter:
                 case Keys.Tab:
                     {
-                        if (this.listBox.Visible)
-                        {
-                            Text = this.listBox.SelectedItem!.ToString();
-                            this.ResetListBox();
-                            this.formerValue = Text;
-                            this.Select(this.Text.Length, 0);
-                            e.Handled = true;
-                        }
+                        e.Handled = this.AcceptSuggestion(); ;
                         break;
                     }
                 case Keys.Down:
