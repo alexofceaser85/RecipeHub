@@ -62,8 +62,9 @@ namespace Server.DAL.Recipes
         /// <inheritdoc/>
         public Recipe? GetRecipe(int recipeId)
         {
-            const string query = "SELECT CONCAT(Users.firstName, ' ', Users.lastName) AS authorName, Recipes.name AS name, " +
-                                 "Recipes.description AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.recipeId = @recipeId;";
+            const string query =
+                "SELECT CONCAT(RTRIM(Users.firstName), ' ', RTRIM(Users.lastName)) AS authorName, RTRIM(Recipes.name) AS name, " +
+                "RTRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.recipeId = @recipeId;";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
@@ -91,8 +92,8 @@ namespace Server.DAL.Recipes
         public Recipe[] GetRecipesWithName(int userId, string nameFilter)
         {
             var recipes = new List<Recipe>();
-            const string query = "SELECT Recipes.recipeId, CONCAT(Users.firstName, ' ', Users.lastName) AS authorName, Recipes.name AS name, " +
-                                 "Recipes.description AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.authorId = Users.userId " +
+            const string query = "SELECT Recipes.recipeId, CONCAT(RTRIM(Users.firstName), ' ', RTRIM(Users.lastName)) AS authorName, RTRIM(Recipes.name) AS name, " +
+                                 "RTRIM(Recipes.description) AS description, Recipes.isPublic FROM Recipes, Users WHERE Recipes.authorId = Users.userId " +
                                  "AND name LIKE @nameFilter AND (Recipes.authorId = @userId OR Recipes.isPublic = 1);";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -201,7 +202,7 @@ namespace Server.DAL.Recipes
         public Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
             var ingredients = new List<Ingredient>();
-            const string query = "SELECT Ingredients.name AS name, RecipeIngredients.amount " + 
+            const string query = "SELECT RTRIM(Ingredients.name) AS name, RecipeIngredients.amount " +
                                  "FROM RecipeIngredients, Ingredients WHERE RecipeIngredients.ingredientId = Ingredients.ingredientId AND recipeId = @recipeId";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -227,7 +228,7 @@ namespace Server.DAL.Recipes
         public RecipeStep[] GetStepsForRecipe(int recipeId)
         {
             var steps = new List<RecipeStep>();
-            const string query = "SELECT stepNumber, stepName AS stepName, instructions AS instructions " + 
+            const string query = "SELECT stepNumber, RTRIM(stepName) AS stepName, RTRIM(instructions) AS instructions " +
                                  "FROM RecipeSteps WHERE recipeId = @recipeId ORDER BY stepNumber";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
