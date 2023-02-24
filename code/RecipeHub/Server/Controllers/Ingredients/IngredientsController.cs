@@ -200,7 +200,7 @@ namespace Server.Controllers.Ingredients
         /// <returns>A response to the client, containing the list of suggestions that match the text given.</returns>
         [HttpGet]
         [Route("GetSuggestions")]
-        public SuggestionResponseModel GetSuggestions(string text)
+        public SuggestionResponseModel GetSuggestions(string text = "")
         {
             try
             {

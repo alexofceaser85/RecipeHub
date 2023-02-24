@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.ingredientDataGridView = new System.Windows.Forms.DataGridView();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.hamburgerButton = new System.Windows.Forms.Button();
             this.backButton = new System.Windows.Forms.Button();
@@ -37,8 +36,8 @@
             this.addIngredientButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.removeAllButton = new System.Windows.Forms.Button();
+            this.ingredientListTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ingredientDataGridView)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -48,10 +47,10 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.ingredientDataGridView, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel4, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.ingredientListTableLayout, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -62,18 +61,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(713, 1324);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // ingredientDataGridView
-            // 
-            this.ingredientDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.ingredientDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ingredientDataGridView.Location = new System.Drawing.Point(4, 249);
-            this.ingredientDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ingredientDataGridView.Name = "ingredientDataGridView";
-            this.ingredientDataGridView.RowHeadersWidth = 62;
-            this.ingredientDataGridView.RowTemplate.Height = 25;
-            this.ingredientDataGridView.Size = new System.Drawing.Size(705, 933);
-            this.ingredientDataGridView.TabIndex = 10;
             // 
             // tableLayoutPanel2
             // 
@@ -91,6 +78,7 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(707, 154);
             this.tableLayoutPanel2.TabIndex = 0;
+            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint);
             // 
             // hamburgerButton
             // 
@@ -179,14 +167,28 @@
             this.removeAllButton.UseVisualStyleBackColor = false;
             this.removeAllButton.Click += new System.EventHandler(this.removeAllButton_Click);
             // 
-            // Ingredients_Screen
+            // ingredientListTableLayout
+            // 
+            this.ingredientListTableLayout.AutoScroll = true;
+            this.ingredientListTableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.ingredientListTableLayout.ColumnCount = 1;
+            this.ingredientListTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ingredientListTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ingredientListTableLayout.Location = new System.Drawing.Point(10, 254);
+            this.ingredientListTableLayout.Margin = new System.Windows.Forms.Padding(10);
+            this.ingredientListTableLayout.Name = "ingredientListTableLayout";
+            this.ingredientListTableLayout.RowCount = 1;
+            this.ingredientListTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.ingredientListTableLayout.Size = new System.Drawing.Size(693, 923);
+            this.ingredientListTableLayout.TabIndex = 2;
+            // 
+            // IngredientsScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "Ingredients_Screen";
+            this.Name = "IngredientsScreen";
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.ingredientDataGridView)).EndInit();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -203,7 +205,7 @@
         private Button addIngredientButton;
         private TableLayoutPanel tableLayoutPanel4;
         private Button removeAllButton;
-        private DataGridView ingredientDataGridView;
         private Button hamburgerButton;
+        private TableLayoutPanel ingredientListTableLayout;
     }
 }
