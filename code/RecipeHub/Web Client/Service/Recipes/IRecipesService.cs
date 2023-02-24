@@ -20,14 +20,14 @@ namespace Web_Client.Service.Recipes
         public Recipe[] GetRecipes(string searchTerm = "");
 
         /// <summary>
-        /// Gets the recipes for a given type
+        /// Gets the recipes with the given tags
         ///
-        /// Precondition: None
+        /// Precondition: !string.IsNullOrWhiteSpace(sessionKey) AND tags != null
         /// Postcondition: None
         /// </summary>
-        /// <param name="type">The type to get recipes for.</param>
-        /// <returns>The recipes with a given type</returns>
-        public Recipe[] GetRecipesForType(string[] type);
+        /// <param name="tags">The type to get recipes for.</param>
+        /// <returns>The recipes with the given tags</returns>
+        public Recipe[] GetRecipesForTags(string[] tags);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>

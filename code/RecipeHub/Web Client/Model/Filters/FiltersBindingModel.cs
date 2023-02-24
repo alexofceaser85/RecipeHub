@@ -14,6 +14,6 @@ namespace Web_Client.Model.Filters
         /// The Filters types.
         /// </value>
         [BindProperty]
-        public List<string> FiltersTypes { get; set; }
+        public List<string>? FiltersTypes { get; set; }
     }
 }

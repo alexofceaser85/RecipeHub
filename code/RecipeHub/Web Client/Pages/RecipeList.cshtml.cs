@@ -1,10 +1,9 @@
-using System.Globalization;
-using Desktop_Client.ViewModel.RecipeTypes;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Recipes;
 using Web_Client.Model.Filters;
 using Web_Client.ViewModel.Recipes;
+using Web_Client.ViewModel.RecipeTypes;
 
 namespace Web_Client.Pages
 {

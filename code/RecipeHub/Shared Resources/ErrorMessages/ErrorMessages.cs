@@ -312,6 +312,10 @@ namespace Shared_Resources.ErrorMessages
         /// The recipe description cannot be empty error message
         /// </summary>
         public const string RecipeDescriptionCannotBeEmpty = "The recipe description cannot be empty";
+        /// <summary>
+        /// The recipe tags cannot be null error message
+        /// </summary>
+        public const string RecipeTagsCannotBeNull = "The tags cannot be null";
     }
 
     /// <summary>
@@ -387,5 +391,49 @@ namespace Shared_Resources.ErrorMessages
         /// The endpoints cannot be null error messages
         /// </summary>
         public const string EndpointsCannotBeNull = "The recipe types endpoints cannot be null";
+    }
+
+    /// <summary>
+    /// The error messages for the recipe types controller
+    /// </summary>
+    public static class RecipeTypesControllerErrorMessages
+    {
+        /// <summary>
+        /// The service cannot be null error message
+        /// </summary>
+        public const string ServiceCannotBeNull = "The service cannot be null";
+    }
+
+    /// <summary>
+    /// The error message for the recipe types service
+    /// </summary>
+    public static class RecipeTypesServiceErrorMessages
+    {
+        /// <summary>
+        /// The dal cannot be null error message
+        /// </summary>
+        public const string DalCannotBeNull = "The dal cannot be null";
+    }
+
+    /// <summary>
+    /// The error message for the recipe types endpoints
+    /// </summary>
+    public static class RecipeTypesEndpointsErrorMessages
+    {
+        /// <summary>
+        /// The HTTP client cannot be null error messages
+        /// </summary>
+        public static string HttpClientCannotBeNull = "The http client cannot be null";
+    }
+
+    /// <summary>
+    /// The recipe types view model error messages
+    /// </summary>
+    public static class RecipeTypesViewModelErrorMessages
+    {
+        /// <summary>
+        /// The service cannot be null error message
+        /// </summary>
+        public static string ServiceCannotBeNull = "The service cannot be null";
     }
 }

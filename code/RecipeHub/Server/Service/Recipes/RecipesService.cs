@@ -75,23 +75,47 @@ namespace Server.Service.Recipes
         }
 
         /// <summary>
-        /// Gets the recipes given a type name
+        /// Gets the recipes given a recipe type
+        /// Precondition:
+        /// sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// AND tags != null
+        /// AND tags IS NOT empty
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <param name="typeName">Name of the type.</param>
-        /// <returns>The recipes with the type name</returns>
-        public Recipe[] GetRecipesForType(string sessionKey, string? tags)
+        /// <param name="tags">The tags.</param>
+        /// <returns>
+        /// The recipes for a given recipe type
+        /// </returns>
+        /// <exception cref="System.UnauthorizedAccessException"></exception>
+        /// <exception cref="System.ArgumentException"></exception>
+        public Recipe[] GetRecipesForType(string sessionKey, string tags)
         {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
             if (tags == null)
             {
-                //TODO Intergrate with search term
-                return this.GetRecipes(sessionKey, "");
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeNull);
+            }
+
+            if (tags.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeEmpty);
             }
 
             var tagsList = tags.Split(",");
-            List<int> typeIds = new List<int>();
+            var typeIds = new List<int>();
 
-            foreach (string tag in tagsList)
+            foreach (var tag in tagsList)
             {
                 var type = this.recipeTypesDal.GetTypeIdForTypeName(tag);
 

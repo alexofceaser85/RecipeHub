@@ -4,6 +4,7 @@ using Server.Controllers.ResponseModels;
 using Server.Controllers.Users;
 using Server.Data.Settings;
 using Server.Service.RecipeTypes;
+using Shared_Resources.ErrorMessages;
 
 namespace Server.Controllers.RecipeTypes
 {
@@ -26,12 +27,17 @@ namespace Server.Controllers.RecipeTypes
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeTypesController"/> class.
         ///
-        /// Precondition: None
+        /// Precondition: service != null
         /// Postcondition: None
         /// </summary>
         /// <param name="service">The service.</param>
         public RecipeTypesController(IRecipesTypesService service)
         {
+            if (service == null)
+            {
+                throw new ArgumentException(RecipeTypesControllerErrorMessages.ServiceCannotBeNull);
+            }
+
             this.service = service;
         }
 
@@ -43,7 +49,7 @@ namespace Server.Controllers.RecipeTypes
         /// </summary>
         /// <returns>The similar recipes</returns>
         [HttpGet]
-        [Route("SimilarRecipeTypes")]
+        [Route("RecipeTypes")]
         public RecipeTypesResponseModel GetAllRecipeTypes()
         {
             try

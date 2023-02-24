@@ -1,12 +1,17 @@
 ﻿using Shared_Resources.Data.Settings;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Utils.Json;
 using Shared_Resources.Utils.Server;
 
 namespace Desktop_Client.Endpoints.RecipeTypes
 {
-    internal class RecipeTypesEndpoints : IRecipeTypesEndpoints
+    /// <summary>
+    /// The endpoints for the recipe types
+    /// </summary>
+    /// <seealso cref="Desktop_Client.Endpoints.RecipeTypes.IRecipeTypesEndpoints" />
+    public class RecipeTypesEndpoints : IRecipeTypesEndpoints
     {
-        private const string GetAllRecipeTypesServiceMethodName = "SimilarRecipeTypes";
+        private const string GetAllRecipeTypesServiceMethodName = "RecipeTypes";
 
         private const string RecipeTypesElementName = "types";
 
@@ -32,6 +37,11 @@ namespace Desktop_Client.Endpoints.RecipeTypes
         /// <param name="client">The client.</param>
         public RecipeTypesEndpoints(HttpClient client)
         {
+            if (client == null)
+            {
+                throw new ArgumentException(RecipeTypesErrorMessages.EndpointsCannotBeNull);
+            }
+
             this.client = client;
         }
 

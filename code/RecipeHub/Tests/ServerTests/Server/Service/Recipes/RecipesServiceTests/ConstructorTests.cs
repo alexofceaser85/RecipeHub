@@ -25,5 +25,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(new RecipeDal(), null!, new RecipeTypesDal()));
         }
+
+        [Test]
+        public void NullRecipeTypesDal()
+        {
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(new RecipeDal(), new UsersDal(), null!));
+        }
     }
 }

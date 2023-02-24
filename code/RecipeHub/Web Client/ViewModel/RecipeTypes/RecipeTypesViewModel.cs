@@ -1,6 +1,7 @@
-﻿using Web_Client.Service.RecipeTypes;
+﻿using Shared_Resources.ErrorMessages;
+using Web_Client.Service.RecipeTypes;
 
-namespace Desktop_Client.ViewModel.RecipeTypes
+namespace Web_Client.ViewModel.RecipeTypes
 {
     /// <summary>
     /// The view model for the recipe types
@@ -18,6 +19,24 @@ namespace Desktop_Client.ViewModel.RecipeTypes
         public RecipeTypesViewModel()
         {
             this.service = new RecipeTypesService();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RecipeTypesViewModel"/> class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="service">The service.</param>
+        /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
+        public RecipeTypesViewModel(IRecipeTypesService service)
+        {
+            if (service == null)
+            {
+                throw new ArgumentException(RecipeTypesViewModelErrorMessages.ServiceCannotBeNull);
+            }
+
+            this.service = service;
         }
 
         /// <summary>
