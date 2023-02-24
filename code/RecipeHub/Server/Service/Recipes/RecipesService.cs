@@ -1,4 +1,5 @@
 ﻿using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
@@ -13,6 +14,7 @@ namespace Server.Service.Recipes
     {
         private readonly IRecipesDal recipesDal;
         private readonly IUsersDal usersDal;
+        private readonly IRecipeTypesDal recipeTypesDal;
 
         /// <summary>
         /// Creates an instance of <see cref="RecipesService"/>.<br/>
@@ -25,6 +27,7 @@ namespace Server.Service.Recipes
         {
             this.recipesDal = new RecipeDal();
             this.usersDal = new UsersDal();
+            this.recipeTypesDal = new RecipeTypesDal();
         }
 
         /// <summary>
@@ -35,13 +38,15 @@ namespace Server.Service.Recipes
         /// </summary>
         /// <param name="recipesDal">The DAL for the recipes table</param>
         /// <param name="usersDal">The DAL for the users table</param>
+        /// <param name="recipeTypesDal">The DAL for the recipe types</param>
         /// <exception cref="ArgumentNullException">recipesDal</exception>
-        public RecipesService(IRecipesDal recipesDal, IUsersDal usersDal)
+        public RecipesService(IRecipesDal recipesDal, IUsersDal usersDal, IRecipeTypesDal recipeTypesDal)
         {
             this.recipesDal = recipesDal ?? throw new ArgumentNullException(nameof(recipesDal),
                 ServerRecipesServiceErrorMessages.RecipesDataAccessLayerCannotBeNull);
             this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal),
                 ServerRecipesServiceErrorMessages.UsersDataAccessLayerCannotBeNull);
+            this.recipeTypesDal = recipeTypesDal ?? throw new ArgumentNullException(nameof(recipeTypesDal), ServerRecipesServiceErrorMessages.RecipeTypesDalCannotBeNull);
         }
 
         /// <inheritdoc/>
@@ -67,6 +72,76 @@ namespace Server.Service.Recipes
                           throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
 
             return this.recipesDal.GetRecipesWithName((int) userId, searchTerm);
+        }
+
+        /// <summary>
+        /// Gets the recipes given a recipe type
+        /// Precondition:
+        /// sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// AND tags != null
+        /// AND tags IS NOT empty
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="tags">The tags.</param>
+        /// <returns>
+        /// The recipes for a given recipe type
+        /// </returns>
+        /// <exception cref="System.UnauthorizedAccessException"></exception>
+        /// <exception cref="System.ArgumentException"></exception>
+        public Recipe[] GetRecipesForType(string sessionKey, string tags)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (tags == null)
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeNull);
+            }
+
+            if (tags.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeEmpty);
+            }
+
+            var tagsList = tags.Split(",");
+            var typeIds = new List<int>();
+
+            foreach (var tag in tagsList)
+            {
+                var type = this.recipeTypesDal.GetTypeIdForTypeName(tag);
+
+                if (type != null)
+                {
+                    typeIds.Add(type.Value);
+                }
+            }
+
+            var recipeIds = this.recipeTypesDal.GetRecipeIdsForTypeIds(typeIds.ToArray());
+            var recipes = new List<Recipe>();
+
+            foreach (var id in recipeIds)
+            {
+                try
+                {
+                    var recipe = this.GetRecipe(sessionKey, id);
+                    recipes.Add(recipe);
+                }
+                catch (ArgumentException)
+                {
+
+                }
+            }
+
+            return recipes.ToArray();
         }
 
         /// <inheritdoc/>

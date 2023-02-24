@@ -15,6 +15,7 @@ namespace Web_Client.Endpoints.Recipes
         private const string RecipeIngredientsRoute = "RecipeIngredients";
         private const string RecipeStepsRoute = "RecipeSteps";
         private const string RecipesRoute = "Recipes";
+        private const string RecipesForTypeRoute = "RecipesForType";
 
         private const string RecipeElementName = "recipe";
         private const string RecipesElementName = "recipes";
@@ -49,6 +50,20 @@ namespace Web_Client.Endpoints.Recipes
         {
             var serverMethodParameters = $"?sessionKey={sessionKey}&searchTerm={searchTerm}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesRoute}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipes = json.AsObject()[RecipesElementName].Deserialize<Recipe[]>();
+
+            return recipes!;
+        }
+
+        /// <inheritdoc/>
+        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags)
+        {
+            var tagList = string.Join(",", tags);
+            var serverMethodParameters = $"?sessionKey={sessionKey}&tags={tagList}";
+            var requestUri = $"{ServerSettings.ServerUri}{RecipesForTypeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
