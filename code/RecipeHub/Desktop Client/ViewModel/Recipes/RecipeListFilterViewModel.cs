@@ -73,7 +73,7 @@ namespace Desktop_Client.ViewModel.Recipes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeTypesViewModel"/> class.
+        /// Initializes a new instance of the <see cref="RecipeListFilterViewModel"/> class.
         ///
         /// Precondition: service != null
         /// Postcondition: None
@@ -166,13 +166,30 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Fires this.PropertyChanged with the specified property name.<br/>
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Updates a specified field, returning whether or not the value was changed.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>this.[field] == value
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field that stores the data for the property</param>
+        /// <param name="value">The new value for the field</param>
+        /// <param name="propertyName">The name of the property that is being updated.</param>
+        /// <returns>Whether the value of the field has changed.</returns>
         protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

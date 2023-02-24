@@ -36,7 +36,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string RecipeName
         {
             get => this.recipeName;
-            set => this.SetField<string>(ref this.recipeName, value);
+            set => this.SetField(ref this.recipeName, value);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string AuthorName
         {
             get => this.authorName;
-            set => this.SetField<string>(ref this.authorName, value);
+            set => this.SetField(ref this.authorName, value);
         }
         
         /// <summary>
@@ -54,7 +54,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string Description
         {
             get => this.description;
-            set => this.SetField<string>(ref this.description, value);
+            set => this.SetField(ref this.description, value);
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string Ingredients
         {
             get => ingredients;
-            set => this.SetField<string>(ref this.ingredients, value);
+            set => this.SetField(ref this.ingredients, value);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string Instructions
         {
             get => this.instructions;
-            set => this.SetField<string>(ref this.instructions, value);
+            set => this.SetField(ref this.instructions, value);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string UserRatingText
         {
             get => this.userRatingText;
-            set => this.SetField<string>(ref this.userRatingText, value);
+            set => this.SetField(ref this.userRatingText, value);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public string YourRatingText
         {
             get => this.yourRatingText;
-            set => this.SetField<string>(ref this.yourRatingText, value);
+            set => this.SetField(ref this.yourRatingText, value);
         }
 
         /// <summary>
@@ -207,13 +207,30 @@ namespace Desktop_Client.ViewModel.Recipes
             this.Instructions = instructions.TrimEnd();
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Fires this.PropertyChanged with the specified property name.<br/>
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="propertyName">The name of the property that changed.</param>
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Updates a specified field, returning whether or not the value was changed.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>this.[field] == value
+        /// </summary>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="field">The field that stores the data for the property</param>
+        /// <param name="value">The new value for the field</param>
+        /// <param name="propertyName">The name of the property that is being updated.</param>
+        /// <returns>Whether the value of the field has changed.</returns>
         protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;

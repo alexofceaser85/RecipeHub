@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Security.Principal;
 using Desktop_Client.Service.Users;
 using Desktop_Client.View.Screens;
 using Shared_Resources.Model.Users;
