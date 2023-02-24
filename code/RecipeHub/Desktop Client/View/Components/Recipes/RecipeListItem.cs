@@ -74,7 +74,7 @@ namespace Desktop_Client.View.Components.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>this.Rating == recipe.Rating<br/>
         /// &amp;&amp; this.AuthorName == recipe.AuthorName<br/>
-        /// &amp;&amp; this.RecipeName == recipe.Name<br/>
+        /// &amp;&amp; this.SearchTerm == recipe.Name<br/>
         /// &amp;&amp; this.RecipeId == recipe.RecipeId
         /// </summary>
         /// <param name="recipe">The recipe to load</param>

@@ -1,7 +1,8 @@
-﻿using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Endpoints.Recipes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Desktop_Client.Service.Ingredients;
 using Desktop_Client.Service.Recipes;
-using Desktop_Client.View.Dialog;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Filters;
 using Shared_Resources.Model.Recipes;
@@ -11,10 +12,31 @@ namespace Desktop_Client.ViewModel.Recipes
     /// <summary>
     /// The view model for the Recipes List screen.
     /// </summary>
-    public class RecipesListViewModel
+    public class RecipesListViewModel : INotifyPropertyChanged
     {
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
+
+        private string searchTerm;
+        private Recipe[] recipes;
+
+        /// <summary>
+        /// The name of the recipe to search for
+        /// </summary>
+        public string SearchTerm
+        {
+            get => this.searchTerm;
+            set => this.SetField(ref this.searchTerm, value);
+        }
+
+        /// <summary>
+        /// The list of recipes to display
+        /// </summary>
+        public Recipe[] Recipes
+        {
+            get => this.recipes;
+            set => this.SetField(ref this.recipes, value);
+        }
 
         /// <summary>
         /// The filters for recipe queries.
@@ -23,10 +45,12 @@ namespace Desktop_Client.ViewModel.Recipes
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
-        /// Uses an instance of <see cref="RecipesEndpoints"/> as the endpoint by default.<br/>
+        /// Uses an instances of <see cref="RecipesService"/> and <see cref="IngredientsService"/> as the endpoint by default.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>None
+        /// <b>Postcondition: </b>this.SearchTerm == string.Empty<br/>
+        /// &amp;&amp; this.Recipes.Length == 0<br/>
+        /// &amp;&amp; this.Filters == new RecipeFilters()
         /// </summary>
         public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
@@ -36,7 +60,9 @@ namespace Desktop_Client.ViewModel.Recipes
         /// Creates a instance of <see cref="RecipesListViewModel"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
         /// <b>Precondition: </b>recipesService != null<br/>
-        /// <b>Postcondition: </b>None
+        /// <b>Postcondition: </b>this.SearchTerm == string.Empty<br/>
+        /// &amp;&amp; this.Recipes.Length == 0<br/>
+        /// &amp;&amp; this.Filters == new RecipeFilters()
         /// </summary>
         public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {
@@ -45,24 +71,23 @@ namespace Desktop_Client.ViewModel.Recipes
             this.ingredientsService = ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService),
                 RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
             this.Filters = new RecipeFilters();
+            this.searchTerm = "";
+            this.recipes = Array.Empty<Recipe>();
         }
 
         /// <summary>
-        /// Gets the visible recipes from the server.<br/>
+        /// Gets the visible recipes from the server, applying any filters in this.Filters and who's name contains this.SearchTerm.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>None
+        /// <b>Postcondition: </b>this.recipes contains all visible recipes from the server that match the filters.
         /// </summary>
-        /// <param name="searchTerm">The search term to query for.</param>
-        /// <returns></returns>
-        public Recipe[] GetRecipes(string searchTerm = "")
+        public void GetRecipes()
         {
-            var allRecipes = this.recipesService.GetRecipes(searchTerm);
-            var filteredRecipes = allRecipes;
+            var filteredRecipes = this.recipesService.GetRecipes(this.SearchTerm);
 
             if (this.Filters.OnlyAvailableIngredients)
             {
-                filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
+                filteredRecipes = this.getRecipesWithOwnedIngredients(filteredRecipes);
             }
 
             if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length != 0)
@@ -70,16 +95,16 @@ namespace Desktop_Client.ViewModel.Recipes
                 filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags.ToArray());
             }
 
-            return filteredRecipes;
+            this.Recipes = filteredRecipes;
         }
 
-        private Recipe[] getRecipesMatchingTags(Recipe[] recipes, string[] tags)
+        private Recipe[] getRecipesMatchingTags(Recipe[] unfilteredRecipes, string[] tags)
         {
             var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
-            return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();
+            return recipesMatchingTags.Where(x => unfilteredRecipes.Any(y => y.Id == x.Id)).ToArray();
         }
 
-        private Recipe[] getFilteredRecipes(Recipe[] visibleRecipes, string searchTerm = "")
+        private Recipe[] getRecipesWithOwnedIngredients(IEnumerable<Recipe> visibleRecipes)
         {
             var filteredRecipes = new List<Recipe>();
             var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
@@ -111,64 +136,23 @@ namespace Desktop_Client.ViewModel.Recipes
 
             return filteredRecipes.ToArray();
         }
+        
+        /// <inheritdoc/>
+        public event PropertyChangedEventHandler? PropertyChanged;
 
-        /// <summary>
-        /// Opens a dialog for selecting the recipe Filters. <br/>
-        /// Updates the displayed recipes if changes are saved.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>Selected Filters reflect changes in the dialog, if saved.
-        /// </summary>
-        public void OpenFiltersDialog()
+        /// <inheritdoc/>
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
-            var filtersDialog = new RecipeListFilterDialog(this.Filters);
-            if (filtersDialog.ShowDialog() == DialogResult.OK)
-            {
-                this.Filters = filtersDialog.Filters;
-            }
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        /// <summary>
-        /// Adds a recipe authored by the active user.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>None
-        /// </summary>
-        /// <param name="name">The name of the recipe.</param>
-        /// <param name="description">The description of the recipe.</param>
-        /// <param name="isPublic">Whether the recipe is publicly viewable or not.</param>
-        public void AddRecipe(string name, string description, bool isPublic)
+        /// <inheritdoc/>
+        protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
         {
-            this.recipesService.AddRecipe(name, description, isPublic);
-        }
-
-        /// <summary>
-        /// Removes a recipe from the database, if the user is the author of the recipe.<br/>
-        /// <br/>
-        /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
-        /// <b>Postcondition: </b> None
-        /// </summary>
-        /// <param name="recipeId">The ID for the recipe to remove.</param>
-        public void RemoveRecipe(int recipeId)
-        {
-            this.recipesService.RemoveRecipe(recipeId);
-        }
-
-        /// <summary>
-        /// Edits a recipe, updating the name, description, and public status.<br/>
-        /// <br/>
-        /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
-        /// &amp;&amp; !string.IsNullOrWhiteSpace(name)<br/>
-        /// &amp;&amp; !string.IsNullOrWhiteSpace(description)<br/>
-        /// <b>Postcondition: </b> None
-        /// </summary>
-        /// <param name="recipeId">The ID for the recipe to update.</param>
-        /// <param name="name">The name of the recipe.</param>
-        /// <param name="description">The description of the recipe.</param>
-        /// <param name="isPublic">Whether the recipe is public or not.</param>
-        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
-        {
-            this.recipesService.EditRecipe(recipeId, name, description, isPublic);
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
         }
     }
 }
