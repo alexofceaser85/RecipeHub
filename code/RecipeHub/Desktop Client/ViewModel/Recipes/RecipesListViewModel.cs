@@ -62,7 +62,6 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <b>Precondition: </b>recipesService != null<br/>
         /// <b>Postcondition: </b>this.SearchTerm == string.Empty<br/>
         /// &amp;&amp; this.Recipes.Length == 0<br/>
-        /// &amp;&amp; this.Filters == new RecipeFilters()
         /// </summary>
         public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
         {

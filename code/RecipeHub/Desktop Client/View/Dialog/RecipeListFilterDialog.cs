@@ -1,4 +1,4 @@
-﻿using Desktop_Client.ViewModel.RecipeTypes;
+﻿using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Model.Filters;
 
 namespace Desktop_Client.View.Dialog
@@ -8,18 +8,12 @@ namespace Desktop_Client.View.Dialog
     /// </summary>
     public partial class RecipeListFilterDialog : Form
     {
-        private RecipeFilters filters;
-        private readonly string[] recipeTypes;
-        private readonly Dictionary<string, bool> checkedState;
+        private readonly RecipeListFilterViewModel viewModel;
 
         /// <summary>
         /// The Filters to be applied to the recipe list.
         /// </summary>
-        public RecipeFilters Filters
-        {
-            get => this.filters;
-            set => this.filters = value;
-        }
+        public RecipeFilters Filters => this.viewModel.Filters;
 
         /// <summary>
         /// Creates an instance of <see cref="RecipeListFilterDialog"/> with a specified set of Filters.<br/>
@@ -31,51 +25,37 @@ namespace Desktop_Client.View.Dialog
         public RecipeListFilterDialog(RecipeFilters filters)
         {
             this.InitializeComponent();
-            this.filters = filters;
 
-            var viewModel = new RecipeTypesViewModel();
+            this.viewModel = new RecipeListFilterViewModel();
+            this.BindComponents();
+            this.viewModel.Initialize(filters);
+            this.CheckSelectedItems();
+        }
 
-            this.applyFilterToControls();
+        private void BindComponents()
+        {
+            this.ingredientFilterCheckBox.DataBindings.Add(new Binding("Checked", this.viewModel,
+                nameof(this.viewModel.FilterForAvailableIngredients)));
+            this.tagsTextInput.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.SearchTerm)));
+            this.checkedListBox1.DataSource = this.viewModel.FilteredTags;
+        }
 
-            var suggestions = new AutoCompleteStringCollection();
-            this.checkedState = new Dictionary<string, bool>();
-            
-            this.recipeTypes = viewModel.GetAllRecipeTypes();
-
-            foreach (var item in this.recipeTypes)
+        private void CheckSelectedItems()
+        {
+            for (var i = 0; i < this.checkedListBox1.Items.Count; i++)
             {
-                this.checkedState[item] = false;
-            }
+                var item = this.checkedListBox1.Items[i];
 
-            this.checkedListBox1.Items.AddRange(this.recipeTypes);
-
-            if (filters.MatchTags != null)
-            {
-                foreach (var item in filters.MatchTags)
+                if (this.viewModel.SelectedTags.Contains(item.ToString()!))
                 {
-                    this.checkedListBox1.SetItemChecked(this.checkedListBox1.Items.IndexOf(item), true);
+                    this.checkedListBox1.SetItemCheckState(i, CheckState.Checked);
                 }
             }
-
-            this.checkedListBox1.Refresh();
-
-            this.tagsTextInput.AutoCompleteCustomSource = suggestions;
-            this.tagsTextInput.Focus();
         }
-
-        private void applyFilterToControls()
-        {
-            this.ingredientFilterCheckBox.Checked = this.filters.OnlyAvailableIngredients;
-        }
-
-        private void ingredientFilterCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            this.filters.OnlyAvailableIngredients = this.ingredientFilterCheckBox.Checked;
-        }
-
+        
         private void submitButton_Click(object sender, EventArgs e)
         {
-            this.filters.MatchTags = this.checkedListBox1.CheckedItems.OfType<object>().Select(item => item.ToString()).ToArray();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -88,43 +68,27 @@ namespace Desktop_Client.View.Dialog
 
         private void tagsTextInput_TextChanged(object sender, EventArgs e)
         {
-            var checkboxItems = new List<string>();
-            var searchText = this.tagsTextInput.Text;
-            for (int i = 0; i < this.recipeTypes.Length; i++)
-            {
-                string itemText = this.recipeTypes[i];
-                bool match = itemText.Contains(searchText);
-
-                if (match)
-                {
-                    checkboxItems.Add(itemText);
-                }
-            }
-
-            this.checkedListBox1.Items.Clear();
-            this.checkedListBox1.Items.AddRange(checkboxItems.ToArray());
-
-
-            var checkedListBoxItems = this.checkedListBox1.Items.OfType<object>().ToArray();
-
-            foreach (var item in checkedListBoxItems)
-            {
-                if (this.checkedState.TryGetValue(item.ToString(), out bool isChecked))
-                {
-                    this.checkedListBox1.SetItemChecked(this.checkedListBox1.Items.IndexOf(item), isChecked);
-                }
-            }
-
-            this.checkedListBox1.Refresh();
+            this.viewModel.SearchTerm = this.tagsTextInput.Text;
+            this.viewModel.ApplySearchTermFilter();
+            this.CheckSelectedItems();
         }
 
         private void checkedListBox1_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             var itemText = this.checkedListBox1.Items[e.Index].ToString();
 
-            if (itemText != null)
+            if (itemText == null)
             {
-                this.checkedState[itemText] = e.NewValue == CheckState.Checked;
+                return;
+            }
+
+            if (e.NewValue == CheckState.Checked)
+            {
+                this.viewModel.AddSelectedTag(itemText);
+            }
+            else
+            {
+                this.viewModel.RemoveSelectedTag(itemText);
             }
         }
     }

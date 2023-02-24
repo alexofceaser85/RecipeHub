@@ -15,7 +15,6 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
                 var viewmodel = new RecipesListViewModel();
                 Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Recipes, Has.Length.EqualTo(0));
-                Assert.That(viewmodel.Filters, Is.EqualTo(new RecipeFilters()));
             });
         }
 
@@ -27,7 +26,6 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
                 var viewmodel = new RecipesListViewModel(new RecipesService(), new IngredientsService());
                 Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Recipes, Has.Length.EqualTo(0));
-                Assert.That(viewmodel.Filters, Is.EqualTo(new RecipeFilters()));
             });
         }
 

@@ -139,7 +139,6 @@
             this.ingredientFilterCheckBox.Size = new System.Drawing.Size(194, 14);
             this.ingredientFilterCheckBox.TabIndex = 0;
             this.ingredientFilterCheckBox.UseVisualStyleBackColor = true;
-            this.ingredientFilterCheckBox.CheckedChanged += new System.EventHandler(this.ingredientFilterCheckBox_CheckedChanged);
             // 
             // label1
             // 

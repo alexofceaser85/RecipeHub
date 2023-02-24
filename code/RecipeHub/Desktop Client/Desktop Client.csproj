@@ -25,4 +25,8 @@
     <Compile Update="View\Screens\UserInfoScreen.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModel\RecipeTypes\" />
+  </ItemGroup>
+
 </Project>
