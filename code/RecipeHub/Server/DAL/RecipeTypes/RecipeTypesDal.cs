@@ -12,7 +12,7 @@ namespace Server.DAL.RecipeTypes
         /// <summary>
         /// Gets the recipe identifier for type identifier.
         /// </summary>
-        /// <param name="typeId">The type identifier.</param>
+        /// <param name="typeIds">The type identifier.</param>
         /// <returns>
         /// The recipe id
         /// </returns>

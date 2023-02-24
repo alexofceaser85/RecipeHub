@@ -70,7 +70,7 @@ namespace Web_Client.ViewModel.Recipes
                 filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
             }
 
-            if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length > 0)
+            if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length > 1)
             {
                 filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags);
             }
