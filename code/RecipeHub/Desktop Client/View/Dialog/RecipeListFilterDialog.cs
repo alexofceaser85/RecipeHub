@@ -1,5 +1,5 @@
-﻿using Desktop_Client.Model;
-using Desktop_Client.ViewModel.RecipeTypes;
+﻿using Desktop_Client.ViewModel.RecipeTypes;
+using Shared_Resources.Model.Filters;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -48,6 +48,16 @@ namespace Desktop_Client.View.Dialog
             }
 
             this.checkedListBox1.Items.AddRange(this.recipeTypes);
+
+            if (filters.MatchTags != null)
+            {
+                foreach (var item in filters.MatchTags)
+                {
+                    this.checkedListBox1.SetItemChecked(this.checkedListBox1.Items.IndexOf(item), true);
+                }
+            }
+
+            this.checkedListBox1.Refresh();
 
             this.tagsTextInput.AutoCompleteCustomSource = suggestions;
             this.tagsTextInput.Focus();

@@ -1,8 +1,8 @@
-﻿using Desktop_Client.Model;
-using Web_Client.Endpoints.Recipes;
+﻿using Web_Client.Endpoints.Recipes;
 using Web_Client.Service.Ingredients;
 using Web_Client.Service.Recipes;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Filters;
 using Shared_Resources.Model.Recipes;
 
 namespace Web_Client.ViewModel.Recipes
@@ -21,7 +21,7 @@ namespace Web_Client.ViewModel.Recipes
         /// <value>
         /// The Filters.
         /// </value>
-        public RecipeFilters Filters { get; }
+        public RecipeFilters Filters { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
@@ -72,15 +72,15 @@ namespace Web_Client.ViewModel.Recipes
 
             if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length > 0)
             {
-                filteredRecipes = this.getRecipesMatchingTag(filteredRecipes, this.Filters.MatchTags);
+                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags);
             }
 
             return filteredRecipes;
         }
 
-        private Recipe[] getRecipesMatchingTag(Recipe[] recipes, string[] tag)
+        private Recipe[] getRecipesMatchingTags(Recipe[] recipes, string[] tags)
         {
-            var recipesMatchingTags = this.recipesService.GetRecipesForType(tag);
+            var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
             return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();
         }
 

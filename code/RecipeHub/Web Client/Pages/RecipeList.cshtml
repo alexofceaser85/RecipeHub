@@ -22,7 +22,7 @@
                                 @foreach (var type in Model.RecipeTypes)
                                 {
                                     <div id="form-check">
-                                        <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" value="@type" 
+                                            <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" class="filter-checkbox" value="@type"
                                                @(ModelState.TryGetValue("BindingModel.FiltersTypes", out var filters) 
                                                  && filters.AttemptedValue.Contains(type) ? "checked" : "") />
                                         <label for="@type">@type</label>

@@ -1,9 +1,9 @@
 ﻿using Desktop_Client.Endpoints.Recipes;
-using Desktop_Client.Model;
 using Desktop_Client.Service.Ingredients;
 using Desktop_Client.Service.Recipes;
 using Desktop_Client.View.Dialog;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Filters;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.ViewModel.Recipes

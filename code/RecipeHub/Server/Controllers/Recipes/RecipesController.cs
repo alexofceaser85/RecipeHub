@@ -70,17 +70,17 @@ namespace Server.Controllers.Recipes
         }
 
         /// <summary>
-        /// Gets the recipe types
+        /// Gets the recipes for a type
         ///
         /// Precondition: None
-        /// Postconidtion: None
+        /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <param name="tags">The tags.</param>
-        /// <returns>The recipe types</returns>
+        /// <returns>The recipes for a type</returns>
         [HttpGet]
         [Route("RecipesForType")]
-        public RecipeListResponseModel GetRecipesForType(string sessionKey, string? tags)
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string tags)
         {
             try
             {

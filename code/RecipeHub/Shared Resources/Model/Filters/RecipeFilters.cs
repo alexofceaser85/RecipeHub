@@ -1,4 +1,4 @@
-﻿namespace Desktop_Client.Model
+﻿namespace Shared_Resources.Model.Filters
 {
     /// <summary>
     /// Stores the current Filters for a recipe search.

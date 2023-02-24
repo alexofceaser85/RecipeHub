@@ -21,15 +21,15 @@ namespace Web_Client.Endpoints.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
         /// <summary>
-        /// Gets all of the recipes with a given type
+        /// Gets all of the recipes with the given tags
         ///
         /// Precondition: None
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <param name="tags">The tags.</param>
-        /// <returns>The recipes with a given type</returns>
-        public Recipe[] GetRecipesForType(string sessionKey, string[] tags);
+        /// <returns>The recipes with the given tags</returns>
+        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>

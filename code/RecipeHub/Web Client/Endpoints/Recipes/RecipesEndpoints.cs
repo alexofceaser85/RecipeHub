@@ -59,7 +59,7 @@ namespace Web_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForType(string sessionKey, string[] tags)
+        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags)
         {
             var tagList = string.Join(",", tags);
             var serverMethodParameters = $"?sessionKey={sessionKey}&tags={tagList}";

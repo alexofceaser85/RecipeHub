@@ -1,4 +1,5 @@
 ﻿using Server.DAL.RecipeTypes;
+using Shared_Resources.ErrorMessages;
 
 namespace Server.Service.RecipeTypes
 {
@@ -7,7 +8,7 @@ namespace Server.Service.RecipeTypes
     /// </summary>
     public class RecipeTypesService : IRecipesTypesService
     {
-        private IRecipeTypesDal recipeTypesDal;
+        private readonly IRecipeTypesDal recipeTypesDal;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipeTypesService"/> class.
@@ -29,6 +30,10 @@ namespace Server.Service.RecipeTypes
         /// <param name="recipeTypesDal">The recipe types dal.</param>
         public RecipeTypesService(IRecipeTypesDal recipeTypesDal)
         {
+            if (recipeTypesDal == null)
+            {
+                throw new ArgumentException(RecipeTypesServiceErrorMessages.DalCannotBeNull);
+            }
             this.recipeTypesDal = recipeTypesDal;
         }
 

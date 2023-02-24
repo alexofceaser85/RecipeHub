@@ -104,6 +104,16 @@
         /// The recipe types dal cannot be null error message
         /// </summary>
         public const string RecipeTypesDalCannotBeNull = "The recipe types Dal cannot be null";
+
+        /// <summary>
+        /// The tags cannot be null error message
+        /// </summary>
+        public const string TagsCannotBeNull = "The tags cannot be null";
+
+        /// <summary>
+        /// The tags cannot be empty error message
+        /// </summary>
+        public const string TagsCannotBeEmpty = "The tags cannot be empty";
     }
 
     /// <summary>

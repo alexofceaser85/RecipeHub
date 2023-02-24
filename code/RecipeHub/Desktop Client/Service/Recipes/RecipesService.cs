@@ -66,12 +66,17 @@ namespace Desktop_Client.Service.Recipes
         {
             if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (tags == null)
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeTagsCannotBeNull);
             }
 
             this.usersService.RefreshSessionKey();

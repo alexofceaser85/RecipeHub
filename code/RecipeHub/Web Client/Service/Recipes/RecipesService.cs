@@ -60,11 +60,11 @@ namespace Web_Client.Service.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForType(string[] tags)
+        public Recipe[] GetRecipesForTags(string[] tags)
         {
             if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
             if (string.IsNullOrWhiteSpace(Session.Key))
@@ -72,8 +72,13 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
+            if (tags == null)
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeTagsCannotBeNull);
+            }
+
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetRecipesForType(Session.Key, tags);
+            return this.endpoints.GetRecipesForTags(Session.Key, tags);
         }
 
         /// <inheritdoc/>
