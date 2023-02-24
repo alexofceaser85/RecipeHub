@@ -1,21 +1,9 @@
 ﻿@page
-@using Shared_Resources.Data.UserData
-@using Shared_Resources.Model.Recipes
-@using Web_Client.ViewModel.Recipes
+@model Web_Client.Pages.RecipesListModel
 @{
-    Recipe[] recipes = new Recipe[0]!;
-    try
-    {
-        var ViewModel = new RecipesListViewModel();
-        recipes = ViewModel.GetRecipes(Session.Key!);
-    }             
-    catch (UnauthorizedAccessException exception)
-    {
-        TempData["Message"] = exception.Message;
-        Response.Redirect("/Index");
-    }
 
-    <div id="recipe-list-wrapper">
+
+<div id="recipe-list-wrapper">
     <div id="recipe-list-header">
         <div>Recipes</div>
         <div><span class="text-primary">Home</span> | Planned Meals | <a href="ingredients">Ingredients</a></div>
@@ -24,13 +12,37 @@
     <div id="recipe-list-body">
         <div id="recipe-filters">
             <div class="text-white bg-info text-center" id="recipe-filter-header">Filters</div>
+                <form id="filtersForms" method="post" asp-page-handler="Submit">
+                <fieldset>
+                    <div id="recipe-filter-by-tag-container">
+                        <h4>Tags:</h4>
+                        <div id="recipe-filter-by-type-input-container">
+                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes" />
+                            <div id="recipe-types">
+                                @foreach (var type in Model.RecipeTypes)
+                                {
+                                    <div id="form-check">
+                                            <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" class="filter-checkbox" value="@type"
+                                               @(ModelState.TryGetValue("BindingModel.FiltersTypes", out var filters) 
+                                                 && filters.AttemptedValue.Contains(type) ? "checked" : "") />
+                                        <label for="@type">@type</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div id="apply-filters-container">
+                            <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
+                    </div>
+                </fieldset>
+            </form>
         </div>
         <div id="recipe-list-main">
             <div id="recipe-search">
                 <text></text>
             </div>
             <div id="recipe-list">
-                @foreach (var recipe in recipes)
+                @foreach (var recipe in Model.Recipes)
                 {
                     <div class="recipe-list-item">
                         <div>
@@ -122,6 +134,21 @@
         //function addIngredient() {
            
         //}
+
+        document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
+            // Get the value entered by the user
+            var inputValue = this.value;
+            // Loop through all the checkboxes and hide the ones that don't match the entered value
+                var checkboxes = document.getElementsByClassName('filter-checkbox');
+            for (var i = 0; i < checkboxes.length; i++) {
+                var checkbox = checkboxes[i];
+                if (checkbox.value.indexOf(inputValue) !== 0) {
+                    checkbox.parentNode.style.display = 'none';
+                } else {
+                    checkbox.parentNode.style.display = 'block';
+                }
+            }
+        });
     </script>
 }
 }

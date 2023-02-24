@@ -32,6 +32,7 @@ namespace Desktop_Client.Service.Ingredients
         /// Postcondition: Endpoints are set to specified value.<br />
         /// </summary>
         /// <param name="endpoints">The endpoints.</param>
+        /// <param name="usersService">The users service</param>
         public IngredientsService(IIngredientEndpoints endpoints, IUsersService usersService)
         {
             this.endpoints = endpoints;

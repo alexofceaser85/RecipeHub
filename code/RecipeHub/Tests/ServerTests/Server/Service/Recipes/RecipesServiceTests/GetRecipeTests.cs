@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 using Shared_Resources.Model.Recipes;
@@ -18,11 +19,13 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+
             recipesDal.Setup(mock => mock.GetRecipe(recipeId)).Returns(recipe);
             recipesDal.Setup(mock => mock.UserCanSeeRecipe(userId, recipeId)).Returns(true);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(userId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             var result = service.GetRecipe(sessionKey, recipeId);
 
             Assert.Multiple(() =>
@@ -52,9 +55,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+
             usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?)null);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             Assert.Throws<UnauthorizedAccessException>(() => service.GetRecipe("0", 0));
         }
 
@@ -67,10 +72,12 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+
             recipesDal.Setup(mock => mock.UserCanSeeRecipe(userId, recipeId)).Returns(false);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(userId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
 
             Assert.Multiple(() =>
             {
