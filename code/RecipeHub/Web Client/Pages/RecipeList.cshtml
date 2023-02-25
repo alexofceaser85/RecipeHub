@@ -46,7 +46,7 @@
                 {
                     <div class="recipe-list-item">
                         <div>
-                            <p class="recipe-name">@recipe.Name</p>
+                            <a asp-page="./Recipe" asp-route-id="@recipe.Id"><p class="recipe-name">@recipe.Name</p></a>
                             <p class="recipe-author">By: @recipe.AuthorName</p>
                         </div>
                         <div>
