@@ -22,14 +22,30 @@ namespace Desktop_Client.View.Screens
         public IngredientsScreen()
         {
             this.InitializeComponent();
+
             this.viewModel = new IngredientsViewModel();
-            this.PopulateIngredientsList();
+            this.BindComponents();
+            this.viewModel.GetAllIngredientsForUser();
         }
 
-        private void PopulateIngredientsList()
+        private void BindComponents()
+        {
+            this.removeAllButton.DataBindings.Add(new Binding("Enabled", this.viewModel,
+                nameof(this.viewModel.RemoveAllButtonEnabled)));
+            this.viewModel.PropertyChanged += (_, args) =>
+            {
+                if (args.PropertyName != nameof(this.viewModel.Ingredients))
+                {
+                    return;
+                }
+
+                this.PopulateIngredientsList(this.viewModel.Ingredients);
+            };
+        }
+
+        private void PopulateIngredientsList(IEnumerable<Ingredient> ingredients)
         {
             this.ClearRecipeList();
-            var ingredients = this.viewModel.GetAllIngredientsForUser();
             foreach (var ingredient in ingredients)
             {
                 var item = new IngredientListItem(ingredient);
@@ -38,8 +54,10 @@ namespace Desktop_Client.View.Screens
                 item.EditSelected += (_, selectedIngredient) =>
                 {
                     var editIngredientDialog = new EditIngredientDialog(selectedIngredient.Name);
-                    editIngredientDialog.ShowDialog();
-                    this.PopulateIngredientsList();
+                    if (editIngredientDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        this.viewModel.GetAllIngredientsForUser();
+                    }
                 };
                 item.RemoveSelected += (_, selectedIngredient) =>
                 {
@@ -49,7 +67,7 @@ namespace Desktop_Client.View.Screens
                     if (result == DialogResult.Yes)
                     {
                         this.viewModel.RemoveIngredient(selectedIngredient);
-                        this.PopulateIngredientsList();
+                        this.viewModel.GetAllIngredientsForUser();
                     }
                 };
 
@@ -64,7 +82,7 @@ namespace Desktop_Client.View.Screens
         
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
-            ToggleHamburgerMenu();
+            base.ToggleHamburgerMenu();
         }
 
         private void backButton_Click(object sender, EventArgs e)
@@ -96,7 +114,7 @@ namespace Desktop_Client.View.Screens
                 addIngredientDialog.ShowDialog();
                 if (addIngredientDialog.DialogResult == DialogResult.OK)
                 {
-                    this.PopulateIngredientsList();
+                    this.viewModel.GetAllIngredientsForUser();
                 }
             }
             catch (ArgumentException exception)
@@ -122,8 +140,8 @@ namespace Desktop_Client.View.Screens
                 if (result == DialogResult.Yes)
                 {
                     this.viewModel.RemoveAllIngredients();
+                    this.viewModel.GetAllIngredientsForUser();
                 }
-                this.PopulateIngredientsList();
             }
             catch (ArgumentException exception)
             {
@@ -137,11 +155,6 @@ namespace Desktop_Client.View.Screens
                     base.ChangeScreens(new LoginScreen());
                 }
             }
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
         }
     }
 }

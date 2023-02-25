@@ -1,4 +1,5 @@
-﻿using Desktop_Client.ViewModel.Users;
+﻿using Desktop_Client.ViewModel.Components;
+using Desktop_Client.ViewModel.Users;
 
 namespace Desktop_Client.View.Components.Login
 {
@@ -8,7 +9,7 @@ namespace Desktop_Client.View.Components.Login
     /// <seealso cref="System.Windows.Forms.UserControl" />
     public partial class LoginForm : UserControl
     {
-        private readonly UsersViewModel viewModel;
+        private readonly LoginFormViewModel viewModel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LoginForm"/> class.<br/>
@@ -19,7 +20,15 @@ namespace Desktop_Client.View.Components.Login
         public LoginForm()
         {
             this.InitializeComponent();
-            this.viewModel = new UsersViewModel();
+            this.viewModel = new LoginFormViewModel();
+
+            this.BindComponents();
+        }
+
+        private void BindComponents()
+        {
+            this.usernameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Username)));
+            this.passwordTextInput.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Password)));
         }
 
         /// <summary>
@@ -31,29 +40,23 @@ namespace Desktop_Client.View.Components.Login
         /// Occurs when the user selects to register an account.
         /// </summary>
         public event EventHandler? RegistrationSelected;
+        
+        private void createAccountButton_Click(object sender, EventArgs e)
+        {
+            this.RegistrationSelected?.Invoke(this, EventArgs.Empty);
+        }
 
-        private void loginButton_Click(object sender, EventArgs e)
+        private void LoginButton_Click(object sender, EventArgs e)
         {
             try
             {
-                var username = this.usernameTextBox.Text;
-                var password = this.passwordTextInput.Text;
-
-                this.usernameTextBox.Text = string.Empty;
-                this.passwordTextInput.Text = string.Empty;
-
-                this.viewModel.Login(username, password);
+                this.viewModel.Login();
                 this.LoggedIn?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void createAccountButton_Click(object sender, EventArgs e)
-        {
-            this.RegistrationSelected?.Invoke(this, EventArgs.Empty);
         }
     }
 }

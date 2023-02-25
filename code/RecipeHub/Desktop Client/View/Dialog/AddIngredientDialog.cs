@@ -28,18 +28,32 @@ namespace Desktop_Client.View.Dialog
             this.InitializeComponent();
             this.viewModel = new AddIngredientsViewModel();
             this.measurementComboBox.DataSource = Enum.GetValues(typeof(MeasurementType));
-            this.nameTextBox.Values = this.viewModel.GetSuggestions("");
+            this.BindComponents();
+            this.viewModel.Initialize();
+        }
+
+        private void BindComponents()
+        {
+            this.nameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.IngredientName)));
+            this.nameTextBox.DataBindings.Add(new Binding("Values", this.viewModel,
+                nameof(this.viewModel.IngredientNames)));
+            this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.IngredientAmount)));
+            this.measurementComboBox.DataBindings.Add(new Binding("SelectedItem", this.viewModel,
+                nameof(this.viewModel.SelectedMeasurementType)));
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
             try
             {
-                this.viewModel.AddIngredient(new Ingredient(this.nameTextBox.Text,
-                    int.Parse(this.amountTextBox.Text), (MeasurementType)this.measurementComboBox.SelectedValue!));
-                this.Close();
-                this.Dispose();
-                this.DialogResult = DialogResult.OK;
+                if (this.viewModel.AddIngredient())
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Dispose();
+                    this.Close();
+                }
             }
             catch (UnauthorizedAccessException ex)
             {

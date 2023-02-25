@@ -15,18 +15,19 @@
         /// <value>
         /// The only matching tag.
         /// </value>
-        public string[] MatchTags { get; set; }
+        public string[]? MatchTags { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipeFilters"/>.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>this.OnlyAvailableIngredients == true
+        /// <b>Postcondition: </b>this.OnlyAvailableIngredients == true<br/>
+        /// &amp;&amp; this.MatchTags.Length == 0
         /// </summary>
         public RecipeFilters()
         {
             this.OnlyAvailableIngredients = false;
-            this.MatchTags = null!;
+            this.MatchTags = Array.Empty<string>();
         }
     }
 }

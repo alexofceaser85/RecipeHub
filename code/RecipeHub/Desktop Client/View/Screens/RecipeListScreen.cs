@@ -1,4 +1,5 @@
 ﻿using Desktop_Client.View.Components.Recipes;
+using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Recipes;
@@ -24,7 +25,23 @@ namespace Desktop_Client.View.Screens
             this.InitializeComponent();
 
             this.viewmodel = new RecipesListViewModel();
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
+            this.BindComponents();
+            this.viewmodel.GetRecipes();
+        }
+
+        private void BindComponents()
+        {
+            this.searchTextBox.DataBindings.Add(new Binding("Text", this.viewmodel, 
+                nameof(this.viewmodel.SearchTerm)));
+            this.viewmodel.PropertyChanged += (_, arg) =>
+            {
+                if (arg.PropertyName != nameof(this.viewmodel.Recipes))
+                {
+                    return;
+                }
+
+                this.PopulateRecipeList(this.viewmodel.Recipes);
+            };
         }
 
         private void PopulateRecipeList(IEnumerable<Recipe> recipes)
@@ -49,7 +66,8 @@ namespace Desktop_Client.View.Screens
         {
             try
             {
-                this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
+                this.viewmodel.SearchTerm = this.searchTextBox.Text;
+                this.viewmodel.GetRecipes();
             }
             catch (ArgumentException exception)
             {
@@ -87,13 +105,17 @@ namespace Desktop_Client.View.Screens
 
         private void hamburgerButton_MouseClick(object sender, EventArgs e)
         {
-            ToggleHamburgerMenu();
+            base.ToggleHamburgerMenu();
         }
 
         private void filtersButton_Click(object sender, EventArgs e)
         {
-            this.viewmodel.OpenFiltersDialog();
-            this.PopulateRecipeList(this.viewmodel.GetRecipes(this.searchTextBox.Text));
+            var filtersDialog = new RecipeListFilterDialog(this.viewmodel.Filters);
+            if (filtersDialog.ShowDialog() == DialogResult.OK)
+            {
+                this.viewmodel.Filters = filtersDialog.Filters;
+                this.viewmodel.GetRecipes();
+            }
         }
     }
 }

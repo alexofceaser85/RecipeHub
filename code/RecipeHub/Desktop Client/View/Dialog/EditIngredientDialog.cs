@@ -11,12 +11,11 @@ namespace Desktop_Client.View.Dialog
     public partial class EditIngredientDialog : Form
     {
         private readonly EditIngredientViewModel viewModel;
-        private readonly string ingredientName;
 
         /// <summary>
         /// The error occured event handler
         /// </summary>
-        public EventHandler<ErrorEventArgs> ErrorOccurred;
+        public EventHandler<ErrorEventArgs>? ErrorOccurred;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditIngredientDialog"/> class. <br />
@@ -27,20 +26,31 @@ namespace Desktop_Client.View.Dialog
         /// <param name="ingredientName">Name of the ingredient.</param>
         public EditIngredientDialog(string ingredientName)
         {
-            this.viewModel = new EditIngredientViewModel();
-            this.ingredientName = ingredientName;
             this.InitializeComponent();
-            this.editTitle.Text = $@"Edit {ingredientName}?";
+            this.viewModel = new EditIngredientViewModel();
+            this.BindComponents();
+
+            this.viewModel.IngredientName = ingredientName;
+        }
+
+        private void BindComponents()
+        {
+            this.editTitle.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Title)));
+            this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Amount)));
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)
         {
             try
             {
-                this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text),
-                    MeasurementType.Quantity));
-                this.Close();
-                this.Dispose();
+                if (this.viewModel.EditIngredient())
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Dispose();
+                    this.Close();
+                }
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -50,9 +60,9 @@ namespace Desktop_Client.View.Dialog
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
             this.Dispose();
-            this.DialogResult = DialogResult.Cancel;
         }
 
         private void amountTextBox_TextChanged(object sender, EventArgs e)
