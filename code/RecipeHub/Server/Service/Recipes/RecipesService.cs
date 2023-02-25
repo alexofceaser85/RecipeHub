@@ -213,6 +213,29 @@ namespace Server.Service.Recipes
         }
 
         /// <inheritdoc/>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.GetTypesForRecipe(recipeId);
+        }
+
+        /// <inheritdoc/>
         public bool AddRecipe(string sessionKey, string name, string description, bool isPublic)
         {
             if (sessionKey == null)
