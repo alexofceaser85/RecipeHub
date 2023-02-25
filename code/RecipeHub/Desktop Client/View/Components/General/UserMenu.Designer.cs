@@ -62,7 +62,7 @@
             this.ingredientsNavbarOption.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ingredientsNavbarOption.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ingredientsNavbarOption.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.ingredientsNavbarOption.Location = new System.Drawing.Point(5, 275);
+            this.ingredientsNavbarOption.Location = new System.Drawing.Point(5, 289);
             this.ingredientsNavbarOption.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ingredientsNavbarOption.Name = "ingredientsNavbarOption";
             this.ingredientsNavbarOption.Size = new System.Drawing.Size(402, 80);
@@ -85,13 +85,12 @@
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 6;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 86F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(412, 1296);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
@@ -103,7 +102,7 @@
             this.plannedMealsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.plannedMealsButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.plannedMealsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.plannedMealsButton.Location = new System.Drawing.Point(5, 184);
+            this.plannedMealsButton.Location = new System.Drawing.Point(5, 198);
             this.plannedMealsButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.plannedMealsButton.Name = "plannedMealsButton";
             this.plannedMealsButton.Size = new System.Drawing.Size(402, 80);
@@ -118,7 +117,7 @@
             this.homeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.homeButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.homeButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.homeButton.Location = new System.Drawing.Point(5, 93);
+            this.homeButton.Location = new System.Drawing.Point(5, 107);
             this.homeButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.homeButton.Name = "homeButton";
             this.homeButton.Size = new System.Drawing.Size(402, 80);
@@ -130,26 +129,26 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.7013F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.2987F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.Controls.Add(this.closeButton, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(404, 80);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(404, 94);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // closeButton
             // 
             this.closeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
             this.closeButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.closeButton.Font = new System.Drawing.Font("Segoe UI", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.closeButton.Font = new System.Drawing.Font("Calibri", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.closeButton.ForeColor = System.Drawing.SystemColors.Control;
-            this.closeButton.Location = new System.Drawing.Point(300, 3);
+            this.closeButton.Location = new System.Drawing.Point(307, 3);
             this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(101, 74);
+            this.closeButton.Size = new System.Drawing.Size(94, 88);
             this.closeButton.TabIndex = 0;
             this.closeButton.Text = ">";
             this.closeButton.UseVisualStyleBackColor = false;

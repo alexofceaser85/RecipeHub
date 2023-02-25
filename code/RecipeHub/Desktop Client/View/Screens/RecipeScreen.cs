@@ -46,5 +46,10 @@ namespace Desktop_Client.View.Screens
         {
             ToggleHamburgerMenu();
         }
+
+        private void topBar_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
