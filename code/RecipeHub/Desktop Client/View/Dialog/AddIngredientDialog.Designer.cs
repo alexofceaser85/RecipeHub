@@ -191,6 +191,18 @@
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.Values = new string[0];
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Calibri", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(561, 100);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Add Ingredient";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // AddIngredientDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -223,5 +235,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Components.General.AutocompleteTextBox nameTextBox;
+        private Label label4;
     }
 }
