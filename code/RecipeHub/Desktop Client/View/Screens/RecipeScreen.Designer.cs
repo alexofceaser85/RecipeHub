@@ -159,7 +159,7 @@
             // 
             this.authorNameLabel.AutoSize = true;
             this.authorNameLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.authorNameLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.authorNameLabel.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.authorNameLabel.Location = new System.Drawing.Point(3, 46);
             this.authorNameLabel.Name = "authorNameLabel";
             this.authorNameLabel.Size = new System.Drawing.Size(455, 46);
@@ -256,6 +256,7 @@
             // 
             this.userRatingLabel.AutoSize = true;
             this.userRatingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userRatingLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.userRatingLabel.Location = new System.Drawing.Point(3, 0);
             this.userRatingLabel.Name = "userRatingLabel";
             this.userRatingLabel.Size = new System.Drawing.Size(639, 38);
@@ -267,6 +268,7 @@
             // 
             this.yourRatingLabel.AutoSize = true;
             this.yourRatingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.yourRatingLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.yourRatingLabel.Location = new System.Drawing.Point(3, 38);
             this.yourRatingLabel.Name = "yourRatingLabel";
             this.yourRatingLabel.Size = new System.Drawing.Size(639, 39);
@@ -278,6 +280,7 @@
             // 
             this.descriptionLabel.AutoSize = true;
             this.descriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.descriptionLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.descriptionLabel.Location = new System.Drawing.Point(4, 85);
             this.descriptionLabel.Name = "descriptionLabel";
             this.descriptionLabel.Size = new System.Drawing.Size(645, 106);
@@ -288,6 +291,7 @@
             // 
             this.tabsPlaceholderLabel.AutoSize = true;
             this.tabsPlaceholderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabsPlaceholderLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tabsPlaceholderLabel.Location = new System.Drawing.Point(4, 192);
             this.tabsPlaceholderLabel.Name = "tabsPlaceholderLabel";
             this.tabsPlaceholderLabel.Size = new System.Drawing.Size(645, 93);
@@ -297,27 +301,30 @@
             // ingredientsListLabel
             // 
             this.ingredientsListLabel.AutoSize = true;
+            this.ingredientsListLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.ingredientsListLabel.Location = new System.Drawing.Point(4, 286);
             this.ingredientsListLabel.Name = "ingredientsListLabel";
-            this.ingredientsListLabel.Size = new System.Drawing.Size(101, 25);
+            this.ingredientsListLabel.Size = new System.Drawing.Size(115, 27);
             this.ingredientsListLabel.TabIndex = 3;
             this.ingredientsListLabel.Text = "Ingredients";
             // 
             // stepsLabel
             // 
             this.stepsLabel.AutoSize = true;
-            this.stepsLabel.Location = new System.Drawing.Point(4, 312);
+            this.stepsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.stepsLabel.Location = new System.Drawing.Point(4, 314);
             this.stepsLabel.Name = "stepsLabel";
-            this.stepsLabel.Size = new System.Drawing.Size(55, 25);
+            this.stepsLabel.Size = new System.Drawing.Size(61, 27);
             this.stepsLabel.TabIndex = 4;
             this.stepsLabel.Text = "Steps";
             // 
             // commentsLabel
             // 
             this.commentsLabel.AutoSize = true;
-            this.commentsLabel.Location = new System.Drawing.Point(4, 338);
+            this.commentsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.commentsLabel.Location = new System.Drawing.Point(4, 342);
             this.commentsLabel.Name = "commentsLabel";
-            this.commentsLabel.Size = new System.Drawing.Size(99, 25);
+            this.commentsLabel.Size = new System.Drawing.Size(111, 27);
             this.commentsLabel.TabIndex = 5;
             this.commentsLabel.Text = "Comments";
             // 

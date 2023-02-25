@@ -115,12 +115,12 @@
             // searchTextBox
             // 
             this.searchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.searchTextBox.Location = new System.Drawing.Point(175, 22);
+            this.searchTextBox.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.searchTextBox.Location = new System.Drawing.Point(175, 23);
             this.searchTextBox.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.PlaceholderText = "Search Recipes by Name";
-            this.searchTextBox.Size = new System.Drawing.Size(481, 50);
+            this.searchTextBox.Size = new System.Drawing.Size(481, 47);
             this.searchTextBox.TabIndex = 7;
             this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
             // 

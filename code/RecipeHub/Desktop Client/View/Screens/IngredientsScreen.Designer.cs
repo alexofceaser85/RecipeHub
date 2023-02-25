@@ -141,7 +141,7 @@
             // 
             this.addIngredientButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
             this.addIngredientButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.addIngredientButton.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.addIngredientButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addIngredientButton.ForeColor = System.Drawing.Color.White;
             this.addIngredientButton.Location = new System.Drawing.Point(265, 3);
             this.addIngredientButton.Name = "addIngredientButton";
@@ -171,7 +171,7 @@
             this.removeAllButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
             this.removeAllButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.removeAllButton.Enabled = false;
-            this.removeAllButton.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.removeAllButton.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.removeAllButton.ForeColor = System.Drawing.Color.White;
             this.removeAllButton.Location = new System.Drawing.Point(138, 3);
             this.removeAllButton.Name = "removeAllButton";
