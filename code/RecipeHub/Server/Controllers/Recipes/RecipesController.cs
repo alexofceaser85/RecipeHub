@@ -99,6 +99,36 @@ namespace Server.Controllers.Recipes
         }
 
         /// <summary>
+        /// Gets all of the types for a recipe, if the recipe exists and is visible to the user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the user</param>
+        /// <param name="recipeId">The id of the recipe to search.</param>
+        /// <returns>A response containing the types for recipe.</returns>
+        [HttpGet]
+        [Route("TypesForRecipe")]
+        public RecipeTypesResponseModel GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetTypesForRecipe(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<string>());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<string>());
+            }
+        }
+
+        /// <summary>
         /// Gets the ingredients for a specified recipe, if the recipe exists and is visible to the user.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>

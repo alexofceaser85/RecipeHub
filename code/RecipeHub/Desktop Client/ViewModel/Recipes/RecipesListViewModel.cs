@@ -19,6 +19,7 @@ namespace Desktop_Client.ViewModel.Recipes
 
         private string searchTerm;
         private Recipe[] recipes;
+        private string[][] recipeTags;
 
         /// <summary>
         /// The name of the recipe to search for
@@ -36,6 +37,15 @@ namespace Desktop_Client.ViewModel.Recipes
         {
             get => this.recipes;
             set => this.SetField(ref this.recipes, value);
+        }
+
+        /// <summary>
+        /// The tags for the recipes
+        /// </summary>
+        public string[][] RecipeTags
+        {
+            get => this.recipeTags;
+            set => this.SetField(ref this.recipeTags, value);
         }
 
         /// <summary>
@@ -95,6 +105,7 @@ namespace Desktop_Client.ViewModel.Recipes
             }
 
             this.Recipes = filteredRecipes;
+            this.RecipeTags = this.GetTagsForRecipes(this.recipes);
         }
 
         private Recipe[] getRecipesMatchingTags(Recipe[] unfilteredRecipes, string[] tags)
@@ -135,7 +146,19 @@ namespace Desktop_Client.ViewModel.Recipes
 
             return filteredRecipes.ToArray();
         }
-        
+
+        private string[][] GetTagsForRecipes(Recipe[] recipes)
+        {
+            var tags = new string[recipes.Length][];
+
+            for (int i = 0; i < recipes.Length; i++)
+            {
+                tags[i] = this.recipesService.GetTypesForRecipe(recipes[i].Id);
+            }
+
+            return tags;
+        }
+
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -135,6 +135,23 @@ namespace Desktop_Client.Service.Recipes
         }
 
         /// <inheritdoc/>
+        public string[] GetTypesForRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetTypesForRecipe(Session.Key, recipeId);
+        }
+
+        /// <inheritdoc/>
         public void AddRecipe(string name, string description, bool isPublic)
         {
             if (Session.Key == null)

@@ -43,7 +43,7 @@
             this.userRatingLabel = new System.Windows.Forms.Label();
             this.yourRatingLabel = new System.Windows.Forms.Label();
             this.descriptionLabel = new System.Windows.Forms.Label();
-            this.tabsPlaceholderLabel = new System.Windows.Forms.Label();
+            this.tagsPlaceholderLabel = new System.Windows.Forms.Label();
             this.ingredientsListLabel = new System.Windows.Forms.Label();
             this.stepsLabel = new System.Windows.Forms.Label();
             this.commentsLabel = new System.Windows.Forms.Label();
@@ -218,7 +218,7 @@
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
             this.tableLayoutPanel4.Controls.Add(this.descriptionLabel, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.tabsPlaceholderLabel, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.tagsPlaceholderLabel, 0, 2);
             this.tableLayoutPanel4.Controls.Add(this.ingredientsListLabel, 0, 3);
             this.tableLayoutPanel4.Controls.Add(this.stepsLabel, 0, 4);
             this.tableLayoutPanel4.Controls.Add(this.commentsLabel, 0, 5);
@@ -228,8 +228,8 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 6;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 106F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -282,20 +282,20 @@
             this.descriptionLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.descriptionLabel.Location = new System.Drawing.Point(4, 85);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(645, 106);
+            this.descriptionLabel.Size = new System.Drawing.Size(645, 25);
             this.descriptionLabel.TabIndex = 1;
             this.descriptionLabel.Text = "This is the description for the recipe.";
             // 
-            // tabsPlaceholderLabel
+            // tagsPlaceholderLabel
             // 
-            this.tabsPlaceholderLabel.AutoSize = true;
-            this.tabsPlaceholderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabsPlaceholderLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tabsPlaceholderLabel.Location = new System.Drawing.Point(4, 192);
-            this.tabsPlaceholderLabel.Name = "tabsPlaceholderLabel";
-            this.tabsPlaceholderLabel.Size = new System.Drawing.Size(645, 93);
-            this.tabsPlaceholderLabel.TabIndex = 2;
-            this.tabsPlaceholderLabel.Text = "Tags go here";
+            this.tagsPlaceholderLabel.AutoSize = true;
+            this.tagsPlaceholderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tagsPlaceholderLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.tagsPlaceholderLabel.Location = new System.Drawing.Point(4, 192);
+            this.tagsPlaceholderLabel.Name = "tagsPlaceholderLabel";
+            this.tagsPlaceholderLabel.Size = new System.Drawing.Size(645, 93);
+            this.tagsPlaceholderLabel.TabIndex = 2;
+            this.tagsPlaceholderLabel.Text = "Tags go here";
             // 
             // ingredientsListLabel
             // 
@@ -405,7 +405,7 @@
         private Label userRatingLabel;
         private Label yourRatingLabel;
         private Label descriptionLabel;
-        private Label tabsPlaceholderLabel;
+        private Label tagsPlaceholderLabel;
         private Button pevImageButton;
         private Button nextImageButton;
         private Label ingredientsListLabel;

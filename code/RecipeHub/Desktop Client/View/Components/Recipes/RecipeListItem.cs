@@ -78,7 +78,8 @@ namespace Desktop_Client.View.Components.Recipes
         /// &amp;&amp; this.RecipeId == recipe.RecipeId
         /// </summary>
         /// <param name="recipe">The recipe to load</param>
-        public RecipeListItem(Recipe recipe)
+        /// <param name="tags">The tags for the recipe</param>
+        public RecipeListItem(Recipe recipe, string[]? tags = null)
         {
             this.InitializeComponent();
             this.authorName = "";
@@ -86,6 +87,19 @@ namespace Desktop_Client.View.Components.Recipes
             this.AuthorName = recipe.AuthorName;
             this.RecipeName = recipe.Name;
             this.RecipeId = recipe.Id;
+
+            if (tags == null || tags.Length == 0)
+            {
+                this.tagsPlaceholderLabel.Text = @"No tags";
+            }
+            else
+            {
+                this.tagsPlaceholderLabel.Text = @$"Tags: {tags[0]}";
+                for (var i = 1; i < tags.Length; i++)
+                {
+                    this.tagsPlaceholderLabel.Text += $@", {tags[i]}";
+                }
+            }
         }
 
         private void childControlMouseClick(object sender, EventArgs e)

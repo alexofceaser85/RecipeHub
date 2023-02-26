@@ -61,6 +61,16 @@ namespace Desktop_Client.Service.Recipes
         public RecipeStep[] GetStepsForRecipe(int recipeId);
 
         /// <summary>
+        /// Gets the list of types for a specified recipe, if the user associated with the session key can see it.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrEmpty(sessionKey)<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="recipeId">The id for the recipe to look up.</param>
+        /// <returns>A list of types for the specified recipe.</returns>
+        public string[] GetTypesForRecipe(int recipeId);
+
+        /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>
         /// <br/>
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(Session.Key)<br/>

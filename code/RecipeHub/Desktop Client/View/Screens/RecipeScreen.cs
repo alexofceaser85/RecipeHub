@@ -28,13 +28,22 @@ namespace Desktop_Client.View.Screens
 
         private void BindComponents()
         {
-            this.recipieNameLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.RecipeName)));
-            this.authorNameLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.AuthorName)));
-            this.descriptionLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Description)));
-            this.ingredientsListLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Ingredients)));
-            this.stepsLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Instructions)));
-            this.userRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.UserRatingText)));
-            this.yourRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.YourRatingText)));
+            this.recipieNameLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.RecipeName)));
+            this.authorNameLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.AuthorName)));
+            this.tagsPlaceholderLabel.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.Tags)));
+            this.descriptionLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Description)));
+            this.ingredientsListLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Ingredients)));
+            this.stepsLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Instructions)));
+            this.userRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.UserRatingText)));
+            this.yourRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.YourRatingText)));
         }
         
         private void backButton_Click(object sender, EventArgs e)

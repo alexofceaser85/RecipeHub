@@ -12,6 +12,11 @@ namespace Desktop_Client.ViewModel.Recipes
     public class RecipeViewModel : INotifyPropertyChanged
     {
         /// <summary>
+        /// The message displayed when no tags have been added.
+        /// </summary>
+        public const string NoTagsMessage = "No tags have been added...Yet!";
+
+        /// <summary>
         /// The message displayed when no ingredients have been added.
         /// </summary>
         public const string NoIngredientsMessage = "No ingredients have been added...Yet!";
@@ -24,6 +29,7 @@ namespace Desktop_Client.ViewModel.Recipes
         private string recipeName;
         private string authorName;
         private string description;
+        private string tags;
         private string ingredients;
         private string instructions;
         private string userRatingText;
@@ -47,7 +53,16 @@ namespace Desktop_Client.ViewModel.Recipes
             get => this.authorName;
             set => this.SetField(ref this.authorName, value);
         }
-        
+
+        /// <summary>
+        /// The tags for the recipe, as should be displayed on the screen.
+        /// </summary>
+        public string Tags
+        {
+            get => this.tags;
+            set => this.SetField(ref this.tags, value);
+        }
+
         /// <summary>
         /// The description of the recipe, as should be displayed on the screen.
         /// </summary>
@@ -146,6 +161,7 @@ namespace Desktop_Client.ViewModel.Recipes
         /// <b>Precondition: </b>A recipe with recipeId exists and is visible to the user.<br/>
         /// <b>Postcondition: </b>this.RecipeName == the recipe's name<br/>
         /// &amp;&amp; this.AuthorName == the recipe author's name<br/>
+        /// &amp;&amp; this.Tags == the recipe's tags<br/>
         /// &amp;&amp; this.Description == the recipe's description<br/>
         /// &amp;&amp; this.Ingredients == the recipe's ingredients<br/>
         /// &amp;&amp; this.Instructions == the recipe's instructions<br/>
@@ -156,6 +172,7 @@ namespace Desktop_Client.ViewModel.Recipes
         public void Initialize(int recipeId)
         {
             this.LoadRecipe(recipeId);
+            this.LoadTags(recipeId);
             this.LoadIngredients(recipeId);
             this.LoadInstructions(recipeId);
         }
@@ -168,6 +185,22 @@ namespace Desktop_Client.ViewModel.Recipes
             this.UserRatingText = $"User Rating: {recipe.Rating}/5";
             this.YourRatingText = "Your Rating: 0/5";
             this.Description = recipe.Description;
+        }
+
+        private void LoadTags(int recipeId)
+        {
+            var tags = this.service.GetTypesForRecipe(recipeId);
+            if (tags.Length == 0)
+            {
+                this.Tags = NoTagsMessage;
+                return;
+            }
+
+            this.Tags = tags[0];
+            for (var i = 1; i < tags.Length; i++)
+            {
+                this.Tags += $"\n{tags[i]}";
+            }
         }
 
         private void LoadIngredients(int recipeId)

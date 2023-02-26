@@ -251,5 +251,29 @@ namespace Server.DAL.Recipes
 
             return steps.ToArray();
         }
+
+        /// <inheritdoc/>
+        public string[] GetTypesForRecipe(int recipeId)
+        {
+            var types = new List<string>();
+            const string query = "SELECT Type.typeName FROM RecipeTypes, Type " +
+                                 "WHERE RecipeTypes.recipeId = @recipeId AND RecipeTypes.typeId = Type.typeId;";
+
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+            var typeNameOrdinal= reader.GetOrdinal("typeName");
+
+            while (reader.Read())
+            {
+                var typeName = reader.GetString(typeNameOrdinal);
+                types.Add(typeName);
+            }
+
+            return types.ToArray();
+        }
     }
 }
