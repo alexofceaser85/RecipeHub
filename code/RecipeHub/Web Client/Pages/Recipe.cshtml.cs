@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
 
 namespace Web_Client.Pages
 {
@@ -10,7 +11,13 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class RecipeModel : PageModel
     {
-        private readonly IRecipesService recipeService;
+        /// <summary>
+        /// Gets or sets the view model.
+        /// </summary>
+        /// <value>
+        /// The view model.
+        /// </value>
+        public RecipeViewModel ViewModel { get; set; }
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -28,7 +35,7 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipeModel()
         {
-            this.recipeService = new RecipesService();
+            this.ViewModel = new RecipeViewModel();
         }
 
         /// <summary>
@@ -40,7 +47,7 @@ namespace Web_Client.Pages
         /// <param name="id">The id of the individual recipe.</param>
         public void OnGet(int id)
         {
-            this.Id = id;
+            this.ViewModel.Initialize(id);
         }
     }
 }

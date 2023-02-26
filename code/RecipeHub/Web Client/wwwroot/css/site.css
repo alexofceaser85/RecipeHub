@@ -8,6 +8,33 @@ html {
   }
 }
 
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
+.up {
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
@@ -114,4 +141,49 @@ body {
 
 .recipe-list-item:hover {
     cursor: pointer
+}
+
+.recipe-list-item:hover {
+    background-color: #eee;
+}
+
+.recipe-photos {
+    display: flex;
+    flex-direction: row;
+}
+
+.recipe-photo {
+    width: 700px;
+    height: 300px;
+    margin: 4px;
+    border: 1px solid #ccc;
+}
+
+.recipe-photo:hover {
+    cursor: pointer;
+}
+.center-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.recipe-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.recipe-info .recipe-name {
+    margin: 0;
+}
+
+.recipe-collapse-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+    font-size: 24px;
 }
