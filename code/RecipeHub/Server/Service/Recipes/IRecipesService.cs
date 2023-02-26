@@ -80,6 +80,20 @@ namespace Server.Service.Recipes
         public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId);
 
         /// <summary>
+        /// Gets all of the types associated with a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The user can view the recipe<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key for the active user.</param>
+        /// <param name="recipeId">The id for the recipe to retrieve</param>
+        /// <returns>The types for thr recipe</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId);
+
+        /// <summary>
         /// Attempts to add a recipe to the database.<br/>
         /// <br/>
         /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>

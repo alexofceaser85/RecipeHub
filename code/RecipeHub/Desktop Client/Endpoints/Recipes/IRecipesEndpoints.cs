@@ -66,6 +66,17 @@ namespace Desktop_Client.Endpoints.Recipes
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
 
         /// <summary>
+        /// Gets all of the types for a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>The user has access to the recipe.<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the account</param>
+        /// <param name="recipeId">The id for the recipe.</param>
+        /// <returns>The types for the recipe.</returns>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId);
+
+        /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>
         /// <br/>
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>

@@ -17,11 +17,13 @@ namespace Desktop_Client.Endpoints.Recipes
         private const string RecipeStepsRoute = "RecipeSteps";
         private const string RecipesRoute = "Recipes";
         private const string RecipesForTypeRoute = "RecipesForType";
+        private const string TypesForRecipeRoute = "TypesForRecipe";
 
         private const string RecipeElementName = "recipe";
         private const string RecipesElementName = "recipes";
         private const string IngredientsElementName = "ingredients";
         private const string StepsElementName = "steps";
+        private const string TypesElementName = "types";
 
         private readonly HttpClient client;
 
@@ -119,6 +121,19 @@ namespace Desktop_Client.Endpoints.Recipes
             var steps = json.AsObject()[StepsElementName].Deserialize<RecipeStep[]>();
 
             return steps!;
+        }
+
+        /// <inheritdoc/>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var requestUri = $"{ServerSettings.ServerUri}{TypesForRecipeRoute}{serverMethodParameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var types = json.AsObject()[TypesElementName].Deserialize<string[]>();
+
+            return types!;
         }
 
         /// <inheritdoc/>
