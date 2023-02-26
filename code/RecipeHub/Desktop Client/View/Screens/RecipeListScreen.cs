@@ -117,15 +117,5 @@ namespace Desktop_Client.View.Screens
                 this.viewmodel.GetRecipes();
             }
         }
-
-        private void mainLayoutPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
     }
 }

@@ -92,7 +92,6 @@
             this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.topBar.Size = new System.Drawing.Size(673, 104);
             this.topBar.TabIndex = 0;
-            this.topBar.Paint += new System.Windows.Forms.PaintEventHandler(this.topBar_Paint);
             // 
             // tableLayoutPanel2
             // 

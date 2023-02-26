@@ -61,7 +61,6 @@
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainLayoutPanel.Size = new System.Drawing.Size(713, 1324);
             this.mainLayoutPanel.TabIndex = 0;
-            this.mainLayoutPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mainLayoutPanel_Paint);
             // 
             // topBar
             // 
@@ -93,7 +92,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(665, 94);
             this.tableLayoutPanel1.TabIndex = 7;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // filtersButton
             // 
