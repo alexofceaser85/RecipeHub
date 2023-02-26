@@ -35,21 +35,24 @@ namespace Desktop_Client.View.Screens
                 nameof(this.viewmodel.SearchTerm)));
             this.viewmodel.PropertyChanged += (_, arg) =>
             {
-                if (arg.PropertyName != nameof(this.viewmodel.Recipes))
+                if (arg.PropertyName != nameof(this.viewmodel.RecipeTags))
                 {
                     return;
                 }
 
-                this.PopulateRecipeList(this.viewmodel.Recipes);
+                this.PopulateRecipeList(this.viewmodel.Recipes, this.viewmodel.RecipeTags);
             };
         }
 
-        private void PopulateRecipeList(IEnumerable<Recipe> recipes)
+        private void PopulateRecipeList(Recipe[] recipes, string[][] recipeTags)
         {
             this.ClearRecipeList();
-            foreach (var recipe in recipes)
+            for (var i = 0; i < recipes.Length; i++)
             {
-                var item = new RecipeListItem(recipe);
+                var recipe = recipes[i];
+                var tags = recipeTags[i];
+
+                var item = new RecipeListItem(recipe, tags);
                 this.recipeListTablePanel.Controls.Add(item);
                 this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 160));
                 item.Tapped += this.RecipeListItemMouseClick;
