@@ -15,14 +15,5 @@ namespace Web_Client.Model.Filters
         /// </value>
         [BindProperty]
         public List<string>? FiltersTypes { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether [only available ingredients].
-        /// </summary>
-        /// <value>
-        ///   <c>true</c> if [only available ingredients]; otherwise, <c>false</c>.
-        /// </value>
-        [BindProperty]
-        public bool OnlyAvailableIngredients { get; set; }
     }
 }

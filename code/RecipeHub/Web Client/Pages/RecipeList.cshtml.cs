@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Recipes;
@@ -37,6 +38,17 @@ namespace Web_Client.Pages
         public FiltersBindingModel BindingModel { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether [only available ingredients].
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if [only available ingredients]; otherwise, <c>false</c>.
+        /// </value>
+        public bool OnlyAvailableIngredients { 
+            get => this.viewModel.Filters.OnlyAvailableIngredients;
+            set => this.viewModel.Filters.OnlyAvailableIngredients = value;
+        }
+
+        /// <summary>
         /// Creates a default instance of <see cref="RecipesListModel"/>.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
@@ -47,6 +59,7 @@ namespace Web_Client.Pages
             this.Recipes = new Recipe[0];
             this.RecipeTypes = new string[0];
             this.viewModel = new RecipesListViewModel();
+            this.viewModel.Filters.OnlyAvailableIngredients = true;
 
             try
             {
@@ -68,18 +81,21 @@ namespace Web_Client.Pages
         /// Called when [post submit].
         /// </summary>
         /// <param name="bindingModel">The binding model.</param>
+        /// <returns>the current page.</returns>
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
-            //TODO: Add Property for Available Ingredients.
             this.BindingModel = bindingModel;
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
-            this.viewModel.Filters.OnlyAvailableIngredients = bindingModel.OnlyAvailableIngredients;
+            var request = Request.Form;
+            bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
+            this.viewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
             var filteredRecipes = this.viewModel.GetRecipes();
             this.Recipes = filteredRecipes;
 
             ModelState.Clear();
             ModelState.SetModelValue("BindingModel.FiltersTypes",
                 new ValueProviderResult(bindingModel.FiltersTypes.ToArray()));
+            ModelState.SetModelValue("OnlyAvailableIngredients", new ValueProviderResult(onlyAvailableIngredients.ToString()));
         }
     }
 }

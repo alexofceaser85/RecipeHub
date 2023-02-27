@@ -15,7 +15,7 @@
             <form id="filtersForms" method="post" asp-page-handler="Submit">
                 <fieldset>
                     <div id="recipe-filter-by-available-ingredients-container">
-                        <input type="checkbox" id="recipe-filter-available-ingredient" class="filter-checkbox" name="BindingModel.OnlyAvailableIngredients" value="onlyAvailableIngredients" >
+                        <input type="checkbox" id="recipe-filter-available-ingredient" class="filter-checkbox" value="true" name="only-available-ingredients" @if (Model.OnlyAvailableIngredients) { <text>checked</text> }>
                         <label for="recipe-filter-available-ingredient">Only Available Ingredients</label>
                     </div>
                     <div id="recipe-filter-by-tag-container">
