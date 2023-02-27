@@ -38,6 +38,7 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.nameTextBox = new Desktop_Client.View.Components.General.AutocompleteTextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -49,11 +50,11 @@
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancelButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cancelButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.cancelButton.Location = new System.Drawing.Point(120, 448);
+            this.cancelButton.Location = new System.Drawing.Point(120, 498);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.cancelButton.MaximumSize = new System.Drawing.Size(429, 0);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(326, 123);
+            this.cancelButton.Size = new System.Drawing.Size(326, 73);
             this.cancelButton.TabIndex = 16;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -66,11 +67,11 @@
             this.addIngredientButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addIngredientButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addIngredientButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.addIngredientButton.Location = new System.Drawing.Point(120, 302);
+            this.addIngredientButton.Location = new System.Drawing.Point(120, 402);
             this.addIngredientButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.addIngredientButton.MaximumSize = new System.Drawing.Size(429, 0);
             this.addIngredientButton.Name = "addIngredientButton";
-            this.addIngredientButton.Size = new System.Drawing.Size(326, 122);
+            this.addIngredientButton.Size = new System.Drawing.Size(326, 72);
             this.addIngredientButton.TabIndex = 15;
             this.addIngredientButton.Text = "Add Ingredient";
             this.addIngredientButton.UseVisualStyleBackColor = false;
@@ -142,13 +143,15 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.addIngredientButton, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.addIngredientButton, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 290F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -167,7 +170,7 @@
             this.tableLayoutPanel2.Controls.Add(this.measurementComboBox, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.nameTextBox, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 103);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 3;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
@@ -188,6 +191,18 @@
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.Values = new string[0];
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Font = new System.Drawing.Font("Calibri", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(561, 100);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Add Ingredient";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // AddIngredientDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -201,6 +216,7 @@
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Add Ingredient";
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
@@ -219,5 +235,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private Components.General.AutocompleteTextBox nameTextBox;
+        private Label label4;
     }
 }

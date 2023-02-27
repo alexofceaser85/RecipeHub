@@ -87,6 +87,7 @@
         {
             if (!this.isAdded)
             {
+                this.SetListboxLocation();
                 Control parent = this;
                 while (parent.Parent != null)
                 {
@@ -94,8 +95,6 @@
                 }
 
                 parent.Controls.Add(this.listBox);
-                this.listBox.Left = Left;
-                this.listBox.Top = Top + Height;
                 this.isAdded = true;
                 this.listBox.Click += (_, _) => this.AcceptSuggestion();
             }
@@ -122,10 +121,26 @@
             return true;
         }
 
+        private void SetListboxLocation()
+        {
+            Control parent = this;
+            var top = 0;
+            var left = 0;
+
+            while (parent.Parent != null && parent.Parent.Parent != null)
+            {
+                top += parent.Top;
+                left += parent.Left;
+                parent = parent.Parent;
+            }
+
+            this.listBox.Location = new Point(left, top + base.Height);
+        }
+
         private void this_KeyUp(object? sender, KeyEventArgs e)
         {
             this.UpdateListBox();
-            this.listBox.Location = new Point(this.Location.X, this.Location.Y + this.Size.Height);
+            this.SetListboxLocation();
         }
 
         private void this_KeyDown(object? sender, KeyEventArgs e)
@@ -147,7 +162,7 @@
                     }
                 case Keys.Up:
                     {
-                        if (this.listBox is {Visible: true, SelectedIndex: > 0})
+                        if (this.listBox is { Visible: true, SelectedIndex: > 0 })
                             this.listBox.SelectedIndex--;
                         e.Handled = true;
                         break;
