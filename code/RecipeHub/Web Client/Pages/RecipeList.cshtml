@@ -4,11 +4,6 @@
 
 
 <div id="recipe-list-wrapper">
-    <div id="recipe-list-header">
-        <div>Recipes</div>
-        <div><span class="text-primary">Home</span> | Planned Meals | <a asp-page="/Ingredients">Ingredients</a></div>
-        <div><a href="index">Logout</a></div>
-    </div>
     <div id="recipe-list-body">
         <div id="recipe-filters">
             <div class="text-white bg-info text-center" id="recipe-filter-header">Filters</div>
@@ -17,6 +12,10 @@
                     <div id="recipe-filter-by-available-ingredients-container">
                         <input type="checkbox" id="recipe-filter-available-ingredient" class="filter-checkbox" value="true" name="only-available-ingredients" @if (Model.OnlyAvailableIngredients) { <text>checked</text> }>
                         <label for="recipe-filter-available-ingredient">Only Available Ingredients</label>
+                    </div>
+                    <div>
+                        <label for="recipe-search-button"><h4>Search:</h4></label>
+                        <input type="text" id="recipe-search-button" name="SearchText" value="@Model.SearchText" placeholder="Search for recipes..."/>
                     </div>
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
@@ -42,15 +41,13 @@
             </form>
         </div>
         <div id="recipe-list-main">
-            <div id="recipe-search">
-                <text></text>
-            </div>
             <div id="recipe-list">
                 @foreach (var recipe in Model.Recipes)
                 {
+                <a asp-page="./Recipe" asp-route-id="@recipe.Id">
                     <div class="recipe-list-item">
                         <div>
-                            <a asp-page="./Recipe" asp-route-id="@recipe.Id"><p class="recipe-name">@recipe.Name</p></a>
+                            <p class="recipe-name">@recipe.Name</p>
                             <p class="recipe-author">By: @recipe.AuthorName</p>
                         </div>
                         <div>
@@ -58,6 +55,7 @@
                             <div class="text-end">Tags go here</div>
                         </div>
                     </div>
+                </a>
                 }
             </div>
         </div>

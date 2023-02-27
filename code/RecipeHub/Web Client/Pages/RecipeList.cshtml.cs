@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -38,6 +39,15 @@ namespace Web_Client.Pages
         public FiltersBindingModel BindingModel { get; set; }
 
         /// <summary>
+        /// Gets or sets the search text.
+        /// </summary>
+        /// <value>
+        /// The search text.
+        /// </value>
+        [BindProperty]
+        public string SearchText { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether [only available ingredients].
         /// </summary>
         /// <value>
@@ -56,10 +66,13 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipesListModel()
         {
-            this.Recipes = new Recipe[0];
-            this.RecipeTypes = new string[0];
-            this.viewModel = new RecipesListViewModel();
-            this.viewModel.Filters.OnlyAvailableIngredients = true;
+            this.Recipes = Array.Empty<Recipe>();
+            this.RecipeTypes = Array.Empty<string>();
+            this.viewModel = new RecipesListViewModel {
+                Filters = {
+                    OnlyAvailableIngredients = true
+                }
+            };
 
             try
             {
@@ -78,7 +91,10 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
-        /// Called when [post submit].
+        /// Called when filters are applied.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: Filters are applied<br />
         /// </summary>
         /// <param name="bindingModel">The binding model.</param>
         /// <returns>the current page.</returns>
@@ -86,16 +102,18 @@ namespace Web_Client.Pages
         {
             this.BindingModel = bindingModel;
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
-            var request = Request.Form;
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
+            string searchText = Request.Form["SearchText"][0]!;
             this.viewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
-            var filteredRecipes = this.viewModel.GetRecipes();
+            var filteredRecipes = this.viewModel.GetRecipes(searchText);
             this.Recipes = filteredRecipes;
 
             ModelState.Clear();
             ModelState.SetModelValue("BindingModel.FiltersTypes",
                 new ValueProviderResult(bindingModel.FiltersTypes.ToArray()));
             ModelState.SetModelValue("OnlyAvailableIngredients", new ValueProviderResult(onlyAvailableIngredients.ToString()));
+            ModelState.SetModelValue("SearchText", new ValueProviderResult(searchText));
         }
+
     }
 }
