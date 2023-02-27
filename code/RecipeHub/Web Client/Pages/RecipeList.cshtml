@@ -12,19 +12,23 @@
     <div id="recipe-list-body">
         <div id="recipe-filters">
             <div class="text-white bg-info text-center" id="recipe-filter-header">Filters</div>
-                <form id="filtersForms" method="post" asp-page-handler="Submit">
+            <form id="filtersForms" method="post" asp-page-handler="Submit">
                 <fieldset>
+                    <div id="recipe-filter-by-available-ingredients-container">
+                        <input type="checkbox" id="recipe-filter-available-ingredient" class="filter-checkbox" name="BindingModel.OnlyAvailableIngredients" value="onlyAvailableIngredients" >
+                        <label for="recipe-filter-available-ingredient">Only Available Ingredients</label>
+                    </div>
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
                         <div id="recipe-filter-by-type-input-container">
-                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes" />
+                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes"/>
                             <div id="recipe-types">
                                 @foreach (var type in Model.RecipeTypes)
                                 {
                                     <div id="form-check">
-                                            <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" class="filter-checkbox" value="@type"
-                                               @(ModelState.TryGetValue("BindingModel.FiltersTypes", out var filters) 
-                                                 && filters.AttemptedValue.Contains(type) ? "checked" : "") />
+                                        <input type="checkbox" id="@type" name="BindingModel.FiltersTypes" class="filter-checkbox" value="@type"
+                                               @(ModelState.TryGetValue("BindingModel.FiltersTypes", out var filters)
+                                                 && filters.AttemptedValue.Contains(type) ? "checked" : "")/>
                                         <label for="@type">@type</label>
                                     </div>
                                 }
@@ -32,7 +36,7 @@
                         </div>
                     </div>
                     <div id="apply-filters-container">
-                            <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
+                        <button id="apply-filters-button" type="submit" value="Submit" asp-page-handler="Submit">Apply Filters</button>
                     </div>
                 </fieldset>
             </form>
@@ -62,79 +66,6 @@
 @section Scripts
 {
     <script type="text/javascript">
-        //var ingredientName = "";
-
-        ////Edit Ingredient
-        //$(".ingredient-edit-button").click(function () {
-        //    ingredientName = $(this).data('ingredient-name');
-        //});
-
-        //$("#edit-amount-submit-button").click(function () {
-        //    var amount = $("#edit-amount-button").val();
-        //    $.ajax({
-        //        url: "/Ingredients?handler=EditIngredient",
-        //        type: "POST",
-        //        data: {
-        //            ingredientName: ingredientName,
-        //            amount: amount
-        //        },
-        //        success: function (data) {
-        //            location.reload();
-        //        }
-        //    });
-        //});
-
-        ////Remove Ingredient
-        //$(".ingredient-delete-button").click(function () {
-        //    ingredientName = $(this).data('ingredient-name');
-        //});
-
-        //$("#remove-ingredient-button").click(function () {
-        //    $.ajax({
-        //        url: "/Ingredients?handler=RemoveIngredient",
-        //        type: "POST",
-        //        data: {
-        //            ingredientName: ingredientName
-        //        },
-        //        success: function (data) {
-        //            location.reload();
-        //        }
-        //    });
-        //});
-
-        ////Remove All
-        //$("#remove-all-button").click(function () {
-        //    $.ajax({
-        //        url: "/Ingredients?handler=RemoveAll",
-        //        type: "POST",
-        //        success: function (data) {
-        //            location.reload();
-        //        }
-        //    });
-        //});
-
-        ////Add Ingredient
-        //$("#add-ingredient-submit-button").click(function () {
-        //var ingredientName = $("#add-ingredient-name").val();
-        //var amount = $("#add-ingredient-number").val();
-        //var measurementType = $("#measurement-type-dropdown").val();
-        //$.ajax({
-        //    url: "@Url.Page("/Ingredients")?handler=AddIngredient",
-        //    type: "POST",
-        //    data: {
-        //        ingredientName: ingredientName,
-        //        amount: amount,
-        //        measurementType: measurementType
-        //    },
-        //    success: function (data) {
-        //        location.reload();
-        //    }
-        //});
-        //});
-        //function addIngredient() {
-           
-        //}
-
         document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
             // Get the value entered by the user
             var inputValue = this.value;

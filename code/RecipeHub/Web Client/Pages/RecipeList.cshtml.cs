@@ -27,6 +27,7 @@ namespace Web_Client.Pages
         /// The recipe types.
         /// </value>
         public string[] RecipeTypes { get; set; }
+
         /// <summary>
         /// Gets or sets the binding model.
         /// </summary>
@@ -69,8 +70,10 @@ namespace Web_Client.Pages
         /// <param name="bindingModel">The binding model.</param>
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
+            //TODO: Add Property for Available Ingredients.
             this.BindingModel = bindingModel;
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
+            this.viewModel.Filters.OnlyAvailableIngredients = bindingModel.OnlyAvailableIngredients;
             var filteredRecipes = this.viewModel.GetRecipes();
             this.Recipes = filteredRecipes;
 
