@@ -47,7 +47,15 @@ namespace Web_Client.Pages
         /// <param name="id">The id of the individual recipe.</param>
         public void OnGet(int id)
         {
-            this.ViewModel.Initialize(id);
+            try
+            {
+                this.ViewModel.Initialize(id);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                Response.Redirect("/Index");
+            }
         }
     }
 }

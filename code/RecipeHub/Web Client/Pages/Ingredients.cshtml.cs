@@ -22,7 +22,7 @@ namespace Web_Client.Pages
         /// <summary>
         /// The list of ingredients for the page.
         /// </summary>
-        public IList<Ingredient> Ingredients { get; set; }
+        public IList<Ingredient> Ingredients { get; set; } = null!;
 
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsModel"/>.<br/>
@@ -33,7 +33,15 @@ namespace Web_Client.Pages
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
-            this.Ingredients = this.viewModel.GetAllIngredientsForUser();
+            try
+            {
+                this.Ingredients = this.viewModel.GetAllIngredientsForUser();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                Response.Redirect("/Index");
+            }
         }
 
         /// <summary>

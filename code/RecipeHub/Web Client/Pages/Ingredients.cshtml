@@ -5,24 +5,33 @@
 @using Shared_Resources.Model.Ingredients
 @model Web_Client.Pages.IngredientsModel
 @{
-    <h1>Ingredients</h1>
+    ViewData["Title"] = "Ingredients";
+    ViewData["Header"] = "Ingredients";
+
     <div>
         <p>Use this page to add ingredients to your recipes.</p>
         <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
     </div>
 
-    @foreach (var ingredient in Model.Ingredients)
+    @if (Model.Ingredients.Count < 1)
     {
-        <div class="ingredient">
-            <div class="ingredient-name">
-                <p class="ingredient-name-title">@ingredient.Name</p>
-                <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
+        <p>No ingredients found!</p>
+    }
+    else
+    {
+        @foreach (var ingredient in Model.Ingredients)
+        {
+            <div class="ingredient">
+                <div class="ingredient-name">
+                    <p class="ingredient-name-title">@ingredient.Name</p>
+                    <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
+                </div>
+                <div class="ingredient-actions">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
+                </div>
             </div>
-            <div class="ingredient-actions">
-                <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
-            </div>
-        </div>
+        }
     }
 
     <button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-modal">Remove All</button>
