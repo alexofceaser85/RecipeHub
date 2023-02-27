@@ -44,7 +44,7 @@
             <div id="recipe-list">
                 @foreach (var recipe in Model.Recipes)
                 {
-                <a asp-page="./Recipe" asp-route-id="@recipe.Id">
+                <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
                     <div class="recipe-list-item">
                         <div>
                             <p class="recipe-name">@recipe.Name</p>

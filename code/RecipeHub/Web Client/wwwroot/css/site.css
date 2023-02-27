@@ -183,7 +183,14 @@ body {
 .recipe-collapse-header {
     display: flex;
     flex-direction: row;
+    -o-justify-content: space-between;
+    -webkit-justify-content: space-between;
     justify-content: space-between;
     width: 250px;
     font-size: 24px;
+}
+
+.non-styled-link {
+    text-decoration: none;
+    color: #000;
 }
