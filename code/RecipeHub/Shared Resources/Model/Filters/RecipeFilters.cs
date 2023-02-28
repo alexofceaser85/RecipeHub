@@ -26,7 +26,7 @@
         /// </summary>
         public RecipeFilters()
         {
-            this.OnlyAvailableIngredients = false;
+            this.OnlyAvailableIngredients = true;
             this.MatchTags = Array.Empty<string>();
         }
     }
