@@ -67,12 +67,12 @@
     <script type="text/javascript">
         document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
             // Get the value entered by the user
-            var inputValue = this.value;
+            var inputValue = this.value.toUpperCase();
             // Loop through all the checkboxes and hide the ones that don't match the entered value
                 var checkboxes = document.getElementsByClassName('filter-checkbox');
             for (var i = 0; i < checkboxes.length; i++) {
                 var checkbox = checkboxes[i];
-                if (checkbox.value.indexOf(inputValue) !== 0) {
+                if (checkbox.value.toUpperCase().indexOf(inputValue) !== 0) {
                     checkbox.parentNode.style.display = 'none';
                 } else {
                     checkbox.parentNode.style.display = 'block';
