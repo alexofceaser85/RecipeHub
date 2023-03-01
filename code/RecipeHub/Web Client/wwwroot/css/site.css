@@ -94,13 +94,20 @@ body {
 
 #site-header {
     height: 100px;
-    width: 100%;
+    width: 100vw;
     display: flex;
+    margin: 0;
+    padding: 0;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: space-around;
+    align-content: space-between;
     font-size: 32px;
     color: #888;
+    border-bottom: 1px solid #ccc;
+    background-color: #eee;
+}
+#site-header * {
+    margin: 0 10px;
 }
 
 #site-header a {

@@ -13,9 +13,11 @@
     <header>
         <nav id="site-header">
             <!-- TODO: Make this responsive as actual flex row with spacing and placed in center. -->
-            <div>@Html.Raw(ViewData["Header"]) | </div>
-            <div><span class="text-primary"><a asp-page="/RecipeList"> Home</a></span> | Planned Meals | <a asp-page="/Ingredients">Ingredients </a></div>
-            <div><a asp-page="/Index"> | Logout</a></div>
+            <p>@Html.Raw(ViewData["Header"])</p>
+            <span class="text-primary"><a asp-page="/RecipeList">Home</a></span>
+            <p>Planned Meals</p>
+            <a asp-page="/Ingredients">Ingredients</a>
+            <a asp-page="/Index">Logout</a>
         </nav>
     </header>
     <div class="container">
