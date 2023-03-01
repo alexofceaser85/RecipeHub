@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="add-ingredient-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,7 +107,9 @@
                 </div>
                 <form asp-page-handler="AddIngredient" method="post">
                     <div class="modal-body">
-                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Ingrediate Name"/>
+                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions"/>
+                        <datalist id="ingredient-suggestions">
+                        </datalist>
                         <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
                         <select name="Measurement">
                             <option value="0">Quantity</option>
@@ -119,6 +121,10 @@
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
+                </form>
+                <form asp-page-handler="GetIngredientsSuggestions" method="post" id="add-ingredients-suggestions-form">
+                    <input type="text" name="searchText" id="add-ingredients-suggestions-text" hidden/>
+                    <button type="submit" id="add-ingredients-suggestions-submit" hidden></button>
                 </form>
             </div>
         </div>
@@ -133,6 +139,51 @@
             $(".ingredient-delete-button").click(function () {
                 $("#remove-ingredient-text").val($(this).data('ingredient-name'));
             });
+            
+            $("#add-ingredient-name").keyup(function () {
+                $("#add-ingredients-suggestions-text").val($(this).val());
+                $("#add-ingredients-suggestions-submit").click();
+            });
+
+            $(function () {
+                $("#add-ingredients-suggestions-form").submit(function (event) {
+                    event.preventDefault();
+
+                    var form = $(this);
+                    var url = form.attr("action");
+                    var method = form.attr("method");
+                    var data = form.serialize();
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: data,
+                        success: function (result) {
+                            console.log(result);
+                            updateSuggestions(result);
+                        },
+                        error: function () {
+                            console.log("Error occurred.");
+                        }
+                    });
+                });
+            });
+            
+            function updateSuggestions(suggestions) {
+                const datalist = document.getElementById("ingredient-suggestions");
+
+                while (datalist.firstChild) {
+                    datalist.removeChild(datalist.firstChild);
+                }
+                
+                suggestions.forEach((suggestion) => {
+                    const option = document.createElement("option");
+                    option.value = suggestion;
+                    datalist.appendChild(option);
+                });
+                }
+                
+
     </script>
 }
 }
