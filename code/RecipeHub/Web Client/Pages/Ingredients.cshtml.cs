@@ -1,6 +1,10 @@
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Utils.Json;
 using Web_Client.Model.Ingredients;
 using Web_Client.ViewModel.Ingredient;
 
@@ -11,6 +15,7 @@ namespace Web_Client.Pages
     /// </summary>
     public class IngredientsModel : PageModel
     {
+        private const int NumberOfSuggestions = 5;
         private readonly IngredientsViewModel viewModel;
 
         /// <summary>
@@ -22,7 +27,16 @@ namespace Web_Client.Pages
         /// <summary>
         /// The list of ingredients for the page.
         /// </summary>
-        public IList<Ingredient> Ingredients { get; set; }
+        public IList<Ingredient> Ingredients { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the suggestions.
+        /// </summary>
+        /// <value>
+        /// The suggestions.
+        /// </value>
+        [BindProperty]
+        public string[]? Suggestions { get; set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="IngredientsModel"/>.<br/>
@@ -33,7 +47,16 @@ namespace Web_Client.Pages
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
-            this.Ingredients = this.viewModel.GetAllIngredientsForUser();
+            try
+            {
+                this.Ingredients = this.viewModel.GetAllIngredientsForUser();
+                this.Suggestions = Array.Empty<string>();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                Response.Redirect("/Index");
+            }
         }
 
         /// <summary>
@@ -54,12 +77,27 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
+        /// Called when the ingredients are gotten from the server.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: None<br />
+        /// </summary>
+        /// <param name="searchText">The search text.</param>
+        /// <returns>JSON containing the suggested ingredients.</returns>
+        public IActionResult OnPostGetIngredientsSuggestions(string searchText)
+        {
+            string[] suggestions = this.viewModel.GetSuggestions(searchText);
+            this.Suggestions = suggestions.Take(NumberOfSuggestions).ToArray();
+            return Content(JsonSerializer.Serialize(this.Suggestions), "application/json");
+        }
+
+        /// <summary>
         /// Called when [post delete ingredient].
         /// </summary>
         /// <returns>The page</returns>
         public IActionResult OnPostDeleteIngredientAsync()
         {
-            var name = Request.Form["Name"][0]!;
+            string name = Request.Form["Name"][0]!;
             this.viewModel.RemoveIngredient(new Ingredient(name!, 0, MeasurementType.Quantity));
             return RedirectToPage("Ingredients");
         }
@@ -73,8 +111,8 @@ namespace Web_Client.Pages
         /// <returns>The page</returns>
         public IActionResult OnPostUpdateIngredientAsync()
         {
-            var name = Request.Form["Name"][0]!;
-            var amount = int.Parse(Request.Form["Amount"]!);
+            string name = Request.Form["Name"][0]!;
+            int amount = int.Parse(Request.Form["Amount"]!);
             this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));
             return RedirectToPage("Ingredients");
         }

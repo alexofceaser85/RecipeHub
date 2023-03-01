@@ -24,7 +24,7 @@ namespace Web_Client.Service.Recipes
         {
 
         }
-        
+
         /// <summary>
         /// Creates a instance of <see cref="RecipesService"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
@@ -33,9 +33,10 @@ namespace Web_Client.Service.Recipes
         /// </summary>
         public RecipesService(IRecipesEndpoints endpoints, IUsersService usersService)
         {
-            this.endpoints = endpoints ?? 
+            this.endpoints = endpoints ??
                              throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull);
-            this.usersService = usersService;
+            this.usersService = usersService ??
+                                throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.UserServiceCannotBeNull);
         }
 
         /// <inheritdoc/>
@@ -50,6 +51,7 @@ namespace Web_Client.Service.Recipes
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
+
             if (searchTerm == null)
             {
                 throw new ArgumentNullException(nameof(searchTerm), RecipesServiceErrorMessages.SearchTermCannotBeNull);
@@ -130,6 +132,23 @@ namespace Web_Client.Service.Recipes
 
             this.usersService.RefreshSessionKey();
             return this.endpoints.GetStepsForRecipe(Session.Key, recipeId);
+        }
+
+        /// <inheritdoc/>
+        public string[] GetTypesForRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetTypesForRecipe(Session.Key, recipeId);
         }
 
         /// <inheritdoc/>

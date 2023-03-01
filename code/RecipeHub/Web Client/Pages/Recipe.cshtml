@@ -1,0 +1,66 @@
+﻿@page "{id:int}"
+@model Web_Client.Pages.RecipeModel
+@{
+    ViewData["Title"] = $"{Model.ViewModel.RecipeName}";
+    ViewData["Header"] = $"{Model.ViewModel.RecipeName}<br />By {Model.ViewModel.AuthorName}";
+    <div class="center-screen">
+
+        <div class="recipe-photos">
+            <button type="button">
+                <i class="arrow left"></i>
+            </button>
+            <div class="recipe-photo">
+            </div>
+            <button type="button">
+                <i class="arrow right"></i>
+            </button>
+        </div>
+        <hr/>
+        <div class="recipe-info">
+            <div id="recipe-description">
+                <p>@Html.Raw(Model.ViewModel.Description)</p>
+            </div>
+            <hr/>
+
+            <div class="card" id="recipe-types">
+                <div class="card-header">
+                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-types-collapse" aria-expanded="true" aria-controls="recipe-types-collapse">
+                        <div class="recipe-collapse-header"><span>Types</span><i class="fas fa-chevron-down ml-2"></i></div>
+                    </button>
+                </div>
+                <div id="recipe-types-collapse" class="collapse" aria-labelledby="recipe-types">
+                    <div class="card-body">
+                        <p>@Html.Raw(Model.ViewModel.Tags)</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card" id="recipe-ingredients">
+                <div class="card-header">
+                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-ingredients-collapse" aria-expanded="true" aria-controls="recipe-ingredients-collapse">
+                        <div class="recipe-collapse-header"><span>Ingredients</span><i class="fas fa-chevron-down ml-2"></i></div>
+                    </button>
+                </div>
+                <div id="recipe-ingredients-collapse" class="collapse" aria-labelledby="recipe-ingredients">
+                    <div class="card-body">
+                        <p>@Html.Raw(Model.ViewModel.Ingredients)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" id="recipe-steps">
+                <div class="card-header">
+                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-steps-collapse" aria-expanded="true" aria-controls="recipe-steps-collapse">
+                        <div class="recipe-collapse-header"><span>Steps</span><i class="fas fa-chevron-down ml-2"></i></div>
+                    </button>
+                </div>
+                <div id="recipe-steps-collapse" class="collapse" aria-labelledby="recipe-steps">
+                    <div class="card-body">
+                        <p>@Html.Raw(Model.ViewModel.Instructions)</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
