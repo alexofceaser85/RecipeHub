@@ -200,3 +200,12 @@ body {
     text-decoration: none;
     color: #000;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+.buffer {
+    margin-bottom: 20px;
+}

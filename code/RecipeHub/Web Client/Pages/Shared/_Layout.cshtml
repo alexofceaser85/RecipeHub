@@ -10,16 +10,17 @@
     <link rel="stylesheet" href="~/Web_Client.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav id="site-header">
-            <!-- TODO: Make this responsive as actual flex row with spacing and placed in center. -->
-            <p>@Html.Raw(ViewData["Header"])</p>
-            <span class="text-primary"><a asp-page="/RecipeList">Home</a></span>
-            <p>Planned Meals</p>
-            <a asp-page="/Ingredients">Ingredients</a>
-            <a asp-page="/Index">Logout</a>
-        </nav>
-    </header>
+<header>
+    <nav id="site-header">
+        <!-- TODO: Make this responsive as actual flex row with spacing and placed in center. -->
+        <p>@Html.Raw(ViewData["Header"])</p>
+        <span class="text-primary"><a asp-page="/RecipeList">Home</a></span>
+        <p>Planned Meals</p>
+        <a asp-page="/Ingredients">Ingredients</a>
+        <a asp-page="/Index">Logout</a>
+    </nav>
+</header>
+    <div class="buffer"></div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
