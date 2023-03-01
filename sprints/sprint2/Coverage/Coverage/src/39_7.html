@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\ErrorMessages\ErrorMessages.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Data.Settings;
+
+namespace Shared_Resources.ErrorMessages
+{
+    /// &lt;summary&gt;
+    /// The error messages for the user info
+    /// &lt;/summary&gt;
+    public static class UserInfoErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The username cannot be null error message
+        /// &lt;/summary&gt;
+        public const string UsernameCannotBeNull = &quot;The user name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The username cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string UsernameCannotBeEmpty = &quot;The user name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The first name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string FirstNameCannotBeNull = &quot;The first name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The first name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string FirstNameCannotBeEmpty = &quot;The first name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The last name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string LastNameCannotBeNull = &quot;The last name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The last name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string LastNameCannotBeEmpty = &quot;The last name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The email cannot be null error message
+        /// &lt;/summary&gt;
+        public const string EmailCannotBeNull = &quot;The email cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The email cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string EmailCannotBeEmpty = &quot;The email cannot be empty&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the Recipes class
+    /// &lt;/summary&gt;
+    public static class RecipesErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The author name cannot be null error message.
+        /// &lt;/summary&gt;
+        public const string AuthorNameCannotBeNull = &quot;The author name cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe name cannot be null error message.
+        /// &lt;/summary&gt;
+        public const string RecipeNameCannotBeNull = &quot;The recipe name cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be null error message.
+        /// &lt;/summary&gt;
+        public const string RecipeDescriptionCannotBeNull = &quot;The recipe description cannot be null&quot;;
+    }
+    /// &lt;summary&gt;
+    /// The error messages for the new accounts
+    /// &lt;/summary&gt;
+    public static class NewAccountErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The username cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string UsernameCannotBeNull = &quot;The username cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The username cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string UsernameCannotBeEmpty = &quot;The username cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The password cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string PasswordCannotBeNull = &quot;The password cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The password cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string PasswordCannotBeEmpty = &quot;The password cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The verified password cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string VerifiedPasswordCannotBeNull = &quot;The verified password cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The verified password cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string VerifiedPasswordCannotBeEmpty = &quot;The verified password cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The verified password must match password error messages
+        /// &lt;/summary&gt;
+        public static string VerifiedPasswordMustMatchPassword =
+            &quot;The verified password must match the inputted password&quot;;
+        /// &lt;summary&gt;
+        /// The first name cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string FirstNameCannotBeNull = &quot;The first name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The first name cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string FirstNameCannotBeEmpty = &quot;The first name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The last name cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string LastNameCannotBeNull = &quot;The last name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The last name cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string LastNameCannotBeEmpty = &quot;The last name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The email cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string EmailCannotBeNull = &quot;The email cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The email cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string EmailCannotBeEmpty = &quot;The email cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The email is in wrong format error message
+        /// &lt;/summary&gt;
+        public static string EmailIsInWrongFormat = &quot;The email is in the wrong format&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The password validation error messages
+    /// &lt;/summary&gt;
+    public static class PasswordValidationErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The password is too short error messages
+        /// &lt;/summary&gt;
+        public static string PasswordIsTooShort =
+            $&quot;The password is too short it must be at least {PasswordSettings.MinimumPasswordLength} characters long&quot;;
+        /// &lt;summary&gt;
+        /// The password is too long error messages
+        /// &lt;/summary&gt;
+        public static string PasswordIsTooLong =
+            $&quot;The password is too short it must be at most {PasswordSettings.MaximumPasswordLength} characters long&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the server utils
+    /// &lt;/summary&gt;
+    public static class ServerUtilsErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The HTTP method cannot be null error message
+        /// &lt;/summary&gt;
+        public const string HttpMethodCannotBeNull = &quot;Http method cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The request URI cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RequestUriCannotBeNull = &quot;Request Uri cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The request URI cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string RequestUriCannotBeEmpty = &quot;The request Uri cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The HTTP client cannot be null error message
+        /// &lt;/summary&gt;
+        public const string HttpClientCannotBeNull = &quot;The http client cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the json utils
+    /// &lt;/summary&gt;
+    public static class JsonUtilsErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The json element name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string JsonElementNameCannotBeNull = &quot;The json element name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The json element name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string JsonElementNameCannotBeEmpty = &quot;The json element name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The json element name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string JsonNestedElementNameCannotBeNull = &quot;The nested json element name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The json element name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string JsonNestedElementNameCannotBeEmpty = &quot;The nested json element name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The request content node cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RequestContentNodeCannotBeNull = &quot;The json content node cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The parsed json cannot be null error message
+        /// &lt;/summary&gt;
+        public const string ParsedJsonCannotBeNull = &quot;The parsed json cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The json to parse cannot be null error message
+        /// &lt;/summary&gt;
+        public const string JsonToParseCannotBeNull = &quot;The json to parse cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The json to parse cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string JsonToParseCannotBeEmpty = &quot;The json to parse cannot be empty&quot;;
+    }
+    
+    /// &lt;summary&gt;
+    /// The error messages for the hashes
+    /// &lt;/summary&gt;
+    public static class HashesErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The password to hash cannot be null error message
+        /// &lt;/summary&gt;
+        public const string PasswordToHashCannotBeNull = &quot;The password to hash cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The password to hash cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string PasswordToHashCannotBeEmpty = &quot;The password to hash cannot be empty&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the users controller
+    /// &lt;/summary&gt;
+    public class UsersControllerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The users service cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string UsersServiceCannotBeNull = &quot;The users service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The users service error messages
+    /// &lt;/summary&gt;
+    public class UsersServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The users endpoints cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string UsersEndpointsCannotBeNull = &quot;The user endpoints cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The user name cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string UsernameCannotBeNull = &quot;The user name cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The user name cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string UsernameCannotBeEmpty = &quot;The user name cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The password cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string PasswordCannotBeNull = &quot;The password cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The password cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string PasswordCannotBeEmpty = &quot;The password cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The session key load file cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string SessionKeyLoadFileCannotBeNull = &quot;The session key load file cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key load file cannot be empty error messages
+        /// &lt;/summary&gt;
+        public static string SessionKeyLoadFileCannotBeEmpty = &quot;The session key load file cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The account to create cannot be null error message
+        /// &lt;/summary&gt;
+        public const string AccountToCreateCannotBeNull = &quot;The account to create cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The unauthorized access error message
+        /// &lt;/summary&gt;
+        public const string UnauthorizedAccessErrorMessage = &quot;The session timed out redirecting to login&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The users service error messages
+    /// &lt;/summary&gt;
+    public class RecipesServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The recipes endpoints cannot be null error message
+        /// &lt;/summary&gt;
+        public static string RecipesEndpointsCannotBeNull = &quot;The recipes endpoints cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The user service cannot be null
+        /// &lt;/summary&gt;
+        public static string UserServiceCannotBeNull = &quot;The user service cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The search term cannot be null error message
+        /// &lt;/summary&gt;
+        public static string SearchTermCannotBeNull = &quot;The search term cannot be null&quot;;
+        
+        /// &lt;summary&gt;
+        /// The recipe name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeNameCannotBeNull = &quot;The recipe name cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string RecipeNameCannotBeEmpty = &quot;The recipe name cannot be empty&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeDescriptionCannotBeNull = &quot;The recipe description cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string RecipeDescriptionCannotBeEmpty = &quot;The recipe description cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The recipe tags cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeTagsCannotBeNull = &quot;The tags cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the user service view model
+    /// &lt;/summary&gt;
+    public class UsersServiceViewModelErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The users service cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string UsersServiceCannotBeNull = &quot;The users service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the user service view model
+    /// &lt;/summary&gt;
+    public class RecipesViewModelErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The recipes service cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string RecipesServiceCannotBeNull = &quot;The recipes service cannot be null&quot;;
+        
+        /// &lt;summary&gt;
+        /// The ingredients service cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string IngredientsServiceCannotBeNull = &quot;The ingredients service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the session key
+    /// &lt;/summary&gt;
+    public static class SessionKeyErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The session key cannot be null error messages
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeNull = &quot;The session key cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be empty error messages
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeEmpty = &quot;The session key cannot be empty&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the users endpoints
+    /// &lt;/summary&gt;
+    public static class UsersEndpointsErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The client cannot be null error message
+        /// &lt;/summary&gt;
+        public static string ClientCannotBeNull = &quot;The client cannot be null&quot;;
+    }
+    
+    /// &lt;summary&gt;
+    /// The error messages for the users endpoints
+    /// &lt;/summary&gt;
+    public static class RecipesEndpointsErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The client cannot be null error message
+        /// &lt;/summary&gt;
+        public const string ClientCannotBeNull = &quot;The client cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The recipe types error messages
+    /// &lt;/summary&gt;
+    public static class RecipeTypesErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The endpoints cannot be null error messages
+        /// &lt;/summary&gt;
+        public const string EndpointsCannotBeNull = &quot;The recipe types endpoints cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the recipe types controller
+    /// &lt;/summary&gt;
+    public static class RecipeTypesControllerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The service cannot be null error message
+        /// &lt;/summary&gt;
+        public const string ServiceCannotBeNull = &quot;The service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error message for the recipe types service
+    /// &lt;/summary&gt;
+    public static class RecipeTypesServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The dal cannot be null error message
+        /// &lt;/summary&gt;
+        public const string DalCannotBeNull = &quot;The dal cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error message for the recipe types endpoints
+    /// &lt;/summary&gt;
+    public static class RecipeTypesEndpointsErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The HTTP client cannot be null error messages
+        /// &lt;/summary&gt;
+        public static string HttpClientCannotBeNull = &quot;The http client cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The recipe types view model error messages
+    /// &lt;/summary&gt;
+    public static class RecipeTypesViewModelErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The service cannot be null error message
+        /// &lt;/summary&gt;
+        public static string ServiceCannotBeNull = &quot;The service cannot be null&quot;;
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[72,9,72,83,1],[76,9,76,85,1],[80,9,80,83,1],[84,9,84,85,1],[88,9,88,100,1],[92,9,92,102,1],[96,9,97,70,1],[101,9,101,86,1],[105,9,105,88,1],[109,9,109,84,1],[113,9,113,86,1],[117,9,117,77,1],[121,9,121,79,1],[125,9,125,88,1],[136,9,137,119,1],[141,9,142,118,1],[230,9,230,92,0],[241,9,241,95,0],[245,9,245,84,0],[249,9,249,86,0],[253,9,253,83,0],[257,9,257,85,0],[261,9,261,106,0],[265,9,265,108,0],[284,9,284,100,0],[289,9,289,90,0],[294,9,294,88,0],[329,9,329,92,0],[340,9,340,96,0],[345,9,345,104,0],[371,9,371,79,0],[426,9,426,88,0],[437,9,437,81,0]]);
+    </script>
+  </body>
+</html>

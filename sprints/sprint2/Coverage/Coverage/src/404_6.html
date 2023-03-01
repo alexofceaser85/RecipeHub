@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\RecipeListFilterViewModelTests\InitializeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.RecipeTypes;
+using Desktop_Client.ViewModel.Recipes;
+using Moq;
+using Shared_Resources.Model.Filters;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.RecipeListFilterViewModelTests
+{
+    public class InitializeTests
+    {
+        [Test]
+        public void SuccessfullyInitializes()
+        {
+            var filters = new RecipeFilters() {
+                OnlyAvailableIngredients = false,
+                MatchTags = new[] {
+                    &quot;Breakfast&quot;,
+                    &quot;Lunch&quot;
+                }
+            };
+            var tags = new[] {
+                &quot;Breakfast&quot;,
+                &quot;Lunch&quot;,
+                &quot;Dinner&quot;
+            };
+
+            var service = new Mock&lt;IRecipeTypesService&gt;();
+            service.Setup(mock =&gt; mock.GetAllRecipeTypes()).Returns(tags);
+
+            var viewmodel = new RecipeListFilterViewModel(service.Object);
+            viewmodel.Initialize(filters);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.FilterForAvailableIngredients, Is.EqualTo(filters.OnlyAvailableIngredients));
+                Assert.That(viewmodel.SelectedTags, Is.EquivalentTo(filters.MatchTags));
+                Assert.That(viewmodel.FilteredTags, Is.EquivalentTo(tags));
+                service.Verify(mock =&gt; mock.GetAllRecipeTypes(), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[10,13,10,61,1],[11,13,11,45,1],[13,13,14,13,1],[14,13,14,14,1],[14,14,15,17,1],[15,17,15,81,1],[15,81,16,17,1],[16,17,16,65,1],[16,65,17,13,1],[17,13,17,14,1],[17,14,17,16,1],[18,9,18,10,1],[22,9,22,10,1],[23,13,25,15,1],[26,13,26,45,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,82,1],[30,82,31,17,1],[31,17,31,65,1],[31,65,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,38,61,1],[39,13,39,46,1],[40,13,40,46,1],[42,13,42,45,1],[44,13,45,13,1],[45,13,45,14,1],[45,14,46,17,1],[46,17,46,81,1],[46,81,47,17,1],[47,17,47,71,1],[47,71,48,17,1],[48,17,48,70,1],[48,70,49,17,1],[49,17,49,70,1],[49,70,50,13,1],[50,13,50,14,1],[50,14,50,16,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,59,15,1],[60,13,60,46,1],[61,13,61,46,1],[63,13,63,45,1],[65,13,66,13,1],[66,13,66,14,1],[66,14,67,17,1],[67,17,67,82,1],[67,82,68,17,1],[68,17,68,71,1],[68,71,69,17,1],[69,17,69,70,1],[69,70,70,17,1],[70,17,70,70,1],[70,70,71,13,1],[71,13,71,14,1],[71,14,71,16,1],[72,9,72,10,1]]);
+    </script>
+  </body>
+</html>

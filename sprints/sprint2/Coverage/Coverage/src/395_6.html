@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\AddIngredientsViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var viewmodel = new AddIngredientsViewModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.IngredientAmount, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.SelectedMeasurementType, Is.EqualTo(MeasurementType.Quantity));
+                Assert.That(viewmodel.IngredientNames, Has.Length.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void ValidSingleParameterConstructor()
+        {
+            var viewmodel = new AddIngredientsViewModel(new IngredientsService()); 
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.IngredientAmount, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.SelectedMeasurementType, Is.EqualTo(MeasurementType.Quantity));
+                Assert.That(viewmodel.IngredientNames, Has.Length.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void NullIngredientsService()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    _ = new AddIngredientsViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;service&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,82,1],[19,13,19,59,1],[20,13,20,85,1],[22,13,26,15,1],[28,13,28,52,1],[29,13,30,13,1],[30,13,30,14,1],[30,14,31,17,1],[31,17,31,59,1],[31,59,32,17,1],[32,17,32,84,1],[32,84,33,13,1],[33,13,33,14,1],[33,14,33,16,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,82,1],[45,13,45,59,1],[46,13,47,34,1],[47,34,47,79,1],[47,79,47,81,1],[49,13,53,15,1],[55,13,56,13,1],[56,13,56,14,1],[56,14,57,17,1],[57,17,57,80,1],[57,80,57,105,1],[57,105,57,116,1],[57,116,58,17,1],[58,17,58,64,1],[58,64,59,17,1],[59,17,59,84,1],[59,84,60,13,1],[60,13,60,14,1],[60,14,60,16,1],[61,9,61,10,1],[65,9,65,10,1],[66,13,66,82,1],[72,13,72,59,1],[73,13,74,34,1],[74,34,74,49,1],[74,49,74,51,1],[76,13,81,15,1],[83,13,83,52,1],[84,13,85,13,1],[85,13,85,14,1],[85,14,86,17,1],[86,17,86,59,1],[86,59,87,17,1],[87,17,87,84,1],[87,84,88,13,1],[88,13,88,14,1],[88,14,88,16,1],[89,9,89,10,1],[93,9,93,10,1],[99,13,104,15,1],[106,13,106,74,1],[107,9,107,10,1]]);
+    </script>
+  </body>
+</html>

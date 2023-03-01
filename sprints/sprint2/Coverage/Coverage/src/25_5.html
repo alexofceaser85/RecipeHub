@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Data\Settings\ServerSettings.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+namespace Server.Data.Settings
+{
+    /// &lt;summary&gt;
+    /// Holds the settings for the server
+    /// &lt;/summary&gt;
+    public static class ServerSettings
+    {
+        /// &lt;summary&gt;
+        /// The default successful connection message
+        /// &lt;/summary&gt;
+        public static string DefaultSuccessfulConnectionMessage = &quot;Returned Okay&quot;;
+        /// &lt;summary&gt;
+        /// The session time out length in minutes
+        /// &lt;/summary&gt;
+        public static double SessionTimeOutLengthInMinutes = -5;
+        /// &lt;summary&gt;
+        /// The removed time out session keys thread interval
+        /// &lt;/summary&gt;
+        public static int RemovedTimeOutSessionKeysThreadInterval = 60000;
+    }
+
+    /// &lt;summary&gt;
+    /// Holds the settings for the database
+    /// &lt;/summary&gt;
+    public static class DatabaseSettings
+    {
+        /// &lt;summary&gt;
+        /// The connection string to the database
+        /// &lt;/summary&gt;
+        public static string ConnectionString =
+            &quot;Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=RecipeHubDatabase;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False&quot;;
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,83,1],[15,9,15,65,1],[19,9,19,75,1],[30,9,31,226,0]]);
+    </script>
+  </body>
+</html>

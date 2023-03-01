@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Service\Users\UsersService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Data.IO;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+using Shared_Resources.Utils.Hashing;
+using Shared_Resources.Utils.Validation;
+using System.Security.Cryptography;
+using Web_Client.Endpoints.Users;
+
+namespace Web_Client.Service.Users
+{
+    /// &lt;summary&gt;
+    /// The service methods for the users
+    /// &lt;/summary&gt;
+    public class UsersService : IUsersService
+    {
+        private readonly IUsersEndpoints endpoints;
+
+        /// &lt;summary&gt;
+        /// The session key load file path
+        /// &lt;/summary&gt;
+        public string SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersService&quot;/&gt; class.
+        /// &lt;/summary&gt;
+        public UsersService()
+        {
+            this.endpoints = new UsersEndpoints();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersService&quot;/&gt; class.
+        ///
+        /// Precondition: usersEndpoints != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;usersEndpoints&quot;&gt;The users endpoints.&lt;/param&gt;
+        public UsersService(IUsersEndpoints usersEndpoints)
+        {
+            if (usersEndpoints == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsersEndpointsCannotBeNull);
+            }
+
+            this.endpoints = usersEndpoints;
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a new account.
+        /// 
+        /// Precondition: newAccount != null
+        /// Postcondition: newAccount.Password == hashed password AND newAccount.VerifyPassword == hashed password
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;newAccount&quot;&gt;The new account.&lt;/param&gt;
+        public void CreateAccount(NewAccount newAccount)
+        {
+            if (newAccount == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.AccountToCreateCannotBeNull);
+            }
+
+            PasswordValidation.Validate(newAccount.Password);
+            newAccount.Password = Hashes.HashToSha512(newAccount.Password);
+            newAccount.VerifyPassword = Hashes.HashToSha512(newAccount.VerifyPassword);
+            this.endpoints.CreateAccount(newAccount);
+        }
+
+        /// &lt;summary&gt;
+        /// Logins the specified username and password combination.
+        ///
+        /// Precondition: username != null
+        /// AND username IS NOT empty
+        /// AND password != null
+        /// AND password IS NOT empty
+        /// AND SessionKeyLoadFile != null
+        /// AND SessionKeyLoadFile IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;username&quot;&gt;The username.&lt;/param&gt;
+        /// &lt;param name=&quot;password&quot;&gt;The password.&lt;/param&gt;
+        public void Login(string username, string password)
+        {
+            if (username == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeNull);
+            }
+
+            if (username.Trim().Length == 0)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeEmpty);
+            }
+
+            if (password == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeNull);
+            }
+
+            if (password.Trim().Length == 0)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
+            }
+
+            if (this.SessionKeyLoadFile == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeNull);
+            }
+
+            if (this.SessionKeyLoadFile.Trim().Length == 0)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeEmpty);
+            }
+
+            var hashedPassword = Hashes.HashToSha512(password);
+            var previousSessionKey = SessionKeySerializers.LoadSessionKey(this.SessionKeyLoadFile);
+            var sessionKey = this.endpoints.Login(username, hashedPassword, previousSessionKey);
+            Session.Key = sessionKey;
+            SessionKeySerializers.SaveSessionKey(sessionKey, this.SessionKeyLoadFile);
+        }
+
+        /// &lt;summary&gt;
+        /// Logs the user out.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public void Logout()
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (Session.Key.Trim().Length == 0)
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+            this.endpoints.Logout(Session.Key);
+            Session.Key = null;
+        }
+
+        /// &lt;summary&gt;
+        /// Refreshes the session key.
+        ///
+        /// Precondition: None
+        /// Postcondition: Session key equals the refreshed key
+        /// &lt;/summary&gt;
+        public void RefreshSessionKey()
+        {
+            var previousSessionKey = Session.Key;
+
+            if (previousSessionKey != null)
+            {
+                var newSessionKey = this.endpoints.RefreshSessionKey(previousSessionKey);
+                Session.Key = newSessionKey;
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;The user information&lt;/returns&gt;
+        public UserInfo GetUserInfo()
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (Session.Key.Trim().Length == 0)
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+            return this.endpoints.GetUserInfo(Session.Key);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,83,1],[23,9,23,83,1],[28,9,28,30,1],[29,9,29,10,1],[30,13,30,51,1],[31,9,31,10,1],[40,9,40,60,1],[41,9,41,10,1],[42,13,42,40,1],[43,13,43,14,1],[44,17,44,99,1],[47,13,47,45,1],[48,9,48,10,1],[58,9,58,10,1],[59,13,59,36,1],[60,13,60,14,1],[61,17,61,100,1],[64,13,64,62,1],[65,13,65,76,1],[66,13,66,88,1],[67,13,67,54,1],[68,9,68,10,1],[84,9,84,10,1],[85,13,85,34,1],[86,13,86,14,1],[87,17,87,93,1],[90,13,90,45,1],[91,13,91,14,1],[92,17,92,94,1],[95,13,95,34,1],[96,13,96,14,1],[97,17,97,93,1],[100,13,100,45,1],[101,13,101,14,1],[102,17,102,94,1],[105,13,105,49,1],[106,13,106,14,1],[107,17,107,103,1],[110,13,110,60,1],[111,13,111,14,1],[112,17,112,104,1],[115,13,115,64,1],[116,13,116,100,1],[117,13,117,97,1],[118,13,118,38,1],[119,13,119,87,1],[120,9,120,10,1],[129,9,129,10,1],[130,13,130,37,1],[131,13,131,14,1],[132,17,132,93,1],[135,13,135,48,1],[136,13,136,14,1],[137,17,137,94,1],[139,13,139,48,1],[140,13,140,32,1],[141,9,141,10,1],[150,9,150,10,0],[151,13,151,50,0],[153,13,153,44,0],[154,13,154,14,0],[155,17,155,90,0],[156,17,156,45,0],[157,13,157,14,0],[158,9,158,10,0],[168,9,168,10,1],[169,13,169,37,1],[170,13,170,14,1],[171,17,171,93,1],[174,13,174,48,1],[175,13,175,14,1],[176,17,176,94,1],[178,13,178,60,1],[179,9,179,10,1]]);
+    </script>
+  </body>
+</html>

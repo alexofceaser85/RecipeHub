@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Users;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ValidDefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientsService());
+        }
+
+        [Test]
+        public void ValidTwoParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientsService(new IngredientEndpoints(), new UsersService()));
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,47,1],[15,13,15,62,1],[16,13,16,58,1],[17,13,17,83,1],[18,13,18,66,1],[20,13,20,89,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,24,64,1],[24,64,25,17,1],[25,17,25,55,1],[25,55,26,17,1],[26,17,26,86,1],[26,86,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1]]);
+    </script>
+  </body>
+</html>

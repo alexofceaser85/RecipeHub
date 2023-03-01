@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Data\Settings\ApplicationSettings.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+namespace Shared_Resources.Data.Settings
+{
+    /// &lt;summary&gt;
+    /// Holds the application settings
+    /// &lt;/summary&gt;
+    public static class ServerSettings
+    {
+        /// &lt;summary&gt;
+        /// The server URI
+        /// &lt;/summary&gt;
+        public const string ServerUri = &quot;https://localhost:7265/&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The session key settings
+    /// &lt;/summary&gt;
+    public static class SessionKeySettings
+    {
+        /// &lt;summary&gt;
+        /// The session key characters
+        /// &lt;/summary&gt;
+        public const string SessionKeyCharacters = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+
+        /// &lt;summary&gt;
+        /// The session key length
+        /// &lt;/summary&gt;
+        public const int SessionKeyLength = 50;
+
+        /// &lt;summary&gt;
+        /// The save session file path
+        /// &lt;/summary&gt;
+        public static string SaveSessionFilePath = string.Concat(AppContext.BaseDirectory.AsSpan(0, AppContext.BaseDirectory.IndexOf(&quot;bin&quot;, StringComparison.Ordinal)), &quot;..\\Shared Resources\\&quot;, &quot;Session.txt&quot;);
+    }
+
+    /// &lt;summary&gt;
+    /// The password settings
+    /// &lt;/summary&gt;
+    public static class PasswordSettings
+    {
+        /// &lt;summary&gt;
+        /// The minimum password length
+        /// &lt;/summary&gt;
+        public static int MinimumPasswordLength = 6;
+        /// &lt;summary&gt;
+        /// The maximum password length
+        /// &lt;/summary&gt;
+        public static int MaximumPasswordLength = 20;
+    }
+
+    /// &lt;summary&gt;
+    /// The new account settings
+    /// &lt;/summary&gt;
+    public static class NewAccountSettings
+    {
+        /// &lt;summary&gt;
+        /// The email format
+        /// &lt;/summary&gt;
+        public static string EmailFormat = @&quot;^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})&quot;;
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[32,9,32,210,0],[43,9,43,53,1],[47,9,47,54,1],[58,9,58,94,1]]);
+    </script>
+  </body>
+</html>

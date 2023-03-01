@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Json\JsonUtilsTests\ThreeParameterGetJsonStringTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json.Nodes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Json;
+
+namespace SharedResourcesTests.SharedResources.Utils.Json.JsonUtilsTests
+{
+    public class ThreeParameterGetJsonStringTests
+    {
+        [Test]
+        public void ShouldNotAllowNullParsedJsonForGettingNestedJsonString()
+        {
+            var message = Assert
+                          .Throws&lt;ArgumentException&gt;(() =&gt; { JsonUtils.GetJsonString(null!, &quot;key&quot;, &quot;nestedKey&quot;); })
+                          ?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotAllowNullFirstElementNameForGettingNestedJsonString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, null!, &quot;nestedKey&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotAllowEmptyFirstElementNameForGettingNestedJsonString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, &quot;   &quot;, &quot;nestedKey&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonElementNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotAllowNullSecondElementNameForGettingNestedJsonString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:{\&quot;nestedKey\&quot;:\&quot;value\&quot;}}&quot;)!, &quot;key&quot;, null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotAllowEmptySecondElementNameForGettingNestedJsonString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:{\&quot;nestedKey\&quot;:\&quot;value\&quot;}}&quot;)!, &quot;key&quot;, &quot;   &quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.JsonNestedElementNameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldGetNestedJsonStringWithNullSecondElement()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:null}&quot;)!, &quot;key&quot;, &quot;null&quot;);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.RequestContentNodeCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldGetNestedJsonString()
+        {
+            var jsonString = JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:{\&quot;nestedKey\&quot;:\&quot;value\&quot;}}&quot;)!, &quot;key&quot;,
+                &quot;nestedKey&quot;);
+            Assert.That(jsonString, Is.EqualTo(&quot;value&quot;));
+        }
+
+        [Test]
+        public void ShouldGetNonExistentJsonString()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                JsonUtils.GetJsonString(JsonNode.Parse(&quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;)!, &quot;notKey&quot;);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.RequestContentNodeCannotBeNull));
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,13,60,1],[13,60,13,61,1],[13,61,13,62,1],[13,62,13,113,1],[13,113,13,114,1],[13,114,13,115,0],[13,115,14,37,1],[15,13,15,93,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,101,1],[23,101,24,13,1],[24,13,24,14,0],[24,14,24,25,1],[25,13,25,98,1],[26,9,26,10,1],[30,9,30,10,1],[31,13,32,13,1],[32,13,32,14,1],[32,14,33,17,1],[33,17,33,101,1],[33,101,34,13,1],[34,13,34,14,0],[34,14,34,25,1],[35,13,35,99,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,42,13,1],[42,13,42,14,1],[42,14,43,17,1],[43,17,43,111,1],[43,111,44,13,1],[44,13,44,14,0],[44,14,44,25,1],[45,13,45,104,1],[46,9,46,10,1],[50,9,50,10,1],[51,13,52,13,1],[52,13,52,14,1],[52,14,53,17,1],[53,17,53,111,1],[53,111,54,13,1],[54,13,54,14,0],[54,14,54,25,1],[55,13,55,105,1],[56,9,56,10,1],[60,9,60,10,1],[61,13,62,13,1],[62,13,62,14,1],[62,14,63,17,1],[63,17,63,91,1],[63,91,64,13,1],[64,13,64,14,0],[64,14,64,25,1],[65,13,65,101,1],[66,9,66,10,1],[70,9,70,10,1],[71,13,72,30,1],[73,13,73,58,1],[74,9,74,10,1],[78,9,78,10,1],[79,13,80,13,1],[80,13,80,14,1],[80,14,81,17,1],[81,17,81,91,1],[81,91,82,13,1],[82,13,82,14,0],[82,14,82,25,1],[84,13,84,101,1],[85,9,85,10,1]]);
+    </script>
+  </body>
+</html>

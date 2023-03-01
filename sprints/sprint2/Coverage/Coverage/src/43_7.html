@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Model\Ingredients\Ingredient.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json.Serialization;
+
+namespace Shared_Resources.Model.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Represents an ingredient in the system.
+    /// &lt;/summary&gt;
+    public struct Ingredient
+    {
+        /// &lt;summary&gt;
+        /// Represents the name of the ingredient.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;name&quot;)]
+        public string Name { get; }
+
+        /// &lt;summary&gt;
+        /// Represents the amount of the ingredient.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;amount&quot;)]
+        public int Amount { get; }
+
+        /// &lt;summary&gt;
+        /// Represents how the ingredient is measured, in quantity, mass, or volume.
+        /// &lt;/summary&gt;
+        [JsonPropertyName(&quot;measurementType&quot;)]
+        public MeasurementType MeasurementType { get; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;Ingredient&quot;/&gt; struct.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name.&lt;/param&gt;
+        /// &lt;param name=&quot;amount&quot;&gt;The amount.&lt;/param&gt;
+        /// &lt;param name=&quot;measurementType&quot;&gt;Type of the measurement.&lt;/param&gt;
+        public Ingredient(string name, int amount, MeasurementType measurementType)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(&quot;Name cannot be null or empty.&quot;);
+            }
+
+            if (amount &lt; 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(amount), amount, @&quot;Amount cannot be less than 0.&quot;);
+            }
+
+            this.Name = name;
+            this.Amount = amount;
+            this.MeasurementType = measurementType;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,30,14,34,1],[20,29,20,33,1],[26,50,26,54,1],[35,9,35,10,1],[36,13,36,49,1],[37,13,37,14,1],[38,17,38,78,1],[41,13,41,28,1],[42,13,42,14,1],[43,17,43,113,1],[46,13,46,30,1],[47,13,47,34,1],[48,13,48,52,1],[49,9,49,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\AddIngredientsViewModelTests\AddIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewModelTests
+{
+    public class AddIngredientTests
+    {
+        [Test]
+        public void SuccessfullyAddIngredient()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 2, MeasurementType.Quantity);
+            const string ingredientName = &quot;name&quot;;
+            const string amount = &quot;2&quot;;
+            const MeasurementType measurementType = MeasurementType.Quantity;
+            const bool expected = true;
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.AddIngredient(ingredient)).Returns(expected);
+
+            var viewmodel = new AddIngredientsViewModel(service.Object) {
+                IngredientAmount = amount,
+                IngredientName = ingredientName,
+                SelectedMeasurementType = measurementType
+            };
+
+            var result = viewmodel.AddIngredient();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(expected));
+                service.Verify(mock =&gt; mock.AddIngredient(ingredient), Times.Once);
+            });
+        }
+
+        [Test]
+        public void UnauthorizedAccessExceptionRaised()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 2, MeasurementType.Quantity);
+            const string ingredientName = &quot;name&quot;;
+            const string amount = &quot;2&quot;;
+            const MeasurementType measurementType = MeasurementType.Quantity;
+            const string errorMessage = &quot;error message&quot;;
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.AddIngredient(ingredient))
+                   .Throws(() =&gt; new UnauthorizedAccessException(errorMessage));
+
+            var viewmodel = new AddIngredientsViewModel(service.Object) {
+                IngredientAmount = amount,
+                IngredientName = ingredientName,
+                SelectedMeasurementType = measurementType
+            };
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;UnauthorizedAccessException&gt;(() =&gt; viewmodel.AddIngredient())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock =&gt; mock.AddIngredient(ingredient), Times.Once);
+            });
+        }
+
+        [Test]
+        public void HandleNonUnauthorizedAccessExceptions()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 2, MeasurementType.Quantity);
+            const string ingredientName = &quot;name&quot;;
+            const string amount = &quot;2&quot;;
+            const MeasurementType measurementType = MeasurementType.Quantity;
+            const bool expected = false;
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.AddIngredient(ingredient))
+                   .Throws(() =&gt; new Exception());
+
+            var viewmodel = new AddIngredientsViewModel(service.Object)
+            {
+                IngredientAmount = amount,
+                IngredientName = ingredientName,
+                SelectedMeasurementType = measurementType
+            };
+
+            var result = viewmodel.AddIngredient();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(expected));
+                service.Verify(mock =&gt; mock.AddIngredient(ingredient), Times.Once);
+            });
+        }
+        
+        [Test]
+        public void IngredientAmountNotAnInteger()
+        {
+            const string ingredientName = &quot;name&quot;;
+            const string amount = &quot;a&quot;;
+            const MeasurementType measurementType = MeasurementType.Quantity;
+            const bool expected = false;
+            
+            var viewmodel = new AddIngredientsViewModel()
+            {
+                IngredientAmount = amount,
+                IngredientName = ingredientName,
+                SelectedMeasurementType = measurementType
+            };
+            
+            Assert.That(viewmodel.AddIngredient(), Is.EqualTo(expected));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[15,13,15,53,1],[16,13,16,67,1],[18,13,22,15,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,43,1],[26,43,26,60,1],[26,60,26,62,1],[26,62,27,17,1],[27,17,27,75,1],[27,75,28,17,1],[28,17,28,75,1],[28,75,29,13,1],[29,13,29,14,1],[29,14,29,16,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

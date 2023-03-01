@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\RecipeListFilterViewModelTests\GetFiltersTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.ViewModel.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.RecipeListFilterViewModelTests
+{
+    public class GetFiltersTests
+    {
+        [Test]
+        public void GetDefaultFilters()
+        {
+            var viewmodel = new RecipeListFilterViewModel();
+            var filters = viewmodel.Filters;
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(filters.OnlyAvailableIngredients, Is.EqualTo(true));
+                Assert.That(filters.MatchTags, Has.Length.Zero);
+            });
+        }
+
+        [Test]
+        public void SetOnlyAvailableIngredientsFilter()
+        {
+            var viewmodel = new RecipeListFilterViewModel {
+                FilterForAvailableIngredients = false
+            };
+            var filters = viewmodel.Filters;
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(filters.OnlyAvailableIngredients, Is.EqualTo(false));
+                Assert.That(filters.MatchTags, Has.Length.Zero);
+            });
+        }
+
+        [Test]
+        public void SetOnlyMatchedTags()
+        {
+            var viewmodel = new RecipeListFilterViewModel();
+            viewmodel.AddSelectedTag(&quot;tag1&quot;);
+            viewmodel.AddSelectedTag(&quot;tag2&quot;);
+
+            var filters = viewmodel.Filters;
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(filters.OnlyAvailableIngredients, Is.EqualTo(true));
+                Assert.That(filters.MatchTags, Has.Length.EqualTo(2));
+                Assert.That(filters.MatchTags, Does.Contain(&quot;tag1&quot;));
+                Assert.That(filters.MatchTags, Does.Contain(&quot;tag2&quot;));
+            });
+        }
+
+        [Test]
+        public void SetMatchedTagsAndAvailableIngredientsFilter()
+        {
+            var viewmodel = new RecipeListFilterViewModel
+            {
+                FilterForAvailableIngredients = false
+            };
+            viewmodel.AddSelectedTag(&quot;tag1&quot;);
+            viewmodel.AddSelectedTag(&quot;tag2&quot;);
+
+            var filters = viewmodel.Filters;
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(filters.OnlyAvailableIngredients, Is.EqualTo(false));
+                Assert.That(filters.MatchTags, Has.Length.EqualTo(2));
+                Assert.That(filters.MatchTags, Does.Contain(&quot;tag1&quot;));
+                Assert.That(filters.MatchTags, Does.Contain(&quot;tag2&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,11,61,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,77,1],[14,77,15,17,1],[15,17,15,75,1],[15,75,16,17,1],[16,17,16,88,1],[16,88,17,17,1],[17,17,17,75,1],[17,75,18,13,1],[18,13,18,14,1],[18,14,18,16,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,24,85,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,27,77,1],[27,77,28,17,1],[28,17,28,75,1],[28,75,29,17,1],[29,17,29,88,1],[29,88,30,17,1],[30,17,30,75,1],[30,75,31,13,1],[31,13,31,14,1],[31,14,31,16,1],[32,9,32,10,1],[36,9,36,10,1],[37,13,38,13,1],[38,13,38,14,1],[38,14,39,17,1],[39,17,40,21,1],[40,21,40,61,1],[40,61,40,72,1],[40,72,41,17,1],[41,17,41,102,1],[41,102,42,13,1],[42,13,42,14,1],[42,14,42,16,1],[43,9,43,10,1]]);
+    </script>
+  </body>
+</html>

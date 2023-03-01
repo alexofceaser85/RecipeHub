@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Utils\Hashing\Hashes.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Security.Cryptography;
+using System.Text;
+using Shared_Resources.ErrorMessages;
+
+namespace Shared_Resources.Utils.Hashing
+{
+    /// &lt;summary&gt;
+    /// Holds the hashing methods
+    /// &lt;/summary&gt;
+    public static class Hashes
+    {
+        /// &lt;summary&gt;
+        /// Hashes to sha512.
+        ///
+        /// Precondition:
+        /// passwordToHash != null
+        /// AND passwordToHash IS NOT empty
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;passwordToHash&quot;&gt;The password to hash.&lt;/param&gt;
+        /// &lt;returns&gt;The hashed string&lt;/returns&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public static string HashToSha512(string passwordToHash)
+        {
+            if (passwordToHash == null)
+            {
+                throw new ArgumentException(HashesErrorMessages.PasswordToHashCannotBeNull);
+            }
+
+            if (passwordToHash.Trim().Length == 0)
+            {
+                throw new ArgumentException(HashesErrorMessages.PasswordToHashCannotBeEmpty);
+            }
+
+            using HashAlgorithm algorithm = SHA512.Create();
+            var bytes = algorithm.ComputeHash(Encoding.UTF8.GetBytes(passwordToHash));
+            var builder = new StringBuilder();
+            foreach (var passwordByte in bytes)
+            {
+                builder.Append(passwordByte.ToString(&quot;x2&quot;));
+            }
+
+            var hashedPassword = builder.ToString();
+            return hashedPassword;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,10,1],[24,13,24,40,1],[25,13,25,14,1],[26,17,26,93,1],[29,13,29,51,1],[30,13,30,14,1],[31,17,31,94,1],[34,13,34,61,1],[35,13,35,87,1],[36,13,36,47,1],[37,13,37,20,1],[37,22,37,38,1],[37,39,37,41,1],[37,42,37,47,1],[38,13,38,14,1],[39,17,39,61,1],[40,13,40,14,1],[42,13,42,53,1],[43,13,43,35,1],[44,9,44,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Recipes\RecipesServiceTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.Service.Users;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ValidDefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesService());
+        }
+
+        [Test]
+        public void ValidTweParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesService(new RecipesEndpoints(), new UsersService()));
+        }
+
+        [Test]
+        public void NullRecipesEndpoint()
+        {
+            var errorMessage = RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull + &quot; (Parameter &#39;endpoints&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                {
+                    _ = new RecipesService(null!, new UsersService());
+                })?.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullUsersService()
+        {
+            var errorMessage = RecipesServiceErrorMessages.UserServiceCannotBeNull + &quot; (Parameter &#39;endpoints&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                {
+                    _ = new RecipesService(new RecipesEndpoints(), null!);
+                })?.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[20,13,20,38,1],[22,13,22,65,1],[23,13,23,58,1],[24,13,24,101,1],[25,13,25,66,1],[27,13,27,91,1],[29,13,30,13,1],[30,13,30,14,1],[30,14,31,17,1],[31,17,31,43,1],[31,43,31,89,1],[31,89,31,91,1],[31,91,32,17,1],[32,17,32,83,1],[32,83,33,17,1],[33,17,33,118,1],[33,118,34,13,1],[34,13,34,14,1],[34,14,34,16,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,32,1],[46,13,47,13,1],[47,13,47,14,1],[47,14,48,17,1],[48,17,48,74,1],[48,74,48,133,1],[48,133,48,144,1],[48,144,49,17,1],[49,17,49,64,1],[49,64,50,13,1],[50,13,50,14,1],[50,14,50,16,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,56,30,1],[62,13,63,13,1],[63,13,63,14,1],[63,14,64,17,1],[64,17,64,70,1],[64,70,64,129,1],[64,129,64,140,1],[64,140,65,17,1],[65,17,65,64,1],[65,64,66,13,1],[66,13,66,14,1],[66,14,66,16,1],[67,9,67,10,1],[71,9,71,10,1],[72,13,72,33,1],[78,13,79,13,1],[79,13,79,14,1],[79,14,80,17,1],[80,17,80,74,1],[80,74,80,134,1],[80,134,80,145,1],[80,145,81,17,1],[81,17,81,64,1],[81,64,82,13,1],[82,13,82,14,1],[82,14,82,16,1],[83,9,83,10,1],[87,9,87,10,1],[89,13,89,38,1],[95,13,96,13,1],[96,13,96,14,1],[96,14,97,17,1],[97,17,97,70,1],[97,70,97,129,1],[97,129,97,140,1],[97,140,98,17,1],[98,17,98,64,1],[98,64,99,13,1],[99,13,99,14,1],[99,14,99,16,1],[100,9,100,10,1],[104,9,104,10,1],[106,13,106,38,1],[113,13,114,13,1],[114,13,114,14,1],[114,14,115,17,1],[115,17,115,74,1],[115,74,115,134,1],[115,134,115,145,1],[115,145,116,17,1],[116,17,116,64,1],[116,64,117,13,1],[117,13,117,14,1],[117,14,117,16,1],[118,9,118,10,1],[122,9,122,10,1],[124,13,124,38,1],[130,13,131,13,1],[131,13,131,14,1],[131,14,132,17,1],[132,17,132,70,1],[132,70,132,129,1],[132,129,132,140,1],[132,140,133,17,1],[133,17,133,64,1],[133,64,134,13,1],[134,13,134,14,1],[134,14,134,16,1],[135,9,135,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Model\Filters\FiltersBindingModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Model.Filters;
+
+namespace WebClientTests.WebClient.Model.Filters.FiltersBindingModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var model = new FiltersBindingModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(model.FiltersTypes, Is.EqualTo(null));
+            });
+        }
+
+        [Test]
+        public void ShouldSet()
+        {
+            var model = new FiltersBindingModel();
+            var filters = new List&lt;string&gt; { &quot;type1&quot;, &quot;type2&quot;, &quot;type3&quot; };
+            model.FiltersTypes = filters;
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(model.FiltersTypes, Is.EqualTo(filters));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[10,13,10,51,1],[11,13,12,13,1],[12,13,12,14,1],[12,14,13,17,1],[13,17,13,67,1],[13,67,14,13,1],[14,13,14,14,1],[14,14,14,16,1],[15,9,15,10,1],[19,9,19,10,1],[20,13,20,51,1],[21,13,21,74,1],[22,13,22,42,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,25,70,1],[25,70,26,13,1],[26,13,26,14,1],[26,14,26,16,1],[27,9,27,10,1]]);
+    </script>
+  </body>
+</html>

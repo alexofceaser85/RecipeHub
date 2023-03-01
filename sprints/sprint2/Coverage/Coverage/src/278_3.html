@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Endpoints\Ingredients\IngredientsEndpointsTests\UpdateIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Endpoints.Ingredients;
+
+namespace WebClientTests.WebClient.Endpoints.Ingredients.IngredientsEndpointsTests
+{
+    public class UpdateIngredientTests
+    {
+        [Test]
+        public void SuccessfullyUpdateRecipe()
+        {
+            const string json = &quot;{\&quot;flag\&quot;: true, \&quot;code\&quot;: 200, \&quot;message\&quot;: \&quot;Ingredient successfully updated.\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new IngredientEndpoints(httpClient);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = endpoints.UpdateIngredient(new Ingredient());
+                Assert.That(result, Is.EqualTo(true));
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+
+        [Test]
+        public void UnsuccessfullyUpdateRecipe()
+        {
+            const string errorMessage = &quot;error message&quot;;
+            const string json = $&quot;{{\&quot;code\&quot;: 500, \&quot;message\&quot;: \&quot;{errorMessage}\&quot;}}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new IngredientEndpoints(httpClient);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; endpoints.UpdateIngredient(new Ingredient()))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[16,13,16,73,1],[17,13,24,20,1],[26,13,26,76,1],[27,13,27,65,1],[29,13,30,13,1],[30,13,30,14,1],[30,14,31,17,1],[31,17,31,75,1],[31,75,32,17,1],[32,17,32,55,1],[32,55,33,17,1],[33,17,36,96,1],[36,96,37,13,1],[37,13,37,14,1],[37,14,37,16,1],[38,9,38,10,1],[42,9,42,10,1],[46,13,46,73,1],[47,13,54,20,1],[56,13,56,76,1],[57,13,57,65,1],[59,13,60,13,1],[60,13,60,14,1],[60,14,61,17,1],[61,17,62,27,1],[62,27,62,71,1],[62,71,62,82,1],[62,82,63,17,1],[63,17,63,64,1],[63,64,65,17,1],[65,17,68,96,1],[68,96,69,13,1],[69,13,69,14,1],[69,14,69,16,1],[70,9,70,10,1]]);
+    </script>
+  </body>
+</html>

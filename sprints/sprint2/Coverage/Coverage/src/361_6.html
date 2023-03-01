@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\User\UserEndpointsTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Users;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.User.UserEndpointsTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldCreateZeroParameterUserEndpoints()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new UsersEndpoints();
+            });
+        }
+
+        [Test]
+        public void ShouldNotAllowNullHttpClient()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UsersEndpoints(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UsersEndpointsErrorMessages.ClientCannotBeNull));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,68,1],[18,13,18,73,1],[19,13,27,20,1],[29,13,29,76,1],[30,13,30,66,1],[31,13,31,56,1],[33,13,34,13,1],[34,13,34,14,1],[34,14,35,17,1],[35,17,35,61,1],[35,61,37,17,1],[37,17,40,96,1],[40,96,41,13,1],[41,13,41,14,1],[41,14,41,16,1],[42,9,42,10,1],[46,9,46,10,1],[50,13,50,73,1],[51,13,59,20,1],[61,13,61,76,1],[62,13,62,66,1],[64,13,65,13,1],[65,13,65,14,1],[65,14,66,17,1],[66,17,66,80,1],[66,80,66,113,1],[66,113,66,124,1],[66,124,67,17,1],[67,17,67,64,1],[67,64,69,17,1],[69,17,72,96,1],[72,96,73,13,1],[73,13,73,14,1],[73,14,73,16,1],[74,9,74,10,1],[78,9,78,10,1],[82,13,82,73,1],[83,13,91,20,1],[93,13,93,76,1],[94,13,94,66,1],[96,13,97,13,1],[97,13,97,14,1],[97,14,98,17,1],[98,17,98,80,1],[98,80,98,113,1],[98,113,98,124,1],[98,124,99,17,1],[99,17,99,64,1],[99,64,101,17,1],[101,17,104,96,1],[104,96,105,13,1],[105,13,105,14,1],[105,14,105,16,1],[106,9,106,10,1]]);
+    </script>
+  </body>
+</html>

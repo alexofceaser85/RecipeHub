@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Recipes\RecipeListViewModelTests\GetRecipesTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.Model.Filters;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
+
+namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
+{
+    public class GetRecipesTests
+    {
+        [Test]
+        public void SuccessfullyGetUnfilteredRecipes()
+        {
+            Session.Key = &quot;Key&quot;;
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false),
+                new(2, &quot;author3 name3&quot;, &quot;name3&quot;, &quot;description3&quot;, false)
+            };
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(recipes));
+                service.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void SuccessfullyGetFilteredRecipes()
+        {
+            Session.Key = &quot;Key&quot;;
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(Array.Empty&lt;Ingredient&gt;());
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(recipes));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void SuccessfullyFilterByOnlyAvailableIngredientsIfIngredientsAreNotOwned()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var owned = new Ingredient[] {
+                new(&quot;Cherries&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(owned);
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters = new RecipeFilters();
+            viewmodel.Filters.OnlyAvailableIngredients = true;
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(Array.Empty&lt;Recipe&gt;()));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Exactly(2));
+            });
+        }
+
+        [Test]
+        public void SuccessfullyFilterByOnlyAvailableIngredientsAllIngredientsAreOwned()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var owned = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(owned);
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters = new RecipeFilters();
+            viewmodel.Filters.OnlyAvailableIngredients = true;
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(recipes));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Exactly(2));
+            });
+        }
+
+        [Test]
+        public void SuccessfullyFilterByOnlyAvailableIngredientsSomeIngredientsAreOwned()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients1 = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var ingredients2 = new Ingredient[] {
+                new(&quot;Cherries&quot;, 1, MeasurementType.Quantity),
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var owned = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients1);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients2);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(owned);
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters = new RecipeFilters();
+            viewmodel.Filters.OnlyAvailableIngredients = true;
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(new[] { recipes[0] }));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Exactly(2));
+            });
+        }
+
+        [Test]
+        public void ShouldNotFilterRecipesIfMatchTagIsNull()
+        {
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(Array.Empty&lt;Ingredient&gt;());
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters.MatchTags = null!;
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.GetRecipesForTags(It.IsAny&lt;string[]&gt;()), Times.Never);
+                Assert.That(result, Is.EqualTo(recipes));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void ShouldNotFilterRecipesIfMatchTagIsEmpty()
+        {
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients);
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(Array.Empty&lt;Ingredient&gt;());
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters.MatchTags = new string[0];
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                recipesService.Verify(mock =&gt; mock.GetRecipesForTags(It.IsAny&lt;string[]&gt;()), Times.Never);
+                Assert.That(result, Is.EqualTo(recipes));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void ShouldGetRecipesForTags()
+        {
+            var tags = new string[] { &quot;Tag1&quot;, &quot;Tag2&quot;, &quot;Tag3&quot; };
+            const string searchTerm = &quot;a&quot;;
+            var recipes = new Recipe[] {
+                new(0, &quot;author1 name1&quot;, &quot;name1&quot;, &quot;description1&quot;, false),
+                new(1, &quot;author2 name2&quot;, &quot;name2&quot;, &quot;description2&quot;, false)
+            };
+            var expected = new[] { recipes[0] };
+            var ingredients = new Ingredient[] {
+                new(&quot;Apples&quot;, 1, MeasurementType.Quantity)
+            };
+            var recipesService = new Mock&lt;IRecipesService&gt;();
+            var ingredientsService = new Mock&lt;IIngredientsService&gt;();
+            recipesService.Setup(mock =&gt; mock.GetRecipes(searchTerm)).Returns(recipes);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(0)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetIngredientsForRecipe(1)).Returns(ingredients);
+            recipesService.Setup(mock =&gt; mock.GetRecipesForTags(tags)).Returns(new[] { recipes[0] });
+            ingredientsService.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(Array.Empty&lt;Ingredient&gt;());
+
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
+            viewmodel.Filters.MatchTags = tags;
+            var result = viewmodel.GetRecipes(searchTerm);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(expected));
+                recipesService.Verify(mock =&gt; mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[16,9,16,10,1],[17,13,17,33,1],[19,13,23,15,1],[24,13,24,55,1],[25,13,25,81,1],[27,13,27,96,1],[28,13,28,59,1],[30,13,31,13,1],[31,13,31,14,1],[31,14,32,17,1],[32,17,32,58,1],[32,58,33,17,1],[33,17,33,81,1],[33,81,34,13,1],[34,13,34,14,1],[34,14,34,16,1],[35,9,35,10,1],[39,9,39,10,1],[40,13,40,33,1],[42,13,45,15,1],[46,13,48,15,1],[49,13,49,62,1],[50,13,50,70,1],[51,13,51,88,1],[52,13,52,96,1],[53,13,53,114,1],[55,13,55,104,1],[56,13,56,59,1],[58,13,59,13,1],[59,13,59,14,1],[59,14,60,17,1],[60,17,60,58,1],[60,58,61,17,1],[61,17,61,88,1],[61,88,62,13,1],[62,13,62,14,1],[62,14,62,16,1],[63,9,63,10,1],[67,9,67,10,1],[70,13,73,15,1],[74,13,76,15,1],[77,13,79,15,1],[80,13,80,62,1],[81,13,81,70,1],[82,13,82,88,1],[83,13,83,96,1],[84,13,84,96,1],[85,13,85,94,1],[87,13,87,104,1],[88,13,88,53,1],[89,13,89,63,1],[90,13,90,59,1],[92,13,93,13,1],[93,13,93,14,1],[93,14,94,17,1],[94,17,94,72,1],[94,72,95,17,1],[95,17,95,94,1],[95,94,96,13,1],[96,13,96,14,1],[96,14,96,16,1],[97,9,97,10,1],[101,9,101,10,1],[104,13,107,15,1],[108,13,110,15,1],[111,13,113,15,1],[114,13,114,62,1],[115,13,115,70,1],[116,13,116,88,1],[117,13,117,96,1],[118,13,118,96,1],[119,13,119,94,1],[121,13,121,104,1],[122,13,122,53,1],[123,13,123,63,1],[124,13,124,59,1],[126,13,127,13,1],[127,13,127,14,1],[127,14,128,17,1],[128,17,128,58,1],[128,58,129,17,1],[129,17,129,94,1],[129,94,130,13,1],[130,13,130,14,1],[130,14,130,16,1],[131,9,131,10,1],[135,9,135,10,1],[138,13,141,15,1],[142,13,144,15,1],[145,13,148,15,1],[149,13,151,15,1],[152,13,152,62,1],[153,13,153,70,1],[154,13,154,88,1],[155,13,155,97,1],[156,13,156,97,1],[157,13,157,94,1],[159,13,159,104,1],[160,13,160,53,1],[161,13,161,63,1],[162,13,162,59,1],[164,13,165,13,1],[165,13,165,14,1],[165,14,166,17,1],[166,17,166,71,1],[166,71,167,17,1],[167,17,167,94,1],[167,94,168,13,1],[168,13,168,14,1],[168,14,168,16,1],[169,9,169,10,1],[173,9,173,10,1],[175,13,178,15,1],[179,13,181,15,1],[182,13,182,62,1],[183,13,183,70,1],[184,13,184,88,1],[185,13,185,96,1],[186,13,186,96,1],[187,13,187,114,1],[189,13,189,104,1],[190,13,190,49,1],[191,13,191,59,1],[193,13,194,13,1],[194,13,194,14,1],[194,14,195,17,1],[195,17,195,106,1],[195,106,196,17,1],[196,17,196,58,1],[196,58,197,17,1],[197,17,197,88,1],[197,88,198,13,1],[198,13,198,14,1],[198,14,198,16,1],[199,9,199,10,1],[203,9,203,10,1],[205,13,208,15,1],[209,13,211,15,1],[212,13,212,62,1],[213,13,213,70,1],[214,13,214,88,1],[215,13,215,96,1],[216,13,216,96,1],[217,13,217,114,1],[219,13,219,104,1],[220,13,220,57,1],[221,13,221,59,1],[223,13,224,13,1],[224,13,224,14,1],[224,14,225,17,1],[225,17,225,106,1],[225,106,226,17,1],[226,17,226,58,1],[226,58,227,17,1],[227,17,227,88,1],[227,88,228,13,1],[228,13,228,14,1],[228,14,228,16,1],[229,9,229,10,1],[233,9,233,10,1],[234,13,234,64,1],[236,13,239,15,1],[240,13,240,49,1],[241,13,243,15,1],[244,13,244,62,1],[245,13,245,70,1],[246,13,246,88,1],[247,13,247,96,1],[248,13,248,96,1],[249,13,249,102,1],[250,13,250,114,1],[252,13,252,104,1],[253,13,253,48,1],[254,13,254,59,1],[256,13,257,13,1],[257,13,257,14,1],[257,14,258,17,1],[258,17,258,59,1],[258,59,259,17,1],[259,17,259,88,1],[259,88,260,13,1],[260,13,260,14,1],[260,14,260,16,1],[261,9,261,10,1]]);
+    </script>
+  </body>
+</html>

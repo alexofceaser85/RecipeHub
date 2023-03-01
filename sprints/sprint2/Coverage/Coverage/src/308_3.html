@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Recipes\RecipesServiceTests\EditRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Endpoints.Recipes;
+using Web_Client.Service.Recipes;
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Web_Client.Service.Users;
+
+namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
+{
+    public class EditRecipeTests
+    {
+        [Test]
+        public void SuccessfullyEditRecipe()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var recipesEndpoint = new Mock&lt;IRecipesEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            recipesEndpoint.Setup(mock =&gt; mock.EditRecipe(Session.Key, recipeId, name, description, isPublic));
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; service.EditRecipe(recipeId, name, description, isPublic));
+                recipesEndpoint.Verify(mock =&gt; mock.EditRecipe(Session.Key, recipeId, name, description, isPublic),
+                    Times.Once);
+            });
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            Session.Key = null!;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + &quot; (Parameter &#39;Key&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            Session.Key = &quot;&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeName()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = null!;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeNull + &quot; (Parameter &#39;name&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name!, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeName()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeDescription()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = null!;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull +
+                                        &quot; (Parameter &#39;description&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name, description!, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeDescription()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+                    new RecipesService().EditRecipe(recipeId, name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,33,1],[21,13,21,65,1],[22,13,22,58,1],[23,13,23,112,1],[24,13,24,66,1],[26,13,26,91,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,43,1],[30,43,30,100,1],[30,100,30,102,1],[30,102,31,17,1],[31,17,32,33,1],[32,33,33,13,1],[33,13,33,14,1],[33,14,33,16,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,33,1],[46,13,47,13,1],[47,13,47,14,1],[47,14,48,17,1],[48,17,49,21,1],[49,21,49,91,1],[49,91,49,102,1],[49,102,50,17,1],[50,17,50,64,1],[50,64,51,13,1],[51,13,51,14,1],[51,14,51,16,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,30,1],[64,13,65,13,1],[65,13,65,14,1],[65,14,66,17,1],[66,17,67,21,1],[67,21,67,91,1],[67,91,67,102,1],[67,102,68,17,1],[68,17,68,64,1],[68,64,69,13,1],[69,13,69,14,1],[69,14,69,16,1],[70,9,70,10,1],[74,9,74,10,1],[75,13,75,33,1],[82,13,83,13,1],[83,13,83,14,1],[83,14,84,17,1],[84,17,85,21,1],[85,21,85,92,1],[85,92,85,103,1],[85,103,86,17,1],[86,17,86,64,1],[86,64,87,13,1],[87,13,87,14,1],[87,14,87,16,1],[88,9,88,10,1],[92,9,92,10,1],[93,13,93,33,1],[100,13,101,13,1],[101,13,101,14,1],[101,14,102,17,1],[102,17,103,21,1],[103,21,103,91,1],[103,91,103,102,1],[103,102,104,17,1],[104,17,104,64,1],[104,64,105,13,1],[105,13,105,14,1],[105,14,105,16,1],[106,9,106,10,1],[110,9,110,10,1],[111,13,111,33,1],[119,13,120,13,1],[120,13,120,14,1],[120,14,121,17,1],[121,17,122,21,1],[122,21,122,92,1],[122,92,122,103,1],[122,103,123,17,1],[123,17,123,64,1],[123,64,124,13,1],[124,13,124,14,1],[124,14,124,16,1],[125,9,125,10,1],[129,9,129,10,1],[130,13,130,33,1],[137,13,138,13,1],[138,13,138,14,1],[138,14,139,17,1],[139,17,140,21,1],[140,21,140,91,1],[140,91,140,102,1],[140,102,141,17,1],[141,17,141,64,1],[141,64,142,13,1],[142,13,142,14,1],[142,14,142,16,1],[143,9,143,10,1]]);
+    </script>
+  </body>
+</html>
