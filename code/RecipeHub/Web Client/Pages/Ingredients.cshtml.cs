@@ -27,7 +27,7 @@ namespace Web_Client.Pages
         /// <summary>
         /// The list of ingredients for the page.
         /// </summary>
-        public IList<Ingredient> Ingredients { get; set; }
+        public IList<Ingredient> Ingredients { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the suggestions.
@@ -47,8 +47,16 @@ namespace Web_Client.Pages
         public IngredientsModel()
         {
             this.viewModel = new IngredientsViewModel();
-            this.Ingredients = this.viewModel.GetAllIngredientsForUser();
-            this.Suggestions = Array.Empty<string>();
+            try
+            {
+                this.Ingredients = this.viewModel.GetAllIngredientsForUser();
+                this.Suggestions = Array.Empty<string>();
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                TempData["Message"] = exception.Message;
+                Response.Redirect("/Index");
+            }
         }
 
         /// <summary>
