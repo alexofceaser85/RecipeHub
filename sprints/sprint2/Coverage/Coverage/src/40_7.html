@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Shared Resources\Model\Filters\RecipeFilters.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+namespace Shared_Resources.Model.Filters
+{
+    /// &lt;summary&gt;
+    /// Stores the current Filters for a recipe search.
+    /// &lt;/summary&gt;
+    public class RecipeFilters
+    {
+        /// &lt;summary&gt;
+        /// Whether to only search for ingredients that the user has all the ingredients for.
+        /// &lt;/summary&gt;
+        public bool OnlyAvailableIngredients { get; set; }
+        /// &lt;summary&gt;
+        /// Gets or sets the matching tag.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The only matching tag.
+        /// &lt;/value&gt;
+        public string[]? MatchTags { get; set; }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipeFilters&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.OnlyAvailableIngredients == true&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.MatchTags.Length == 0
+        /// &lt;/summary&gt;
+        public RecipeFilters()
+        {
+            this.OnlyAvailableIngredients = true;
+            this.MatchTags = Array.Empty&lt;string&gt;();
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,48,11,52,0],[11,53,11,57,0],[18,38,18,42,0],[18,43,18,47,0],[27,9,27,31,0],[28,9,28,10,0],[29,13,29,50,0],[30,13,30,52,0],[31,9,31,10,0]]);
+    </script>
+  </body>
+</html>

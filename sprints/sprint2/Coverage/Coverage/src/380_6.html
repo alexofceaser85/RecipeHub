@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Recipes\RecipesServiceTests\GetRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
+{
+    public class GetRecipeTests
+    {
+        [Test]
+        public void SuccessfullyGetRecipeSteps()
+        {
+            var recipe = new Recipe();
+            const string sessionKey = &quot;Key&quot;;
+            Session.Key = sessionKey;
+            const int recipeId = 0;
+
+            var recipesEndpoint = new Mock&lt;IRecipesEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            recipesEndpoint.Setup(mock =&gt; mock.GetRecipe(sessionKey, recipeId)).Returns(recipe);
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+            var result = service.GetRecipe(recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(recipe));
+                recipesEndpoint.Verify(mock =&gt; mock.GetRecipe(sessionKey, recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            Session.Key = null;
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + &quot; (Parameter &#39;Key&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(
+                    () =&gt; new RecipesService().GetRecipe(0))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            Session.Key = &quot;&quot;;
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; new RecipesService().GetRecipe(0))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[16,13,20,15,1],[22,13,22,38,1],[25,13,25,65,1],[26,13,26,58,1],[27,13,27,101,1],[28,13,28,66,1],[30,13,30,91,1],[31,13,31,57,1],[33,13,34,13,1],[34,13,34,14,1],[34,14,35,17,1],[35,17,35,63,1],[35,63,36,17,1],[36,17,36,101,1],[36,101,37,13,1],[37,13,37,14,1],[37,14,37,16,1],[38,9,38,10,1],[42,9,42,10,1],[43,13,43,102,1],[44,13,44,32,1],[45,13,46,13,1],[46,13,46,14,1],[46,14,47,17,1],[47,17,47,74,1],[47,74,47,112,1],[47,112,48,46,1],[48,46,49,17,1],[49,17,49,64,1],[49,64,50,13,1],[50,13,50,14,1],[50,14,50,16,1],[51,9,51,10,1],[55,9,55,10,1],[56,13,56,80,1],[57,13,57,30,1],[58,13,59,13,1],[59,13,59,14,1],[59,14,60,17,1],[60,17,60,70,1],[60,70,60,105,1],[60,105,60,116,1],[60,116,61,17,1],[61,17,61,64,1],[61,64,62,13,1],[62,13,62,14,1],[62,14,62,16,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,68,33,1],[69,13,69,113,1],[70,13,71,13,1],[71,13,71,14,1],[71,14,72,17,1],[72,17,72,74,1],[72,74,72,112,1],[72,112,72,123,1],[72,123,73,17,1],[73,17,73,64,1],[73,64,74,13,1],[74,13,74,14,1],[74,14,74,16,1],[75,9,75,10,1]]);
+    </script>
+  </body>
+</html>

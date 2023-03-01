@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ResponseModels\PantryResponseModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Controllers.ResponseModels
+{
+    /// &lt;summary&gt;
+    /// Response Model for requests that include the pantry of ingredients.
+    /// &lt;/summary&gt;
+    public class PantryResponseModel : BaseResponseModel
+    {
+        /// &lt;summary&gt;
+        /// Represents a pantry of ingredients, with names and amounts of each ingredient.
+        /// &lt;/summary&gt;
+        public Ingredient[]? Pantry { get; set; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;PantryResponseModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: message != null&lt;br /&gt;
+        /// AND !string.IsNullOrWhitespace(message)&lt;br /&gt;
+        /// Postcondition: Code == code&lt;br /&gt;
+        /// AND Message == message&lt;br /&gt;
+        /// AND Pantry == pantry&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;code&quot;&gt;The code.&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The message.&lt;/param&gt;
+        /// &lt;param name=&quot;pantry&quot;&gt;The pantry being sent to the client.&lt;/param&gt;
+        public PantryResponseModel(HttpStatusCode code, string message, Ingredient[]? pantry) : base(code, message)
+        {
+            this.Pantry = pantry;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,39,14,43,1],[14,44,14,48,1],[28,97,28,116,1],[29,9,29,10,1],[30,13,30,34,1],[31,9,31,10,1]]);
+    </script>
+  </body>
+</html>

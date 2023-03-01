@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\RecipeListFilterViewModelTests\RemoveSelectedTagTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.ViewModel.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.RecipeListFilterViewModelTests
+{
+    public class RemoveSelectedTagTests
+    {
+        [Test]
+        public void RemoveExistingTag()
+        {
+            const string tag = &quot;tag&quot;;
+            var viewmodel = new RecipeListFilterViewModel();
+
+            viewmodel.AddSelectedTag(tag);
+            viewmodel.RemoveSelectedTag(tag);
+            
+            Assert.That(viewmodel.SelectedTags, Has.Count.Zero);
+        }
+
+        [Test]
+        public void RemoveFromEmptySelectedTagsList()
+        {
+            const string tag = &quot;tag&quot;;
+            var viewmodel = new RecipeListFilterViewModel();
+            
+            viewmodel.RemoveSelectedTag(tag);
+
+            Assert.That(viewmodel.SelectedTags, Has.Count.Zero);
+        }
+
+        [Test]
+        public void RemoveNullTag()
+        {
+            var viewmodel = new RecipeListFilterViewModel();
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    viewmodel.RemoveSelectedTag(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;tag&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,19,15,1],[20,13,24,15,1],[26,13,26,59,1],[27,13,27,75,1],[29,13,29,75,1],[30,13,30,43,1],[32,13,33,13,1],[33,13,33,14,1],[33,14,34,17,1],[34,17,34,116,1],[34,116,35,17,1],[35,17,35,89,1],[35,89,36,17,1],[36,17,36,76,1],[36,76,37,17,1],[37,17,37,78,1],[37,78,38,13,1],[38,13,38,14,1],[38,14,38,16,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

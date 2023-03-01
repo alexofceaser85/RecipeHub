@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Recipes\RecipesViewModelTests\InitializeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.ViewModel.Recipes;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTests
+{
+    public class InitializeTests
+    {
+        [Test]
+        public void InitializeWithAllInformation()
+        {
+            const int recipeId = 0;
+            const string recipeName = &quot;name&quot;;
+            const string authorName = &quot;first last&quot;;
+            const string description = &quot;description&quot;;
+            const string tagsText = &quot;breakfast\nlunch&quot;;
+            const string ingredientsText = &quot;ingredient 1 - 1 ml\ningredient 2 - 2 g&quot;;
+            const string instructionsText = &quot;1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2&quot;;
+            const string userRating = &quot;User Rating: 0/5&quot;;
+            const string yourRating = &quot;Your Rating: 0/5&quot;;
+
+            var recipe = new Recipe(recipeId, authorName, recipeName, description, false);
+            var ingredients = new Ingredient[] {
+                new(&quot;ingredient 1&quot;, 1, MeasurementType.Volume),
+                new(&quot;ingredient 2&quot;, 2, MeasurementType.Mass),
+            };
+            var instructions = new RecipeStep[] {
+                new(1, &quot;name 1&quot;, &quot;instructions 1&quot;),
+                new(2, &quot;name 2&quot;, &quot;instructions 2&quot;)
+            };
+            var tags = new[] {
+                &quot;breakfast&quot;,
+                &quot;lunch&quot;
+            };
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipe(recipeId)).Returns(recipe);
+            service.Setup(mock =&gt; mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
+            service.Setup(mock =&gt; mock.GetStepsForRecipe(recipeId)).Returns(instructions);
+            service.Setup(mock =&gt; mock.GetTypesForRecipe(recipeId)).Returns(tags);
+
+            var viewmodel = new RecipeViewModel(service.Object);
+            viewmodel.Initialize(recipeId);
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RecipeName, Is.EqualTo(recipeName));
+                Assert.That(viewmodel.AuthorName, Is.EqualTo(authorName));
+                Assert.That(viewmodel.Tags, Is.EqualTo(tagsText));
+                Assert.That(viewmodel.Description, Is.EqualTo(description));
+                Assert.That(viewmodel.UserRatingText, Is.EqualTo(userRating));
+                Assert.That(viewmodel.YourRatingText, Is.EqualTo(yourRating));
+                Assert.That(viewmodel.Ingredients, Is.EqualTo(ingredientsText));
+                Assert.That(viewmodel.Instructions, Is.EqualTo(instructionsText));
+
+                service.Verify(mock =&gt; mock.GetRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetIngredientsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetStepsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetTypesForRecipe(recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InitializeWithNoIngredients()
+        {
+            const int recipeId = 0;
+            const string recipeName = &quot;name&quot;;
+            const string authorName = &quot;first last&quot;;
+            const string tagsText = &quot;breakfast\nlunch&quot;;
+            const string description = &quot;description&quot;;
+            const string ingredientsText = RecipeViewModel.NoIngredientsMessage;
+            const string instructionsText = &quot;1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2&quot;;
+            const string userRating = &quot;User Rating: 0/5&quot;;
+            const string yourRating = &quot;Your Rating: 0/5&quot;;
+
+            var recipe = new Recipe(recipeId, authorName, recipeName, description, false);
+            var ingredients = Array.Empty&lt;Ingredient&gt;();
+            var instructions = new RecipeStep[] {
+                new(1, &quot;name 1&quot;, &quot;instructions 1&quot;),
+                new(2, &quot;name 2&quot;, &quot;instructions 2&quot;)
+            };
+            var tags = new[] {
+                &quot;breakfast&quot;,
+                &quot;lunch&quot;
+            };
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipe(recipeId)).Returns(recipe);
+            service.Setup(mock =&gt; mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
+            service.Setup(mock =&gt; mock.GetStepsForRecipe(recipeId)).Returns(instructions);
+            service.Setup(mock =&gt; mock.GetTypesForRecipe(recipeId)).Returns(tags);
+
+            var viewmodel = new RecipeViewModel(service.Object);
+            viewmodel.Initialize(recipeId);
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RecipeName, Is.EqualTo(recipeName));
+                Assert.That(viewmodel.AuthorName, Is.EqualTo(authorName));
+                Assert.That(viewmodel.Tags, Is.EqualTo(tagsText));
+                Assert.That(viewmodel.Description, Is.EqualTo(description));
+                Assert.That(viewmodel.UserRatingText, Is.EqualTo(userRating));
+                Assert.That(viewmodel.YourRatingText, Is.EqualTo(yourRating));
+                Assert.That(viewmodel.Ingredients, Is.EqualTo(ingredientsText));
+                Assert.That(viewmodel.Instructions, Is.EqualTo(instructionsText));
+
+                service.Verify(mock =&gt; mock.GetRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetIngredientsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetStepsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetTypesForRecipe(recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InitializeWithNoInstructions()
+        {
+            const int recipeId = 0;
+            const string recipeName = &quot;name&quot;;
+            const string authorName = &quot;first last&quot;;
+            const string tagsText = &quot;breakfast\nlunch&quot;;
+            const string description = &quot;description&quot;;
+            const string ingredientsText = &quot;ingredient 1 - 1 ml\ningredient 2 - 2 g&quot;;
+            const string instructionsText = RecipeViewModel.NoInstructionsMessage;
+            const string userRating = &quot;User Rating: 0/5&quot;;
+            const string yourRating = &quot;Your Rating: 0/5&quot;;
+
+            var recipe = new Recipe(recipeId, authorName, recipeName, description, false);
+            var ingredients = new Ingredient[] {
+                new(&quot;ingredient 1&quot;, 1, MeasurementType.Volume),
+                new(&quot;ingredient 2&quot;, 2, MeasurementType.Mass),
+            };
+            var instructions = Array.Empty&lt;RecipeStep&gt;();
+            var tags = new[] {
+                &quot;breakfast&quot;,
+                &quot;lunch&quot;
+            };
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipe(recipeId)).Returns(recipe);
+            service.Setup(mock =&gt; mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
+            service.Setup(mock =&gt; mock.GetStepsForRecipe(recipeId)).Returns(instructions);
+            service.Setup(mock =&gt; mock.GetTypesForRecipe(recipeId)).Returns(tags);
+
+            var viewmodel = new RecipeViewModel(service.Object);
+            viewmodel.Initialize(recipeId);
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RecipeName, Is.EqualTo(recipeName));
+                Assert.That(viewmodel.AuthorName, Is.EqualTo(authorName));
+                Assert.That(viewmodel.Tags, Is.EqualTo(tagsText));
+                Assert.That(viewmodel.Description, Is.EqualTo(description));
+                Assert.That(viewmodel.UserRatingText, Is.EqualTo(userRating));
+                Assert.That(viewmodel.YourRatingText, Is.EqualTo(yourRating));
+                Assert.That(viewmodel.Ingredients, Is.EqualTo(ingredientsText));
+                Assert.That(viewmodel.Instructions, Is.EqualTo(instructionsText));
+
+                service.Verify(mock =&gt; mock.GetRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetIngredientsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetStepsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetTypesForRecipe(recipeId), Times.Once);
+            });
+        }
+        
+        [Test]
+        public void InitializeWithNoTypes()
+        {
+            const int recipeId = 0;
+            const string recipeName = &quot;name&quot;;
+            const string authorName = &quot;first last&quot;;
+            const string description = &quot;description&quot;;
+            const string tagsText = RecipeViewModel.NoTagsMessage;
+            const string ingredientsText = &quot;ingredient 1 - 1 ml\ningredient 2 - 2 g&quot;;
+            const string instructionsText = &quot;1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2&quot;;
+            const string userRating = &quot;User Rating: 0/5&quot;;
+            const string yourRating = &quot;Your Rating: 0/5&quot;;
+
+            var recipe = new Recipe(recipeId, authorName, recipeName, description, false);
+            var ingredients = new Ingredient[] {
+                new(&quot;ingredient 1&quot;, 1, MeasurementType.Volume),
+                new(&quot;ingredient 2&quot;, 2, MeasurementType.Mass),
+            };
+            var instructions = new RecipeStep[] {
+                new(1, &quot;name 1&quot;, &quot;instructions 1&quot;),
+                new(2, &quot;name 2&quot;, &quot;instructions 2&quot;)
+            };
+            var tags = Array.Empty&lt;string&gt;();
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.GetRecipe(recipeId)).Returns(recipe);
+            service.Setup(mock =&gt; mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
+            service.Setup(mock =&gt; mock.GetStepsForRecipe(recipeId)).Returns(instructions);
+            service.Setup(mock =&gt; mock.GetTypesForRecipe(recipeId)).Returns(tags);
+
+            var viewmodel = new RecipeViewModel(service.Object);
+            viewmodel.Initialize(recipeId);
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RecipeName, Is.EqualTo(recipeName));
+                Assert.That(viewmodel.AuthorName, Is.EqualTo(authorName));
+                Assert.That(viewmodel.Tags, Is.EqualTo(tagsText));
+                Assert.That(viewmodel.Description, Is.EqualTo(description));
+                Assert.That(viewmodel.UserRatingText, Is.EqualTo(userRating));
+                Assert.That(viewmodel.YourRatingText, Is.EqualTo(yourRating));
+                Assert.That(viewmodel.Ingredients, Is.EqualTo(ingredientsText));
+                Assert.That(viewmodel.Instructions, Is.EqualTo(instructionsText));
+
+                service.Verify(mock =&gt; mock.GetRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetIngredientsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetStepsForRecipe(recipeId), Times.Once);
+                service.Verify(mock =&gt; mock.GetTypesForRecipe(recipeId), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,11,51,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,77,1],[14,77,15,17,1],[15,17,15,77,1],[15,77,16,17,1],[16,17,16,78,1],[16,78,17,17,1],[17,17,17,79,1],[17,79,18,17,1],[18,17,18,78,1],[18,78,19,17,1],[19,17,19,81,1],[19,81,20,17,1],[20,17,20,81,1],[20,81,21,13,1],[21,13,21,14,1],[21,14,21,16,1],[22,9,22,10,1],[26,9,26,10,1],[27,13,27,72,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,77,1],[30,77,31,17,1],[31,17,31,77,1],[31,77,32,17,1],[32,17,32,78,1],[32,78,33,17,1],[33,17,33,79,1],[33,79,34,17,1],[34,17,34,78,1],[34,78,35,17,1],[35,17,35,81,1],[35,81,36,17,1],[36,17,36,81,1],[36,81,37,13,1],[37,13,37,14,1],[37,14,37,16,1],[38,9,38,10,1],[42,9,42,10,1],[43,13,44,13,1],[44,13,44,14,1],[44,14,45,17,1],[45,17,46,27,1],[46,27,46,57,1],[46,57,46,68,1],[46,68,47,17,1],[47,17,47,110,1],[47,110,48,13,1],[48,13,48,14,1],[48,14,48,16,1],[49,9,49,10,1]]);
+    </script>
+  </body>
+</html>

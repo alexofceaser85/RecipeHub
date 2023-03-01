@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Users\UsersServiceTests\LogoutTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Desktop_Client.Endpoints.Users;
+using Desktop_Client.Service.Users;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Service.Users.UsersServiceTests
+{
+    public class LogoutTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            Session.Key = null;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Session.Key = null;
+        }
+
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsNull()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Logout(); })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLogoutIfSessionKeyIsEmpty()
+        {
+            Session.Key = &quot;   &quot;;
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Logout(); })?.Message;
+            Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeEmpty));
+        }
+
+        [Test]
+        public void TestSuccessfulLogout()
+        {
+            Session.Key = &quot;sessionKey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+
+            mockedEndpoints.Setup(mock =&gt; mock.Logout(Session.Key)).Returns(&quot;newSessionKey&quot;);
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            service.Logout();
+            Assert.That(Session.Key, Is.Null);
+        }
+
+        [Test]
+        public void TestUnsuccessfulLogout()
+        {
+            Session.Key = &quot;sessionKey&quot;;
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+
+            mockedEndpoints.Setup(mock =&gt; mock.Logout(Session.Key)).Throws(new ArgumentException(&quot;testException&quot;));
+
+            var service = new UsersService(mockedEndpoints.Object);
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Logout(); })?.Message;
+
+            Assert.That(message, Is.EqualTo(&quot;testException&quot;));
+            Assert.That(Session.Key, Is.EqualTo(&quot;sessionKey&quot;));
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[15,9,15,10,1],[16,13,16,32,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,22,32,1],[23,9,23,10,1],[27,9,27,10,1],[28,13,28,46,1],[29,13,29,66,1],[29,66,29,67,1],[29,67,29,68,1],[29,68,29,101,1],[29,101,29,102,1],[29,102,29,103,0],[29,103,29,114,1],[30,13,30,94,1],[31,9,31,10,1],[35,9,35,10,1],[36,13,36,46,1],[37,13,37,66,1],[37,66,37,67,1],[37,67,37,68,1],[37,68,37,101,1],[37,101,37,102,1],[37,102,37,103,0],[37,103,37,114,1],[38,13,38,95,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,44,46,1],[45,13,45,66,1],[45,66,45,67,1],[45,67,45,68,1],[45,68,45,101,1],[45,101,45,102,1],[45,102,45,103,0],[45,103,45,114,1],[46,13,46,94,1],[47,9,47,10,1],[51,9,51,10,1],[52,13,52,46,1],[53,13,53,66,1],[53,66,53,67,1],[53,67,53,68,1],[53,68,53,101,1],[53,101,53,102,1],[53,102,53,103,0],[53,103,53,114,1],[54,13,54,95,1],[55,9,55,10,1],[59,9,59,10,1],[60,13,60,60,1],[61,13,61,46,1],[62,13,62,48,1],[63,13,63,66,1],[63,66,63,67,1],[63,67,63,68,1],[63,68,63,106,1],[63,106,63,107,1],[63,107,63,108,0],[63,108,63,119,1],[64,13,64,104,1],[65,9,65,10,1],[69,9,69,10,1],[70,13,70,57,1],[71,13,71,46,1],[72,13,72,47,1],[73,13,73,66,1],[73,66,73,67,1],[73,67,73,68,1],[73,68,73,106,1],[73,106,73,107,1],[73,107,73,108,0],[73,108,73,119,1],[74,13,74,105,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,63,1],[85,13,85,87,1],[86,13,87,54,1],[89,13,89,68,1],[90,13,90,70,1],[92,13,92,49,1],[93,13,93,67,1],[94,9,94,10,1],[98,9,98,10,1],[99,13,99,63,1],[104,13,104,87,1],[105,13,106,76,1],[108,13,108,68,1],[109,13,109,70,1],[111,13,111,66,1],[111,66,111,67,1],[111,67,111,68,1],[111,68,111,104,1],[111,104,111,105,1],[111,105,111,106,0],[111,106,111,117,1],[112,13,112,63,1],[113,13,113,47,1],[114,9,114,10,1]]);
+    </script>
+  </body>
+</html>

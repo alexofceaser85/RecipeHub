@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Ingredients\IngredientsViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Ingredients.IngredientsViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var viewmodel = new IngredientsViewModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RemoveAllButtonEnabled, Is.EqualTo(false));
+                Assert.That(viewmodel.Ingredients, Has.Length.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void ValidOneParameterConstructor()
+        {
+            var viewmodel = new IngredientsViewModel(new IngredientsService());
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.RemoveAllButtonEnabled, Is.EqualTo(false));
+                Assert.That(viewmodel.Ingredients, Has.Length.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void NullIngredientsService()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    _ = new IngredientsViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;service&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[11,13,11,61,1],[13,13,13,43,1],[14,13,14,46,1],[16,13,16,65,1],[17,9,17,10,1],[21,9,21,10,1],[23,13,23,61,1],[25,13,25,46,1],[27,13,27,65,1],[28,9,28,10,1],[32,9,32,10,1],[33,13,33,61,1],[35,13,36,13,1],[36,13,36,14,1],[36,14,37,17,1],[37,17,38,21,1],[38,21,38,55,1],[38,55,38,66,1],[38,66,39,17,1],[39,17,39,93,1],[39,93,40,13,1],[40,13,40,14,1],[40,14,40,16,1],[41,9,41,10,1]]);
+    </script>
+  </body>
+</html>

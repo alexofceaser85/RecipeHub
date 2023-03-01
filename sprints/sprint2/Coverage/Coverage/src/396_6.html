@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\AddIngredientsViewModelTests\InitializeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+using Moq;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewModelTests
+{
+    public class InitializeTests
+    {
+        [Test]
+        public void ValidInitialization()
+        {
+            var ingredients = new[] {
+                &quot;Apple&quot;,
+                &quot;Banana&quot;
+            };
+            const string ingredientName = &quot;&quot;;
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.GetSuggestions(ingredientName)).Returns(ingredients);
+
+            var viewmodel = new AddIngredientsViewModel(service.Object);
+            viewmodel.Initialize();
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.IngredientNames, Is.EquivalentTo(ingredients));
+                service.Verify(mock =&gt; mock.GetSuggestions(ingredientName), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,12,59,1],[13,13,14,13,1],[14,13,14,14,1],[14,14,15,17,1],[15,17,15,81,1],[15,81,16,17,1],[16,17,16,83,1],[16,83,17,17,1],[17,17,17,102,1],[17,102,18,17,1],[18,17,18,79,1],[18,79,19,13,1],[19,13,19,14,1],[19,14,19,16,1],[20,9,20,10,1],[24,9,24,10,1],[25,13,25,83,1],[26,13,27,13,1],[27,13,27,14,1],[27,14,28,17,1],[28,17,28,81,1],[28,81,29,17,1],[29,17,29,83,1],[29,83,30,17,1],[30,17,30,102,1],[30,102,31,17,1],[31,17,31,79,1],[31,79,32,13,1],[32,13,32,14,1],[32,14,32,16,1],[33,9,33,10,1],[37,9,37,10,1],[38,13,39,13,1],[39,13,39,14,1],[39,14,40,17,1],[40,17,41,21,1],[41,21,41,59,1],[41,59,41,70,1],[41,70,42,17,1],[42,17,42,97,1],[42,97,43,13,1],[43,13,43,14,1],[43,14,43,16,1],[44,9,44,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Recipes\RecipesTests\GetSetAuthorNameTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Recipes;
+
+namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipesTests
+{
+    public class GetSetAuthorNameTests
+    {
+        [Test]
+        public void AssignNonNullAuthorName()
+        {
+            const string authorName = &quot;author name&quot;;
+
+            var recipe = new Recipe {
+                AuthorName = authorName
+            };
+
+            Assert.That(recipe.AuthorName, Is.EqualTo(authorName));
+        }
+
+        [Test]
+        public void AssignNullAuthorName()
+        {
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt;
+            {
+                _ = new Recipe {
+                    AuthorName = null!
+                };
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[12,13,14,15,1],[16,13,16,68,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,26,19,1],[26,19,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1]]);
+    </script>
+  </body>
+</html>

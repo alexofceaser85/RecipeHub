@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Model\Ingredients\IngredientBindingModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Model.Ingredients;
+
+namespace WebClientTests.WebClient.Model.Ingredients.IngredientBindingModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var ingredientModel = new IngredientBindingModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(ingredientModel.Name, Is.EqualTo(null));
+                Assert.That(ingredientModel.Amount, Is.EqualTo(0));
+                Assert.That(ingredientModel.MeasurementType, Is.EqualTo(MeasurementType.Quantity));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,11,64,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,69,1],[14,69,15,17,1],[15,17,15,68,1],[15,68,16,17,1],[16,17,16,100,1],[16,100,17,13,1],[17,13,17,14,1],[17,14,17,16,1],[18,9,18,10,1]]);
+    </script>
+  </body>
+</html>

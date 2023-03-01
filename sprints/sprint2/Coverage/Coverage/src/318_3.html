@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Users\UsersServiceTests\CreateAccountTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+using Web_Client.Endpoints.Users;
+using Web_Client.Service.Users;
+
+namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
+{
+    public class CreateAccountTests
+    {
+        [Test]
+        public void ShouldNotCreateAccountWithNullNewAccount()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.CreateAccount(null!); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.AccountToCreateCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldCreateAccount()
+        {
+            var endpoints = new Mock&lt;IUsersEndpoints&gt;();
+            var service = new UsersService(endpoints.Object);
+            var account = new NewAccount(&quot;username&quot;, &quot;password&quot;, &quot;password&quot;, &quot;first&quot;, &quot;lname&quot;, &quot;email@email.com&quot;);
+            endpoints.Setup(mock =&gt; mock.CreateAccount(account));
+
+            service.CreateAccount(account);
+            endpoints.Verify(mock =&gt; mock.CreateAccount(account), Times.Once);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,46,1],[15,13,15,66,1],[15,66,15,67,1],[15,67,15,68,1],[15,68,15,97,1],[15,97,15,98,1],[15,98,15,99,0],[15,99,15,110,1],[16,13,16,101,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,22,57,1],[23,13,23,62,1],[24,13,24,115,1],[25,13,25,66,1],[27,13,27,44,1],[28,13,28,79,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

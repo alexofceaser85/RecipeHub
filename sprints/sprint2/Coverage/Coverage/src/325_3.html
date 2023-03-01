@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Ingredients\IngredientsViewModelTests\GetAllIngredientsForUserTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Service.Ingredients;
+using Web_Client.ViewModel.Ingredient;
+
+namespace WebClientTests.WebClient.ViewModel.Ingredients.IngredientsViewModelTests
+{
+    public class GetAllIngredientsForUserTests
+    {
+        [Test]
+        public void SuccessfullyRetrievesIngredients()
+        {
+            var ingredients = new Ingredient[] {
+                new (&quot;apple&quot;, 1, MeasurementType.Quantity),
+                new (&quot;banana&quot;, 1, MeasurementType.Volume)
+            };
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewModel = new IngredientsViewModel(service.Object);
+
+            var result = viewModel.GetAllIngredientsForUser();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(ingredients));
+                service.Verify(mock =&gt; mock.GetAllIngredientsForUser(), Times.Once);
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,16,15,1],[18,13,18,59,1],[19,13,19,89,1],[21,13,21,70,1],[23,13,23,63,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,62,1],[26,62,27,17,1],[27,17,27,85,1],[27,85,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

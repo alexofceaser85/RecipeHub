@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\RecipeListFilterViewModelTests\AddSelectedTagTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+
+using Desktop_Client.ViewModel.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.RecipeListFilterViewModelTests
+{
+    public class AddSelectedTagTests
+    {
+        [Test]
+        public void AddTagToEmptySelection()
+        {
+            const string tag = &quot;tag&quot;;
+
+            var viewmodel = new RecipeListFilterViewModel();
+            viewmodel.AddSelectedTag(tag);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.SelectedTags, Does.Contain(tag));
+                Assert.That(viewmodel.SelectedTags, Has.Count.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public void AddManyTags()
+        {
+            const string tag1 = &quot;tag1&quot;;
+            const string tag2 = &quot;tag2&quot;;
+            const string tag3 = &quot;tag3&quot;;
+
+            var viewmodel = new RecipeListFilterViewModel();
+            viewmodel.AddSelectedTag(tag1);
+            viewmodel.AddSelectedTag(tag2);
+            viewmodel.AddSelectedTag(tag3);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.SelectedTags, Does.Contain(tag1));
+                Assert.That(viewmodel.SelectedTags, Does.Contain(tag2));
+                Assert.That(viewmodel.SelectedTags, Does.Contain(tag3));
+                Assert.That(viewmodel.SelectedTags, Has.Count.EqualTo(3));
+            });
+        }
+
+        [Test]
+        public void AddDuplicateTag()
+        {
+            const string tag = &quot;tag&quot;;
+
+            var viewmodel = new RecipeListFilterViewModel();
+            viewmodel.AddSelectedTag(tag);
+            viewmodel.AddSelectedTag(tag);
+            viewmodel.AddSelectedTag(tag);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.SelectedTags, Does.Contain(tag));
+                Assert.That(viewmodel.SelectedTags, Has.Count.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public void AddNullTag()
+        {
+            const string tag = null!;
+
+            var viewmodel = new RecipeListFilterViewModel();
+            
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    viewmodel.AddSelectedTag(tag!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;newTag&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[10,13,12,15,1],[13,13,13,67,1],[14,9,14,10,1]]);
+    </script>
+  </body>
+</html>

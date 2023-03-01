@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\Ingredients\IngredientsEndpointsTests\DeleteIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Desktop_Client.Endpoints.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndpointsTests
+{
+    public class DeleteIngredientTests
+    {
+        [Test]
+        public void SuccessfullyDeleteIngredient()
+        {
+            const string json = &quot;{\&quot;flag\&quot;: true, \&quot;code\&quot;: 200, \&quot;message\&quot;: \&quot;Ingredient successfully deleted.\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new IngredientEndpoints(httpClient);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = endpoints.DeleteIngredient(new Ingredient());
+                Assert.That(result, Is.EqualTo(true));
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+
+        [Test]
+        public void UnsuccessfullyDeleteIngredient()
+        {
+            const string errorMessage = &quot;error message&quot;;
+            const string json = $&quot;{{\&quot;code\&quot;: 500, \&quot;message\&quot;: \&quot;{errorMessage}\&quot;}}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new IngredientEndpoints(httpClient);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; endpoints.DeleteIngredient(new Ingredient()))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[15,13,15,73,1],[16,13,23,20,1],[25,13,25,76,1],[26,13,26,65,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,70,1],[30,70,31,17,1],[31,17,31,55,1],[31,55,32,17,1],[32,17,35,96,1],[35,96,36,13,1],[36,13,36,14,1],[36,14,36,16,1],[37,9,37,10,1],[41,9,41,10,1],[45,13,45,73,1],[46,13,53,20,1],[55,13,55,76,1],[56,13,56,65,1],[58,13,59,13,1],[59,13,59,14,1],[59,14,60,17,1],[60,17,61,27,1],[61,27,61,66,1],[61,66,61,77,1],[61,77,62,17,1],[62,17,62,64,1],[62,64,64,17,1],[64,17,67,96,1],[67,96,68,13,1],[68,13,68,14,1],[68,14,68,16,1],[69,9,69,10,1]]);
+    </script>
+  </body>
+</html>

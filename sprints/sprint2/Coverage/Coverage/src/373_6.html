@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\UpdateIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class AddIngredientTests
+    {
+        [Test]
+        public void SuccessfullyUpdateIngredient()
+        {
+            var ingredient = new Ingredient();
+            var endpoints = new Mock&lt;IIngredientEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            endpoints.Setup(mock =&gt; mock.UpdateIngredient(ingredient)).Returns(true);
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new IngredientsService(endpoints.Object, usersService.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = service.UpdateIngredient(ingredient);
+                Assert.That(result, Is.EqualTo(true));
+                endpoints.Verify(mock =&gt; mock.UpdateIngredient(ingredient), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,15,15,1],[17,13,17,62,1],[18,13,18,58,1],[20,13,20,95,1],[21,13,21,66,1],[23,13,23,89,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,27,69,1],[27,69,28,17,1],[28,17,28,67,1],[28,67,29,17,1],[29,17,29,91,1],[29,91,30,13,1],[30,13,30,14,1],[30,14,30,16,1],[31,9,31,10,1]]);
+    </script>
+  </body>
+</html>

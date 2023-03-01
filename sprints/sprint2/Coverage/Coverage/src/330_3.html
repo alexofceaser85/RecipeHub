@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Recipes\RecipeListViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
+
+namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructorDoesNotThrowException()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesListViewModel());
+        }
+
+        [Test]
+        public void TwoParameterConstructorDoesNotThrowException()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new RecipesListViewModel(new RecipesService(), new IngredientsService()));
+        }
+
+        [Test]
+        public void NullServiceThrowsException()
+        {
+            Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; _ = new RecipesListViewModel(null!, new IngredientsService()));
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,12,39,1],[12,39,12,69,1],[12,69,12,71,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,18,39,1],[18,39,18,115,1],[18,115,18,117,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,24,56,1],[24,56,24,117,1],[24,117,24,119,1],[25,9,25,10,1]]);
+    </script>
+  </body>
+</html>
