@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared_Resources.ErrorMessages;
+﻿using Shared_Resources.ErrorMessages;
 using Shared_Resources.Utils.Json;
 
 namespace ServerTests.Utils.Json.JsonUtilsTests
@@ -13,7 +8,7 @@ namespace ServerTests.Utils.Json.JsonUtilsTests
         [Test]
         public void ParseValidJsonString()
         {
-            var jsonString = "{\"key\": \"value\"}";
+            const string jsonString = "{\"key\": \"value\"}";
             var json = JsonUtils.ParseToJsonNode(jsonString);
 
             Assert.That(json.AsObject()["key"]!.ToString(), Is.EqualTo("value"));

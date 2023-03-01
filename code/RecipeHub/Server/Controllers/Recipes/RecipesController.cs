@@ -4,7 +4,6 @@ using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.ErrorMessages;
 using Server.Service.Recipes;
-using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
@@ -37,8 +36,9 @@ namespace Server.Controllers.Recipes
         /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         public RecipesController(IRecipesService recipesService)
         {
-            this.service = recipesService ?? 
-                           throw new ArgumentNullException(nameof(recipesService), RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
+            this.service = recipesService ??
+                           throw new ArgumentNullException(nameof(recipesService),
+                               RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
         }
 
         /// <summary>
@@ -59,9 +59,72 @@ namespace Server.Controllers.Recipes
                 return new RecipeResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipe(sessionKey, recipeId));
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeResponseModel(HttpStatusCode.Unauthorized, ex.Message, null!);
+            }
             catch (Exception ex)
             {
-                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, null!);
+                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, new Recipe());
+            }
+        }
+
+        /// <summary>
+        /// Gets the recipes for a type
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="tags">The tags.</param>
+        /// <returns>The recipes for a type</returns>
+        [HttpGet]
+        [Route("RecipesForType")]
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string tags)
+        {
+            try
+            {
+                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipesForType(sessionKey, tags));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Recipe>());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Recipe>());
+            }
+        }
+
+        /// <summary>
+        /// Gets all of the types for a recipe, if the recipe exists and is visible to the user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the user</param>
+        /// <param name="recipeId">The id of the recipe to search.</param>
+        /// <returns>A response containing the types for recipe.</returns>
+        [HttpGet]
+        [Route("TypesForRecipe")]
+        public RecipeTypesResponseModel GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetTypesForRecipe(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<string>());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<string>());
             }
         }
 
@@ -80,12 +143,18 @@ namespace Server.Controllers.Recipes
         {
             try
             {
-                return new RecipeIngredientsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipeIngredients(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Ingredient>());
             }
             catch (Exception ex)
             {
-                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Ingredient>());
+                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Ingredient>());
             }
         }
 
@@ -104,12 +173,18 @@ namespace Server.Controllers.Recipes
         {
             try
             {
-                return new RecipeStepsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
-                    this.service.GetRecipeSteps(sessionKey, recipeId)); ;
+                return new RecipeStepsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeSteps(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<RecipeStep>());
             }
             catch (Exception ex)
             {
-                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<RecipeStep>());
+                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<RecipeStep>());
             }
         }
 
@@ -138,6 +213,10 @@ namespace Server.Controllers.Recipes
 
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToAdd);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
             }
             catch (Exception ex)
             {
@@ -169,6 +248,10 @@ namespace Server.Controllers.Recipes
 
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToRemove);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
             }
             catch (Exception ex)
             {
@@ -205,12 +288,16 @@ namespace Server.Controllers.Recipes
                 return new StandardResponseModel(HttpStatusCode.InternalServerError,
                     RecipesControllerErrorMessages.RecipeFailedToEdit);
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
             catch (Exception ex)
             {
                 return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-        
+
         /// <summary>
         /// Gets all of the recipes who's name contains the search term for the user.<br/>
         /// If no search term is provided, all recipes visible to the user are fetched.<br/>
@@ -230,11 +317,15 @@ namespace Server.Controllers.Recipes
                 return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
                     this.service.GetRecipes(sessionKey, searchTerm));
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty<Recipe>());
+            }
             catch (Exception ex)
             {
-                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message, Array.Empty<Recipe>());
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty<Recipe>());
             }
         }
-
     }
 }

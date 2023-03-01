@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Service\Users\UsersServiceTests\LoginTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.IO;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Web_Client.Endpoints.Users;
+using Web_Client.Service.Users;
+
+namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
+{
+    public class LoginTests
+    {
+        [SetUp]
+        public void Setup()
+        {
+            Session.Key = null;
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Session.Key = null;
+        }
+
+        [Test]
+        public void ShouldNotLoginWithNullUsername()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(null!, &quot;password&quot;); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.UsernameCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithEmptyUsername()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(&quot;   &quot;, &quot;password&quot;); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.UsernameCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithNullPassword()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(&quot;username&quot;, null!); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.PasswordCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithEmptyPassword()
+        {
+            var service = new UsersService();
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(&quot;username&quot;, &quot;   &quot;); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.PasswordCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithNullSessionKeyLoadFilePath()
+        {
+            var service = new UsersService();
+            service.SessionKeyLoadFile = null!;
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(&quot;username&quot;, &quot;password&quot;); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotLoginWithEmptySessionKeyLoadFilePath()
+        {
+            var service = new UsersService();
+            service.SessionKeyLoadFile = &quot;  &quot;;
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; { service.Login(&quot;username&quot;, &quot;password&quot;); })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceErrorMessages.SessionKeyLoadFileCannotBeEmpty));
+        }
+
+        [Test]
+        public void TestSuccessfulLogin()
+        {
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+            const string previousSessionKey = &quot;prevSession&quot;;
+            const string hashedPassword =
+                &quot;64fcc6f6bc7a815041b4db51f00f4bea8e51c13b27f422da0a8522c94641c7e483c3f17b28d0a59add0c8a44a4e4fc1dd3a9ea48bad8cf5b707ac0f44a5f3536&quot;;
+
+            for (var i = 0; i &lt; 10; i++)
+            {
+                try
+                {
+                    SessionKeySerializers.SaveSessionKey(previousSessionKey, &quot;logintest.txt&quot;);
+                    break;
+                }
+                catch (Exception)
+                {
+                    Thread.Sleep(100);
+                }
+            }
+
+            mockedEndpoints.Setup(mock =&gt; mock.Login(&quot;username&quot;, hashedPassword, previousSessionKey))
+                           .Returns(&quot;newSessionKey&quot;);
+
+            var service = new UsersService(mockedEndpoints.Object);
+            service.SessionKeyLoadFile = &quot;logintest.txt&quot;;
+
+            service.Login(&quot;username&quot;, &quot;000000&quot;);
+            Assert.That(Session.Key, Is.EqualTo(&quot;newSessionKey&quot;));
+        }
+
+        [Test]
+        public void TestUnsuccessfulLogin()
+        {
+            var mockedEndpoints = new Mock&lt;IUsersEndpoints&gt;();
+            const string previousSessionKey = &quot;prevSession&quot;;
+            const string hashedPassword =
+                &quot;64fcc6f6bc7a815041b4db51f00f4bea8e51c13b27f422da0a8522c94641c7e483c3f17b28d0a59add0c8a44a4e4fc1dd3a9ea48bad8cf5b707ac0f44a5f3536&quot;;
+
+            SessionKeySerializers.SaveSessionKey(previousSessionKey, &quot;logintest.txt&quot;);
+            mockedEndpoints.Setup(mock =&gt; mock.Login(&quot;username&quot;, hashedPassword, previousSessionKey))
+                           .Throws(new ArgumentException(&quot;testException&quot;));
+
+            var service = new UsersService(mockedEndpoints.Object);
+            service.SessionKeyLoadFile = &quot;logintest.txt&quot;;
+
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                for (var i = 0; i &lt; 10; i++)
+                {
+                    try
+                    {
+                        service.Login(&quot;username&quot;, &quot;000000&quot;);
+                    }
+                    catch (ArgumentException)
+                    {
+                        throw;
+                    }
+                    catch (Exception)
+                    {
+                        Thread.Sleep(100);
+                    }
+                }
+            })?.Message;
+            Assert.That(message, Is.EqualTo(&quot;testException&quot;));
+            Assert.That(Session.Key, Is.Null);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,32,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,21,32,1],[22,9,22,10,1],[26,9,26,10,1],[27,13,27,46,1],[28,13,28,66,1],[28,66,28,67,1],[28,67,28,68,1],[28,68,28,101,1],[28,101,28,102,1],[28,102,28,103,0],[28,103,28,114,1],[29,13,29,94,1],[30,9,30,10,1],[34,9,34,10,1],[35,13,35,46,1],[36,13,36,66,1],[36,66,36,67,1],[36,67,36,68,1],[36,68,36,101,1],[36,101,36,102,1],[36,102,36,103,0],[36,103,36,114,1],[37,13,37,95,1],[38,9,38,10,1],[42,9,42,10,1],[43,13,43,46,1],[44,13,44,66,1],[44,66,44,67,1],[44,67,44,68,1],[44,68,44,101,1],[44,101,44,102,1],[44,102,44,103,0],[44,103,44,114,1],[45,13,45,94,1],[46,9,46,10,1],[50,9,50,10,1],[51,13,51,46,1],[52,13,52,66,1],[52,66,52,67,1],[52,67,52,68,1],[52,68,52,101,1],[52,101,52,102,1],[52,102,52,103,0],[52,103,52,114,1],[53,13,53,95,1],[54,9,54,10,1],[58,9,58,10,1],[59,13,59,46,1],[60,13,60,48,1],[61,13,61,66,1],[61,66,61,67,1],[61,67,61,68,1],[61,68,61,106,1],[61,106,61,107,1],[61,107,61,108,0],[61,108,61,119,1],[62,13,62,104,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,68,46,1],[69,13,69,47,1],[70,13,70,66,1],[70,66,70,67,1],[70,67,70,68,1],[70,68,70,106,1],[70,106,70,107,1],[70,107,70,108,0],[70,108,70,119,1],[71,13,71,105,1],[72,9,72,10,1],[76,9,76,10,1],[77,13,77,63,1],[82,18,82,27,1],[82,29,82,35,1],[82,37,82,40,0],[83,13,83,14,1],[85,17,85,18,1],[86,21,86,95,1],[87,21,87,27,1],[89,17,89,34,0],[90,17,90,18,0],[91,21,91,39,0],[92,17,92,18,0],[93,13,93,14,0],[95,13,96,54,1],[98,13,98,68,1],[99,13,99,58,1],[101,13,101,49,1],[102,13,102,67,1],[103,9,103,10,1],[107,9,107,10,1],[108,13,108,63,1],[113,13,113,87,1],[114,13,115,76,1],[117,13,117,68,1],[118,13,118,58,1],[120,13,121,13,1],[121,13,121,14,1],[121,14,122,22,1],[122,22,122,31,1],[122,31,122,33,1],[122,33,122,39,1],[122,39,122,41,1],[122,41,122,44,0],[122,44,123,17,1],[123,17,123,18,1],[123,18,125,21,1],[125,21,125,22,1],[125,22,126,25,1],[126,25,126,61,1],[126,61,127,21,1],[127,21,127,22,0],[127,22,128,21,1],[128,21,128,46,1],[128,46,129,21,1],[129,21,129,22,1],[129,22,130,25,1],[130,25,130,31,1],[130,31,132,21,1],[132,21,132,38,0],[132,38,133,21,1],[133,21,133,22,0],[133,22,134,25,1],[134,25,134,43,0],[134,43,135,21,1],[135,21,135,22,0],[135,22,136,17,1],[136,17,136,18,0],[136,18,137,13,1],[137,13,137,14,0],[137,14,137,25,1],[138,13,138,63,1],[139,13,139,47,1],[140,9,140,10,1]]);
+    </script>
+  </body>
+</html>

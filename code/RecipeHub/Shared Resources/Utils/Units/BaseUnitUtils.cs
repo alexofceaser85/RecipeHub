@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Shared_Resources.Model.Ingredients;
+﻿using Shared_Resources.Model.Ingredients;
 
 namespace Shared_Resources.Utils.Units
 {

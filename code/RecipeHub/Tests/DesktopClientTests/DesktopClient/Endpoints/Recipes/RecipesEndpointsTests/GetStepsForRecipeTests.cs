@@ -12,7 +12,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTes
         public void SuccessfullyRetrieveList()
         {
             var steps = new RecipeStep[] {
-                new (1, "Form Patty", "Take the raw beef and shape it into a patty."),
+                new (1, "Form Patty", "Take the raw beef and shape it into a patty.")
             };
             const string json = "{ \"steps\": [ { \"stepNumber\": 1, \"name\": \"Form Patty\", \"instructions\": \"Take the raw beef and shape it into a patty.\" }]," +
                                 " \"code\": 200, \"message\": \"Returned Okay\"}"; 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Recipes\RecipeListViewModelTests\EditRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.UserData;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
+
+namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
+{
+    public class EditRecipeTests
+    {
+        [Test]
+        public void SuccessfullyEditRecipe()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.EditRecipe(recipeId, name, description, isPublic));
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; viewmodel.EditRecipe(recipeId, name, description, isPublic));
+                service.Verify(mock =&gt; mock.EditRecipe(recipeId, name, description, isPublic), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,33,1],[20,13,20,55,1],[21,13,21,91,1],[23,13,23,96,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,27,43,1],[27,43,27,102,1],[27,102,27,104,1],[27,104,28,17,1],[28,17,28,108,1],[28,108,29,13,1],[29,13,29,14,1],[29,14,29,16,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

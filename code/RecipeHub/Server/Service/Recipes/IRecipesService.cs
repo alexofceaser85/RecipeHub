@@ -23,6 +23,21 @@ namespace Server.Service.Recipes
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
 
         /// <summary>
+        /// Gets the recipes given a recipe type
+        ///
+        /// Precondition:
+        /// sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// AND tags != null
+        /// AND tags IS NOT empty
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="tags">The tags.</param>
+        /// <returns>The recipes for a given recipe type</returns>
+        public Recipe[] GetRecipesForType(string sessionKey, string tags);
+
+        /// <summary>
         /// Gets the recipe information for a specified recipe, if the user can view it.<br/>
         /// <br/>
         /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
@@ -63,6 +78,20 @@ namespace Server.Service.Recipes
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId);
+
+        /// <summary>
+        /// Gets all of the types associated with a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>!string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The user can view the recipe<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key for the active user.</param>
+        /// <param name="recipeId">The id for the recipe to retrieve</param>
+        /// <returns>The types for thr recipe</returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId);
 
         /// <summary>
         /// Attempts to add a recipe to the database.<br/>

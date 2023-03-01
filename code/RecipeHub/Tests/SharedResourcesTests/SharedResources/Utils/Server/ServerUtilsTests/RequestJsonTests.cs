@@ -52,8 +52,8 @@ namespace SharedResourcesTests.SharedResources.Utils.Server.ServerUtilsTests
         public void TestValidJsonRequest()
         {
             var httpMethod = HttpMethod.Get;
-            var requestUri = "https://www.example.com";
-            var json = "{\"key\":\"value\"}";
+            const string requestUri = "https://www.example.com";
+            const string json = "{\"key\":\"value\"}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler

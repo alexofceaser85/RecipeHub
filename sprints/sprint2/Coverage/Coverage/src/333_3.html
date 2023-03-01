@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Recipes\RecipeListViewModelTests\RemoveRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.UserData;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
+
+namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
+{
+    public class RemoveRecipeTests
+    {
+        [Test]
+        public void SuccessfullyRemoveRecipe()
+        {
+            Session.Key = &quot;Key&quot;;
+            const int recipeId = 1;
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.RemoveRecipe(recipeId));
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; viewmodel.RemoveRecipe(recipeId));
+                service.Verify(mock =&gt; mock.RemoveRecipe(recipeId), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,33,1],[17,13,17,55,1],[18,13,18,64,1],[20,13,20,96,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,24,43,1],[24,43,24,75,1],[24,75,24,77,1],[24,77,25,17,1],[25,17,25,81,1],[25,81,26,13,1],[26,13,26,14,1],[26,14,26,16,1],[27,9,27,10,1]]);
+    </script>
+  </body>
+</html>

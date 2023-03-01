@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\DeleteAllIngredientsForUserTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Users;
+using Moq;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class DeleteAllIngredientsForUserTests
+    {
+        [Test]
+        public void SuccessfullyDeleteIngredients()
+        {
+            var endpoints = new Mock&lt;IIngredientEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            endpoints.Setup(mock =&gt; mock.DeleteAllIngredientsForUser()).Returns(true);
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+            var service = new IngredientsService(endpoints.Object, usersService.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = service.DeleteAllIngredientsForUser();
+                Assert.That(result, Is.EqualTo(true));
+                endpoints.Verify(mock =&gt; mock.DeleteAllIngredientsForUser(), Times.Once);
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,12,39,1],[12,39,12,67,1],[12,67,12,69,1],[13,9,13,10,1],[17,9,17,10,1],[18,13,18,39,1],[18,39,18,112,1],[18,112,18,114,1],[19,9,19,10,1]]);
+    </script>
+  </body>
+</html>

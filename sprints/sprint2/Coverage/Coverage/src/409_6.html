@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Ingredients\IngredientsViewModelTests\RemoveIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Ingredients.IngredientsViewModelTests
+{
+    public class RemoveIngredientTests
+    {
+        [Test]
+        public void SuccessfullyRemoveIngredient()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Quantity);
+            
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.DeleteIngredient(ingredient)).Returns(true);
+
+            var viewmodel = new IngredientsViewModel(service.Object);
+            var result = viewmodel.RemoveIngredient(ingredient);
+            
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(true));
+                service.Verify(mock =&gt; mock.DeleteIngredient(ingredient), Times.Once);
+            });
+        }
+
+        [Test]
+        public void UnauthorizedAccessExceptionThrown()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Quantity);
+            var errorMessage = &quot;error message&quot;;
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.DeleteIngredient(ingredient)).Throws(() =&gt; new UnauthorizedAccessException(errorMessage));
+
+            var viewmodel = new IngredientsViewModel(service.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;UnauthorizedAccessException&gt;(() =&gt; 
+                                        viewmodel.RemoveIngredient(ingredient))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock =&gt; mock.DeleteIngredient(ingredient), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NonUnauthorizedAccessExceptionThrown()
+        {
+            var ingredient = new Ingredient(&quot;name&quot;, 1, MeasurementType.Quantity);
+
+            var service = new Mock&lt;IIngredientsService&gt;();
+            service.Setup(mock =&gt; mock.DeleteIngredient(ingredient)).Throws(() =&gt; new Exception());
+
+            var viewmodel = new IngredientsViewModel(service.Object);
+            var result = viewmodel.RemoveIngredient(ingredient);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EqualTo(false));
+                service.Verify(mock =&gt; mock.DeleteIngredient(ingredient), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[14,13,14,59,1],[15,13,15,89,1],[17,13,17,70,1],[18,13,18,59,1],[19,13,20,13,1],[20,13,20,14,1],[20,14,21,17,1],[21,17,21,59,1],[21,59,22,17,1],[22,17,22,88,1],[22,88,23,13,1],[23,13,23,14,1],[23,14,23,16,1],[24,9,24,10,1],[28,9,28,10,1],[31,13,31,59,1],[32,13,33,34,1],[33,34,33,79,1],[33,79,33,81,1],[35,13,35,70,1],[36,13,37,13,1],[37,13,37,14,1],[37,14,38,17,1],[38,17,39,21,1],[39,21,39,53,1],[39,53,39,64,1],[39,64,40,17,1],[40,17,40,64,1],[40,64,41,17,1],[41,17,41,88,1],[41,88,42,13,1],[42,13,42,14,1],[42,14,42,16,1],[43,9,43,10,1],[47,9,47,10,1],[48,13,48,59,1],[49,13,50,34,1],[50,34,50,49,1],[50,49,50,51,1],[52,13,52,70,1],[53,13,53,59,1],[54,13,55,13,1],[55,13,55,14,1],[55,14,56,17,1],[56,17,56,56,1],[56,56,57,17,1],[57,17,57,88,1],[57,88,58,13,1],[58,13,58,14,1],[58,14,58,16,1],[59,9,59,10,1]]);
+    </script>
+  </body>
+</html>

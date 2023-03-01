@@ -1,7 +1,9 @@
-﻿using Web_Client.Endpoints.Recipes;
+﻿using Shared_Resources.Data.UserData;
+using Web_Client.Endpoints.Recipes;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Users;
 
 namespace Web_Client.Service.Recipes
 {
@@ -9,6 +11,7 @@ namespace Web_Client.Service.Recipes
     public class RecipesService : IRecipesService
     {
         private readonly IRecipesEndpoints endpoints;
+        private readonly IUsersService usersService;
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesService"/>.<br/>
@@ -17,32 +20,34 @@ namespace Web_Client.Service.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesService() : this(new RecipesEndpoints())
+        public RecipesService() : this(new RecipesEndpoints(), new UsersService())
         {
 
         }
-        
+
         /// <summary>
         /// Creates a instance of <see cref="RecipesService"/> with a specified <see cref="IRecipesEndpoints"/> object.<br/>
         /// <br/>
         /// <b>Precondition: </b>endpoints != null<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        public RecipesService(IRecipesEndpoints endpoints)
+        public RecipesService(IRecipesEndpoints endpoints, IUsersService usersService)
         {
-            this.endpoints = endpoints ?? 
+            this.endpoints = endpoints ??
                              throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull);
+            this.usersService = usersService ??
+                                throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.UserServiceCannotBeNull);
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipes(string sessionKey, string searchTerm = "")
+        public Recipe[] GetRecipes(string searchTerm = "")
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
@@ -52,119 +57,109 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentNullException(nameof(searchTerm), RecipesServiceErrorMessages.SearchTermCannotBeNull);
             }
 
-            return this.endpoints.GetRecipes(sessionKey, searchTerm);
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipes(Session.Key, searchTerm);
         }
 
         /// <inheritdoc/>
-        public Recipe GetRecipe(string sessionKey, int recipeId)
+        public Recipe[] GetRecipesForTags(string[] tags)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            return this.endpoints.GetRecipe(sessionKey, recipeId);
+            if (tags == null)
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeTagsCannotBeNull);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipesForTags(Session.Key, tags);
         }
 
         /// <inheritdoc/>
-        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
+        public Recipe GetRecipe(int recipeId)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            return this.endpoints.GetIngredientsForRecipe(sessionKey, recipeId);
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipe(Session.Key, recipeId);
         }
 
         /// <inheritdoc/>
-        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
+        public Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            return this.endpoints.GetStepsForRecipe(sessionKey, recipeId);
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetIngredientsForRecipe(Session.Key, recipeId);
         }
 
         /// <inheritdoc/>
-        public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        public RecipeStep[] GetStepsForRecipe(int recipeId)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name), RecipesServiceErrorMessages.RecipeNameCannotBeNull);
-            }
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException(RecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
-            }
-
-            if (description == null)
-            {
-                throw new ArgumentNullException(nameof(description),
-                    RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
-            }
-
-            if (string.IsNullOrWhiteSpace(description))
-            {
-                throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
-            }
-
-            this.endpoints.AddRecipe(sessionKey, name, description, isPublic);
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetStepsForRecipe(Session.Key, recipeId);
         }
 
         /// <inheritdoc/>
-        public void RemoveRecipe(string sessionKey, int recipeId)
+        public string[] GetTypesForRecipe(int recipeId)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
 
-            this.endpoints.RemoveRecipe(sessionKey, recipeId);
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetTypesForRecipe(Session.Key, recipeId);
         }
 
         /// <inheritdoc/>
-        public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
+        public void AddRecipe(string name, string description, bool isPublic)
         {
-            if (sessionKey == null)
+            if (Session.Key == null)
             {
-                throw new ArgumentNullException(nameof(sessionKey), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
             }
 
-            if (string.IsNullOrWhiteSpace(sessionKey))
+            if (string.IsNullOrWhiteSpace(Session.Key))
             {
                 throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
             }
@@ -190,7 +185,63 @@ namespace Web_Client.Service.Recipes
                 throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
             }
 
-            this.endpoints.EditRecipe(sessionKey, recipeId, name, description, isPublic);
+            this.usersService.RefreshSessionKey();
+            this.endpoints.AddRecipe(Session.Key, name, description, isPublic);
+        }
+
+        /// <inheritdoc/>
+        public void RemoveRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.endpoints.RemoveRecipe(Session.Key, recipeId);
+        }
+
+        /// <inheritdoc/>
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name), RecipesServiceErrorMessages.RecipeNameCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (description == null)
+            {
+                throw new ArgumentNullException(nameof(description),
+                    RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.endpoints.EditRecipe(Session.Key, recipeId, name, description, isPublic);
         }
     }
 }

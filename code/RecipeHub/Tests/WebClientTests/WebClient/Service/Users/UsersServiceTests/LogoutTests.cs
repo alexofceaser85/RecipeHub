@@ -24,10 +24,7 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
         public void ShouldNotLogoutIfSessionKeyIsNull()
         {
             var service = new UsersService();
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.Logout();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.Logout(); })?.Message;
             Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeNull));
         }
 
@@ -36,20 +33,17 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
         {
             Session.Key = "   ";
             var service = new UsersService();
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.Logout();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.Logout(); })?.Message;
             Assert.That(message, Is.EqualTo(SessionKeyErrorMessages.SessionKeyCannotBeEmpty));
         }
 
         [Test]
         public void TestSuccessfulLogout()
         {
-            Session.Key = "sessionkey";
+            Session.Key = "sessionKey";
             var mockedEndpoints = new Mock<IUsersEndpoints>();
 
-            mockedEndpoints.Setup(mock => mock.Logout(Session.Key)).Returns("newsessionkey");
+            mockedEndpoints.Setup(mock => mock.Logout(Session.Key)).Returns("newSessionKey");
 
             var service = new UsersService(mockedEndpoints.Object);
 
@@ -60,20 +54,17 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
         [Test]
         public void TestUnsuccessfulLogout()
         {
-            Session.Key = "sessionkey";
+            Session.Key = "sessionKey";
             var mockedEndpoints = new Mock<IUsersEndpoints>();
 
-            mockedEndpoints.Setup(mock => mock.Logout(Session.Key)).Throws(new ArgumentException("testexception"));
+            mockedEndpoints.Setup(mock => mock.Logout(Session.Key)).Throws(new ArgumentException("testException"));
 
             var service = new UsersService(mockedEndpoints.Object);
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                service.Logout();
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { service.Logout(); })?.Message;
 
-            Assert.That(message, Is.EqualTo("testexception"));
-            Assert.That(Session.Key, Is.EqualTo("sessionkey"));
+            Assert.That(message, Is.EqualTo("testException"));
+            Assert.That(Session.Key, Is.EqualTo("sessionKey"));
         }
     }
 }

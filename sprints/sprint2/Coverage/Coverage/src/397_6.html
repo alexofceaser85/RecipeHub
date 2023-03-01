@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\EditIngredientViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.ViewModel.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.EditIngredientViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var viewmodel = new EditIngredientViewModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Title, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Amount, Is.EqualTo(string.Empty));
+            });
+        }
+
+        [Test]
+        public void ValidSingleParameterConstructor()
+        {
+            var viewmodel = new EditIngredientViewModel(new IngredientsService());
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Title, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Amount, Is.EqualTo(string.Empty));
+            });
+        }
+
+        [Test]
+        public void NullIngredientsService()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    _ = new EditIngredientViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;service&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,15,15,1],[18,13,18,59,1],[19,13,19,93,1],[21,13,21,73,1],[22,13,22,36,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,86,1],[26,86,27,17,1],[27,17,27,89,1],[27,89,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

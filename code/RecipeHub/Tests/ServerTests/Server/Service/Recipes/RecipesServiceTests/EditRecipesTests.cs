@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 
@@ -20,11 +21,12 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
             recipesDal.Setup(mock => mock.EditRecipe(recipeId, name, description, isPublic)).Returns(expected);
             recipesDal.Setup(mock => mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(true);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             var result = service.EditRecipe(sessionKey, recipeId, name, description, isPublic);
 
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
@@ -41,9 +43,9 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
         }
-        
+
         [Test]
         public void EmptySessionKey()
         {
@@ -52,7 +54,7 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -63,7 +65,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = null!;
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentNullException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name!, description, isPublic));
         }
 
         [Test]
@@ -74,7 +77,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "";
             const string description = "description";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -85,7 +89,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = null!;
             const bool isPublic = false;
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentNullException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description!, isPublic));
         }
 
         [Test]
@@ -96,7 +101,8 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const string name = "name";
             const string description = "";
             const bool isPublic = false;
-            Assert.Throws<ArgumentException>(() => new RecipesService().EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(() =>
+                new RecipesService().EditRecipe(sessionKey, recipeId, name, description, isPublic));
         }
 
         [Test]
@@ -110,10 +116,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?)null);
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns((int?) null);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
+            Assert.Throws<UnauthorizedAccessException>(() => service.EditRecipe(sessionKey!, recipeId, name, description, isPublic));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
         }
 
@@ -129,12 +136,14 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
             recipesDal.Setup(mock => mock.IsAuthorOfRecipe(authorId, recipeId)).Returns(false);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(authorId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
 
-            Assert.Throws<ArgumentException>(() => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
+            Assert.Throws<ArgumentException>(
+                () => service.EditRecipe(sessionKey, recipeId, name, description, isPublic));
             usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once());
             recipesDal.Verify(mock => mock.IsAuthorOfRecipe(authorId, recipeId), Times.Once);
         }

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Ingredients\AddIngredientsViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Desktop_Client.Service.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace Desktop_Client.ViewModel.Ingredients
+{
+    /// &lt;summary&gt;
+    /// View Model for the Add Ingredients.
+    /// &lt;/summary&gt;
+    public class AddIngredientsViewModel : INotifyPropertyChanged
+    {
+        /// &lt;summary&gt;
+        /// The error message for when the ingredient amount is not an int
+        /// &lt;/summary&gt;
+        public const string NonIntIngredientAmount = &quot;IngredientAmount could not be parsed as an int&quot;;
+        
+        private string ingredientName;
+        private string[] ingredientNames;
+        private string ingredientAmount;
+        private MeasurementType selectedMeasurementType;
+        private readonly IIngredientsService service;
+
+        /// &lt;summary&gt;
+        /// The name of the ingredient to add.
+        /// &lt;/summary&gt;
+        public string IngredientName
+        {
+            get =&gt; this.ingredientName;
+            set =&gt; this.SetField(ref this.ingredientName, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The list of all ingredient names already added to the system.
+        /// &lt;/summary&gt;
+        public string[] IngredientNames
+        {
+            get =&gt; this.ingredientNames;
+            set =&gt; this.SetField(ref this.ingredientNames, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The amount of the ingredient
+        /// &lt;/summary&gt;
+        public string IngredientAmount
+        {
+            get =&gt; this.ingredientAmount;
+            set =&gt; this.SetField(ref this.ingredientAmount, value);
+        }
+
+        /// &lt;summary&gt;
+        /// How the ingredient should be measured.
+        /// &lt;/summary&gt;
+        public MeasurementType SelectedMeasurementType
+        {
+            get =&gt; this.selectedMeasurementType;
+            set =&gt; this.SetField(ref this.selectedMeasurementType, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;AddIngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Service is set to default value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public AddIngredientsViewModel() : this(new IngredientsService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;AddIngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;service != null &lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNames.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmount == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedMeasurementType == MeasurementTypes.Quantity
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;the specified service&lt;/param&gt;
+        /// &lt;exception cref=&quot;InvalidOperationException&quot;&gt;&lt;/exception&gt;
+        public AddIngredientsViewModel(IIngredientsService service)
+        {
+            this.service = service ?? throw new ArgumentNullException(nameof(service));
+            this.ingredientName = string.Empty;
+            this.ingredientNames = Array.Empty&lt;string&gt;();
+            this.ingredientAmount = string.Empty;
+            this.selectedMeasurementType = MeasurementType.Quantity;
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes the viewmodel by querying the server for a list of ingredient names.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.IngredientNames contains all ingredient names.
+        /// &lt;/summary&gt;
+        public void Initialize()
+        {
+            this.IngredientNames = this.service.GetSuggestions(&quot;&quot;);
+        }
+        
+        /// &lt;summary&gt;
+        /// Adds the specified ingredient to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: Session.Key is a valid session key&lt;br /&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(this.IngredientName) &lt;br/&gt;
+        /// &amp;amp;&amp;amp; int.TryParse(this.IngredientAmount)&lt;br/&gt;
+        /// Postcondition: The ingredient is added to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;Whether the ingredient was successfully added or not.&lt;/returns&gt;
+        public bool AddIngredient()
+        {
+            try
+            {
+                var ingredient = this.CreateIngredient();
+                return this.service.AddIngredient(ingredient);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private Ingredient CreateIngredient()
+        {
+            if (!int.TryParse(this.ingredientAmount, out var amount))
+            {
+                throw new InvalidOperationException(NonIntIngredientAmount);
+            }
+            return new Ingredient(this.ingredientName, amount, this.selectedMeasurementType);
+        }
+        
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[29,20,29,39,1],[30,20,30,65,1],[38,20,38,40,1],[39,20,39,66,1],[47,20,47,41,1],[48,20,48,67,1],[56,20,56,48,1],[57,20,57,74,1],[66,44,66,74,1],[67,9,67,10,1],[69,9,69,10,1],[84,9,84,68,1],[85,9,85,10,1],[86,13,86,88,1],[87,13,87,48,1],[88,13,88,58,1],[89,13,89,50,1],[90,13,90,69,1],[91,9,91,10,1],[100,9,100,10,1],[101,13,101,68,1],[102,9,102,10,1],[114,9,114,10,1],[116,13,116,14,1],[117,17,117,58,1],[118,17,118,63,1],[120,13,120,48,1],[121,13,121,14,1],[122,17,122,23,1],[124,13,124,18,1],[125,13,125,14,1],[126,17,126,30,1],[128,9,128,10,1],[131,9,131,10,1],[132,13,132,70,1],[133,13,133,14,1],[134,17,134,77,1],[136,13,136,94,1],[137,9,137,10,1],[151,9,151,10,1],[152,13,152,92,1],[153,9,153,10,1],[167,9,167,10,1],[168,13,168,66,1],[168,67,168,80,1],[169,13,169,27,1],[170,13,170,45,1],[171,13,171,25,1],[172,9,172,10,1]]);
+    </script>
+  </body>
+</html>

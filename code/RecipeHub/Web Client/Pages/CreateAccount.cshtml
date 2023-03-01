@@ -4,7 +4,8 @@
 @using Shared_Resources.ErrorMessages
 @model Web_Client.Pages.CreateAccountModel
 @{
-    <h1>Create Account</h1>
+    ViewData["Title"] = "Create Account";
+    ViewData["Header"] = "Create Account";
 
     <form id="createAccountForm" method="post" action="">
         <fieldset>

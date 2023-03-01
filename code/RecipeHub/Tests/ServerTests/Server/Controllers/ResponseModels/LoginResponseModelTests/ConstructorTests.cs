@@ -33,10 +33,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         {
             var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = null!;
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = null!; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeNull));
         }
@@ -46,10 +43,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.LoginResponseModelTests
         {
             var responseModel = new BaseResponseModel(HttpStatusCode.Continue, "message");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                responseModel.Message = "   ";
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = "   "; })?.Message;
 
             Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
         }

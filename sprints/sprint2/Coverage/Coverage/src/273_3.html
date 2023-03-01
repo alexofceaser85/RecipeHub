@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\Endpoints\Ingredients\IngredientsEndpointsTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Endpoints.Ingredients;
+
+namespace WebClientTests.WebClient.Endpoints.Ingredients.IngredientsEndpointsTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientEndpoints());
+        }
+
+        [Test]
+        public void OneParameterConstructor()
+        {
+            Assert.DoesNotThrow(() =&gt; _ = new IngredientEndpoints(new HttpClient()));
+        }
+
+        [Test]
+        public void NullHttpClient()
+        {
+            const string errorMessage = &quot;Value cannot be null. (Parameter &#39;http&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(
+                    () =&gt; _ = new IngredientEndpoints(null!))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,9,9,10,1],[10,13,10,39,1],[10,39,10,68,1],[10,68,10,70,1],[11,9,11,10,1],[15,9,15,10,1],[16,13,16,39,1],[16,39,16,84,1],[16,84,16,86,1],[17,9,17,10,1],[21,9,21,10,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,26,27,1],[26,27,26,61,1],[26,61,26,72,1],[26,72,27,17,1],[27,17,27,64,1],[27,64,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

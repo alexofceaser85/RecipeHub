@@ -1,6 +1,7 @@
 ﻿using Web_Client.Endpoints.Recipes;
 using Web_Client.Service.Recipes;
 using Shared_Resources.ErrorMessages;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
 {
@@ -9,13 +10,13 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void ValidDefaultConstructor()
         {
-            Assert.DoesNotThrow(() => new RecipesService());
+            Assert.DoesNotThrow(() => _ = new RecipesService());
         }
 
         [Test]
         public void ValidOneParameterConstructor()
         {
-            Assert.DoesNotThrow(() => new RecipesService(new RecipesEndpoints()));
+            Assert.DoesNotThrow(() => _ = new RecipesService(new RecipesEndpoints(), new UsersService()));
         }
 
         [Test]
@@ -24,10 +25,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             var errorMessage = RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull + " (Parameter 'endpoints')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() =>
-                {
-                    _ = new RecipesService(null!);
-                })?.Message;
+                var message = Assert.Throws<ArgumentNullException>(() => { _ = new RecipesService(null!, new UsersService()); })?.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }

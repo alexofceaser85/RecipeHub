@@ -9,6 +9,8 @@ namespace Shared_Resources.Utils.Json
     public class JsonUtils
     {
         private const int ServerErrorRequestCode = 500;
+        private const int ServerAuthenticationNotValidErrorCode = 401;
+
         private const string RequestMessageJsonElementName = "message";
         private const string RequestCodeJsonElementName = "code";
 
@@ -114,12 +116,16 @@ namespace Shared_Resources.Utils.Json
         /// <exception cref="ArgumentException">If the request code indicates a server error</exception>
         public static string VerifyAndGetRequestInfo(JsonNode json)
         {
-            var requestContent = JsonUtils.GetJsonString(json, RequestMessageJsonElementName);
-            var requestCode = JsonUtils.GetJsonString(json, RequestCodeJsonElementName);
+            var requestContent = GetJsonString(json, RequestMessageJsonElementName);
+            var requestCode = GetJsonString(json, RequestCodeJsonElementName);
 
             if (int.Parse(requestCode) == ServerErrorRequestCode)
             {
                 throw new ArgumentException(requestContent);
+            }
+            if (int.Parse(requestCode) == ServerAuthenticationNotValidErrorCode)
+            {
+                throw new UnauthorizedAccessException(UsersServiceErrorMessages.UnauthorizedAccessErrorMessage);
             }
 
             return requestContent;

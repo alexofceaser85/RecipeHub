@@ -79,14 +79,7 @@ namespace Web_Client.ViewModel.Ingredient
         /// <returns>Whether the ingredient was successfully added or not.</returns>
         public bool AddIngredient(Shared_Resources.Model.Ingredients.Ingredient ingredient)
         {
-            try
-            {
-                return this.service.AddIngredient(ingredient);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return this.service.AddIngredient(ingredient);
         }
 
         /// <summary>

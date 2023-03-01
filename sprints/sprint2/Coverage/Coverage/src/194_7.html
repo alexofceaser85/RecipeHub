@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Utils\Server\ServerUtilsTests\RequestJsonTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using System.Net;
+using Moq.Protected;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Server;
+
+namespace SharedResourcesTests.SharedResources.Utils.Server.ServerUtilsTests
+{
+    public class RequestJsonTests
+    {
+        [Test]
+        public void ShouldNotRequestJsonIfMethodIsNull()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                ServerUtils.RequestJson(null!, &quot;request&quot;, new HttpClient());
+            })?.Message;
+            Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.HttpMethodCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotRequestJsonIfRequestUriIsNull()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                ServerUtils.RequestJson(HttpMethod.Get, null!, new HttpClient());
+            })?.Message;
+            Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.RequestUriCannotBeNull));
+        }
+
+        [Test]
+        public void ShouldNotRequestJsonIfRequestUriIsBlank()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                ServerUtils.RequestJson(HttpMethod.Get, &quot;   &quot;, new HttpClient());
+            })?.Message;
+            Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.RequestUriCannotBeEmpty));
+        }
+
+        [Test]
+        public void ShouldNotRequestJsonIfClientIsNull()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                ServerUtils.RequestJson(HttpMethod.Get, &quot;request&quot;, null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(ServerUtilsErrorMessages.HttpClientCannotBeNull));
+        }
+
+        [Test]
+        public void TestValidJsonRequest()
+        {
+            var httpMethod = HttpMethod.Get;
+            const string requestUri = &quot;https://www.example.com&quot;;
+            const string json = &quot;{\&quot;key\&quot;:\&quot;value\&quot;}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+
+            var result = ServerUtils.RequestJson(httpMethod, requestUri, httpClient);
+
+            Assert.That(result[&quot;key&quot;]?.ToString(), Is.EqualTo(&quot;value&quot;));
+
+            mockHttpMessageHandler
+                .Protected()
+                .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(), ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,15,13,1],[15,13,15,14,1],[15,14,16,17,1],[16,17,16,77,1],[16,77,17,13,1],[17,13,17,14,0],[17,14,17,25,1],[18,13,18,95,1],[19,9,19,10,1],[23,9,23,10,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,82,1],[26,82,27,13,1],[27,13,27,14,0],[27,14,27,25,1],[28,13,28,95,1],[29,9,29,10,1],[33,9,33,10,1],[34,13,35,13,1],[35,13,35,14,1],[35,14,36,17,1],[36,17,36,82,1],[36,82,37,13,1],[37,13,37,14,0],[37,14,37,25,1],[38,13,38,96,1],[39,9,39,10,1],[43,9,43,10,1],[44,13,45,13,1],[45,13,45,14,1],[45,14,46,17,1],[46,17,46,75,1],[46,75,47,13,1],[47,13,47,14,0],[47,14,47,25,1],[48,13,48,95,1],[49,9,49,10,1],[53,9,53,10,1],[54,13,54,45,1],[58,13,58,73,1],[59,13,66,20,1],[68,13,68,76,1],[70,13,70,86,1],[72,13,72,73,1],[74,13,76,150,1],[77,9,77,10,1]]);
+    </script>
+  </body>
+</html>

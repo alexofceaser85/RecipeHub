@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Components\LoginFormViewModelTests\LoginTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Users;
+using Desktop_Client.ViewModel.Components;
+using Moq;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewModelTests
+{
+    public class LoginTests
+    {
+        [Test]
+        public void ValidLogin()
+        {
+            const string username = &quot;username&quot;;
+            const string password = &quot;password&quot;;
+
+            var service = new Mock&lt;IUsersService&gt;();
+            service.Setup(mock =&gt; mock.Login(username, password));
+
+            var viewmodel = new LoginFormViewModel(service.Object)
+            {
+                Username = username,
+                Password = password
+            };
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; viewmodel.Login());
+                Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[10,9,10,10,1],[11,13,11,54,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,75,1],[14,75,15,17,1],[15,17,15,75,1],[15,75,16,13,1],[16,13,16,14,1],[16,14,16,16,1],[17,9,17,10,1],[21,9,21,10,1],[22,13,22,72,1],[23,13,24,13,1],[24,13,24,14,1],[24,14,25,17,1],[25,17,25,75,1],[25,75,26,17,1],[26,17,26,75,1],[26,75,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1],[32,9,32,10,1],[33,13,34,13,1],[34,13,34,14,1],[34,14,35,17,1],[35,17,36,21,1],[36,21,36,54,1],[36,54,36,65,1],[36,65,37,17,1],[37,17,37,97,1],[37,97,38,13,1],[38,13,38,14,1],[38,14,38,16,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

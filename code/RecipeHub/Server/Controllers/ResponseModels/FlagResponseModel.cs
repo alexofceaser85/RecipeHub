@@ -1,5 +1,4 @@
-﻿using Server.ErrorMessages;
-using System.Net;
+﻿using System.Net;
 
 namespace Server.Controllers.ResponseModels
 {

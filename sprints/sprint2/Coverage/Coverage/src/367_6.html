@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Ingredients\IngredientsServiceTests\AddIngredientTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Ingredients;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
+{
+    public class UpdateIngredientTests
+    {
+        [Test]
+        public void SuccessfullyUpdateIngredient()
+        {
+            var ingredient = new Ingredient();
+            var endpoints = new Mock&lt;IIngredientEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            endpoints.Setup(mock =&gt; mock.AddIngredient(ingredient)).Returns(true);
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new IngredientsService(endpoints.Object, usersService.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                var result = service.AddIngredient(ingredient);
+                Assert.That(result, Is.EqualTo(true));
+                endpoints.Verify(mock =&gt; mock.AddIngredient(ingredient), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,15,44,1],[16,13,16,76,1],[18,13,18,73,1],[19,13,26,20,1],[28,13,28,76,1],[29,13,29,60,1],[31,13,31,101,1],[33,13,35,150,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,44,1],[42,13,42,77,1],[44,13,44,73,1],[45,13,52,20,1],[54,13,54,76,1],[55,13,55,60,1],[57,13,58,13,1],[58,13,58,14,1],[58,14,59,17,1],[59,17,59,63,1],[59,63,60,13,1],[60,13,60,14,0],[60,14,60,25,1],[62,13,62,104,1],[64,13,66,150,1],[67,9,67,10,1]]);
+    </script>
+  </body>
+</html>

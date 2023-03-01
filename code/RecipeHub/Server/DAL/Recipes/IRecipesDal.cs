@@ -1,4 +1,5 @@
-﻿using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
 
 namespace Server.DAL.Recipes
 {
@@ -117,8 +118,8 @@ namespace Server.DAL.Recipes
         /// </summary>
         /// <param name="recipeId">The ID of the recipe.</param>
         /// <returns>An array containing all of the ingredients.</returns>
-        public Shared_Resources.Model.Ingredients.Ingredient[] GetIngredientsForRecipe(int recipeId);
-
+        public Ingredient[] GetIngredientsForRecipe(int recipeId);
+        
         /// <summary>
         /// Gets all of the steps for a recipe using the recipe's ID.<br/>
         /// <br/>
@@ -128,5 +129,15 @@ namespace Server.DAL.Recipes
         /// <param name="recipeId">The ID of the recipe.</param>
         /// <returns>An array containing all of the steps.</returns>
         public RecipeStep[] GetStepsForRecipe(int recipeId);
+
+        /// <summary>
+        /// Gets all of the recipe types for a specified recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="recipeId">The id for the recipe</param>
+        /// <returns>An array of all tags that the recipe has.</returns>
+        public string[] GetTypesForRecipe(int recipeId);
     }
 }

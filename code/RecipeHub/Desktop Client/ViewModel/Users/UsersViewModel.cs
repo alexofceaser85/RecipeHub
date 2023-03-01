@@ -29,12 +29,8 @@ namespace Desktop_Client.ViewModel.Users
         /// <exception cref="System.ArgumentException"></exception>
         public UsersViewModel(IUsersService service)
         {
-            if (service == null)
-            {
-                throw new ArgumentException(UsersServiceViewModelErrorMessages.UsersServiceCannotBeNull);
-            }
-
-            this.service = service;
+            this.service = service ?? 
+                           throw new ArgumentException(UsersServiceViewModelErrorMessages.UsersServiceCannotBeNull);
         }
 
         /// <summary>

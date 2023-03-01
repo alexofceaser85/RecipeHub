@@ -63,7 +63,8 @@ namespace Server.Controllers.Users
         {
             try
             {
-                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName, email));
+                this.service.CreateAccount(new NewAccount(username, password, verifiedPassword, firstName, lastName,
+                    email));
                 return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (Exception ex)
@@ -88,11 +89,31 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new BaseResponseModel(HttpStatusCode.OK, this.service.Login(username, password, previousSessionKey));
+                return new BaseResponseModel(HttpStatusCode.OK,
+                    this.service.Login(username, password, previousSessionKey));
             }
             catch (Exception ex)
             {
                 return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Refreshes the session key.
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key.</param>
+        /// <returns>The server response</returns>
+        [HttpGet]
+        [Route("RefreshKey")]
+        public BaseResponseModel RefreshSessionKey(string previousSessionKey)
+        {
+            try
+            {
+                return new BaseResponseModel(HttpStatusCode.OK, this.service.RefreshSessionKey(previousSessionKey));
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
             }
         }
 
@@ -133,7 +154,8 @@ namespace Server.Controllers.Users
         {
             try
             {
-                return new UserInfoResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage, this.service.GetUserInfo(sessionKey));
+                return new UserInfoResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetUserInfo(sessionKey));
             }
             catch (Exception ex)
             {

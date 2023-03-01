@@ -83,18 +83,22 @@ namespace Server.Service.Users
             {
                 throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeNull);
             }
+
             if (username.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeEmpty);
             }
+
             if (password == null)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeNull);
             }
+
             if (password.Trim().Length == 0)
             {
                 throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
             }
+
             if (previousSessionKey != null && previousSessionKey.Trim().Length == 0)
             {
                 throw new ArgumentException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty);
@@ -112,7 +116,7 @@ namespace Server.Service.Users
                 this.dataAccessLayer.RemoveSessionKey(previousSessionKey);
             }
 
-            this.dataAccessLayer.AddUserSession(userId.Value, sessionKey);
+            this.dataAccessLayer.AddUserSession(userId.Value, sessionKey, DateTime.UtcNow);
 
             return sessionKey;
         }
@@ -139,6 +143,49 @@ namespace Server.Service.Users
             }
 
             this.dataAccessLayer.RemoveSessionKey(sessionKey);
+        }
+
+        /// <summary>
+        /// Gets the user identifier for session key.
+        /// Precondition: previousSessionKey != null AND previousSessionKey IS NOT empty
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="previousSessionKey">The previous session key</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentException">Session Expired Returning to Login Screen</exception>
+        public string RefreshSessionKey(string previousSessionKey)
+        {
+            if (previousSessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeNull);
+            }
+
+            if (previousSessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.dataAccessLayer.GetIdForSessionKey(previousSessionKey);
+
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.SessionKeyCannotBeExpired);
+            }
+
+            var newSessionKey = this.generateNewSessionKey();
+            this.dataAccessLayer.RemoveSessionKey(previousSessionKey);
+            this.dataAccessLayer.AddUserSession(userId.Value, newSessionKey, DateTime.UtcNow);
+            return newSessionKey;
+        }
+
+        /// <summary>
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        public void RemoveTimedOutSessionKeys()
+        {
+            this.dataAccessLayer.RemoveTimedOutSessionKeys();
         }
 
         /// <summary>
@@ -170,8 +217,10 @@ namespace Server.Service.Users
         {
             var random = new Random();
 
-            var randomKey = new string(Enumerable.Repeat(SessionKeySettings.SessionKeyCharacters, SessionKeySettings.SessionKeyLength)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+            var randomKey = new string(Enumerable
+                                       .Repeat(SessionKeySettings.SessionKeyCharacters,
+                                           SessionKeySettings.SessionKeyLength)
+                                       .Select(s => s[random.Next(s.Length)]).ToArray());
 
             var hashedKey = Hashes.HashToSha512(randomKey);
 

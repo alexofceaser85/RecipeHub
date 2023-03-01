@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.View.Components.Recipes
 {
+    /// <summary>
+    /// A item that displays information about a recipe, designed to be shown in a list.
+    /// </summary>
     public partial class RecipeListItem : UserControl
     {
         private int rating;
@@ -30,7 +24,7 @@ namespace Desktop_Client.View.Components.Recipes
             set
             {
                 this.authorName = value;
-                this.authorNameLabel.Text = $"By: {value}";
+                this.authorNameLabel.Text = @$"By: {value}";
             }
         }
 
@@ -52,7 +46,7 @@ namespace Desktop_Client.View.Components.Recipes
             set
             {
                 this.rating = value;
-                this.ratingLabel.Text = $"Rating: {value}/5";
+                this.ratingLabel.Text = @$"Rating: {value}/5";
             }
         }
 
@@ -80,11 +74,12 @@ namespace Desktop_Client.View.Components.Recipes
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>this.Rating == recipe.Rating<br/>
         /// &amp;&amp; this.AuthorName == recipe.AuthorName<br/>
-        /// &amp;&amp; this.RecipeName == recipe.Name<br/>
+        /// &amp;&amp; this.SearchTerm == recipe.Name<br/>
         /// &amp;&amp; this.RecipeId == recipe.RecipeId
         /// </summary>
         /// <param name="recipe">The recipe to load</param>
-        public RecipeListItem(Recipe recipe)
+        /// <param name="tags">The tags for the recipe</param>
+        public RecipeListItem(Recipe recipe, string[]? tags = null)
         {
             this.InitializeComponent();
             this.authorName = "";
@@ -92,6 +87,19 @@ namespace Desktop_Client.View.Components.Recipes
             this.AuthorName = recipe.AuthorName;
             this.RecipeName = recipe.Name;
             this.RecipeId = recipe.Id;
+
+            if (tags == null || tags.Length == 0)
+            {
+                this.tagsPlaceholderLabel.Text = @"No tags";
+            }
+            else
+            {
+                this.tagsPlaceholderLabel.Text = @$"Tags: {tags[0]}";
+                for (var i = 1; i < tags.Length; i++)
+                {
+                    this.tagsPlaceholderLabel.Text += $@", {tags[i]}";
+                }
+            }
         }
 
         private void childControlMouseClick(object sender, EventArgs e)

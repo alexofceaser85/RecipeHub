@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Endpoints.Ingredients;
-using Desktop_Client.Endpoints.Recipes;
-using Shared_Resources.ErrorMessages;
+﻿using Desktop_Client.Endpoints.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndpointsTests
 {

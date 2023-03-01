@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Recipes\RecipesServiceTests\AddRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
+{
+    public class AddRecipeTests
+    {
+        [Test]
+        public void SuccessfullyAddRecipe()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            Session.Key = sessionKey;
+
+            var recipesEndpoint = new Mock&lt;IRecipesEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            recipesEndpoint.Setup(mock =&gt; mock.AddRecipe(Session.Key, name, description, isPublic));
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; service.AddRecipe(name, description, isPublic));
+                usersService.Verify(mock =&gt; mock.RefreshSessionKey(), Times.Once);
+                recipesEndpoint.Verify(mock =&gt; mock.AddRecipe(Session.Key, name, description, isPublic), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            Session.Key = null;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + &quot; (Parameter &#39;Key&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            Session.Key = &quot;&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeName()
+        {
+            Session.Key = &quot;Key&quot;;
+            const string name = null!;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeNull + &quot; (Parameter &#39;name&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(name!, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeName()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            Session.Key = sessionKey;
+            const string name = &quot;&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeNameCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void NullRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            Session.Key = sessionKey;
+            const string name = &quot;name&quot;;
+            const string description = null!;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull +
+                                        &quot; (Parameter &#39;description&#39;)&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; new RecipesService().AddRecipe(name, description!, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptyRecipeDescription()
+        {
+            const string sessionKey = &quot;Key&quot;;
+            Session.Key = sessionKey;
+            const string name = &quot;name&quot;;
+            const string description = &quot;&quot;;
+            const bool isPublic = true;
+
+            const string errorMessage = RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; new RecipesService().AddRecipe(name, description, isPublic))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,47,1],[15,13,15,62,1],[16,13,16,58,1],[17,13,17,86,1],[18,13,18,66,1],[20,13,20,89,1],[22,13,23,13,1],[23,13,23,14,1],[23,14,24,17,1],[24,17,24,67,1],[24,67,25,17,1],[25,17,25,55,1],[25,55,26,17,1],[26,17,26,89,1],[26,89,27,13,1],[27,13,27,14,1],[27,14,27,16,1],[28,9,28,10,1]]);
+    </script>
+  </body>
+</html>

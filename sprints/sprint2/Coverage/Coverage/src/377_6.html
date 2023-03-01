@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\Recipes\RecipesServiceTests\GetIngredientsForRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using Desktop_Client.Service.Recipes;
+using Desktop_Client.Service.Users;
+using Moq;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+
+namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
+{
+    public class GetIngredientsForRecipeTests
+    {
+        [Test]
+        public void SuccessfullyGetRecipeSteps()
+        {
+            var ingredients = new Ingredient[] {
+                new(&quot;name&quot;, 0, MeasurementType.Volume)
+            };
+            const string sessionKey = &quot;Key&quot;;
+            Session.Key = sessionKey;
+            const int recipeId = 0;
+
+            var recipesEndpoint = new Mock&lt;IRecipesEndpoints&gt;();
+            var usersService = new Mock&lt;IUsersService&gt;();
+            recipesEndpoint.Setup(mock =&gt; mock.GetIngredientsForRecipe(sessionKey, recipeId)).Returns(ingredients);
+            usersService.Setup(mock =&gt; mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+            var result = service.GetIngredientsForRecipe(recipeId);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EquivalentTo(ingredients));
+                recipesEndpoint.Verify(mock =&gt; mock.GetIngredientsForRecipe(sessionKey, recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NullSessionKey()
+        {
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + &quot; (Parameter &#39;Key&#39;)&quot;;
+            Session.Key = null;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(
+                    () =&gt; new RecipesService().GetIngredientsForRecipe(0))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void EmptySessionKey()
+        {
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Session.Key = &quot;&quot;;
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(
+                    () =&gt; new RecipesService().GetIngredientsForRecipe(0))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[16,13,16,38,1],[22,13,22,65,1],[23,13,23,58,1],[24,13,24,101,1],[25,13,25,66,1],[27,13,27,91,1],[29,13,30,13,1],[30,13,30,14,1],[30,14,31,17,1],[31,17,31,43,1],[31,43,31,100,1],[31,100,31,102,1],[31,102,32,17,1],[32,17,32,128,1],[32,128,33,13,1],[33,13,33,14,1],[33,14,33,16,1],[34,9,34,10,1],[38,9,38,10,1],[39,13,39,32,1],[46,13,47,13,1],[47,13,47,14,1],[47,14,48,17,1],[48,17,49,21,1],[49,21,49,91,1],[49,91,49,102,1],[49,102,50,17,1],[50,17,50,64,1],[50,64,51,13,1],[51,13,51,14,1],[51,14,51,16,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,30,1],[64,13,65,13,1],[65,13,65,14,1],[65,14,66,17,1],[66,17,67,21,1],[67,21,67,91,1],[67,91,67,102,1],[67,102,68,17,1],[68,17,68,64,1],[68,64,69,13,1],[69,13,69,14,1],[69,14,69,16,1],[70,9,70,10,1],[74,9,74,10,1],[75,13,75,33,1],[82,13,83,13,1],[83,13,83,14,1],[83,14,84,17,1],[84,17,85,21,1],[85,21,85,92,1],[85,92,85,103,1],[85,103,86,17,1],[86,17,86,64,1],[86,64,87,13,1],[87,13,87,14,1],[87,14,87,16,1],[88,9,88,10,1],[92,9,92,10,1],[93,13,93,33,1],[100,13,101,13,1],[101,13,101,14,1],[101,14,102,17,1],[102,17,103,21,1],[103,21,103,91,1],[103,91,103,102,1],[103,102,104,17,1],[104,17,104,64,1],[104,64,105,13,1],[105,13,105,14,1],[105,14,105,16,1],[106,9,106,10,1],[110,9,110,10,1],[111,13,111,33,1],[119,13,120,13,1],[120,13,120,14,1],[120,14,121,17,1],[121,17,122,21,1],[122,21,122,92,1],[122,92,122,103,1],[122,103,123,17,1],[123,17,123,64,1],[123,64,124,13,1],[124,13,124,14,1],[124,14,124,16,1],[125,9,125,10,1],[129,9,129,10,1],[136,13,137,13,1],[137,13,137,14,1],[137,14,138,17,1],[138,17,139,21,1],[139,21,139,91,1],[139,91,139,102,1],[139,102,140,17,1],[140,17,140,64,1],[140,64,141,13,1],[141,13,141,14,1],[141,14,141,16,1],[142,9,142,10,1]]);
+    </script>
+  </body>
+</html>

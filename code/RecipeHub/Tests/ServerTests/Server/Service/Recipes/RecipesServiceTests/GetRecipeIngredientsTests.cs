@@ -1,9 +1,9 @@
 ﻿using Moq;
 using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
-using Shared_Resources.Model.Recipes;
 
 namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 {
@@ -16,16 +16,17 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
             const int recipeId = 0;
             const int userId = 0;
             var ingredients = new Ingredient[] {
-                new ("name", 5, MeasurementType.Volume)
+                new("name", 5, MeasurementType.Volume)
             };
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
             recipesDal.Setup(mock => mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
             recipesDal.Setup(mock => mock.UserCanSeeRecipe(userId, recipeId)).Returns(true);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(userId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
             var result = service.GetRecipeIngredients(sessionKey, recipeId);
 
             Assert.Multiple(() =>
@@ -35,19 +36,18 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
                 usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once);
                 Assert.That(result, Is.EqualTo(ingredients));
             });
-            
         }
 
         [Test]
         public void NullSessionKey()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService().GetRecipeIngredients(null!, 0));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().GetRecipeIngredients(null!, 0));
         }
 
         [Test]
         public void EmptySessionKey()
         {
-            Assert.Throws<ArgumentException>(() => new RecipesService().GetRecipeIngredients("", 0));
+            Assert.Throws<UnauthorizedAccessException>(() => new RecipesService().GetRecipeIngredients("", 0));
         }
 
         [Test]
@@ -55,10 +55,11 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         {
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
-            usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?)null);
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
+            usersDal.Setup(mock => mock.GetIdForSessionKey("0")).Returns((int?) null);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
-            Assert.Throws<ArgumentException>(() => service.GetRecipeIngredients("0", 0));
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
+            Assert.Throws<UnauthorizedAccessException>(() => service.GetRecipeIngredients("0", 0));
         }
 
         [Test]
@@ -70,14 +71,15 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
 
             var recipesDal = new Mock<IRecipesDal>();
             var usersDal = new Mock<IUsersDal>();
+            var recipeTypesDal = new Mock<RecipeTypesDal>();
             recipesDal.Setup(mock => mock.UserCanSeeRecipe(userId, recipeId)).Returns(false);
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(userId);
 
-            var service = new RecipesService(recipesDal.Object, usersDal.Object);
+            var service = new RecipesService(recipesDal.Object, usersDal.Object, recipeTypesDal.Object);
 
             Assert.Multiple(() =>
             {
-                Assert.Throws <ArgumentException>(() => service.GetRecipeIngredients(sessionKey, recipeId));
+                Assert.Throws<ArgumentException>(() => service.GetRecipeIngredients(sessionKey, recipeId));
                 recipesDal.Verify(mock => mock.UserCanSeeRecipe(userId, recipeId), Times.Once);
                 usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once);
             });

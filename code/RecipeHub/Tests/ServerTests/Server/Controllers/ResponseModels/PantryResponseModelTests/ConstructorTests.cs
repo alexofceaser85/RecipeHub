@@ -43,10 +43,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.PantryResponseModelTests
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() =>
-                {
-                    responseModel.Message = null!;
-                })?.Message;
+                var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = null!; })?.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -58,10 +55,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.PantryResponseModelTests
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() =>
-                {
-                    responseModel.Message = "   ";
-                })?.Message;
+                var message = Assert.Throws<ArgumentException>(() => { responseModel.Message = "   "; })?.Message;
                 Assert.That(message, Is.EqualTo(ResponseModelErrorMessages.MessageCannotBeEmpty));
             });
         }
@@ -69,8 +63,9 @@ namespace ServerTests.Server.Controllers.ResponseModels.PantryResponseModelTests
         [Test]
         public void ShouldSetValidMessageValueForPantryResponseModel()
         {
-            var responseModel = new PantryResponseModel(HttpStatusCode.Continue, "message", Array.Empty<Ingredient>());
-            responseModel.Message = "my message";
+            var responseModel = new PantryResponseModel(HttpStatusCode.Continue, "message", Array.Empty<Ingredient>()) {
+                Message = "my message"
+            };
             Assert.That(responseModel.Message, Is.EqualTo("my message"));
         }
 
@@ -78,7 +73,7 @@ namespace ServerTests.Server.Controllers.ResponseModels.PantryResponseModelTests
         public void ShouldCreatePantryResponseModelWithValidData()
         {
             var ingredients = new Ingredient[] {
-                new ("name", 1, MeasurementType.Volume)
+                new("name", 1, MeasurementType.Volume)
             };
             var responseModel = new PantryResponseModel(HttpStatusCode.Continue, "message", ingredients);
 

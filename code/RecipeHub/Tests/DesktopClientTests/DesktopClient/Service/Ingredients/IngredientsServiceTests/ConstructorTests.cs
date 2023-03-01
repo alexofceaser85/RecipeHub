@@ -1,7 +1,6 @@
 ﻿using Desktop_Client.Endpoints.Ingredients;
 using Desktop_Client.Service.Ingredients;
-using Desktop_Client.Service.Recipes;
-using Shared_Resources.ErrorMessages;
+using Desktop_Client.Service.Users;
 
 namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
 {
@@ -14,9 +13,9 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
         }
 
         [Test]
-        public void ValidOneParameterConstructor()
+        public void ValidTwoParameterConstructor()
         {
-            Assert.DoesNotThrow(() => _ = new IngredientsService(new IngredientEndpoints()));
+            Assert.DoesNotThrow(() => _ = new IngredientsService(new IngredientEndpoints(), new UsersService()));
         }
     }
 }

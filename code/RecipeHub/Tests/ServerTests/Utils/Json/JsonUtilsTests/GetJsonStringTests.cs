@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Nodes;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Utils.Json;
 
@@ -14,7 +9,7 @@ namespace ServerTests.Utils.Json.JsonUtilsTests
         [Test]
         public void GetValidNodeTwoParameter()
         {
-            var jsonString = "{\"key\": \"value\"}";
+            const string jsonString = "{\"key\": \"value\"}";
             var json = JsonUtils.ParseToJsonNode(jsonString);
 
             var result = JsonUtils.GetJsonString(json, "key");
@@ -24,7 +19,7 @@ namespace ServerTests.Utils.Json.JsonUtilsTests
         [Test]
         public void GetValidNodeThreeParameter()
         {
-            var jsonString = "{\"key\": {\"key\": \"value\"}}";
+            const string jsonString = "{\"key\": {\"key\": \"value\"}}";
             var json = JsonUtils.ParseToJsonNode(jsonString);
 
             var result = JsonUtils.GetJsonString(json, "key", "key");
@@ -41,7 +36,7 @@ namespace ServerTests.Utils.Json.JsonUtilsTests
                 Assert.That(message, Is.EqualTo(JsonUtilsErrorMessages.ParsedJsonCannotBeNull));
             });
         }
-        
+
         [Test]
         public void NullJsonElementNameTwoParameter()
         {

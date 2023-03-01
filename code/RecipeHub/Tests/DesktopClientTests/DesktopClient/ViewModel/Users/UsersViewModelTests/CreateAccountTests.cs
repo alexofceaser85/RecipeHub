@@ -14,7 +14,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Users.UsersViewModelTests
             var viewModel = new UsersViewModel(service.Object);
             service.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()));
 
-            viewModel.CreateAccount("username", "password", "password", "fname", "lname", "email@email.com");
+            viewModel.CreateAccount("username", "password", "password", "first", "lname", "email@email.com");
             service.Verify(mock => mock.CreateAccount(It.IsAny<NewAccount>()), Times.Once);
         }
     }

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Policy;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Shared_Resources.ErrorMessages;
-using Shared_Resources.Model.Ingredients;
 
 namespace Shared_Resources.Model.Recipes
 {
     /// <summary>
     /// Stores information for a recipe.
     /// </summary>
-    public class Recipe
+    public struct Recipe
     {
         private string authorName;
         private string name;
@@ -30,19 +25,21 @@ namespace Shared_Resources.Model.Recipes
         public string AuthorName
         {
             get => this.authorName;
-            set => this.authorName = value ?? 
-                                     throw new ArgumentNullException(nameof(value), RecipesErrorMessages.AuthorNameCannotBeNull);
+            set => this.authorName = value ??
+                                     throw new ArgumentNullException(nameof(value),
+                                         RecipesErrorMessages.AuthorNameCannotBeNull);
         }
 
         /// <summary>
         /// The name of the recipe.
         /// </summary>
-        [JsonPropertyName("name")] 
+        [JsonPropertyName("name")]
         public string Name
         {
             get => this.name;
-            set => this.name = value ?? 
-                               throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeNameCannotBeNull);
+            set => this.name = value ??
+                               throw new ArgumentNullException(nameof(value),
+                                   RecipesErrorMessages.RecipeNameCannotBeNull);
         }
 
         /// <summary>
@@ -52,8 +49,9 @@ namespace Shared_Resources.Model.Recipes
         public string Description
         {
             get => this.description;
-            set => this.description = value ?? 
-                                      throw new ArgumentNullException(nameof(value), RecipesErrorMessages.RecipeDescriptionCannotBeNull);
+            set => this.description = value ??
+                                      throw new ArgumentNullException(nameof(value),
+                                          RecipesErrorMessages.RecipeDescriptionCannotBeNull);
         }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace Shared_Resources.Model.Recipes
         /// </summary>
         [JsonPropertyName("isPublic")]
         public bool IsPublic { get; set; }
-        
+
         /// <summary>
         /// Creates an instance of <see cref="Recipe"/> with a specified id, author name, name, description, and public setting.<br/>
         /// <br/>
@@ -82,7 +80,6 @@ namespace Shared_Resources.Model.Recipes
         /// </summary>
         public Recipe() : this(0, string.Empty, string.Empty, string.Empty, false)
         {
-
         }
 
         /// <summary>
@@ -112,23 +109,6 @@ namespace Shared_Resources.Model.Recipes
             this.Name = name;
             this.Description = description;
             this.IsPublic = isPublic;
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object? obj)
-        {
-            if (obj is not Recipe other)
-            {
-                return false;
-            }
-            return this.Id == other.Id && this.authorName == other.authorName && this.Name == other.Name 
-                   && this.Description == other.Description && this.Rating == other.Rating && this.IsPublic == other.IsPublic;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
     }
 }

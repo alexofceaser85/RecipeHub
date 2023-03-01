@@ -30,7 +30,7 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
 
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                service.CreateAccount(new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com"));
+                service.CreateAccount(new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com"));
             })?.Message;
 
             Assert.That(message, Is.EqualTo(UsersServiceServerErrorMessages.UserNameAlreadyExists));
@@ -41,12 +41,12 @@ namespace ServerTests.Server.Service.Users.UsersServiceTests
         {
             var userDal = new Mock<IUsersDal>();
 
-            userDal.Setup(mock => mock.CheckIfUserNameExists("username")).Returns(false);
+            userDal.Setup(mock => mock.CheckIfUserNameExists(It.IsAny<string>())).Returns(false);
             userDal.Setup(mock => mock.CreateAccount(It.IsAny<NewAccount>()));
 
             var service = new UsersService(userDal.Object);
 
-            service.CreateAccount(new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com"));
+            service.CreateAccount(new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com"));
 
             userDal.Verify(mock => mock.CreateAccount(It.IsAny<NewAccount>()), Times.Once());
         }

@@ -10,7 +10,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount(null!, "000000", "000000", "fname", "lname", "email@email.com");
+                _ = new NewAccount(null!, "000000", "000000", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.UsernameCannotBeNull));
         }
@@ -20,7 +20,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("   ", "000000", "000000", "fname", "lname", "email@email.com");
+                _ = new NewAccount("   ", "000000", "000000", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.UsernameCannotBeEmpty));
         }
@@ -30,7 +30,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", null!, "000000", "fname", "lname", "email@email.com");
+                _ = new NewAccount("username", null!, "000000", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeNull));
         }
@@ -40,7 +40,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "   ", "000000", "fname", "lname", "email@email.com");
+                _ = new NewAccount("username", "   ", "000000", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeEmpty));
         }
@@ -48,48 +48,36 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         [Test]
         public void ShouldNotSetNullPassword()
         {
-            var account = new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                account.Password = null!;
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { account.Password = null!; })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeNull));
         }
 
         [Test]
         public void ShouldNotSetEmptyPassword()
         {
-            var account = new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                account.Password = "   ";
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { account.Password = "   "; })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.PasswordCannotBeEmpty));
         }
 
         [Test]
         public void ShouldNotSetNullVerifyPassword()
         {
-            var account = new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                account.VerifyPassword = null!;
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { account.VerifyPassword = null!; })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeNull));
         }
 
         [Test]
         public void ShouldNotSetEmptyVerifyPassword()
         {
-            var account = new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com");
 
-            var message = Assert.Throws<ArgumentException>(() =>
-            {
-                account.VerifyPassword = "   ";
-            })?.Message;
+            var message = Assert.Throws<ArgumentException>(() => { account.VerifyPassword = "   "; })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty));
         }
 
@@ -98,7 +86,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", null!, "fname", "lname", "email@email.com");
+                _ = new NewAccount("username", "000000", null!, "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeNull));
         }
@@ -108,7 +96,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "      ", "fname", "lname", "email@email.com");
+                _ = new NewAccount("username", "000000", "      ", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordCannotBeEmpty));
         }
@@ -118,7 +106,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "111111", "fname", "lname", "email@email.com");
+                _ = new NewAccount("username", "000000", "111111", "first", "lname", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.VerifiedPasswordMustMatchPassword));
         }
@@ -148,7 +136,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "000000", "fname", null!, "email@email.com");
+                _ = new NewAccount("username", "000000", "000000", "first", null!, "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.LastNameCannotBeNull));
         }
@@ -158,7 +146,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "000000", "fname", "   ", "email@email.com");
+                _ = new NewAccount("username", "000000", "000000", "first", "   ", "email@email.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.LastNameCannotBeEmpty));
         }
@@ -168,7 +156,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "000000", "fname", "lname", null!);
+                _ = new NewAccount("username", "000000", "000000", "first", "lname", null!);
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailCannotBeNull));
         }
@@ -178,7 +166,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "000000", "fname", "lname", "   ");
+                _ = new NewAccount("username", "000000", "000000", "first", "lname", "   ");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailCannotBeEmpty));
         }
@@ -188,7 +176,7 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         {
             var message = Assert.Throws<ArgumentException>(() =>
             {
-                _ = new NewAccount("username", "000000", "000000", "fname", "lname", "wrongformatemail.com");
+                _ = new NewAccount("username", "000000", "000000", "first", "lname", "wrongFormatEmail.com");
             })?.Message;
             Assert.That(message, Is.EqualTo(NewAccountErrorMessages.EmailIsInWrongFormat));
         }
@@ -196,12 +184,12 @@ namespace SharedResourcesTests.SharedResources.Model.Users.NewAccountTests
         [Test]
         public void ShouldCreateNewAccountWithValidInfo()
         {
-            var account = new NewAccount("username", "000000", "000000", "fname", "lname", "email@email.com");
+            var account = new NewAccount("username", "000000", "000000", "first", "lname", "email@email.com");
 
             Assert.That(account.Username, Is.EqualTo("username"));
             Assert.That(account.Password, Is.EqualTo("000000"));
             Assert.That(account.VerifyPassword, Is.EqualTo("000000"));
-            Assert.That(account.FirstName, Is.EqualTo("fname"));
+            Assert.That(account.FirstName, Is.EqualTo("first"));
             Assert.That(account.LastName, Is.EqualTo("lname"));
             Assert.That(account.Email, Is.EqualTo("email@email.com"));
         }

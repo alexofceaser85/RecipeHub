@@ -18,6 +18,7 @@ namespace Shared_Resources.Model.Ingredients
         /// </summary>
         [JsonPropertyName("amount")]
         public int Amount { get; }
+
         /// <summary>
         /// Represents how the ingredient is measured, in quantity, mass, or volume.
         /// </summary>
@@ -39,8 +40,9 @@ namespace Shared_Resources.Model.Ingredients
 
             if (amount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(amount), amount, "Amount cannot be less than 0.");
+                throw new ArgumentOutOfRangeException(nameof(amount), amount, @"Amount cannot be less than 0.");
             }
+
             this.Name = name;
             this.Amount = amount;
             this.MeasurementType = measurementType;

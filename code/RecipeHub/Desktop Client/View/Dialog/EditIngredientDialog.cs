@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Text;
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
 
@@ -19,7 +11,11 @@ namespace Desktop_Client.View.Dialog
     public partial class EditIngredientDialog : Form
     {
         private readonly EditIngredientViewModel viewModel;
-        private readonly string ingredientName;
+
+        /// <summary>
+        /// The error occured event handler
+        /// </summary>
+        public EventHandler<ErrorEventArgs>? ErrorOccurred;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EditIngredientDialog"/> class. <br />
@@ -30,30 +26,49 @@ namespace Desktop_Client.View.Dialog
         /// <param name="ingredientName">Name of the ingredient.</param>
         public EditIngredientDialog(string ingredientName)
         {
+            this.InitializeComponent();
             this.viewModel = new EditIngredientViewModel();
-            this.ingredientName = ingredientName;
-            InitializeComponent();
-            this.editTitle.Text = $@"Edit {ingredientName}?";
+            this.BindComponents();
+
+            this.viewModel.IngredientName = ingredientName;
+        }
+
+        private void BindComponents()
+        {
+            this.editTitle.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Title)));
+            this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Amount)));
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)
         {
-            this.viewModel.EditIngredient(new Ingredient(this.ingredientName, int.Parse(this.amountTextBox.Text), MeasurementType.Quantity));
-            this.Close();
-            this.Dispose();
+            try
+            {
+                if (this.viewModel.EditIngredient())
+                {
+                    this.DialogResult = DialogResult.OK;
+                    this.Dispose();
+                    this.Close();
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+            }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
             this.Dispose();
-            this.DialogResult = DialogResult.Cancel;
         }
 
         private void amountTextBox_TextChanged(object sender, EventArgs e)
         {
-            bool enteredLetter = false;
-            Queue<char> text = new Queue<char>();
+            var enteredLetter = false;
+            var text = new Queue<char>();
             foreach (var ch in this.amountTextBox.Text)
             {
                 if (char.IsDigit(ch))
@@ -66,17 +81,19 @@ namespace Desktop_Client.View.Dialog
                 }
             }
 
-            if (enteredLetter)
+            if (!enteredLetter)
             {
-                StringBuilder sb = new StringBuilder();
-                while (text.Count > 0)
-                {
-                    sb.Append(text.Dequeue());
-                }
-
-                this.amountTextBox.Text = sb.ToString();
-                this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
+                return;
             }
+
+            var sb = new StringBuilder();
+            while (text.Count > 0)
+            {
+                sb.Append(text.Dequeue());
+            }
+
+            this.amountTextBox.Text = sb.ToString();
+            this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
         }
     }
 }

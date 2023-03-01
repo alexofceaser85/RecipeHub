@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Endpoints\Recipes\RecipesEndpointsTests\GetRecipesTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq.Protected;
+using Moq;
+using System.Net;
+using Desktop_Client.Endpoints.Recipes;
+using Shared_Resources.Model.Recipes;
+
+namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTests
+{
+    public class GetRecipesTests
+    {
+        [Test]
+        public void SuccessfullyRetrieveList()
+        {
+            var recipes = new Recipe[] {
+                new(2, &quot;first last&quot;, &quot;Hamburger&quot;, &quot;Lots of meat&quot;, true),
+                new(4, &quot;first2 last2&quot;, &quot;new recipe&quot;, &quot;this is a description&quot;, true),
+                new(1003, &quot;first2 last2&quot;, &quot;Slices of Orange&quot;, &quot;Clean - Quick - Healthy&quot;, true),
+                new(1005, &quot;first2 last2&quot;, &quot;Goldman&quot;, &quot;SuperFinger&quot;, true)
+            };
+            const string json =
+                &quot;{\&quot;code\&quot;: 200, \&quot;message\&quot;: \&quot;Returned Okay\&quot;, \&quot;recipes\&quot;: [ { \&quot;id\&quot;: 2, \&quot;authorName\&quot;: \&quot;first last\&quot;, &quot; +
+                &quot;\&quot;name\&quot;: \&quot;Hamburger\&quot;, \&quot;description\&quot;: \&quot;Lots of meat\&quot;, \&quot;rating\&quot;: 0, \&quot;isPublic\&quot;: true, \&quot;ingredients\&quot;: [] }, &quot; +
+                &quot;{ \&quot;id\&quot;: 4, \&quot;authorName\&quot;: \&quot;first2 last2\&quot;, \&quot;name\&quot;: \&quot;new recipe\&quot;, \&quot;description\&quot;: \&quot;this is a description\&quot;, &quot; +
+                &quot;\&quot;rating\&quot;: 0, \&quot;isPublic\&quot;: true, \&quot;ingredients\&quot;: [] }, { \&quot;id\&quot;: 1003, \&quot;authorName\&quot;: \&quot;first2 last2\&quot;, \&quot;name\&quot;: &quot; +
+                &quot;\&quot;Slices of Orange\&quot;, \&quot;description\&quot;: \&quot;Clean - Quick - Healthy\&quot;, \&quot;rating\&quot;: 0, \&quot;isPublic\&quot;: true, \&quot;ingredients\&quot;: [] }, {&quot; +
+                &quot; \&quot;id\&quot;: 1005, \&quot;authorName\&quot;: \&quot;first2 last2\&quot;, \&quot;name\&quot;: \&quot;Goldman\&quot;, \&quot;description\&quot;: \&quot;SuperFinger\&quot;, \&quot;rating\&quot;: 0, &quot; +
+                &quot;\&quot;isPublic\&quot;: true, \&quot;ingredients\&quot;: []}]}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+            var result = endpoints.GetRecipes(&quot;key&quot;);
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(result, Is.EquivalentTo(recipes));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+
+        [Test]
+        public void UnsuccessfullyRetrieveList()
+        {
+            const string errorMessage = &quot;error message&quot;;
+            const string json = $&quot;{{\&quot;code\&quot;: 500, \&quot;message\&quot;: \&quot;{errorMessage}\&quot;, \&quot;recipes\&quot;: []}}&quot;;
+
+            var mockHttpMessageHandler = new Mock&lt;HttpMessageHandler&gt;();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;,
+                    ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;())
+                .ReturnsAsync(new HttpResponseMessage {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt; _ = endpoints.GetRecipes(&quot;key&quot;))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify&lt;Task&lt;HttpResponseMessage&gt;&gt;(&quot;SendAsync&quot;, Times.Once(),
+                        ItExpr.IsAny&lt;HttpRequestMessage&gt;(), ItExpr.IsAny&lt;CancellationToken&gt;());
+            });
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,9,14,10,1],[15,13,20,15,1],[30,13,30,73,1],[31,13,39,20,1],[41,13,41,76,1],[42,13,42,62,1],[43,13,43,76,1],[45,13,46,13,1],[46,13,46,14,1],[46,14,47,17,1],[47,17,47,63,1],[47,63,49,17,1],[49,17,52,96,1],[52,96,53,13,1],[53,13,53,14,1],[53,14,53,16,1],[54,9,54,10,1],[58,9,58,10,1],[62,13,62,73,1],[63,13,71,20,1],[73,13,73,76,1],[74,13,74,62,1],[76,13,77,13,1],[77,13,77,14,1],[77,14,78,17,1],[78,17,78,70,1],[78,70,78,122,1],[78,122,78,133,1],[78,133,79,17,1],[79,17,79,64,1],[79,64,81,17,1],[81,17,84,96,1],[84,96,85,13,1],[85,13,85,14,1],[85,14,85,16,1],[86,9,86,10,1],[90,9,90,10,1],[94,13,94,73,1],[95,13,103,20,1],[105,13,105,76,1],[106,13,106,62,1],[108,13,109,13,1],[109,13,109,14,1],[109,14,110,17,1],[110,17,110,80,1],[110,80,110,135,1],[110,135,110,146,1],[110,146,111,17,1],[111,17,111,64,1],[111,64,113,17,1],[113,17,116,96,1],[116,96,117,13,1],[117,13,117,14,1],[117,14,117,16,1],[118,9,118,10,1]]);
+    </script>
+  </body>
+</html>

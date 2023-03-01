@@ -1,4 +1,5 @@
 ﻿using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
 using Server.DAL.Users;
 using Server.Service.Recipes;
 
@@ -10,19 +11,25 @@ namespace ServerTests.Server.Service.Recipes.RecipesServiceTests
         [Test]
         public void DefaultConstructor()
         {
-            Assert.DoesNotThrow(() => new RecipesService());
+            Assert.DoesNotThrow(() => _ = new RecipesService());
         }
 
         [Test]
         public void NullRecipesDal()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService(null!, new UsersDal()));
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(null!, new UsersDal(), new RecipeTypesDal()));
         }
-        
+
         [Test]
         public void NullUsersDal()
         {
-            Assert.Throws<ArgumentNullException>(() => new RecipesService(new RecipeDal(), null!));
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(new RecipeDal(), null!, new RecipeTypesDal()));
+        }
+
+        [Test]
+        public void NullRecipeTypesDal()
+        {
+            Assert.Throws<ArgumentNullException>(() => _ = new RecipesService(new RecipeDal(), new UsersDal(), null!));
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Shared_Resources.Model.Ingredients;
+﻿using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
 
 namespace Web_Client.Endpoints.Recipes
@@ -24,6 +19,17 @@ namespace Web_Client.Endpoints.Recipes
         /// <param name="searchTerm">The string to search recipe names for. Default to an empty string.</param>
         /// <returns>An array containing all visible recipes that match the search term.</returns>
         public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
+
+        /// <summary>
+        /// Gets all of the recipes with the given tags
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="sessionKey">The session key.</param>
+        /// <param name="tags">The tags.</param>
+        /// <returns>The recipes with the given tags</returns>
+        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>
@@ -58,6 +64,17 @@ namespace Web_Client.Endpoints.Recipes
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The steps for the recipe.</returns>
         public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
+
+        /// <summary>
+        /// Gets all of the types for a recipe.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>The user has access to the recipe.<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="sessionKey">The session key associated with the account</param>
+        /// <param name="recipeId">The id for the recipe.</param>
+        /// <returns>The types for the recipe.</returns>
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId);
 
         /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>

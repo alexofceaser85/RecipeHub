@@ -1,5 +1,4 @@
-﻿using Server.ErrorMessages;
-using System.Net;
+﻿using System.Net;
 using Shared_Resources.Model.Ingredients;
 
 namespace Server.Controllers.ResponseModels

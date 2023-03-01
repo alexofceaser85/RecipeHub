@@ -7,8 +7,8 @@ namespace Desktop_Client.View.Screens
     /// </summary>
     public partial class RegistrationScreen : Screen
     {
-        private readonly UsersViewModel viewModel;
-        
+        private readonly RegistrationScreenViewModel viewModel;
+
         /// <summary>
         /// Creates a default instance of <see cref="RegistrationScreen"/>.<br/>
         /// <br/>
@@ -18,9 +18,26 @@ namespace Desktop_Client.View.Screens
         public RegistrationScreen()
         {
             this.InitializeComponent();
-            this.viewModel = new UsersViewModel();
+            this.viewModel = new RegistrationScreenViewModel();
             this.CreateAccountButton.Enabled = false;
+            this.BindComponents();
             this.createAccountForm.InputChangedEvent += this.CreateAccountFormOnInputChangedEvent;
+        }
+
+        private void BindComponents()
+        {
+            this.createAccountForm.UsernameTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.Username)));
+            this.createAccountForm.PasswordTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.Password)));
+            this.createAccountForm.VerifyPasswordTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.VerifyPassword)));
+            this.createAccountForm.FirstNameTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.FirstName)));
+            this.createAccountForm.LastNameTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.LastName)));
+            this.createAccountForm.EmailTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.Email)));
         }
 
         private void CreateAccountFormOnInputChangedEvent(object? sender, EventArgs e)
@@ -32,16 +49,8 @@ namespace Desktop_Client.View.Screens
         {
             try
             {
-                this.viewModel.CreateAccount(
-                    this.createAccountForm.UsernameTextBox.Text,
-                    this.createAccountForm.PasswordTextBox.Text,
-                    this.createAccountForm.VerifyPasswordTextBox.Text,
-                    this.createAccountForm.FirstNameTextBox.Text,
-                    this.createAccountForm.LastNameTextBox.Text,
-                    this.createAccountForm.EmailTextBox.Text
-                );
-                
-                base.ChangeScreens(new LoginScreen());
+                this.viewModel.CreateAccount();
+                ChangeScreens(new LoginScreen());
             }
             catch (Exception ex)
             {
@@ -51,7 +60,7 @@ namespace Desktop_Client.View.Screens
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            base.ChangeScreens(new LoginScreen());
+            ChangeScreens(new LoginScreen());
         }
     }
 }

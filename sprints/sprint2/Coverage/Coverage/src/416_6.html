@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Users\UsersViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.ViewModel.Users;
+using Shared_Resources.ErrorMessages;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Users.UsersViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ShouldCreateZeroParameterUsersViewModel()
+        {
+            Assert.DoesNotThrow(() =&gt;
+            {
+                _ = new UsersViewModel();
+            });
+        }
+
+        [Test]
+        public void ShouldNotAllowNullServer()
+        {
+            var message = Assert.Throws&lt;ArgumentException&gt;(() =&gt;
+            {
+                _ = new UsersViewModel(null!);
+            })?.Message;
+            Assert.That(message, Is.EqualTo(UsersServiceViewModelErrorMessages.UsersServiceCannotBeNull));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,53,1],[14,13,14,79,1],[16,13,23,15,1],[25,13,26,13,1],[26,13,26,14,1],[26,14,27,17,1],[27,17,27,43,1],[27,43,27,68,1],[27,68,27,70,1],[27,70,28,17,1],[28,17,28,96,1],[28,96,29,13,1],[29,13,29,14,1],[29,14,29,16,1],[30,9,30,10,1]]);
+    </script>
+  </body>
+</html>

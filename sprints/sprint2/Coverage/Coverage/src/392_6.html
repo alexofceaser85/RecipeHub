@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Components\LoginFormViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Users;
+using Desktop_Client.ViewModel.Components;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void ValidDefaultConstructor()
+        {
+            var viewmodel = new LoginFormViewModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
+            });
+        }
+
+        [Test]
+        public void ValidOneParameterConstructor()
+        {
+            var viewmodel = new LoginFormViewModel(new UsersService());
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
+            });
+        }
+
+        [Test]
+        public void NullUsersService()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    _ = new LoginFormViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;Value cannot be null. (Parameter &#39;service&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[12,9,12,10,1],[13,13,13,37,1],[14,13,14,57,1],[15,13,15,90,1],[17,13,17,62,1],[19,13,19,41,1],[21,13,21,60,1],[22,9,22,10,1]]);
+    </script>
+  </body>
+</html>

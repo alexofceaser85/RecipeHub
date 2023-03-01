@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\Recipes\RecipesListViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Web_Client.Endpoints.Recipes;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Filters;
+using Shared_Resources.Model.Recipes;
+
+namespace Web_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes List screen.
+    /// &lt;/summary&gt;
+    public class RecipesListViewModel
+    {
+        private readonly IRecipesService recipesService;
+        private readonly IIngredientsService ingredientsService;
+
+        /// &lt;summary&gt;
+        /// Gets or sets the Filters.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The Filters.
+        /// &lt;/value&gt;
+        public RecipeFilters Filters { get; set; }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
+        {
+            this.Filters = new RecipeFilters();
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesEndpoints&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;recipesService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
+        {
+            this.recipesService = recipesService ??
+                                  throw new ArgumentNullException(nameof(recipesService),
+                                      RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.ingredientsService = ingredientsService ??
+                                      throw new ArgumentNullException(nameof(ingredientsService),
+                                          RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+            this.Filters = new RecipeFilters();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the visible recipes from the server.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;searchTerm&quot;&gt;The search term to query for.&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        public Recipe[] GetRecipes(string searchTerm = &quot;&quot;)
+        {
+            var allRecipes = this.recipesService.GetRecipes(searchTerm);
+            var filteredRecipes = allRecipes;
+
+            if (this.Filters.OnlyAvailableIngredients)
+            {
+                filteredRecipes = this.getFilteredRecipes(filteredRecipes, searchTerm);
+            }
+
+            if (this.Filters.MatchTags != null &amp;&amp; this.Filters.MatchTags.Length &gt; 1)
+            {
+                filteredRecipes = this.GetRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags);
+            }
+
+            return filteredRecipes;
+        }
+
+        private Recipe[] GetRecipesMatchingTags(Recipe[] recipes, string[] tags)
+        {
+            var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
+            return recipesMatchingTags.Where(x =&gt; recipes.Any(y =&gt; y.Id == x.Id)).ToArray();
+        }
+
+
+        private Recipe[] getFilteredRecipes(Recipe[] visibleRecipes, string searchTerm = &quot;&quot;)
+        {
+            var filteredRecipes = new List&lt;Recipe&gt;();
+            var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
+            var ingredientsCache = new Dictionary&lt;string, int&gt;();
+
+            foreach (var ingredient in pantryIngredients)
+            {
+                ingredientsCache[ingredient.Name] = ingredient.Amount;
+            }
+
+            visibleRecipes = this.recipesService.GetRecipes(searchTerm);
+            foreach (var recipe in visibleRecipes)
+            {
+                var requiredIngredients = this.recipesService.GetIngredientsForRecipe(recipe.Id);
+                var canMake = true;
+                foreach (var ingredient in requiredIngredients)
+                {
+                    if (!ingredientsCache.ContainsKey(ingredient.Name))
+                    {
+                        canMake = false;
+                        break;
+                    }
+                }
+
+                if (canMake)
+                {
+                    filteredRecipes.Add(recipe);
+                }
+            }
+
+            return filteredRecipes.ToArray();
+        }
+
+        /// &lt;summary&gt;
+        /// Adds a recipe authored by the active user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is publicly viewable or not.&lt;/param&gt;
+        public void AddRecipe(string name, string description, bool isPublic)
+        {
+            this.recipesService.AddRecipe(name, description, isPublic);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a recipe from the database, if the user is the author of the recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to remove.&lt;/param&gt;
+        public void RemoveRecipe(int recipeId)
+        {
+            this.recipesService.RemoveRecipe(recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Edits a recipe, updating the name, description, and public status.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt; !string.IsNullOrWhiteSpace(sessionKey)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(name)&lt;br/&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(description)&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt; None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to update.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The description of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is public or not.&lt;/param&gt;
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
+        {
+            this.recipesService.EditRecipe(recipeId, name, description, isPublic);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,40,24,44,1],[24,45,24,49,1],[33,41,33,93,1],[34,9,34,10,1],[35,13,35,48,1],[36,9,36,10,1],[44,9,44,108,1],[45,9,45,10,1],[46,13,48,97,1],[49,13,51,105,1],[52,13,52,48,1],[53,9,53,10,1],[64,9,64,10,1],[65,13,65,73,1],[66,13,66,46,1],[68,13,68,55,1],[69,13,69,14,1],[70,17,70,88,1],[71,13,71,14,1],[73,13,73,85,1],[74,13,74,14,1],[75,17,75,104,1],[76,13,76,14,1],[78,13,78,36,1],[79,9,79,10,1],[82,9,82,10,1],[83,13,83,83,1],[84,13,84,51,1],[84,51,84,68,1],[84,68,84,80,0],[84,80,84,81,1],[84,81,84,93,1],[85,9,85,10,1],[89,9,89,10,1],[90,13,90,54,1],[91,13,91,88,1],[92,13,92,66,1],[94,13,94,20,1],[94,22,94,36,1],[94,37,94,39,1],[94,40,94,57,1],[95,13,95,14,1],[96,17,96,71,1],[97,13,97,14,1],[99,13,99,73,1],[100,13,100,20,1],[100,22,100,32,1],[100,33,100,35,1],[100,36,100,50,1],[101,13,101,14,1],[102,17,102,98,1],[103,17,103,36,1],[104,17,104,24,1],[104,26,104,40,1],[104,41,104,43,1],[104,44,104,63,1],[105,17,105,18,1],[106,21,106,72,1],[107,21,107,22,1],[108,25,108,41,1],[109,25,109,31,1],[111,17,111,18,1],[113,17,113,29,1],[114,17,114,18,1],[115,21,115,49,1],[116,17,116,18,1],[117,13,117,14,1],[119,13,119,46,1],[120,9,120,10,1],[132,9,132,10,1],[133,13,133,72,1],[134,9,134,10,1],[144,9,144,10,1],[145,13,145,56,1],[146,9,146,10,1],[161,9,161,10,1],[162,13,162,83,1],[163,9,163,10,1]]);
+    </script>
+  </body>
+</html>

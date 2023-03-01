@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\SharedResourcesTests\SharedResources\Model\Recipes\RecipeStepsTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Recipes;
+
+namespace SharedResourcesTests.SharedResources.Model.Recipes.RecipeStepsTests;
+
+public class ConstructorTests
+{
+    [Test]
+    public void DefaultConstructor()
+    {
+        var step = new RecipeStep();
+        Assert.Multiple(() =&gt;
+        {
+            Assert.That(step.StepNumber, Is.EqualTo(0));
+            Assert.That(step.Name, Is.EqualTo(string.Empty));
+            Assert.That(step.Instructions, Is.EqualTo(string.Empty));
+        });
+    }
+
+    [Test]
+    public void ThreeParameterConstructor()
+    {
+        const int stepNumber = 1;
+        const string name = &quot;name&quot;;
+        const string instructions = &quot;instructions&quot;;
+
+        var step = new RecipeStep(stepNumber, name, instructions);
+        Assert.Multiple(() =&gt;
+        {
+            Assert.That(step.StepNumber, Is.EqualTo(stepNumber));
+            Assert.That(step.Name, Is.EqualTo(name));
+            Assert.That(step.Instructions, Is.EqualTo(instructions));
+        });
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[9,5,9,6,1],[10,9,10,37,1],[11,9,12,9,1],[12,9,12,10,1],[12,10,13,13,1],[13,13,13,57,1],[13,57,14,13,1],[14,13,14,62,1],[14,62,15,13,1],[15,13,15,70,1],[15,70,16,9,1],[16,9,16,10,1],[16,10,16,12,1],[17,5,17,6,1],[21,5,21,6,1],[26,9,26,67,1],[27,9,28,9,1],[28,9,28,10,1],[28,10,29,13,1],[29,13,29,66,1],[29,66,30,13,1],[30,13,30,54,1],[30,54,31,13,1],[31,13,31,70,1],[31,70,32,9,1],[32,9,32,10,1],[32,10,32,12,1],[33,5,33,6,1]]);
+    </script>
+  </body>
+</html>

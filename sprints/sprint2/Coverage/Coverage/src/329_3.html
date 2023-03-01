@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\WebClientTests\WebClient\ViewModel\Recipes\RecipeListViewModelTests\AddRecipeTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Moq;
+using Shared_Resources.Data.UserData;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.Recipes;
+using Web_Client.ViewModel.Recipes;
+
+namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
+{
+    public class AddRecipeTests
+    {
+        [Test]
+        public void SuccessfullyAddRecipe()
+        {
+            Session.Key = &quot;Key&quot;;
+            const string name = &quot;name&quot;;
+            const string description = &quot;description&quot;;
+            const bool isPublic = true;
+
+            var service = new Mock&lt;IRecipesService&gt;();
+            service.Setup(mock =&gt; mock.AddRecipe(name, description, isPublic));
+
+            var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+
+            Assert.Multiple(() =&gt;
+            {
+                Assert.DoesNotThrow(() =&gt; viewmodel.AddRecipe(name, description, isPublic));
+                service.Verify(mock =&gt; mock.AddRecipe(name, description, isPublic), Times.Once);
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,14,33,1],[19,13,19,55,1],[20,13,20,80,1],[22,13,22,96,1],[24,13,25,13,1],[25,13,25,14,1],[25,14,26,17,1],[26,17,26,43,1],[26,43,26,91,1],[26,91,26,93,1],[26,93,27,17,1],[27,17,27,97,1],[27,97,28,13,1],[28,13,28,14,1],[28,14,28,16,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

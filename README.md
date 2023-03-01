@@ -6,10 +6,12 @@ See below for setup instructions.
 ## Setup Instructions
 1. Clone Project to Visual Studio
 2. Publish Database using Database.publish.xml in PublishScripts folder of Database.
-3. Through SQL Server Object Explorer, in MeasurementTypes, Add the following three with the following IDs
-    typeId - name
-    1 - Quantity
-    2 - Mass
-    3 - Volume
-4. Run Server
-5. Run Either Desktop Client or Web Client
+3. Open `Database>PopulateDB.sql`, then run the script with `ctrl+shift+e` to clear the database and load dummy data.
+   - Dummy data includes three users: `MasterChef`, `Onion_King`, and `hotlava77`. Each have different pantries, and all thre use `password` for their password.
+   - If you don't want to load the dummy data, manually add the following rows to the `MeasurementTypes` table:
+     - typeId - name
+     - 1 - Quantity
+     - 2 - Mass
+     - 3 - Volume
+5. Run Server
+6. Run Either Desktop Client or Web Client

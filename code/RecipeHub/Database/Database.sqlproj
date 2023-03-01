@@ -57,24 +57,29 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="PublishScripts" />
+    <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PublishScripts\Database_3.publish.xml" />
     <None Include="Database.publish.xml" />
     <None Include="PublishScripts\Database.publish.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Users.sql" />
-    <Build Include="MeasurementTypes.sql" />
-    <Build Include="Ingredients.sql" />
-    <Build Include="PantryItems.sql" />
-    <Build Include="Recipes.sql" />
-    <Build Include="Passwords.sql" />
-    <Build Include="Sessions.sql" />
-    <Build Include="RecipeSteps.sql" />
-    <Build Include="RecipeIngredients.sql" />
+    <Build Include="Tables\Users.sql" />
+    <None Include="PopulateDB.sql" />
+    <Build Include="Type.sql" />
+    <Build Include="RecipeTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Ingredients.sql" />
+    <Build Include="Tables\MeasurementTypes.sql" />
+    <Build Include="Tables\PantryItems.sql" />
+    <Build Include="Tables\Passwords.sql" />
+    <Build Include="Tables\RecipeIngredients.sql" />
+    <Build Include="Tables\Recipes.sql" />
+    <Build Include="Tables\RecipeSteps.sql" />
+    <Build Include="Tables\Sessions.sql" />
   </ItemGroup>
 </Project>

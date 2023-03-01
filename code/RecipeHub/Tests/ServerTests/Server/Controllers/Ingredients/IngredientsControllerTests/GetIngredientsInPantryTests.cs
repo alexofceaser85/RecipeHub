@@ -1,11 +1,7 @@
 ﻿using Moq;
 using System.Net;
 using Server.Controllers.Ingredients;
-using Server.Controllers.Recipes;
-using Server.Data.Settings;
-using Server.ErrorMessages;
 using Server.Service.Ingredients;
-using Server.Service.Recipes;
 using Shared_Resources.Model.Ingredients;
 
 namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
@@ -16,8 +12,8 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
         public void IngredientSuccessfullyUpdated()
         {
             const string sessionKey = "Key";
-            var ingredients = new List<Ingredient>() {
-                new Ingredient()
+            var ingredients = new List<Ingredient> {
+                new()
             };
 
             var recipesService = new Mock<IIngredientsService>();
@@ -34,7 +30,7 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
                 recipesService.Verify(mock => mock.GetIngredientsFor(sessionKey), Times.Once());
             });
         }
-        
+
         [Test]
         public void ServiceFailedToUpdateIngredient()
         {
@@ -43,11 +39,12 @@ namespace ServerTests.Server.Controllers.Ingredients.ingredientsControllerTests
 
             var recipesService = new Mock<IIngredientsService>();
 
-            recipesService.Setup(mock => mock.GetIngredientsFor(sessionKey)).Throws(new ArgumentException(exceptionMessage));
+            recipesService.Setup(mock => mock.GetIngredientsFor(sessionKey))
+                          .Throws(new ArgumentException(exceptionMessage));
             var service = new IngredientsController(recipesService.Object);
 
             var result = service.GetIngredientsInPantry(sessionKey);
-            
+
             Assert.Multiple(() =>
             {
                 recipesService.Verify(mock => mock.GetIngredientsFor(sessionKey), Times.Once());

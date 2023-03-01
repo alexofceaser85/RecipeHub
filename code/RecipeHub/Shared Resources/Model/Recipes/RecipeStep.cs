@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Shared_Resources.Model.Recipes
 {
@@ -27,6 +24,21 @@ namespace Shared_Resources.Model.Recipes
         /// </summary>
         [JsonPropertyName("instructions")]
         public string Instructions { get; set; }
+
+        /// <summary>
+        /// Creates a default instance of <see cref="RecipeStep"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>this.StepNumber == 0<br/>
+        /// &amp;&amp; this.Name == string.Empty<br/>
+        /// &amp;&amp; this.Instructions == string.empty
+        /// </summary>
+        public RecipeStep()
+        {
+            this.StepNumber = 0;
+            this.Name = string.Empty;
+            this.Instructions = string.Empty;
+        }
 
         /// <summary>
         /// Creates an instance of <see cref="RecipeStep"/> with a specified step number, name, and instructions.<br/>

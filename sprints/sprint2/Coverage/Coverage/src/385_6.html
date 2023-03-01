@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\Service\RecipeTypes\RecipeTypesTests\GetAllRecipeTypesTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.RecipeTypes;
+using Desktop_Client.Service.RecipeTypes;
+using Moq;
+
+namespace DesktopClientTests.DesktopClient.Service.RecipeTypes.RecipeTypesTests
+{
+    public class GetAllRecipeTypesTests
+    {
+        [Test]
+        public void ShouldGetAllRecipeTypes()
+        {
+            var types = new[]
+            {
+                &quot;type1&quot;, &quot;type2&quot;, &quot;type3&quot;
+            };
+            var endpoints = new Mock&lt;IRecipeTypesEndpoints&gt;();
+            var service = new RecipeTypesService(endpoints.Object);
+
+            endpoints.Setup(mock =&gt; mock.GetAllRecipeTypes()).Returns(types);
+
+            var actual = service.GetAllRecipeTypes();
+
+            Assert.That(actual, Is.EqualTo(types));
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[11,9,11,10,1],[12,13,13,13,1],[13,13,13,14,1],[13,14,14,17,1],[14,17,14,46,1],[14,46,15,13,1],[15,13,15,14,1],[15,14,15,16,1],[16,9,16,10,1],[20,9,20,10,1],[21,13,22,13,1],[22,13,22,14,1],[22,14,23,17,1],[23,17,23,72,1],[23,72,24,13,1],[24,13,24,14,1],[24,14,24,16,1],[25,9,25,10,1],[29,9,29,10,1],[30,13,31,13,1],[31,13,31,14,1],[31,14,32,17,1],[32,17,32,51,1],[32,51,33,13,1],[33,13,33,14,0],[33,14,33,25,1],[35,13,35,94,1],[36,9,36,10,1]]);
+    </script>
+  </body>
+</html>

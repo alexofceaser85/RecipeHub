@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Tests\DesktopClientTests\DesktopClient\ViewModel\Dialogs\RecipeListFilterViewModelTests\ConstructorTests.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.RecipeTypes;
+using Desktop_Client.ViewModel.Recipes;
+
+namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.RecipeListFilterViewModelTests
+{
+    public class ConstructorTests
+    {
+        [Test]
+        public void DefaultConstructor()
+        {
+            var viewmodel = new RecipeListFilterViewModel();
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.SelectedTags, Has.Count.EqualTo(0));
+                Assert.That(viewmodel.FilterForAvailableIngredients, Is.EqualTo(true));
+                Assert.That(viewmodel.FilteredTags, Has.Count.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void ValidOneParameterConstructor()
+        {
+            var viewmodel = new RecipeListFilterViewModel(new RecipeTypesService());
+            Assert.Multiple(() =&gt;
+            {
+                Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.SelectedTags, Has.Count.EqualTo(0));
+                Assert.That(viewmodel.FilterForAvailableIngredients, Is.EqualTo(true));
+                Assert.That(viewmodel.FilteredTags, Has.Count.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void NullRecipeTypesService()
+        {
+            Assert.Multiple(() =&gt;
+            {
+                var message = Assert.Throws&lt;ArgumentNullException&gt;(() =&gt; 
+                    _ = new RecipeListFilterViewModel(null!))!.Message;
+                Assert.That(message, Is.EqualTo(&quot;The service cannot be null (Parameter &#39;service&#39;)&quot;));
+            });
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[13,9,13,10,1],[14,13,18,15,1],[21,13,21,59,1],[22,13,22,75,1],[24,13,24,75,1],[25,13,25,55,1],[26,13,26,47,1],[28,13,29,13,1],[29,13,29,14,1],[29,14,30,17,1],[30,17,30,76,1],[30,76,31,13,1],[31,13,31,14,1],[31,14,31,16,1],[32,9,32,10,1],[36,9,36,10,1],[37,13,41,15,1],[44,13,44,59,1],[45,13,45,75,1],[47,13,47,75,1],[48,13,48,55,1],[49,13,49,47,1],[50,13,50,47,1],[52,13,53,13,1],[53,13,53,14,1],[53,14,54,17,1],[54,17,54,69,1],[54,69,55,13,1],[55,13,55,14,1],[55,14,55,16,1],[56,9,56,10,1],[60,9,60,10,1],[61,13,64,15,1],[68,13,68,59,1],[69,13,69,75,1],[71,13,71,75,1],[72,13,72,55,1],[73,13,73,47,1],[74,13,74,47,1],[76,13,77,13,1],[77,13,77,14,1],[77,14,78,17,1],[78,17,78,76,1],[78,76,79,17,1],[79,17,79,24,1],[79,24,79,26,1],[79,26,79,33,1],[79,33,79,34,1],[79,34,79,36,1],[79,36,79,37,1],[79,37,79,59,1],[79,59,80,17,1],[80,17,80,18,1],[80,18,81,21,1],[81,21,81,59,1],[81,59,82,17,1],[82,17,82,18,1],[82,18,83,13,1],[83,13,83,14,1],[83,14,83,16,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,93,15,1],[97,13,97,59,1],[98,13,98,75,1],[100,13,100,75,1],[101,13,101,55,1],[102,13,102,47,1],[103,13,103,47,1],[105,13,106,13,1],[106,13,106,14,1],[106,14,107,17,1],[107,17,107,75,1],[107,75,108,17,1],[108,17,108,24,1],[108,24,108,26,1],[108,26,108,33,1],[108,33,108,34,1],[108,34,108,36,1],[108,36,108,37,1],[108,37,108,59,1],[108,59,109,17,1],[109,17,109,18,1],[109,18,110,21,1],[110,21,110,59,1],[110,59,111,17,1],[111,17,111,18,1],[111,18,112,13,1],[112,13,112,14,1],[112,14,112,16,1],[113,9,113,10,1]]);
+    </script>
+  </body>
+</html>
