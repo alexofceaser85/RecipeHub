@@ -65,27 +65,6 @@ namespace Desktop_Client.View.Screens
             this.recipeListTablePanel.RowStyles.Clear();
         }
 
-        private void searchTextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                this.viewmodel.SearchTerm = this.searchTextBox.Text;
-                this.viewmodel.GetRecipes();
-            }
-            catch (ArgumentException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
-            }
-        }
-
         private void RecipeListItemMouseClick(object? sender, int recipeId)
         {
             try
@@ -118,6 +97,27 @@ namespace Desktop_Client.View.Screens
             {
                 this.viewmodel.Filters = filtersDialog.Filters;
                 this.viewmodel.GetRecipes();
+            }
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.viewmodel.SearchTerm = this.searchTextBox.Text;
+                this.viewmodel.GetRecipes();
+            }
+            catch (ArgumentException exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                var result = MessageBox.Show(exception.Message);
+                if (result == DialogResult.OK)
+                {
+                    base.ChangeScreens(new LoginScreen());
+                }
             }
         }
     }

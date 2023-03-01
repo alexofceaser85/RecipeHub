@@ -72,13 +72,13 @@ namespace Web_Client.ViewModel.Recipes
 
             if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length > 1)
             {
-                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags);
+                filteredRecipes = this.GetRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags);
             }
 
             return filteredRecipes;
         }
 
-        private Recipe[] getRecipesMatchingTags(Recipe[] recipes, string[] tags)
+        private Recipe[] GetRecipesMatchingTags(Recipe[] recipes, string[] tags)
         {
             var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
             return recipesMatchingTags.Where(x => recipes.Any(y => y.Id == x.Id)).ToArray();
