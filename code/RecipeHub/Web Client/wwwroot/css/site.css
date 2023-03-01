@@ -94,18 +94,18 @@ body {
 
 #site-header {
     height: 100px;
-    width: 100vw;
     display: flex;
     margin: 0;
     padding: 0;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-between;
+    justify-content: space-between;
+    align-content: center;
     font-size: 32px;
     color: #888;
     border-bottom: 1px solid #ccc;
     background-color: #eee;
 }
+
 #site-header * {
     margin: 0 10px;
 }
@@ -113,6 +113,18 @@ body {
 #site-header a {
     color: #888;
     text-decoration: none;
+}
+
+#site-header div {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: row;
+    min-width: 200px;
+}
+
+#logout-text {
+    justify-content: flex-end;
 }
 
 #recipe-list-body {

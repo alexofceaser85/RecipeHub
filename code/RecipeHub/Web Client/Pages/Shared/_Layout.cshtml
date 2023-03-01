@@ -13,11 +13,17 @@
 <header>
     <nav id="site-header">
         <!-- TODO: Make this responsive as actual flex row with spacing and placed in center. -->
-        <p>@Html.Raw(ViewData["Header"])</p>
-        <span class="text-primary"><a asp-page="/RecipeList">Home</a></span>
-        <p>Planned Meals</p>
-        <a asp-page="/Ingredients">Ingredients</a>
-        <a asp-page="/Index">Logout</a>
+        <div>
+            <p>@Html.Raw(ViewData["Header"])</p>
+        </div>
+        <div id="primary-nav">
+            <span class="text-primary"><a asp-page="/RecipeList">Home</a></span>
+            <p>Planned Meals</p>
+            <a asp-page="/Ingredients">Ingredients</a>
+        </div>
+        <div id="logout-text">
+            <p><a asp-page="/Index">Logout</a></p>
+        </div>
     </nav>
 </header>
     <div class="buffer"></div>
@@ -29,7 +35,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - Web_Client - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - RecipeHub - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
