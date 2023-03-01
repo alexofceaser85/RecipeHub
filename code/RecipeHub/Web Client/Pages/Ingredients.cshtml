@@ -89,7 +89,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="add-ingredient-modal" tabindex="-1" aria-labelledby="add-ingredient-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -111,6 +111,10 @@
                         <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
+                <form asp-page-handler="GetIngredientsSuggestions" method="post" id="add-ingredients-suggestions-form">
+                    <input type="text" name="searchText" id="add-ingredients-suggestions-text"/>
+                    <button type="submit" id="add-ingredients-suggestions-submit"></button>
+                </form>
             </div>
         </div>
     </div>
@@ -123,6 +127,36 @@
             
             $(".ingredient-delete-button").click(function () {
                 $("#remove-ingredient-text").val($(this).data('ingredient-name'));
+            });
+            
+            //$("#add-ingredient-name").keyup(function () {
+            //    $("#add-ingredients-suggestions-text").val($(this).val());
+            //    $("#add-ingredients-suggestions-submit").click();
+            //});
+
+            $(function () {
+                $("#add-ingredients-suggestions-form").submit(function (event) {
+                    event.preventDefault();
+
+                    var form = $(this);
+                    var url = form.attr("action");
+                    var method = form.attr("method");
+                    var data = form.serialize();
+
+                    $.ajax({
+                        url: url,
+                        type: method,
+                        data: data,
+                        success: function (result) {
+                            console.log(result);
+                            //let array = JSON.parse(result);
+                            //console.log(array);
+                        },
+                        error: function () {
+                            console.log("Error occurred.");
+                        }
+                    });
+                });
             });
     </script>
 }

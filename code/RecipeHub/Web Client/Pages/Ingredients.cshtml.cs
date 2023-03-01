@@ -1,6 +1,10 @@
+using System.Diagnostics;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Utils.Json;
 using Web_Client.Model.Ingredients;
 using Web_Client.ViewModel.Ingredient;
 
@@ -51,6 +55,13 @@ namespace Web_Client.Pages
             this.viewModel.AddIngredient(new Ingredient(this.AddedIngredient.Name!, this.AddedIngredient.Amount,
                 this.AddedIngredient.MeasurementType));
             return RedirectToPage("Ingredients");
+        }
+
+        public IActionResult OnPostGetIngredientsSuggestions(string searchText)
+        {
+            var suggestions = this.viewModel.GetSuggestions(searchText);
+            string json = JsonSerializer.Serialize(suggestions);
+            return Content(json, "application/json");
         }
 
         /// <summary>
