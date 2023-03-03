@@ -14,6 +14,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\UserData\Session.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ErrorMessages\ErrorMessages.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Filters\RecipeFilters.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\MealsForCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\MealCategory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\PlannedMeals.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\RecipeStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\Recipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Ingredients\Ingredient.cs" />
