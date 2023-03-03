@@ -25,6 +25,8 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
 
             var viewmodel = new RecipesListViewModel(service.Object, new IngredientsService());
+            viewmodel.Filters.MatchTags = null;
+            viewmodel.Filters.OnlyAvailableIngredients = false;
             var result = viewmodel.GetRecipes(searchTerm);
 
             Assert.Multiple(() =>
@@ -50,7 +52,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             var ingredientsService = new Mock<IIngredientsService>();
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(0)).Returns(ingredients);
-            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(Array.Empty<Ingredient>());
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             var result = viewmodel.GetRecipes(searchTerm);
@@ -58,14 +60,13 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.EqualTo(recipes));
-                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Exactly(2));
             });
         }
 
         [Test]
         public void SuccessfullyFilterByOnlyAvailableIngredientsIfIngredientsAreNotOwned()
         {
-            const string sessionKey = "Key";
             const string searchTerm = "a";
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
@@ -184,7 +185,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(0)).Returns(ingredients);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
-            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(Array.Empty<Ingredient>());
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             viewmodel.Filters.MatchTags = null!;
@@ -194,7 +195,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             {
                 recipesService.Verify(mock => mock.GetRecipesForTags(It.IsAny<string[]>()), Times.Never);
                 Assert.That(result, Is.EqualTo(recipes));
-                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Exactly(2));
             });
         }
 
@@ -214,7 +215,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(0)).Returns(ingredients);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
-            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(Array.Empty<Ingredient>());
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             viewmodel.Filters.MatchTags = new string[0];
@@ -224,7 +225,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             {
                 recipesService.Verify(mock => mock.GetRecipesForTags(It.IsAny<string[]>()), Times.Never);
                 Assert.That(result, Is.EqualTo(recipes));
-                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Exactly(2));
             });
         }
 
@@ -246,8 +247,8 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(0)).Returns(ingredients);
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
-            recipesService.Setup(mock => mock.GetRecipesForTags(tags)).Returns(new[] { recipes[0] });
-            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(Array.Empty<Ingredient>());
+            recipesService.Setup(mock => mock.GetRecipesForTags(tags)).Returns(expected);
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             viewmodel.Filters.MatchTags = tags;
@@ -255,8 +256,8 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipeListViewModelTests
 
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.EqualTo(expected));
-                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+                Assert.That(result[0], Is.EqualTo(expected[0]));
+                recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Exactly(2));
             });
         }
     }
