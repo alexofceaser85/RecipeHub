@@ -57,4 +57,15 @@
         /// </summary>
         public static string EmailFormat = @"^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";
     }
+
+    /// <summary>
+    /// The planned meal settings
+    /// </summary>
+    public static class PlannedMealSettings
+    {
+        /// <summary>
+        /// The number of days to generate
+        /// </summary>
+        public static int NumberOfDaysToGenerate = 7;
+    }
 }
