@@ -66,8 +66,9 @@
   <ItemGroup>
     <Build Include="Tables\Users.sql" />
     <None Include="PopulateDB.sql" />
-    <Build Include="Type.sql" />
-    <Build Include="RecipeTypes.sql" />
+    <Build Include="Tables\RecipeTypes.sql" />
+    <Build Include="Tables\Type.sql" />
+    <Build Include="Tables\PlannedMeals.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Database.refactorlog" />
