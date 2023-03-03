@@ -1,13 +1,12 @@
-﻿using Server.Service.PlannedMeals;
+﻿using Shared_Resources.Utils.Dates;
 
-namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
+namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
 {
-    public class GenerateDateTimesTests
+    public class GenerateDateTimesFromWeekToNextWeek
     {
         [Test]
         public void ShouldGenerateDateTimesForBeginningOfWeek()
         {
-            var service = new PlannedMealsService();
             var currentDate = new DateTime(2023, 03, 05);
             var expectedDates = new DateTime[]
             {
@@ -27,38 +26,19 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
                 new DateTime(2023, 03, 18)
             };
 
-            var actualDates = service.GenerateDateTimes(currentDate);
+            var actualDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(currentDate);
             Assert.That(actualDates, Is.EqualTo(expectedDates));
         }
 
         [Test]
         public void ShouldGenerateDateTimesForEndOfWeek()
         {
-            var service = new PlannedMealsService();
             var currentDate = new DateTime(2023, 03, 04);
             var expectedDates = new DateTime[]
             {
-                new DateTime(2023, 03, 04),
-                new DateTime(2023, 03, 05),
-                new DateTime(2023, 03, 06),
-                new DateTime(2023, 03, 07),
-                new DateTime(2023, 03, 08),
-                new DateTime(2023, 03, 09),
-                new DateTime(2023, 03, 10),
-                new DateTime(2023, 03, 11)
-            };
-
-            var actualDates = service.GenerateDateTimes(currentDate);
-            Assert.That(actualDates, Is.EqualTo(expectedDates));
-        }
-
-        [Test]
-        public void ShouldGenerateDateTimesForMiddleOfWeek()
-        {
-            var service = new PlannedMealsService();
-            var currentDate = new DateTime(2023, 03, 01);
-            var expectedDates = new DateTime[]
-            {
+                new DateTime(2023, 02, 26),
+                new DateTime(2023, 02, 27),
+                new DateTime(2023, 02, 28),
                 new DateTime(2023, 03, 01),
                 new DateTime(2023, 03, 02),
                 new DateTime(2023, 03, 03),
@@ -72,14 +52,39 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
                 new DateTime(2023, 03, 11)
             };
 
-            var actualDates = service.GenerateDateTimes(currentDate);
+            var actualDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(currentDate);
+            Assert.That(actualDates, Is.EqualTo(expectedDates));
+        }
+
+        [Test]
+        public void ShouldGenerateDateTimesForMiddleOfWeek()
+        {
+            var currentDate = new DateTime(2023, 03, 01);
+            var expectedDates = new DateTime[]
+            {
+                new DateTime(2023, 02, 26),
+                new DateTime(2023, 02, 27),
+                new DateTime(2023, 02, 28),
+                new DateTime(2023, 03, 01),
+                new DateTime(2023, 03, 02),
+                new DateTime(2023, 03, 03),
+                new DateTime(2023, 03, 04),
+                new DateTime(2023, 03, 05),
+                new DateTime(2023, 03, 06),
+                new DateTime(2023, 03, 07),
+                new DateTime(2023, 03, 08),
+                new DateTime(2023, 03, 09),
+                new DateTime(2023, 03, 10),
+                new DateTime(2023, 03, 11)
+            };
+
+            var actualDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(currentDate);
             Assert.That(actualDates, Is.EqualTo(expectedDates));
         }
 
         [Test]
         public void ShouldGenerateDateTimesForEndOfMonth()
         {
-            var service = new PlannedMealsService();
             var currentDate = new DateTime(2023, 02, 26);
             var expectedDates = new DateTime[]
             {
@@ -99,17 +104,17 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
                 new DateTime(2023, 03, 11)
             };
 
-            var actualDates = service.GenerateDateTimes(currentDate);
+            var actualDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(currentDate);
             Assert.That(actualDates, Is.EqualTo(expectedDates));
         }
 
         [Test]
         public void ShouldGenerateDateTimesForEndOfYear()
         {
-            var service = new PlannedMealsService();
             var currentDate = new DateTime(2022, 12, 26);
             var expectedDates = new DateTime[]
             {
+                new DateTime(2022, 12, 25),
                 new DateTime(2022, 12, 26),
                 new DateTime(2022, 12, 27),
                 new DateTime(2022, 12, 28),
@@ -125,7 +130,7 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
                 new DateTime(2023, 01, 07)
             };
 
-            var actualDates = service.GenerateDateTimes(currentDate);
+            var actualDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(currentDate);
             Assert.That(actualDates, Is.EqualTo(expectedDates));
         }
     }

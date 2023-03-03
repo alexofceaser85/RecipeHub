@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\NewAccount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Users\UserInfo.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\IO\SessionKeySerializers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Dates\DateUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Hashing\Hashes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Json\JsonUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Server\ServerUtils.cs" />

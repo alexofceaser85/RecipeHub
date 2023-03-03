@@ -59,13 +59,17 @@
     }
 
     /// <summary>
-    /// The planned meal settings
+    /// The date utils settings
     /// </summary>
-    public static class PlannedMealSettings
+    public static class DateUtilsSettings
     {
         /// <summary>
-        /// The number of days to generate
+        /// The number of days to generate for a week
         /// </summary>
-        public static int NumberOfDaysToGenerate = 7;
+        public static int NumberOfDaysToGenerateForWeek = 7;
+        /// <summary>
+        /// The number of days to generate to next week
+        /// </summary>
+        public static int NumberOfDaysToGenerateToNextWeek = 13;
     }
 }
