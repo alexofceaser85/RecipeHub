@@ -135,41 +135,43 @@ namespace Server.Service.PlannedMeals
             }
 
             var datesForMeals = DateUtils.GenerateDateTimesFromWeekToNextWeek(plannedMealsDate);
+            return this.getPlannedMeals(datesForMeals, userId);
+        }
+
+        private PlannedMeal[] getPlannedMeals(DateTime[] datesForMeals, [DisallowNull] int? userId)
+        {
             var plannedMeals = new List<PlannedMeal>();
 
-            this.getPlannedMeals(datesForMeals, userId, plannedMeals);
+            foreach (var date in datesForMeals)
+            {
+                var mealsForCategory = this.getCategoriesForMeal(userId, date);
+                var plannedMeal = new PlannedMeal(date, mealsForCategory);
+                plannedMeals.Add(plannedMeal);
+            }
 
             return plannedMeals.ToArray();
         }
 
-        private void getPlannedMeals(DateTime[] datesForMeals, [DisallowNull] int? userId, ICollection<PlannedMeal> plannedMeals)
+        private MealsForCategory[] getCategoriesForMeal([DisallowNull] int? userId, DateTime date)
         {
-            foreach (var date in datesForMeals)
-            {
-                var mealsForCategory = new List<MealsForCategory>();
-                this.getCategoriesForMeal(userId, date, mealsForCategory);
+            var mealsForCategory = new List<MealsForCategory>();
 
-                var plannedMeal = new PlannedMeal(date, mealsForCategory.ToArray());
-                plannedMeals.Add(plannedMeal);
-            }
-        }
-
-        private void getCategoriesForMeal([DisallowNull] int? userId, DateTime date, ICollection<MealsForCategory> mealsForCategory)
-        {
             foreach (var category in Enum.GetValues(typeof(MealCategory)).Cast<MealCategory>())
             {
-                var recipes = new List<Recipe>();
                 var recipeIds = this.plannedMealsDal.GetPlannedMealRecipes(userId.Value, date, category);
-
-                this.getRecipesFromId(recipeIds, recipes);
+                var recipes = this.getRecipesFromId(recipeIds);
 
                 var mealForCategory = new MealsForCategory(category, recipes.ToArray());
                 mealsForCategory.Add(mealForCategory);
             }
+
+            return mealsForCategory.ToArray();
         }
 
-        private void getRecipesFromId(int[] recipeIds, ICollection<Recipe> recipes)
+        private Recipe[] getRecipesFromId(int[] recipeIds)
         {
+            var recipes = new List<Recipe>();
+
             foreach (var id in recipeIds)
             {
                 var recipe = this.recipesDal.GetRecipe(id);
@@ -179,6 +181,8 @@ namespace Server.Service.PlannedMeals
                     recipes.Add(recipe.Value);
                 }
             }
+
+            return recipes.ToArray();
         }
 
         /// <summary>
