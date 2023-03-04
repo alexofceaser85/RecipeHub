@@ -1,5 +1,7 @@
 using Server.Data.Settings;
+using Server.Service.PlannedMeals;
 using Server.Service.Users;
+using Shared_Resources.Utils.Dates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-var thread = new Thread(() =>
+var removeTimedOutSessionKeysThread = new Thread(() =>
 {
     var usersService = new UsersService();
     while (true)
@@ -35,6 +37,17 @@ var thread = new Thread(() =>
     }
 });
 
-thread.Start();
+var removeOldPlannedMealsThread = new Thread(() =>
+{
+    var plannedMealsService = new PlannedMealsService();
+    while (true)
+    {
+        plannedMealsService.RemoveOutOfDateMeals(DateUtils.GenerateDateTimeForEndOfPreviousWeek(DateTime.UtcNow));
+        Thread.Sleep(ServerSettings.RemovedPlannedMealsThreadInterval);
+    }
+});
+
+removeTimedOutSessionKeysThread.Start();
+removeOldPlannedMealsThread.Start();
 
 app.Run();

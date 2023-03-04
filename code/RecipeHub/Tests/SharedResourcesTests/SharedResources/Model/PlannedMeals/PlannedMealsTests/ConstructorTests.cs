@@ -30,7 +30,7 @@ namespace SharedResourcesTests.SharedResources.Model.PlannedMeals.PlannedMealsTe
 
             Assert.Multiple(() =>
             {
-                var plannedMeals = new Shared_Resources.Model.PlannedMeals.PlannedMeals(date, mealsForCategoryArray);
+                var plannedMeals = new Shared_Resources.Model.PlannedMeals.PlannedMeal(date, mealsForCategoryArray);
                 Assert.That(plannedMeals.MealDate, Is.EqualTo(date));
                 Assert.That(plannedMeals.Meals.Length, Is.EqualTo(mealsForCategoryArray.Length));
                 Assert.That(plannedMeals.Meals[0].Category, Is.EqualTo(mealsForCategoryArray[0].Category));
@@ -71,7 +71,7 @@ namespace SharedResourcesTests.SharedResources.Model.PlannedMeals.PlannedMealsTe
             {
                 Assert.Throws<ArgumentNullException>(() =>
                 {
-                    var plannedMeals = new Shared_Resources.Model.PlannedMeals.PlannedMeals(date, mealsForCategoryArray!);
+                    var plannedMeals = new Shared_Resources.Model.PlannedMeals.PlannedMeal(date, mealsForCategoryArray!);
                 });
             });
         }

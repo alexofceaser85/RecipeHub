@@ -155,6 +155,11 @@ namespace Web_Client.Service.Users
                 var newSessionKey = this.endpoints.RefreshSessionKey(previousSessionKey);
                 Session.Key = newSessionKey;
             }
+
+            if (Session.Key != null)
+            {
+                SessionKeySerializers.SaveSessionKey(Session.Key, this.SessionKeyLoadFile);
+            }
         }
 
         /// <summary>

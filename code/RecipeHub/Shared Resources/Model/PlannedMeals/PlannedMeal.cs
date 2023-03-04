@@ -7,7 +7,7 @@ namespace Shared_Resources.Model.PlannedMeals
     /// <summary>
     /// Represents a days worth of planned meals.
     /// </summary>
-    public struct PlannedMeals
+    public struct PlannedMeal
     {
         /// <summary>
         /// Gets or sets the meal date.
@@ -26,7 +26,7 @@ namespace Shared_Resources.Model.PlannedMeals
         public MealsForCategory[] Meals { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlannedMeals"/> class.<br />
+        /// Initializes a new instance of the <see cref="PlannedMeal"/> class.<br />
         /// <br />
         /// Precondition: meals != null<br />
         /// Postcondition: MealDate == mealDate && Meals == meals<br />
@@ -34,7 +34,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// <param name="mealDate">The meal date.</param>
         /// <param name="meals">The meals.</param>
         /// <exception cref="ArgumentNullException">meals</exception>
-        public PlannedMeals(DateTime mealDate, MealsForCategory[] meals)
+        public PlannedMeal(DateTime mealDate, MealsForCategory[] meals)
         {
             this.MealDate = mealDate;
             this.Meals = meals ?? throw new ArgumentNullException(nameof(meals));

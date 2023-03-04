@@ -17,6 +17,10 @@
         /// The removed time out session keys thread interval
         /// </summary>
         public static int RemovedTimeOutSessionKeysThreadInterval = 60000;
+        /// <summary>
+        /// The removed planned meals thread interval
+        /// </summary>
+        public static int RemovedPlannedMealsThreadInterval = 60000;
     }
 
     /// <summary>
