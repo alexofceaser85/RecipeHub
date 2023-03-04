@@ -54,14 +54,14 @@
             this.mainLayoutPanel.Controls.Add(this.recipeListTablePanel, 0, 1);
             this.mainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayoutPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainLayoutPanel.Margin = new System.Windows.Forms.Padding(1);
-            this.mainLayoutPanel.MaximumSize = new System.Drawing.Size(644, 0);
+            this.mainLayoutPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.mainLayoutPanel.MaximumSize = new System.Drawing.Size(920, 0);
             this.mainLayoutPanel.Name = "mainLayoutPanel";
-            this.mainLayoutPanel.Padding = new System.Windows.Forms.Padding(11, 5, 11, 5);
+            this.mainLayoutPanel.Padding = new System.Windows.Forms.Padding(16, 8, 16, 8);
             this.mainLayoutPanel.RowCount = 2;
-            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainLayoutPanel.Size = new System.Drawing.Size(499, 794);
+            this.mainLayoutPanel.Size = new System.Drawing.Size(713, 1324);
             this.mainLayoutPanel.TabIndex = 0;
             // 
             // topBar
@@ -72,45 +72,45 @@
             this.topBar.Controls.Add(this.tableLayoutPanel1, 0, 1);
             this.topBar.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.topBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.topBar.Location = new System.Drawing.Point(13, 7);
-            this.topBar.Margin = new System.Windows.Forms.Padding(1);
+            this.topBar.Location = new System.Drawing.Point(19, 11);
+            this.topBar.Margin = new System.Windows.Forms.Padding(2);
             this.topBar.Name = "topBar";
             this.topBar.RowCount = 2;
-            this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
-            this.topBar.Size = new System.Drawing.Size(473, 118);
+            this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.topBar.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.topBar.Size = new System.Drawing.Size(675, 196);
             this.topBar.TabIndex = 0;
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 94F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 53F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 76F));
             this.tableLayoutPanel1.Controls.Add(this.searchButton, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.filtersButton, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.searchTextBox, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(2, 63);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 104);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(469, 58);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(669, 96);
             this.tableLayoutPanel1.TabIndex = 7;
             // 
             // searchButton
             // 
+            this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.searchButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.searchButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.searchButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.searchButton.Location = new System.Drawing.Point(418, 4);
-            this.searchButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.searchButton.MaximumSize = new System.Drawing.Size(210, 0);
+            this.searchButton.Location = new System.Drawing.Point(596, 24);
+            this.searchButton.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
+            this.searchButton.MaximumSize = new System.Drawing.Size(300, 0);
             this.searchButton.Name = "searchButton";
-            this.searchButton.Size = new System.Drawing.Size(49, 50);
+            this.searchButton.Size = new System.Drawing.Size(70, 48);
             this.searchButton.TabIndex = 8;
             this.searchButton.Text = "🔎";
             this.searchButton.UseVisualStyleBackColor = false;
@@ -118,16 +118,16 @@
             // 
             // filtersButton
             // 
+            this.filtersButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.filtersButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.filtersButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.filtersButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.filtersButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.filtersButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.filtersButton.Location = new System.Drawing.Point(3, 7);
-            this.filtersButton.Margin = new System.Windows.Forms.Padding(3, 7, 3, 7);
-            this.filtersButton.MaximumSize = new System.Drawing.Size(300, 0);
+            this.filtersButton.Location = new System.Drawing.Point(4, 24);
+            this.filtersButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
+            this.filtersButton.MaximumSize = new System.Drawing.Size(429, 0);
             this.filtersButton.Name = "filtersButton";
-            this.filtersButton.Size = new System.Drawing.Size(88, 44);
+            this.filtersButton.Size = new System.Drawing.Size(126, 48);
             this.filtersButton.TabIndex = 6;
             this.filtersButton.Text = "Filters";
             this.filtersButton.UseVisualStyleBackColor = false;
@@ -137,28 +137,28 @@
             // 
             this.searchTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.searchTextBox.Location = new System.Drawing.Point(98, 11);
-            this.searchTextBox.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.searchTextBox.Location = new System.Drawing.Point(140, 23);
+            this.searchTextBox.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.PlaceholderText = "Search Recipes by Name";
-            this.searchTextBox.Size = new System.Drawing.Size(314, 36);
+            this.searchTextBox.Size = new System.Drawing.Size(447, 50);
             this.searchTextBox.TabIndex = 7;
             // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 3;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.Controls.Add(this.hamburgerButton, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(2, 2);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(2);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(469, 58);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(669, 96);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // hamburgerButton
@@ -168,9 +168,10 @@
             this.hamburgerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.hamburgerButton.Font = new System.Drawing.Font("Calibri", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.hamburgerButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.hamburgerButton.Location = new System.Drawing.Point(402, 3);
+            this.hamburgerButton.Location = new System.Drawing.Point(573, 5);
+            this.hamburgerButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.hamburgerButton.Name = "hamburgerButton";
-            this.hamburgerButton.Size = new System.Drawing.Size(64, 52);
+            this.hamburgerButton.Size = new System.Drawing.Size(92, 86);
             this.hamburgerButton.TabIndex = 4;
             this.hamburgerButton.Text = "☰";
             this.hamburgerButton.UseVisualStyleBackColor = false;
@@ -181,10 +182,9 @@
             this.label1.AutoSize = true;
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(72, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label1.Location = new System.Drawing.Point(103, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(325, 58);
+            this.label1.Size = new System.Drawing.Size(463, 96);
             this.label1.TabIndex = 0;
             this.label1.Text = "Recipes";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -195,20 +195,20 @@
             this.recipeListTablePanel.ColumnCount = 1;
             this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.recipeListTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.recipeListTablePanel.Location = new System.Drawing.Point(13, 128);
-            this.recipeListTablePanel.Margin = new System.Windows.Forms.Padding(1);
+            this.recipeListTablePanel.Location = new System.Drawing.Point(19, 212);
+            this.recipeListTablePanel.Margin = new System.Windows.Forms.Padding(2);
             this.recipeListTablePanel.Name = "recipeListTablePanel";
             this.recipeListTablePanel.RowCount = 1;
-            this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 661F));
-            this.recipeListTablePanel.Size = new System.Drawing.Size(473, 659);
+            this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1032F));
+            this.recipeListTablePanel.Size = new System.Drawing.Size(675, 1101);
             this.recipeListTablePanel.TabIndex = 1;
             // 
             // RecipeListScreen
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.mainLayoutPanel);
-            this.Margin = new System.Windows.Forms.Padding(1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "RecipeListScreen";
             this.mainLayoutPanel.ResumeLayout(false);
             this.topBar.ResumeLayout(false);
