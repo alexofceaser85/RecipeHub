@@ -86,6 +86,36 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
         }
 
         [Test]
+        public void ShouldNotAddPlannedMealIfExistsInSystem()
+        {
+            var sessionKey = "key";
+            var userId = 1;
+            var mealDate = new DateTime(2023, 03, 03);
+            var category = MealCategory.Lunch;
+            var recipeId = 1;
+
+            var plannedMealsDal = new Mock<IPlannedMealsDal>();
+            var usersDal = new Mock<IUsersDal>();
+            var recipesDal = new Mock<IRecipesDal>();
+            var service = new PlannedMealsService(plannedMealsDal.Object, usersDal.Object, recipesDal.Object);
+
+            usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(1);
+            plannedMealsDal.Setup(mock => mock.AddPlannedMeal(userId, mealDate, category, recipeId)).Returns(true);
+            plannedMealsDal.Setup(mock => mock.IsPlannedMealInSystem(userId, mealDate, category, recipeId))
+                .Returns(true);
+
+            var message = Assert.Throws<ArgumentException>(() =>
+            {
+                service.AddPlannedMeal(sessionKey, mealDate, category, recipeId);
+            })?.Message;
+
+            Assert.That(message, Is.EqualTo(PlannedMealsServiceErrorMessages.RecipeAlreadyInPlannedMeal));
+            usersDal.Verify(mock => mock.GetIdForSessionKey(sessionKey), Times.Once);
+            plannedMealsDal.Verify(mock => mock.IsPlannedMealInSystem(userId, mealDate, category, recipeId), Times.Once);
+            plannedMealsDal.Verify(mock => mock.AddPlannedMeal(userId, mealDate, category, recipeId), Times.Never);
+        }
+
+        [Test]
         public void ShouldAddPlannedMeal()
         {
             var sessionKey = "key";
@@ -101,6 +131,8 @@ namespace ServerTests.Server.Service.PlannedMeals.PlannedMealsServiceTests
 
             usersDal.Setup(mock => mock.GetIdForSessionKey(sessionKey)).Returns(1);
             plannedMealsDal.Setup(mock => mock.AddPlannedMeal(userId, mealDate, category, recipeId)).Returns(true);
+            plannedMealsDal.Setup(mock => mock.IsPlannedMealInSystem(userId, mealDate, category, recipeId))
+                .Returns(false);
 
             var isMealAdded = service.AddPlannedMeal(sessionKey, mealDate, category, recipeId);
 
