@@ -8,7 +8,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         public void ShouldGenerateDateTimesForBeginningOfWeek()
         {
             var currentDate = new DateTime(2023, 03, 05);
-            var expectedDates = new DateTime[]
+            var expectedDates = new []
             {
                 new DateTime(2023, 03, 05),
                 new DateTime(2023, 03, 06),
@@ -34,7 +34,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         public void ShouldGenerateDateTimesForEndOfWeek()
         {
             var currentDate = new DateTime(2023, 03, 04);
-            var expectedDates = new DateTime[]
+            var expectedDates = new []
             {
                 new DateTime(2023, 03, 04),
                 new DateTime(2023, 03, 05),
@@ -54,7 +54,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         public void ShouldGenerateDateTimesForMiddleOfWeek()
         {
             var currentDate = new DateTime(2023, 03, 01);
-            var expectedDates = new DateTime[]
+            var expectedDates = new []
             {
                 new DateTime(2023, 03, 01),
                 new DateTime(2023, 03, 02),
@@ -77,7 +77,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         public void ShouldGenerateDateTimesForEndOfMonth()
         {
             var currentDate = new DateTime(2023, 02, 26);
-            var expectedDates = new DateTime[]
+            var expectedDates = new []
             {
                 new DateTime(2023, 02, 26),
                 new DateTime(2023, 02, 27),
@@ -103,7 +103,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         public void ShouldGenerateDateTimesForEndOfYear()
         {
             var currentDate = new DateTime(2022, 12, 26);
-            var expectedDates = new DateTime[]
+            var expectedDates = new []
             {
                 new DateTime(2022, 12, 26),
                 new DateTime(2022, 12, 27),

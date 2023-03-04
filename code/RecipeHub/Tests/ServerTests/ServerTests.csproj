@@ -22,8 +22,4 @@
     <ProjectReference Include="..\..\Server\Server.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Server\Service\PlannedMeals\PlannedMealsServiceTests\" />
-  </ItemGroup>
-
 </Project>

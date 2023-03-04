@@ -171,4 +171,51 @@
         /// </summary>
         public const string AccountToCreateCannotBeNull = "The account to create cannot be null";
     }
+
+    /// <summary>
+    /// The error messages for the planned meals controller
+    /// </summary>
+    public static class PlannedMealsControllerErrorMessages
+    {
+        /// <summary>
+        /// The planned meals service cannot be null error message
+        /// </summary>
+        public const string PlannedMealsServiceCannotBeNull = "The planned meals service cannot be null";
+    }
+
+    /// <summary>
+    /// The error message for the planned meals service
+    /// </summary>
+    public static class PlannedMealsServiceErrorMessages
+    {
+        /// <summary>
+        /// The planned meals dal cannot be null error message
+        /// </summary>
+        public static string PlannedMealsDalCannotBeNull = "The planned meals dal cannot be null";
+        /// <summary>
+        /// The users dal cannot be null error message
+        /// </summary>
+        public static string UsersDalCannotBeNull = "The user dal cannot be null";
+        /// <summary>
+        /// The recipes Dal cannot be null error message
+        /// </summary>
+        public static string RecipesDalCannotBeNull = "The recipes service cannot be null";
+        /// <summary>
+        /// The session key cannot be null error message
+        /// </summary>
+        public static string SessionKeyCannotBeNull = "The session key cannot be null";
+        /// <summary>
+        /// The session key cannot be empty error message
+        /// </summary>
+        public static string SessionKeyCannotBeEmpty = "The session key cannot be empty";
+        /// <summary>
+        /// The invalid session error message
+        /// </summary>
+        public static string InvalidSession = "The session is invalid";
+        /// <summary>
+        /// The recipe already in planned meal error message
+        /// </summary>
+        public static string RecipeAlreadyInPlannedMeal =
+            "The recipe is already in the planned meal category, cannot add duplicate recipes";
+    }
 }

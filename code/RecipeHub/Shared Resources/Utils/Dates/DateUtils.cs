@@ -2,6 +2,9 @@
 
 namespace Shared_Resources.Utils.Dates
 {
+    /// <summary>
+    /// The utils class for the dates
+    /// </summary>
     public static class DateUtils
     {
         /// <summary>
@@ -15,7 +18,7 @@ namespace Shared_Resources.Utils.Dates
         public static DateTime[] GenerateDateTimesFromDateToNextWeek(DateTime dateTimeToGenerateFrom)
         {
             var generatedDateTimes = new List<DateTime>();
-            int daysUntilEndOfWeek = (int)DayOfWeek.Saturday - (int)dateTimeToGenerateFrom.DayOfWeek;
+            var daysUntilEndOfWeek = (int)DayOfWeek.Saturday - (int)dateTimeToGenerateFrom.DayOfWeek;
 
             daysUntilEndOfWeek += DateUtilsSettings.NumberOfDaysToGenerateForWeek;
 
