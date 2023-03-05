@@ -1,6 +1,7 @@
 ﻿using Desktop_Client.ViewModel.Ingredients;
 using System.Text;
 using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Utils.Units;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -27,7 +28,21 @@ namespace Desktop_Client.View.Dialog
         {
             this.InitializeComponent();
             this.viewModel = new AddIngredientsViewModel();
-            this.measurementComboBox.DataSource = Enum.GetValues(typeof(MeasurementType));
+
+            var measurementListItems = new List<string>();
+            foreach (var type in Enum.GetValues(typeof(MeasurementType)))
+            {
+                var unit = BaseUnitUtils.GetBaseUnitSign((MeasurementType) type);
+                if (!string.IsNullOrEmpty(unit))
+                {
+                    measurementListItems.Add($"{type} ({unit})");
+                }
+                else
+                {
+                    measurementListItems.Add(type.ToString()!);
+                }
+            }
+            this.measurementComboBox.DataSource = measurementListItems;
             this.BindComponents();
             this.viewModel.Initialize();
         }
@@ -40,8 +55,8 @@ namespace Desktop_Client.View.Dialog
                 nameof(this.viewModel.IngredientNames)));
             this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
                 nameof(this.viewModel.IngredientAmount)));
-            this.measurementComboBox.DataBindings.Add(new Binding("SelectedItem", this.viewModel,
-                nameof(this.viewModel.SelectedMeasurementType)));
+            this.measurementComboBox.DataBindings.Add(new Binding("SelectedIndex", this.viewModel,
+                nameof(this.viewModel.SelectedMeasurementIndex)));
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
