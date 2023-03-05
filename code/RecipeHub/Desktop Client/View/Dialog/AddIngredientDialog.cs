@@ -102,6 +102,9 @@ namespace Desktop_Client.View.Dialog
             {
                 sb.Append(text.Dequeue());
             }
+
+            this.amountTextBox.Text = sb.ToString();
+            this.amountTextBox.SelectionStart = this.amountTextBox.Text.Length;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
