@@ -59,12 +59,14 @@
             // 
             // createAccountForm
             // 
-            this.createAccountForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.createAccountForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.createAccountForm.AutoSize = true;
-            this.createAccountForm.Location = new System.Drawing.Point(102, 128);
-            this.createAccountForm.MaximumSize = new System.Drawing.Size(800, 0);
+            this.createAccountForm.Location = new System.Drawing.Point(64, 130);
+            this.createAccountForm.Margin = new System.Windows.Forms.Padding(64, 5, 64, 5);
             this.createAccountForm.Name = "createAccountForm";
-            this.createAccountForm.Size = new System.Drawing.Size(509, 1026);
+            this.createAccountForm.Size = new System.Drawing.Size(585, 1022);
             this.createAccountForm.TabIndex = 0;
             // 
             // tableLayoutPanel2

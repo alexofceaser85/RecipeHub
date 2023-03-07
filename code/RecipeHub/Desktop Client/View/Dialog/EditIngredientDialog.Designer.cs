@@ -58,6 +58,7 @@
             this.amountTextBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.amountTextBox.Location = new System.Drawing.Point(233, 40);
             this.amountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.amountTextBox.MaxLength = 10;
             this.amountTextBox.Name = "amountTextBox";
             this.amountTextBox.Size = new System.Drawing.Size(324, 46);
             this.amountTextBox.TabIndex = 14;

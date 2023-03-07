@@ -116,6 +116,7 @@
             this.usernameTextBox.Margin = new System.Windows.Forms.Padding(15, 3, 15, 3);
             this.usernameTextBox.MaximumSize = new System.Drawing.Size(350, 0);
             this.usernameTextBox.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.usernameTextBox.MaxLength = 100;
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(350, 23);
             this.usernameTextBox.TabIndex = 1;
@@ -128,6 +129,7 @@
             this.passwordTextInput.Margin = new System.Windows.Forms.Padding(15, 3, 15, 3);
             this.passwordTextInput.MaximumSize = new System.Drawing.Size(350, 0);
             this.passwordTextInput.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.passwordTextInput.MaxLength = 20;
             this.passwordTextInput.Name = "passwordTextInput";
             this.passwordTextInput.Size = new System.Drawing.Size(350, 23);
             this.passwordTextInput.TabIndex = 3;

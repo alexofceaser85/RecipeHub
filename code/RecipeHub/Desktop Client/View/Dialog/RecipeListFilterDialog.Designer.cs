@@ -193,6 +193,7 @@
             this.tagsTextInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagsTextInput.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.tagsTextInput.Location = new System.Drawing.Point(4, 55);
+            this.tagsTextInput.MaxLength = 50;
             this.tagsTextInput.Name = "tagsTextInput";
             this.tagsTextInput.Size = new System.Drawing.Size(555, 51);
             this.tagsTextInput.TabIndex = 1;

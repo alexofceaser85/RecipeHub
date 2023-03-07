@@ -134,6 +134,7 @@
             this.amountTextBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.amountTextBox.Location = new System.Drawing.Point(284, 118);
             this.amountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.amountTextBox.MaxLength = 10;
             this.amountTextBox.Name = "amountTextBox";
             this.amountTextBox.Size = new System.Drawing.Size(273, 46);
             this.amountTextBox.TabIndex = 10;
@@ -185,6 +186,7 @@
             this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.nameTextBox.Location = new System.Drawing.Point(283, 24);
+            this.nameTextBox.MaxLength = 200;
             this.nameTextBox.MaxSuggestions = 5;
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(275, 46);
