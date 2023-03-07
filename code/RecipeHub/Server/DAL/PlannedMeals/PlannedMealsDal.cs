@@ -2,7 +2,6 @@
 using Microsoft.Data.SqlClient;
 using Server.Data.Settings;
 using Shared_Resources.Model.PlannedMeals;
-using Shared_Resources.Model.Recipes;
 
 namespace Server.DAL.PlannedMeals
 {
@@ -56,6 +55,37 @@ namespace Server.DAL.PlannedMeals
             using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@mealDate", SqlDbType.Date).Value = mealDate;
             command.Parameters.Add("@mealCategory", SqlDbType.Int).Value = category;
+            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+            var recipeIdOrdinal = reader.GetOrdinal("recipeId");
+
+            var recipeIds = new List<int>();
+
+            while (reader.Read())
+            {
+                recipeIds.Add(reader.GetInt32(recipeIdOrdinal));
+            }
+
+            return recipeIds.ToArray();
+        }
+
+        /// <summary>
+        /// Gets all of the planned meal recipes for a user
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>The recipes for a planned meal</returns>
+        public int[] GetAllPlannedMealRecipes(int userId)
+        {
+            const string query =
+                "Select recipeId FROM PlannedMeals WHERE userId = @userId";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
 
             connection.Open();

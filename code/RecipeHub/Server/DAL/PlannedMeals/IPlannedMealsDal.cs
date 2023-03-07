@@ -46,6 +46,16 @@ namespace Server.DAL.PlannedMeals
         public int[] GetPlannedMealRecipes(int userId, DateTime mealDate, MealCategory category);
 
         /// <summary>
+        /// Gets all of the planned meal recipes for a user
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>The recipes for a planned meal</returns>
+        public int[] GetAllPlannedMealRecipes(int userId);
+
+        /// <summary>
         /// Determines whether [is planned meal in system] [the specified user identifier].
         ///
         /// Precondition: None

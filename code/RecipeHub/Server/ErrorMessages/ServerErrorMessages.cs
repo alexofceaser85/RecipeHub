@@ -218,4 +218,49 @@
         public static string RecipeAlreadyInPlannedMeal =
             "The recipe is already in the planned meal category, cannot add duplicate recipes";
     }
+    /// <summary>
+    /// The error messages for the shopping list controller
+    /// </summary>
+    public static class ShoppingListControllerErrorMessages
+    {
+        /// <summary>
+        /// The shopping list service cannot be null error message
+        /// </summary>
+        public static string ShoppingListServiceCannotBeNull = "The shopping list service cannot be null";
+    }
+
+    /// <summary>
+    /// The error messages for the shopping list service
+    /// </summary>
+    public static class ShoppingListServiceErrorMessages
+    {
+        /// <summary>
+        /// The users dal cannot be null error message
+        /// </summary>
+        public static string UsersDalCannotBeNull = "The user dal cannot be null";
+        /// <summary>
+        /// The planned meals dal cannot be null error message
+        /// </summary>
+        public static string PlannedMealsDalCannotBeNull = "The planned meals dal cannot be null";
+        /// <summary>
+        /// The ingredients dal cannot be null error message
+        /// </summary>
+        public static string IngredientsDalCannotBeNull = "The ingredients dal cannot be null";
+        /// <summary>
+        /// The recipes dal cannot be null error message
+        /// </summary>
+        public static string RecipesDalCannotBeNull = "The recipes dal cannot be null";
+        /// <summary>
+        /// The session key cannot be null error message
+        /// </summary>
+        public static string SessionKeyCannotBeNull = "The session key cannot be null";
+        /// <summary>
+        /// The session key cannot be empty error message
+        /// </summary>
+        public static string SessionKeyCannotBeEmpty = "The session key cannot be empty";
+        /// <summary>
+        /// The invalid session key error message
+        /// </summary>
+        public static string InvalidSessionKeyErrorMessage = "The session is invalid";
+    }
 }
