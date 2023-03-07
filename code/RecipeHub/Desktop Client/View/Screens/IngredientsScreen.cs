@@ -2,6 +2,7 @@
 using Desktop_Client.ViewModel.Ingredients;
 using Shared_Resources.Model.Ingredients;
 using Desktop_Client.View.Components.Ingredients;
+using System;
 
 namespace Desktop_Client.View.Screens
 {
@@ -53,22 +54,55 @@ namespace Desktop_Client.View.Screens
                 this.ingredientListTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
                 item.EditSelected += (_, selectedIngredient) =>
                 {
-                    var editIngredientDialog = new EditIngredientDialog(selectedIngredient.Name);
-                    if (editIngredientDialog.ShowDialog() == DialogResult.OK)
+                    var dialog = new EditIngredientDialog(selectedIngredient.Name);
+
+                    dialog.DialogClosed += (_, _) =>
                     {
-                        this.viewModel.GetAllIngredientsForUser();
-                    }
+                        if (dialog.Exception is UnauthorizedAccessException exception)
+                        {
+                            base.DisplayTimeOutDialog(exception.Message);
+                        }
+                        else if (dialog.Exception != null)
+                        {
+                            var messageDialog =
+                                new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
+                            base.DisplayDialog(messageDialog);
+                        }
+                        else if (dialog.DialogResult == DialogResult.Yes)
+                        {
+                            this.viewModel.GetAllIngredientsForUser();
+                        }
+                    };
+
+                    base.DisplayDialog(dialog);
                 };
                 item.RemoveSelected += (_, selectedIngredient) =>
                 {
                     var ingredientName = selectedIngredient.Name;
-                    var result = MessageBox.Show($@"Are you sure you want to remove {ingredientName} from your pantry?", 
-                        @"Remove Ingredient", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.Yes)
+                    var dialog = new MessageDialog("Remove ingredient",
+                        $"Are you sure that you want to remove {ingredientName} from your pantry?",
+                        MessageBoxButtons.YesNo);
+
+                    dialog.DialogClosed += (_, _) =>
                     {
-                        this.viewModel.RemoveIngredient(selectedIngredient);
-                        this.viewModel.GetAllIngredientsForUser();
-                    }
+                        if (dialog.Exception is UnauthorizedAccessException exception)
+                        {
+                            base.DisplayTimeOutDialog(exception.Message);
+                        }
+                        else if (dialog.Exception != null)
+                        {
+                            var messageDialog =
+                                new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
+                            base.DisplayDialog(messageDialog);
+                        }
+                        else if (dialog.DialogResult == DialogResult.Yes)
+                        {
+                            this.viewModel.RemoveIngredient(selectedIngredient);
+                            this.viewModel.GetAllIngredientsForUser();
+                        }
+                    };
+
+                    base.DisplayDialog(dialog);
                 };
 
             }
@@ -93,68 +127,66 @@ namespace Desktop_Client.View.Screens
             }
             catch (ArgumentException exception)
             {
-                MessageBox.Show(exception.Message);
+                var messageDialog =
+                    new MessageDialog("Error occurred", exception.Message);
+                base.DisplayDialog(messageDialog);
             }
             catch (UnauthorizedAccessException exception)
             {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
+                this.DisplayTimeOutDialog(exception.Message);
             }
         }
 
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
+            var dialog = new AddIngredientDialog();
 
-            try
+            dialog.DialogClosed += (o, args) =>
             {
-                var addIngredientDialog = new AddIngredientDialog();
-                addIngredientDialog.ShowDialog();
-                if (addIngredientDialog.DialogResult == DialogResult.OK)
+                if (dialog.Exception is UnauthorizedAccessException exception)
+                {
+                    base.DisplayTimeOutDialog(exception.Message);
+                }
+                else if (dialog.Exception != null)
+                {
+                    var messageDialog =
+                        new MessageDialog("Error occurred", dialog.Exception.Message);
+                    base.DisplayDialog(messageDialog);
+                }
+                else if (dialog.DialogResult == DialogResult.OK)
                 {
                     this.viewModel.GetAllIngredientsForUser();
                 }
-            }
-            catch (ArgumentException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
-            }
+            };
+
+            base.DisplayDialog(dialog);
         }
 
         private void removeAllButton_Click(object sender, EventArgs e)
         {
-            try
+            var dialog = new MessageDialog("Remove all ingredients",
+                "Are you sure that you want to remove all ingredients?", MessageBoxButtons.YesNo);
+
+            dialog.DialogClosed += (o, args) =>
             {
-                var result = MessageBox.Show("Are you sure you want to remove all ingredients?",
-                    "Remove All Ingredients", MessageBoxButtons.YesNo);
-                if (result == DialogResult.Yes)
+                if (dialog.Exception is UnauthorizedAccessException exception)
+                {
+                    base.DisplayTimeOutDialog(exception.Message);
+                }
+                else if (dialog.Exception != null)
+                {
+                    var messageDialog =
+                        new MessageDialog("Error occurred", dialog.Exception.Message);
+                    base.DisplayDialog(messageDialog);
+                }
+                else if (dialog.DialogResult == DialogResult.Yes)
                 {
                     this.viewModel.RemoveAllIngredients();
                     this.viewModel.GetAllIngredientsForUser();
                 }
-            }
-            catch (ArgumentException exception)
-            {
-                MessageBox.Show(exception.Message);
-            }
-            catch (UnauthorizedAccessException exception)
-            {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
-            }
+            };
+
+            base.DisplayDialog(dialog);
         }
     }
 }

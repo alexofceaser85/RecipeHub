@@ -1,5 +1,5 @@
-﻿using Desktop_Client.ViewModel.Components;
-using Desktop_Client.ViewModel.Users;
+﻿using Desktop_Client.View.Dialog;
+using Desktop_Client.ViewModel.Components;
 
 namespace Desktop_Client.View.Components.Login
 {
@@ -59,7 +59,15 @@ namespace Desktop_Client.View.Components.Login
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                var curParent = this.Parent!;
+                while (curParent is not Screens.Screen)
+                {
+                    curParent = curParent.Parent;
+                };
+                var screen = (Screens.Screen)curParent;
+
+                var messageDialog = new MessageDialog("Error with logging in", ex.Message, MessageBoxButtons.OK);
+                screen.DisplayDialog(messageDialog);
             }
         }
     }
