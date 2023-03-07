@@ -11,32 +11,32 @@
         <fieldset>
             <div>
                 <h3>Username:</h3>
-                <input type="text" id="usernameInput" name="Username" onchange="validateUserName()" asp-for="BindingModel.Username"/>
+                <input type="text" id="usernameInput" name="Username" onchange="validateUserName()" asp-for="BindingModel.Username" maxlength="100"/>
                 <p id="usernameErrorText"></p>
             </div>
             <div>
                 <h3>Password:</h3>
-                <input type="password" id="passwordInput" name="Password" maxlength="20" onchange="validatePassword()" asp-for="BindingModel.Password" />
+                <input type="password" id="passwordInput" name="Password" maxlength="20" onchange="validatePassword()" asp-for="BindingModel.Password" maxlength="20" />
                 <p id="passwordErrorText"></p>
             </div>
             <div>
                 <h3>Verify Password:</h3>
-                <input type="password" id="verifyPasswordInput" name="VerifyPassword" maxlength="20" onchange="validateVerifyPassword()" asp-for="BindingModel.VerifyPassword" />
+                <input type="password" id="verifyPasswordInput" name="VerifyPassword" maxlength="20" onchange="validateVerifyPassword()" asp-for="BindingModel.VerifyPassword" maxlength="20">
                 <p id="verifyPasswordErrorText"></p>
             </div>
             <div>
                 <h3>First Name:</h3>
-                <input type="text" id="firstNameInput" name="FirstName" onchange="validateFirstName()" asp-for="BindingModel.FirstName" />
+                <input type="text" id="firstNameInput" name="FirstName" onchange="validateFirstName()" asp-for="BindingModel.FirstName" maxlength="100" />
                 <p id="verifyFirstNameErrorText"></p>
             </div>
             <div>
                 <h3>Last Name:</h3>
-                <input type="text" id="lastNameInput" name="LastName" onchange="validateLastName()" asp-for="BindingModel.LastName" />
+                <input type="text" id="lastNameInput" name="LastName" onchange="validateLastName()" asp-for="BindingModel.LastName" maxlength="100" />
                 <p id="verifyLastNameErrorText"></p>
             </div>
             <div>
                 <h3>Email:</h3>
-                <input type="text" id="emailInput" name="Email" onchange="validateEmail()" asp-for="BindingModel.Email" />
+                <input type="text" id="emailInput" name="Email" onchange="validateEmail()" asp-for="BindingModel.Email" maxlength="200" />
                 <p id="emailErrorText"></p>
             </div>
             <div>

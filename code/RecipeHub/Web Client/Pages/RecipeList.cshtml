@@ -16,12 +16,12 @@
                     </div>
                     <div>
                         <label for="recipe-search-button"><h4>Search:</h4></label>
-                        <input type="text" id="recipe-search-button" name="SearchText" value="@Model.SearchText" placeholder="Search for recipes..."/>
+                            <input type="text" id="recipe-search-button" name="SearchText" value="@Model.SearchText" placeholder="Search for recipes..." maxlength="100" />
                     </div>
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
                         <div id="recipe-filter-by-type-input-container">
-                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes"/>
+                                <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes" maxlength="50" />
                             <div id="recipe-types">
                                 @foreach (var type in Model.RecipeTypes)
                                 {
@@ -42,23 +42,30 @@
             </form>
         </div>
         <div id="recipe-list-main">
-            <div id="recipe-list">
-                @foreach (var recipe in Model.Recipes)
-                {
-                <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
-                    <div class="recipe-list-item">
-                        <div>
-                            <p class="recipe-name">@recipe.Name</p>
-                            <p class="recipe-author">By: @recipe.AuthorName</p>
-                        </div>
-                        <div>
-                            <div class="text-end">Rating: 0/5</div>
-                            <div class="text-end">Tags go here</div>
-                        </div>
-                    </div>
-                </a>
-                }
-            </div>
+            @if (Model.Recipes.Length <= 0)
+            {
+                <p>No recipes found!</p>
+            }
+            else
+            {
+                <div id="recipe-list">
+                    @foreach (var recipe in Model.Recipes)
+                    {
+                        <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
+                            <div class="recipe-list-item">
+                                <div>
+                                    <p class="recipe-name">@recipe.Name</p>
+                                    <p class="recipe-author">By: @recipe.AuthorName</p>
+                                </div>
+                                <div>
+                                    <div class="text-end">Rating: 0/5</div>
+                                    <div class="text-end">Tags go here</div>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
 </div>
