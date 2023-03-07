@@ -1,0 +1,19 @@
+Use-Case Scenario: Remove Recipe To Planned Recipes
+Users: Chef
+Context: User is viewing their planned recipes
+Primary Flow:
+    1: The user selects to remove a planned recipe
+    2: The user is asked to confirm to remove the recipe
+    3: The user confirms to remove the recipe
+    4: The recipe is removed from the users planned recipes
+    5: The planned recipes page is updated to reflect the changes
+Alternate Flows:
+    a1: 
+        1: The user does not have any planned recipes and is unable to remove any
+    a2:
+        1: The user cancels the removal
+        2: The user is shown the planned recipes page without any changes
+    a4:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1

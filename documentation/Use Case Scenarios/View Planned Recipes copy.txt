@@ -1,0 +1,14 @@
+Use-Case Scenario: View Planned Recipes
+Users: Chef
+Context: User is logged into the system
+Primary Flow:
+    1: The user selects the "Planned Recipes" option from navigation
+    2: The application moves to the planned recipes screen
+    3: The user can view their planned recipes
+Alternate Flows:
+    a2:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1
+    a3: 
+        1: The user does not have any planned recipes and is unable to view them
