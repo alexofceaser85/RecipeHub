@@ -107,7 +107,7 @@
                 </div>
                 <form asp-page-handler="AddIngredient" method="post">
                     <div class="modal-body">
-                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions"/>
+                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions" maxlength="200"/>
                         <datalist id="ingredient-suggestions">
                         </datalist>
                         <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
