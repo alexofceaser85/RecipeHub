@@ -113,8 +113,8 @@
                         <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount"/>
                         <select name="Measurement">
                             <option value="0">Quantity</option>
-                            <option value="1">Mass</option>
-                            <option value="2">Volume</option>
+                            <option value="1">Mass (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Mass))</option>
+                            <option value="2">Volume (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Volume))</option>
                         </select>
                     </div>
                     <div class="modal-footer">
