@@ -21,7 +21,7 @@
                     <div id="recipe-filter-by-tag-container">
                         <h4>Tags:</h4>
                         <div id="recipe-filter-by-type-input-container">
-                            <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes"/>
+                                <input type="text" id="recipe-filter-by-type-input" list="recipe-types" name="BindingModel.FiltersTypes" maxlength="50" />
                             <div id="recipe-types">
                                 @foreach (var type in Model.RecipeTypes)
                                 {
