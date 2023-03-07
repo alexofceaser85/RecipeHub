@@ -139,6 +139,7 @@
             this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.searchTextBox.Location = new System.Drawing.Point(140, 23);
             this.searchTextBox.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.searchTextBox.MaxLength = 200;
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.PlaceholderText = "Search Recipes by Name";
             this.searchTextBox.Size = new System.Drawing.Size(447, 50);
