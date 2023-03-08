@@ -18,6 +18,7 @@ namespace Desktop_Client.ViewModel.Ingredients
         private string ingredientName;
         private string[] ingredientNames;
         private string ingredientAmount;
+        private int selectedMeasurementIndex;
         private MeasurementType selectedMeasurementType;
         private readonly IIngredientsService service;
 
@@ -49,12 +50,29 @@ namespace Desktop_Client.ViewModel.Ingredients
         }
 
         /// <summary>
+        /// The index for the selected measurement type
+        /// </summary>
+        public int SelectedMeasurementIndex
+        {
+            get => this.selectedMeasurementIndex;
+            set 
+            {
+                this.SetField(ref this.selectedMeasurementIndex, value);
+                this.SetField(ref this.selectedMeasurementType, (MeasurementType) value);
+            }
+        }
+
+        /// <summary>
         /// How the ingredient should be measured.
         /// </summary>
         public MeasurementType SelectedMeasurementType
         {
             get => this.selectedMeasurementType;
-            set => this.SetField(ref this.selectedMeasurementType, value);
+            set
+            {
+                this.SetField(ref this.selectedMeasurementType, value);
+                this.SetField(ref this.selectedMeasurementIndex, (int)value);
+            }
         }
 
         /// <summary>
@@ -77,7 +95,8 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// &amp;&amp; this.IngredientName == string.Empty<br/>
         /// &amp;&amp; this.IngredientNames.Length == 0<br/>
         /// &amp;&amp; this.IngredientAmount == string.Empty<br/>
-        /// &amp;&amp; this.SelectedMeasurementType == MeasurementTypes.Quantity
+        /// &amp;&amp; this.SelectedMeasurementType == MeasurementTypes.Quantity<br/>
+        /// &amp;&amp; this.SelectedMeasurementIndex == 0
         /// </summary>
         /// <param name="service">the specified service</param>
         /// <exception cref="InvalidOperationException"></exception>

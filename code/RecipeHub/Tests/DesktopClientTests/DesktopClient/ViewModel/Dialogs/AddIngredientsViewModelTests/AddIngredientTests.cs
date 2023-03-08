@@ -8,7 +8,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewM
     public class AddIngredientTests
     {
         [Test]
-        public void SuccessfullyAddIngredient()
+        public void SuccessfullyAddIngredientWithMeasurementType()
         {
             var ingredient = new Ingredient("name", 2, MeasurementType.Quantity);
             const string ingredientName = "name";
@@ -23,6 +23,33 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.AddIngredientsViewM
                 IngredientAmount = amount,
                 IngredientName = ingredientName,
                 SelectedMeasurementType = measurementType
+            };
+
+            var result = viewmodel.AddIngredient();
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EqualTo(expected));
+                service.Verify(mock => mock.AddIngredient(ingredient), Times.Once);
+            });
+        }
+
+        [Test]
+        public void SuccessfullyAddIngredientWithMeasurementIndex()
+        {
+            var ingredient = new Ingredient("name", 2, MeasurementType.Mass);
+            const string ingredientName = "name";
+            const string amount = "2";
+            const int measurementIndex = 1;
+            const bool expected = true;
+
+            var service = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.AddIngredient(ingredient)).Returns(expected);
+
+            var viewmodel = new AddIngredientsViewModel(service.Object)
+            {
+                IngredientAmount = amount,
+                IngredientName = ingredientName,
+                SelectedMeasurementIndex = measurementIndex
             };
 
             var result = viewmodel.AddIngredient();
