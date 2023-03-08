@@ -33,6 +33,8 @@ namespace Desktop_Client.View.Screens
         {
             this.searchTextBox.DataBindings.Add(new Binding("Text", this.viewmodel, 
                 nameof(this.viewmodel.SearchTerm)));
+            this.noRecipesLabel.DataBindings.Add(new Binding("Text", this.viewmodel,
+                nameof(this.viewmodel.NoRecipesLabelText)));
             this.viewmodel.PropertyChanged += (_, arg) =>
             {
                 if (arg.PropertyName != nameof(this.viewmodel.RecipeTags))
@@ -47,6 +49,11 @@ namespace Desktop_Client.View.Screens
         private void PopulateRecipeList(Recipe[] recipes, string[][] recipeTags)
         {
             this.ClearRecipeList();
+            if (recipes.Length == 0)
+            {
+                this.recipeListTablePanel.Controls.Add(this.noRecipesLabel);
+                return;
+            }
             for (var i = 0; i < recipes.Length; i++)
             {
                 var recipe = recipes[i];

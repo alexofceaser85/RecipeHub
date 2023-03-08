@@ -43,9 +43,15 @@ namespace Desktop_Client.View.Screens
             };
         }
 
-        private void PopulateIngredientsList(IEnumerable<Ingredient> ingredients)
+        private void PopulateIngredientsList(ICollection<Ingredient> ingredients)
         {
             this.ClearRecipeList();
+
+            if (ingredients.Count == 0)
+            {
+                this.ingredientListTableLayout.Controls.Add(this.noIngredientsLabel);
+                return;
+            }
             foreach (var ingredient in ingredients)
             {
                 var item = new IngredientListItem(ingredient);
