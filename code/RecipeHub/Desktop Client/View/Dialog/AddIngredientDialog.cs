@@ -22,11 +22,12 @@ namespace Desktop_Client.View.Dialog
         {
             this.InitializeComponent();
             this.viewModel = new AddIngredientsViewModel();
+            this.measurementComboBox.DataSource = Enum.GetValues(typeof(MeasurementType));
 
             var measurementListItems = new List<string>();
             foreach (var type in Enum.GetValues(typeof(MeasurementType)))
             {
-                var unit = BaseUnitUtils.GetBaseUnitSign((MeasurementType) type);
+                var unit = BaseUnitUtils.GetBaseUnitSign((MeasurementType)type);
                 if (!string.IsNullOrEmpty(unit))
                 {
                     measurementListItems.Add($"{type} ({unit})");
@@ -49,6 +50,8 @@ namespace Desktop_Client.View.Dialog
                 nameof(this.viewModel.IngredientNames)));
             this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
                 nameof(this.viewModel.IngredientAmount)));
+            this.measurementComboBox.DataBindings.Add(new Binding("SelectedItem", this.viewModel,
+                nameof(this.viewModel.SelectedMeasurementType)));
             this.measurementComboBox.DataBindings.Add(new Binding("SelectedIndex", this.viewModel,
                 nameof(this.viewModel.SelectedMeasurementIndex)));
         }
