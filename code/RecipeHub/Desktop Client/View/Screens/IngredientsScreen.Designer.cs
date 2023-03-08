@@ -38,10 +38,12 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.removeAllButton = new System.Windows.Forms.Button();
             this.ingredientListTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.noIngredientsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.ingredientListTableLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -187,6 +189,7 @@
             this.ingredientListTableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.ingredientListTableLayout.ColumnCount = 1;
             this.ingredientListTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ingredientListTableLayout.Controls.Add(this.noIngredientsLabel, 0, 0);
             this.ingredientListTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ingredientListTableLayout.Location = new System.Drawing.Point(26, 218);
             this.ingredientListTableLayout.Margin = new System.Windows.Forms.Padding(10);
@@ -195,6 +198,19 @@
             this.ingredientListTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.ingredientListTableLayout.Size = new System.Drawing.Size(661, 988);
             this.ingredientListTableLayout.TabIndex = 2;
+            // 
+            // noIngredientsLabel
+            // 
+            this.noIngredientsLabel.AutoSize = true;
+            this.noIngredientsLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.noIngredientsLabel.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.noIngredientsLabel.Location = new System.Drawing.Point(4, 33);
+            this.noIngredientsLabel.Margin = new System.Windows.Forms.Padding(3, 32, 3, 0);
+            this.noIngredientsLabel.Name = "noIngredientsLabel";
+            this.noIngredientsLabel.Size = new System.Drawing.Size(653, 954);
+            this.noIngredientsLabel.TabIndex = 0;
+            this.noIngredientsLabel.Text = "You do not have any ingredients added to your pantry.";
+            this.noIngredientsLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // IngredientsScreen
             // 
@@ -207,6 +223,8 @@
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
+            this.ingredientListTableLayout.ResumeLayout(false);
+            this.ingredientListTableLayout.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -223,5 +241,6 @@
         private Label label1;
         private TableLayoutPanel tableLayoutPanel4;
         private Button removeAllButton;
+        private Label noIngredientsLabel;
     }
 }

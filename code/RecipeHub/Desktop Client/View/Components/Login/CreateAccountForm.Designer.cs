@@ -162,6 +162,7 @@
             this.emailTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.emailTextBox.Location = new System.Drawing.Point(4, 659);
             this.emailTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.emailTextBox.MaxLength = 200;
             this.emailTextBox.Name = "emailTextBox";
             this.emailTextBox.Size = new System.Drawing.Size(501, 37);
             this.emailTextBox.TabIndex = 11;
@@ -173,6 +174,7 @@
             this.lastNameTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lastNameTextBox.Location = new System.Drawing.Point(4, 542);
             this.lastNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lastNameTextBox.MaxLength = 100;
             this.lastNameTextBox.Name = "lastNameTextBox";
             this.lastNameTextBox.Size = new System.Drawing.Size(501, 37);
             this.lastNameTextBox.TabIndex = 10;
@@ -184,6 +186,7 @@
             this.firstNameTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.firstNameTextBox.Location = new System.Drawing.Point(4, 425);
             this.firstNameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.firstNameTextBox.MaxLength = 100;
             this.firstNameTextBox.Name = "firstNameTextBox";
             this.firstNameTextBox.Size = new System.Drawing.Size(501, 37);
             this.firstNameTextBox.TabIndex = 9;
@@ -195,6 +198,7 @@
             this.verifyPasswordTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.verifyPasswordTextBox.Location = new System.Drawing.Point(4, 308);
             this.verifyPasswordTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.verifyPasswordTextBox.MaxLength = 20;
             this.verifyPasswordTextBox.Name = "verifyPasswordTextBox";
             this.verifyPasswordTextBox.Size = new System.Drawing.Size(501, 37);
             this.verifyPasswordTextBox.TabIndex = 8;
@@ -207,6 +211,7 @@
             this.passwordTextBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.passwordTextBox.Location = new System.Drawing.Point(4, 189);
             this.passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.passwordTextBox.MaxLength = 20;
             this.passwordTextBox.Name = "passwordTextBox";
             this.passwordTextBox.Size = new System.Drawing.Size(501, 39);
             this.passwordTextBox.TabIndex = 7;
@@ -297,6 +302,7 @@
             this.usernameTextBox.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.usernameTextBox.Location = new System.Drawing.Point(4, 72);
             this.usernameTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.usernameTextBox.MaxLength = 100;
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(501, 37);
             this.usernameTextBox.TabIndex = 6;

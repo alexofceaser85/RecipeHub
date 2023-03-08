@@ -4,9 +4,9 @@ using Shared_Resources.Model.Filters;
 namespace Desktop_Client.View.Dialog
 {
     /// <summary>
-    /// A dialog window containing filtering options for the recipe list screen.
+    /// A dialog containing filtering options for the recipe list screen.
     /// </summary>
-    public partial class RecipeListFilterDialog : Form
+    public partial class RecipeListFiltersDialog : MobileDialog
     {
         private readonly RecipeListFilterViewModel viewModel;
 
@@ -16,13 +16,13 @@ namespace Desktop_Client.View.Dialog
         public RecipeFilters Filters => this.viewModel.Filters;
 
         /// <summary>
-        /// Creates an instance of <see cref="RecipeListFilterDialog"/> with a specified set of Filters.<br/>
+        /// Creates an instance of <see cref="RecipeListFiltersDialog"/> with a specified set of Filters.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>The filter options are reflected in the UI.
         /// </summary>
         /// <param name="filters">The currently selected Filters.</param>
-        public RecipeListFilterDialog(RecipeFilters filters)
+        public RecipeListFiltersDialog(RecipeFilters filters)
         {
             this.InitializeComponent();
 
@@ -53,7 +53,7 @@ namespace Desktop_Client.View.Dialog
                 }
             }
         }
-        
+
         private void submitButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;

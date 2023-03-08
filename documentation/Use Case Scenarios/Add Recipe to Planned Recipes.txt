@@ -1,0 +1,15 @@
+Use-Case Scenario: Add Recipe To Planned Recipes
+Users: Chef
+Context: User has successfully logged into the application and is viewing a recipe
+Primary Flow:
+    1: The user selects to add the recipe to their planned recipes
+    2: The user is prompted to enter:
+        a: The date to plan the recipe for
+        b: The type of meal (beakfast, lunch, dinner)
+    3: The user submits the information
+    4: The user is informed that the recipe has been planned
+Alternate Flows:
+    a3:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1

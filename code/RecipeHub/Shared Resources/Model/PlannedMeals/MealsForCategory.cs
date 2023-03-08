@@ -30,7 +30,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// Initializes a new instance of the <see cref="MealsForCategory"/> class.<br />
         /// <br />
         /// Precondition: recipes != null<br />
-        /// Postcondition: Category == category && Recipes == recipes<br />
+        /// Postcondition: Category == category &amp;&amp; Recipes == recipes<br />
         /// </summary>
         /// <param name="category">The category.</param>
         /// <param name="recipes">The recipes.</param>

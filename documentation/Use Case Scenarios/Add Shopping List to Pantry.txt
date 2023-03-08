@@ -1,0 +1,16 @@
+Use-Case Scenario: Add Shopping List to Pantry
+Users: Chef
+Context: User is logged into the system and is viewing their shopping list
+Primary Flow:
+    1: The user selects the "Add to Pantry" option
+    2: The user is prompted to confirm to add the shopping list to their pantry
+    3: The user confirms to add the shopping list to their pantry
+    4: The page is updated to show that the shopping list is empty
+Alternate Flows:
+    a1:
+        1: The user's shopping list is empty
+        2: The option to add the shopping list is disabled
+    a3:
+        1: The application is unable to connect to the server
+        2: The application informs the user about the connection error
+        3: The application returns to step 1

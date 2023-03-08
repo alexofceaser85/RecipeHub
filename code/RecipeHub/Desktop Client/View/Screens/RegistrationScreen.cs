@@ -1,4 +1,5 @@
-﻿using Desktop_Client.ViewModel.Users;
+﻿using Desktop_Client.View.Dialog;
+using Desktop_Client.ViewModel.Users;
 
 namespace Desktop_Client.View.Screens
 {
@@ -54,7 +55,9 @@ namespace Desktop_Client.View.Screens
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                var messageDialog =
+                    new MessageDialog("Error occurred", ex.Message);
+                base.DisplayDialog(messageDialog);
             }
         }
 

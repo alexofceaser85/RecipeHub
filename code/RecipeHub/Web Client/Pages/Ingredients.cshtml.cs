@@ -68,6 +68,8 @@ namespace Web_Client.Pages
         /// <returns>The page</returns>
         public IActionResult OnPostAddIngredient()
         {
+            //TODO: Add validation.
+
             this.AddedIngredient!.Name = Request.Form["name"];
             this.AddedIngredient.Amount = int.Parse(Request.Form["amount"]!);
             this.AddedIngredient.MeasurementType = (MeasurementType) int.Parse(Request.Form["measurement"]!);
@@ -111,6 +113,7 @@ namespace Web_Client.Pages
         /// <returns>The page</returns>
         public IActionResult OnPostUpdateIngredientAsync()
         {
+            //TODO: Add validation.
             string name = Request.Form["Name"][0]!;
             int amount = int.Parse(Request.Form["Amount"]!);
             this.viewModel.EditIngredient(new Ingredient(name.ToString(), amount, MeasurementType.Quantity));

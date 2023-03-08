@@ -1,13 +1,13 @@
 ﻿namespace Desktop_Client.View.Dialog
 {
-    partial class RecipeListFilterDialog
+    partial class RecipeListFiltersDialog
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -18,12 +18,13 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+            
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -192,9 +193,9 @@
             // 
             this.tagsTextInput.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagsTextInput.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tagsTextInput.Location = new System.Drawing.Point(4, 55);
+            this.tagsTextInput.Location = new System.Drawing.Point(3, 53);
             this.tagsTextInput.Name = "tagsTextInput";
-            this.tagsTextInput.Size = new System.Drawing.Size(555, 51);
+            this.tagsTextInput.Size = new System.Drawing.Size(557, 51);
             this.tagsTextInput.TabIndex = 1;
             this.tagsTextInput.TextChanged += new System.EventHandler(this.tagsTextInput_TextChanged);
             // 
@@ -210,14 +211,13 @@
             this.checkedListBox1.TabIndex = 2;
             this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
-            // RecipeListFilterDialog
+            // RecipeListFiltersDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 600);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "RecipeListFilterDialog";
-            this.Text = "RecipeListFilterDialog";
+            this.Name = "RecipeListFiltersDialog";
+            this.Size = new System.Drawing.Size(571, 600);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);

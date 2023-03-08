@@ -114,7 +114,7 @@
                 return false;
             }
 
-            Text = this.listBox.SelectedItem!.ToString();
+            this.Text = this.listBox.SelectedItem!.ToString();
             this.ResetListBox();
             this.formerValue = Text;
             this.Select(this.Text.Length, 0);

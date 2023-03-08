@@ -29,7 +29,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// Initializes a new instance of the <see cref="PlannedMeal"/> class.<br />
         /// <br />
         /// Precondition: meals != null<br />
-        /// Postcondition: MealDate == mealDate && Meals == meals<br />
+        /// Postcondition: MealDate == mealDate &amp;&amp; Meals == meals<br />
         /// </summary>
         /// <param name="mealDate">The meal date.</param>
         /// <param name="meals">The meals.</param>
