@@ -7,15 +7,9 @@ namespace Desktop_Client.View.Dialog
     /// <summary>
     /// Dialog for Adding an Ingredient.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class AddIngredientDialog : Form
+    public partial class AddIngredientDialog : MobileDialog
     {
         private readonly AddIngredientsViewModel viewModel;
-
-        /// <summary>
-        /// The error occurred event handler
-        /// </summary>
-        public EventHandler<ErrorEventArgs>? ErrorOccurred;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AddIngredientDialog"/> class.<br />
@@ -34,7 +28,7 @@ namespace Desktop_Client.View.Dialog
 
         private void BindComponents()
         {
-            this.nameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+            this.nameTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
                 nameof(this.viewModel.IngredientName)));
             this.nameTextBox.DataBindings.Add(new Binding("Values", this.viewModel,
                 nameof(this.viewModel.IngredientNames)));
@@ -44,10 +38,16 @@ namespace Desktop_Client.View.Dialog
                 nameof(this.viewModel.SelectedMeasurementType)));
         }
 
+        /// <summary>
+        /// The error occurred event handler
+        /// </summary>
+        public EventHandler<ErrorEventArgs>? ErrorOccurred;
+        
         private void addIngredientButton_Click(object sender, EventArgs e)
         {
             try
             {
+                this.viewModel.IngredientName = this.nameTextBox.Text;
                 if (this.viewModel.AddIngredient())
                 {
                     this.DialogResult = DialogResult.OK;
@@ -58,6 +58,9 @@ namespace Desktop_Client.View.Dialog
             catch (UnauthorizedAccessException ex)
             {
                 this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+                this.Exception = ex;
+                this.Dispose();
+                this.Close();
             }
         }
 
@@ -91,9 +94,9 @@ namespace Desktop_Client.View.Dialog
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
             this.Dispose();
-            this.DialogResult = DialogResult.Cancel;
         }
     }
 }
