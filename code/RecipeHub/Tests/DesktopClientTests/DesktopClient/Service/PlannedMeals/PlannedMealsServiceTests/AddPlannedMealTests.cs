@@ -45,10 +45,10 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
             const MealCategory mealCategory = MealCategory.Dinner;
             const int recipeId = 1;
 
-            const string errorMessage = "Value cannot be null. (Parameter 'Key')";
+            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => 
+                var message = Assert.Throws<InvalidOperationException>(() => 
                     new PlannedMealsService().AddPlannedMeal(dateTime, mealCategory, recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -65,7 +65,7 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => 
+                var message = Assert.Throws<InvalidOperationException>(() => 
                     new PlannedMealsService().AddPlannedMeal(dateTime, mealCategory, recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });

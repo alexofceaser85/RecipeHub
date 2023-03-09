@@ -7,26 +7,50 @@ using Shared_Resources.Utils.Server;
 
 namespace Desktop_Client.Endpoints.PlannedMeals
 {
+    /// <inheritdoc cref="IPlannedMealsEndpoints"/>
     public class PlannedMealsEndpoints : IPlannedMealsEndpoints
     {
-        public const string AddPlannedMealsRoute = "AddPlannedMeal";
-        public const string RemovePlannedMealsRoute = "RemovePlannedMeal";
-        public const string GetPlannedMealsRoute = "GetPlannedMeals";
+        private const string AddPlannedMealsRoute = "AddPlannedMeal";
+        private const string RemovePlannedMealsRoute = "RemovePlannedMeal";
+        private const string GetPlannedMealsRoute = "GetPlannedMeals";
 
-        public const string PlannedMealsElementName = "plannedMeals";
+        private const string PlannedMealsElementName = "plannedMeals";
 
         private readonly HttpClient client;
 
+        /// <summary>
+        /// Creates a default instance of <see cref="PlannedMealsEndpoints"/>, using a default <see cref="HttpClient"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
         public PlannedMealsEndpoints() : this(new HttpClient())
         {
 
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="PlannedMealsEndpoints"/> with a specified <see cref="HttpClient"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>client != null<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="client"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PlannedMealsEndpoints(HttpClient client)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
         }
 
+        /// <summary>
+        /// Adds a recipe to the active user's planned meals, using a specified <see cref="DateTime"/> and <see cref="MealCategory"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="mealDate">The date to add the meal</param>
+        /// <param name="category">The category of the meal</param>
+        /// <param name="recipeId">The recipe to add to the meal</param>
         public void AddPlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
         {
             var serverMethodParameters = $"?sessionKey={Session.Key}&mealDate={mealDate}&category={category}&recipeId={recipeId}";
@@ -35,6 +59,15 @@ namespace Desktop_Client.Endpoints.PlannedMeals
             JsonUtils.VerifyAndGetRequestInfo(json);
         }
 
+        /// <summary>
+        /// Removes a recipe to the active user's planned meals, using a specified <see cref="DateTime"/> and <see cref="MealCategory"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="mealDate">The date to remove the meal</param>
+        /// <param name="category">The category of the meal</param>
+        /// <param name="recipeId">The recipe to remove from the meal</param>
         public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
         {
             var serverMethodParameters = $"?sessionKey={Session.Key}&mealDate={mealDate}&category={category}&recipeId={recipeId}";
@@ -43,6 +76,13 @@ namespace Desktop_Client.Endpoints.PlannedMeals
             JsonUtils.VerifyAndGetRequestInfo(json);
         }
 
+        /// <summary>
+        /// Gets all of the planned meals for the active user.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <returns>All of the user's planned meals.</returns>
         public PlannedMeal[] GetPlannedMeals()
         {
             var serverMethodParameters = $"?sessionKey={Session.Key}";

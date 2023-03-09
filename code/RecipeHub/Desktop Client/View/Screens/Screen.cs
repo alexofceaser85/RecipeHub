@@ -130,6 +130,17 @@ namespace Desktop_Client.View.Screens
                 }
             };
             this.menu.LogoutSelected += (_, _) => this.ChangeScreens(new LoginScreen());
+            this.menu.PlannedMealsSelected += (_, _) =>
+            {
+                try
+                {
+                    this.ChangeScreens(new PlannedMealsScreen());
+                }
+                catch (UnauthorizedAccessException exception)
+                {
+                    this.DisplayTimeOutDialog(exception.Message);
+                }
+            };
             this.menu.RecipesSelected += (_, _) =>
             {
                 try

@@ -65,5 +65,10 @@
         {
             this.RecipesSelected?.Invoke(this, EventArgs.Empty);
         }
+
+        private void plannedMealsButton_Click(object sender, EventArgs e)
+        {
+            this.PlannedMealsSelected?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

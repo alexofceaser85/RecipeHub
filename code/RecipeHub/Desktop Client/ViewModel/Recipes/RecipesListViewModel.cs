@@ -14,10 +14,22 @@ namespace Desktop_Client.ViewModel.Recipes
     /// </summary>
     public class RecipesListViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// No recipes with owned ingredients message
+        /// </summary>
         public const string NoRecipesWithOwnedIngredients = "There are no recipes that you have the ingredients to make.";
+        /// <summary>
+        /// No recipes with tags message
+        /// </summary>
         public const string NoRecipesWithTags = "There are no recipes with the selected tag(s).";
+        /// <summary>
+        /// No recipe with name message
+        /// </summary>
         public const string NoRecipesWithName = "There are no recipes that match the search term.";
-        public const string NoRecipesUploded = "There are no recipes that are currently available.";
+        /// <summary>
+        /// No recipes uploaded message
+        /// </summary>
+        public const string NoRecipesUploaded = "There are no recipes that are currently available.";
 
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
@@ -36,6 +48,9 @@ namespace Desktop_Client.ViewModel.Recipes
             set => this.SetField(ref this.searchTerm, value);
         }
 
+        /// <summary>
+        /// The text to display in the label showing that there are no recipes.
+        /// </summary>
         public string NoRecipesLabelText
         {
             get => this.noRecipesLabelText;
@@ -182,7 +197,7 @@ namespace Desktop_Client.ViewModel.Recipes
             }
             else
             {
-                this.NoRecipesLabelText = NoRecipesUploded;
+                this.NoRecipesLabelText = NoRecipesUploaded;
             }
         }
 
