@@ -27,31 +27,31 @@
                     <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
                 </div>
                 <div class="ingredient-actions">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#remove-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
                 </div>
             </div>
         }
     }
 
-    <button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-modal">Remove All</button>
+    <button type="button" id="remove-all-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-ingredient-modal">Remove All</button>
 
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal fade" id="edit-ingredient-modal" tabindex="-1" aria-labelledby="edit-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="edit-modal-label">Edit Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="edit-ingredient-modal-label">Edit Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="update-ingredient-form" method="post" asp-page-handler="UpdateIngredient">
                     <div class="modal-body">
                         <input type="text" name="Name" hidden id="edit-ingredient-text"/>
-                        <label for="edit-amount-number">Amount</label>
-                        <input name="Amount" type="number" id="edit-amount-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required/>
+                        <label for="edit-ingredient-number">Amount</label>
+                        <input name="Amount" type="number" id="edit-ingredient-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required/>
                         <p id="edit-ingredient-amount-error-text"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="edit-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" id="edit-amount-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -59,11 +59,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal-label" aria-hidden="true">
+    <div class="modal fade" id="remove-ingredient-modal" tabindex="-1" aria-labelledby="remove-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="remove-ingredient-modal-label">Remove Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" asp-page-handler="DeleteIngredient">
@@ -80,11 +80,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="remove-all-modal" tabindex="-1" aria-labelledby="remove-all-modal-label" aria-hidden="true">
+    <div class="modal fade" id="remove-all-ingredient-modal" tabindex="-1" aria-labelledby="remove-all-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="remove-ingredient-modal-label">Remove Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             <div class="modal-body">
@@ -125,7 +125,7 @@
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="add-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -194,9 +194,38 @@
                 $("#edit-ingredient-text").val($(this).data('ingredient-name'));
             });
 
-            $("#edit-amount-number").keyup(function () {
+            $("#add-ingredient-modal").on("shown.bs.modal", function () {
+                $("#add-ingredient-name").focus();
+            });
+            
+            $("#edit-ingredient-modal").on("shown.bs.modal", function () {
+                $("#edit-ingredient-number").focus();
+            });
+
+            $("#add-ingredient-modal").on("hidden.bs.modal", function () {
+                $("#add-ingredient-number").val("");
+                $("#add-ingredient-name").val("");
+                $("#add-ingredient-name-error-text").text("");
+                $("#add-ingredient-number-error-text").text("");
+                $("#add-ingredient-name").css("background-color", "");
+                $("#add-ingredient-number").css("background-color", "");
+                addIngredientNameValidated = false;
+                addIngredientNumberValidated = false;
+                validateAddIngredient();
+            });
+            
+            $("#edit-ingredient-modal").on("hidden.bs.modal", function () {
+                $("#edit-ingredient-number").val("");
+                $("#edit-ingredient-name").val("");
+                $("#edit-ingredient-amount-error-text").text("");
+                $("#edit-ingredient-number").css("background-color", "");
+                editIngredientNumberValidated = false;
+                validateEditIngredient();
+            });
+
+            $("#edit-ingredient-number").keyup(function () {
                 if ($(this).val() < 0) {
-                    $("#edit-ingredient-amount-error-text").text("Amount must be greater than 0.");
+                    $("#edit-ingredient-amount-error-text").text("Amount must be greater than or equal to 0.");
                     editIngredientNumberValidated = false;
                     $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
                 } else if ($(this).val().length < 1) {
@@ -214,7 +243,7 @@
             
             $("#add-ingredient-number").keyup(function () {
                 if ($(this).val() < 0) {
-                    $("#add-ingredient-number-error-text").text("Amount must be greater than 0.");
+                    $("#add-ingredient-number-error-text").text("Amount must be greater than or equal to 0.");
                     addIngredientNumberValidated = false;
                     $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
                 } else if ($(this).val().length < 1) {
