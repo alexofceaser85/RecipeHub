@@ -1,5 +1,6 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Shared_Resources.Data.Settings
 @model IndexModel
 @{
     ViewData["Title"] = "Login";
@@ -28,12 +29,14 @@
                 <p>
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="Username"  maxlength="100"/>
+                    <p id="login-username-error-text"></p>
                 </p>
                 <p>
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="Password" maxlength="20"/>
+                    <p id="login-password-error-text"></p>
                 </p>
-                <input type="submit" value="Login" asp-page-handler="Submit"/>
+                <input type="submit" id="login-button" value="Login" asp-page-handler="Submit"/>
             </fieldset>
         </form> 
         <form action="" method="post">
@@ -42,3 +45,50 @@
         </form>
     }
 </div>
+
+@section Scripts
+{
+    <script>
+        var validateUsername = false;
+        var validatePassword = false;
+
+        function validateForm() {
+            $("#login-button").prop("disabled", !(validateUsername && validatePassword));
+        }
+
+        $(document).ready(function () {
+            $("#username").focus();
+        });
+        
+        $("#username").on("input", function () {
+            if ($(this).val().length <= 0) {
+                validateUsername = false;
+                $("#login-username-error-text").text("Username must not be empty.");
+                $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+            }
+            else {
+                validateUsername = true;
+                $("#login-username-error-text").text("");
+                $(this).css("background-color", "");
+            }
+            validateForm();
+        });
+        
+        $("#password").on("input", function () {
+            if ($(this).val().length <= 0) {
+                validatePassword = false;
+                $("#login-password-error-text").text("Password must not be empty.");
+                $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+            }
+            else {
+                validatePassword = true;
+                $("#login-password-error-text").text("");
+                $(this).css("background-color", "");
+            }
+            validateForm();
+        });
+        
+        validateForm();
+    
+    </script>
+}
