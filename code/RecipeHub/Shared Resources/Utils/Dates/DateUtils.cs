@@ -7,6 +7,8 @@ namespace Shared_Resources.Utils.Dates
     /// </summary>
     public static class DateUtils
     {
+        private const int NumberOfDaysInWeek = 7;
+
         /// <summary>
         /// Generates the date times.
         ///
@@ -17,6 +19,7 @@ namespace Shared_Resources.Utils.Dates
         /// <returns>The date times from the given date to the next week</returns>
         public static DateTime[] GenerateDateTimesFromDateToNextWeek(DateTime dateTimeToGenerateFrom)
         {
+            dateTimeToGenerateFrom = convertToUtcDate(dateTimeToGenerateFrom);
             var generatedDateTimes = new List<DateTime>();
             var daysUntilEndOfWeek = (int)DayOfWeek.Saturday - (int)dateTimeToGenerateFrom.DayOfWeek;
 
@@ -40,6 +43,7 @@ namespace Shared_Resources.Utils.Dates
         /// <returns>The date times from the week of the given date to the next week</returns>
         public static DateTime[] GenerateDateTimesFromWeekToNextWeek(DateTime dateTimeToGenerateFrom)
         {
+            dateTimeToGenerateFrom = convertToUtcDate(dateTimeToGenerateFrom);
             var generatedDateTimes = new List<DateTime>();
             var daysUntilBeginningOfWeek = (int)DayOfWeek.Sunday - (int)dateTimeToGenerateFrom.DayOfWeek;
 
@@ -64,7 +68,16 @@ namespace Shared_Resources.Utils.Dates
         public static DateTime GenerateDateTimeForEndOfPreviousWeek(DateTime dateTimeToGenerateFrom)
         {
             var daysUntilEndOfLastWeek = (int)DayOfWeek.Sunday - (int)dateTimeToGenerateFrom.DayOfWeek - 1;
-            dateTimeToGenerateFrom = dateTimeToGenerateFrom.AddDays(daysUntilEndOfLastWeek);
+            dateTimeToGenerateFrom = dateTimeToGenerateFrom.AddDays(daysUntilEndOfLastWeek - NumberOfDaysInWeek);
+            return dateTimeToGenerateFrom;
+        }
+
+        private static DateTime convertToUtcDate(DateTime dateTimeToGenerateFrom)
+        {
+            dateTimeToGenerateFrom = TimeZoneInfo.ConvertTimeToUtc(dateTimeToGenerateFrom);
+            dateTimeToGenerateFrom = dateTimeToGenerateFrom.AddHours(-dateTimeToGenerateFrom.Hour);
+            dateTimeToGenerateFrom = dateTimeToGenerateFrom.AddMinutes(-dateTimeToGenerateFrom.Minute);
+            dateTimeToGenerateFrom = dateTimeToGenerateFrom.AddSeconds(-dateTimeToGenerateFrom.Second);
             return dateTimeToGenerateFrom;
         }
     }
