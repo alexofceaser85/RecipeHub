@@ -17,10 +17,4 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Endpoints\PlannedMeals\" />
-    <Folder Include="Service\PlannedMeals\" />
-    <Folder Include="ViewModel\PlannedMeals\" />
-  </ItemGroup>
-
 </Project>
