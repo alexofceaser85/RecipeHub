@@ -43,7 +43,7 @@ namespace Shared_Resources.Utils.Dates
         /// <returns>The date times from the week of the given date to the next week</returns>
         public static DateTime[] GenerateDateTimesFromWeekToNextWeek(DateTime dateTimeToGenerateFrom)
         {
-            dateTimeToGenerateFrom = convertToUtcDate(dateTimeToGenerateFrom);
+            dateTimeToGenerateFrom = dateTimeToGenerateFrom.Date;
             var generatedDateTimes = new List<DateTime>();
             var daysUntilBeginningOfWeek = (int)DayOfWeek.Sunday - (int)dateTimeToGenerateFrom.DayOfWeek;
 
