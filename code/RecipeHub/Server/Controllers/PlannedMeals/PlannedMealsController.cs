@@ -105,15 +105,16 @@ namespace Server.Controllers.PlannedMeals
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
+        /// <param name="currentDate">The current date</param>
         /// <returns>The planned meals</returns>
         [HttpGet]
         [Route("GetPlannedMeals")]
-        public PlannedMealsResponseModel GetPlannedMeals(string sessionKey)
+        public PlannedMealsResponseModel GetPlannedMeals(string sessionKey, DateTime currentDate)
         {
             try
             {
                 return new PlannedMealsResponseModel(HttpStatusCode.OK,
-                    ServerSettings.DefaultSuccessfulConnectionMessage, this.service.GetPlannedMeals(sessionKey, DateTime.UtcNow));
+                    ServerSettings.DefaultSuccessfulConnectionMessage, this.service.GetPlannedMeals(sessionKey, currentDate));
             }
             catch (UnauthorizedAccessException ex)
             {

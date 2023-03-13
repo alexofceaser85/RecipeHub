@@ -1,7 +1,7 @@
 ﻿@page
-@using Web_Client.ViewModel.Ingredient
 @using Shared_Resources.Utils.Units
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Shared_Resources.Data.Settings
 @using Shared_Resources.Model.Ingredients
 @model Web_Client.Pages.IngredientsModel
 @{
@@ -27,29 +27,31 @@
                     <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
                 </div>
                 <div class="ingredient-actions">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#remove-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#remove-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
                 </div>
             </div>
         }
     }
 
-    <button type="button" id="remove-all-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-modal">Remove All</button>
+    <button type="button" id="remove-all-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#remove-all-ingredient-modal">Remove All</button>
 
-    <div class="modal fade" id="edit-modal" tabindex="-1" aria-labelledby="edit-modal-label" aria-hidden="true">
+    <div class="modal fade" id="edit-ingredient-modal" tabindex="-1" aria-labelledby="edit-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="edit-modal-label">Edit Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="edit-ingredient-modal-label">Edit Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="update-ingredient-form" method="post" asp-page-handler="UpdateIngredient">
                     <div class="modal-body">
                         <input type="text" name="Name" hidden id="edit-ingredient-text"/>
-                        <input name="Amount" type="number" id="edit-amount-number" placeholder="Enter your desired amount" maxlength="10" />
+                        <label for="edit-ingredient-number">Amount</label>
+                        <input name="Amount" type="number" id="edit-ingredient-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required/>
+                        <p id="edit-ingredient-amount-error-text"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="edit-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" id="edit-amount-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -57,11 +59,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="remove-modal" tabindex="-1" aria-labelledby="remove-modal-label" aria-hidden="true">
+    <div class="modal fade" id="remove-ingredient-modal" tabindex="-1" aria-labelledby="remove-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="remove-ingredient-modal-label">Remove Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" asp-page-handler="DeleteIngredient">
@@ -78,11 +80,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="remove-all-modal" tabindex="-1" aria-labelledby="remove-all-modal-label" aria-hidden="true">
+    <div class="modal fade" id="remove-all-ingredient-modal" tabindex="-1" aria-labelledby="remove-all-ingredient-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="remove-modal-label">Remove Ingredient</h1>
+                    <h1 class="modal-title fs-5" id="remove-ingredient-modal-label">Remove Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
             <div class="modal-body">
@@ -107,18 +109,23 @@
                 </div>
                 <form asp-page-handler="AddIngredient" method="post">
                     <div class="modal-body">
-                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions" maxlength="200"/>
+                        <label for="add-ingredient-name">Ingredient Name</label>
+                        <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions" minlength="1" maxlength="200" required/>
+                        <p id="add-ingredient-name-error-text"></p>
                         <datalist id="ingredient-suggestions">
                         </datalist>
-                        <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount" maxlength="10" />
-                        <select name="Measurement">
+                        <label for="add-ingredient-number">Amount</label>
+                        <input name="Amount" type="number" id="add-ingredient-number" placeholder="Enter your desired amount" maxlength="10" min="0" step="1" required/>
+                        <p id="add-ingredient-number-error-text"></p>
+                        <label for="add-ingredient-measurement">Measurement</label>
+                        <select id="add-ingredient-measurement" name="Measurement">
                             <option value="0">Quantity</option>
                             <option value="1">Mass (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Mass))</option>
                             <option value="2">Volume (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Volume))</option>
                         </select>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" id="add-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" id="add-ingredient-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
@@ -132,21 +139,37 @@
 @section Scripts
 {
     <script type="text/javascript">
-            $(".ingredient-edit-button").click(function () {
-                $("#edit-ingredient-text").val($(this).data('ingredient-name'));
-            });
+            var addIngredientNameValidated = false;
+            var addIngredientNumberValidated = false;
+            var editIngredientNumberValidated = false;
             
+            function validateAddIngredient() {
+                $("#add-ingredient-submit-button").prop("disabled", !(addIngredientNameValidated && addIngredientNumberValidated));
+            }
+            
+            function validateEditIngredient() {
+                $("#edit-ingredient-submit-button").prop("disabled", !(editIngredientNumberValidated));
+            }
+
+            function updateSuggestions(suggestions) {
+                const datalist = document.getElementById("ingredient-suggestions");
+
+                while (datalist.firstChild) {
+                    datalist.removeChild(datalist.firstChild);
+                }
+
+                suggestions.forEach((suggestion) => {
+                    const option = document.createElement("option");
+                    option.value = suggestion;
+                    datalist.appendChild(option);
+                });
+            }
+
             $(".ingredient-delete-button").click(function () {
                 $("#remove-ingredient-text").val($(this).data('ingredient-name'));
             });
             
-            $("#add-ingredient-name").keyup(function () {
-                $("#add-ingredients-suggestions-text").val($(this).val());
-                $("#add-ingredients-suggestions-submit").click();
-            });
-
-            $(function () {
-                $("#add-ingredients-suggestions-form").submit(function (event) {
+            $("#add-ingredients-suggestions-form").submit(function (event) {
                     event.preventDefault();
 
                     var form = $(this);
@@ -159,31 +182,102 @@
                         type: method,
                         data: data,
                         success: function (result) {
-                            console.log(result);
                             updateSuggestions(result);
                         },
                         error: function () {
                             console.log("Error occurred.");
                         }
                     });
-                });
+            });
+
+            $(".ingredient-edit-button").click(function () {
+                $("#edit-ingredient-text").val($(this).data('ingredient-name'));
+            });
+
+            $("#add-ingredient-modal").on("shown.bs.modal", function () {
+                $("#add-ingredient-name").focus();
             });
             
-            function updateSuggestions(suggestions) {
-                const datalist = document.getElementById("ingredient-suggestions");
+            $("#edit-ingredient-modal").on("shown.bs.modal", function () {
+                $("#edit-ingredient-number").focus();
+            });
 
-                while (datalist.firstChild) {
-                    datalist.removeChild(datalist.firstChild);
+            $("#add-ingredient-modal").on("hidden.bs.modal", function () {
+                $("#add-ingredient-number").val("");
+                $("#add-ingredient-name").val("");
+                $("#add-ingredient-name-error-text").text("");
+                $("#add-ingredient-number-error-text").text("");
+                $("#add-ingredient-name").css("background-color", "");
+                $("#add-ingredient-number").css("background-color", "");
+                addIngredientNameValidated = false;
+                addIngredientNumberValidated = false;
+                validateAddIngredient();
+            });
+            
+            $("#edit-ingredient-modal").on("hidden.bs.modal", function () {
+                $("#edit-ingredient-number").val("");
+                $("#edit-ingredient-name").val("");
+                $("#edit-ingredient-amount-error-text").text("");
+                $("#edit-ingredient-number").css("background-color", "");
+                editIngredientNumberValidated = false;
+                validateEditIngredient();
+            });
+
+            $("#edit-ingredient-number").keyup(function () {
+                if ($(this).val() < 0) {
+                    $("#edit-ingredient-amount-error-text").text("Amount must be greater than or equal to 0.");
+                    editIngredientNumberValidated = false;
+                    $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+                } else if ($(this).val().length < 1) {
+                    $("#edit-ingredient-amount-error-text").text("Amount must be a number.");
+                    editIngredientNumberValidated = false;
+                    $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+                } else {
+                    $("#edit-ingredient-amount-error-text").text("");
+                    editIngredientNumberValidated = true;
+                    $(this).css("background-color", "");
                 }
                 
-                suggestions.forEach((suggestion) => {
-                    const option = document.createElement("option");
-                    option.value = suggestion;
-                    datalist.appendChild(option);
-                });
+                validateEditIngredient();
+            });
+            
+            $("#add-ingredient-number").keyup(function () {
+                if ($(this).val() < 0) {
+                    $("#add-ingredient-number-error-text").text("Amount must be greater than or equal to 0.");
+                    addIngredientNumberValidated = false;
+                    $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+                } else if ($(this).val().length < 1) {
+                    $("#add-ingredient-number-error-text").text("Amount must a number.");
+                    addIngredientNumberValidated = false;
+                    $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+                } else {
+                    $("#add-ingredient-number-error-text").text("");
+                    addIngredientNumberValidated = true;
+                    $(this).css("background-color", "");
                 }
                 
 
+                validateAddIngredient();
+            });
+
+            $("#add-ingredient-name").keyup(function () {
+                if ($(this).val().length < 1) {
+                    $("#add-ingredient-name-error-text").text("Name must be at least 1 character long.");
+                    addIngredientNameValidated = false;
+                    $(this).css("background-color", "@UserInterfaceSettings.ErrorColor");
+                } else {
+                    $("#add-ingredient-name-error-text").text("");
+                    addIngredientNameValidated = true;
+                    $(this).css("background-color", "");
+                }
+
+                validateAddIngredient();
+                $("#add-ingredients-suggestions-text").val($(this).val());
+                $("#add-ingredients-suggestions-submit").click();
+            });
+            
+            validateAddIngredient();
+            validateEditIngredient();
     </script>
 }
 }

@@ -23,33 +23,31 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
             var recipeSeven = new Recipe(6, "author seven", "recipe seven", "desc seven", true);
             var recipeEight = new Recipe(6, "author eight", "recipe eight", "desc eight", true);
 
-            var firstMealForCategory = new MealsForCategory(MealCategory.Breakfast, new Recipe[] { recipeOne, recipeTwo });
-            var secondMealForCategory = new MealsForCategory(MealCategory.Lunch, new Recipe[] { recipeTwo });
+            var firstMealForCategory = new MealsForCategory(MealCategory.Breakfast, new [] { recipeOne, recipeTwo });
+            var secondMealForCategory = new MealsForCategory(MealCategory.Lunch, new [] { recipeTwo });
             var thirdMealForCategory = new MealsForCategory(MealCategory.Dinner, new Recipe[] { });
 
-            var fourthMealForCategory = new MealsForCategory(MealCategory.Breakfast, new Recipe[] { recipeThree });
-            var fifthMealForCategory = new MealsForCategory(MealCategory.Lunch, new Recipe[] { recipeFour });
-            var sixthMealForCategory = new MealsForCategory(MealCategory.Dinner, new Recipe[] { recipeFive });
+            var fourthMealForCategory = new MealsForCategory(MealCategory.Breakfast, new [] { recipeThree });
+            var fifthMealForCategory = new MealsForCategory(MealCategory.Lunch, new [] { recipeFour });
+            var sixthMealForCategory = new MealsForCategory(MealCategory.Dinner, new [] { recipeFive });
 
-            var seventhMealForCategory = new MealsForCategory(MealCategory.Breakfast, new Recipe[] { recipeSix });
-            var eightMealForCategory = new MealsForCategory(MealCategory.Lunch, new Recipe[] { recipeSeven });
-            var ninthMealForCategory = new MealsForCategory(MealCategory.Dinner, new Recipe[] { recipeEight });
+            var seventhMealForCategory = new MealsForCategory(MealCategory.Breakfast, new [] { recipeSix });
+            var eightMealForCategory = new MealsForCategory(MealCategory.Lunch, new [] { recipeSeven });
+            var ninthMealForCategory = new MealsForCategory(MealCategory.Dinner, new [] { recipeEight });
 
-            var firstPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 01), new MealsForCategory[] 
+            var firstPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 01), new [] 
                 {firstMealForCategory, secondMealForCategory, thirdMealForCategory} 
             );
-            var secondPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 02), new MealsForCategory[]
+            var secondPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 02), new []
                 {fourthMealForCategory, fifthMealForCategory, sixthMealForCategory}
             );
-            var thirdPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 03), new MealsForCategory[]
+            var thirdPlannedMeal = new PlannedMeal(new DateTime(2023, 03, 03), new []
                 {seventhMealForCategory, eightMealForCategory, ninthMealForCategory}
             );
 
             var sessionKey = "key";
             var date = new DateTime(2023, 03, 03);
-            var category = MealCategory.Breakfast;
-            var recipeId = 1;
-            var meals = new PlannedMeal[] { firstPlannedMeal, secondPlannedMeal, thirdPlannedMeal };
+            var meals = new [] { firstPlannedMeal, secondPlannedMeal, thirdPlannedMeal };
 
             var expected = new PlannedMealsResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage, meals);
 
@@ -58,7 +56,7 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
 
             service.Setup(mock => mock.GetPlannedMeals(sessionKey, It.IsAny<DateTime>())).Returns(meals);
 
-            var response = controller.GetPlannedMeals(sessionKey);
+            var response = controller.GetPlannedMeals(sessionKey, date);
 
             Assert.That(response.Code, Is.EqualTo(expected.Code));
             Assert.That(response.Message, Is.EqualTo(expected.Message));
@@ -71,8 +69,6 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
         {
             var sessionKey = "key";
             var date = new DateTime(2023, 03, 03);
-            var category = MealCategory.Breakfast;
-            var recipeId = 1;
 
             var expected = new PlannedMealsResponseModel(HttpStatusCode.Unauthorized, "message", null!);
 
@@ -81,7 +77,7 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
 
             service.Setup(mock => mock.GetPlannedMeals(sessionKey, It.IsAny<DateTime>())).Throws(() => new UnauthorizedAccessException("message"));
 
-            var response = controller.GetPlannedMeals(sessionKey);
+            var response = controller.GetPlannedMeals(sessionKey, date);
 
             Assert.That(response.Code, Is.EqualTo(expected.Code));
             Assert.That(response.Message, Is.EqualTo(expected.Message));
@@ -94,8 +90,6 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
         {
             var sessionKey = "key";
             var date = new DateTime(2023, 03, 03);
-            var category = MealCategory.Breakfast;
-            var recipeId = 1;
 
             var expected = new PlannedMealsResponseModel(HttpStatusCode.InternalServerError, "message", null!);
 
@@ -104,7 +98,7 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
 
             service.Setup(mock => mock.GetPlannedMeals(sessionKey, It.IsAny<DateTime>())).Throws(() => new ArgumentException("message"));
 
-            var response = controller.GetPlannedMeals(sessionKey);
+            var response = controller.GetPlannedMeals(sessionKey, date);
 
             Assert.That(response.Code, Is.EqualTo(expected.Code));
             Assert.That(response.Message, Is.EqualTo(expected.Message));

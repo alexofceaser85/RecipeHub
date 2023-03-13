@@ -26,7 +26,13 @@
     <Compile Update="View\Dialog\EditIngredientDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Update="View\Dialog\AddPlannedMealDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\Dialog\RecipeListFiltersDialog.cs" />
+    <Compile Update="View\Screens\PlannedMealsScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\Screens\LoginScreen.cs" />
     <Compile Update="View\Screens\RegistrationScreen.cs" />
     <Compile Update="View\Screens\RecipeListScreen.cs" />

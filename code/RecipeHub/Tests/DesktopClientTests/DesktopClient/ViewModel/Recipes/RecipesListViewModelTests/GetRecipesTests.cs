@@ -317,7 +317,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             Assert.Multiple(() =>
             {
                 Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
-                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesUploded));
+                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesUploaded));
                 service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
             });
         }

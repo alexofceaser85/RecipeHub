@@ -23,7 +23,7 @@ namespace Desktop_Client.View.Screens
         public IngredientsScreen()
         {
             this.InitializeComponent();
-
+            
             this.viewModel = new IngredientsViewModel();
             this.BindComponents();
             this.viewModel.GetAllIngredientsForUser();
