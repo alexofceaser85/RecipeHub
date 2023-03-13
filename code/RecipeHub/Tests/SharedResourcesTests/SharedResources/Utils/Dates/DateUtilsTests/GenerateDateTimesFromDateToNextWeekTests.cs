@@ -7,7 +7,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         [Test]
         public void ShouldGenerateDateTimesForBeginningOfWeek()
         {
-            var currentDate = new DateTime(2023, 03, 05);
+            var currentDate = new DateTime(2023, 03, 05, 0, 0, 0, DateTimeKind.Utc);
             var expectedDates = new []
             {
                 new DateTime(2023, 03, 05),
@@ -33,8 +33,30 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         [Test]
         public void ShouldGenerateDateTimesForEndOfWeek()
         {
-            var currentDate = new DateTime(2023, 03, 04);
+            var currentDate = new DateTime(2023, 03, 04, 23, 59, 59, DateTimeKind.Utc);
             var expectedDates = new []
+            {
+                new DateTime(2023, 03, 04),
+                new DateTime(2023, 03, 05),
+                new DateTime(2023, 03, 06),
+                new DateTime(2023, 03, 07),
+                new DateTime(2023, 03, 08),
+                new DateTime(2023, 03, 09),
+                new DateTime(2023, 03, 10),
+                new DateTime(2023, 03, 11)
+            };
+
+            var actualDates = DateUtils.GenerateDateTimesFromDateToNextWeek(currentDate);
+            Assert.That(actualDates, Is.EqualTo(expectedDates));
+        }
+
+        [Test]
+        public void ShouldGenerateDateTimesForEndOfWeekNonUtc()
+        {
+            var dateTimeOffset = new DateTimeOffset(2023, 03, 04, 18, 59, 59, new TimeSpan(-5, 0, 0));
+            var currentDate = dateTimeOffset.DateTime;
+
+            var expectedDates = new[]
             {
                 new DateTime(2023, 03, 04),
                 new DateTime(2023, 03, 05),
@@ -53,7 +75,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         [Test]
         public void ShouldGenerateDateTimesForMiddleOfWeek()
         {
-            var currentDate = new DateTime(2023, 03, 01);
+            var currentDate = new DateTime(2023, 03, 01, 0, 0, 0, DateTimeKind.Utc);
             var expectedDates = new []
             {
                 new DateTime(2023, 03, 01),
@@ -76,7 +98,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         [Test]
         public void ShouldGenerateDateTimesForEndOfMonth()
         {
-            var currentDate = new DateTime(2023, 02, 26);
+            var currentDate = new DateTime(2023, 02, 26, 0, 0, 0, DateTimeKind.Utc);
             var expectedDates = new []
             {
                 new DateTime(2023, 02, 26),
@@ -102,7 +124,7 @@ namespace SharedResourcesTests.SharedResources.Utils.Dates.DateUtilsTests
         [Test]
         public void ShouldGenerateDateTimesForEndOfYear()
         {
-            var currentDate = new DateTime(2022, 12, 26);
+            var currentDate = new DateTime(2022, 12, 26, 0, 0, 0, DateTimeKind.Utc);
             var expectedDates = new []
             {
                 new DateTime(2022, 12, 26),
