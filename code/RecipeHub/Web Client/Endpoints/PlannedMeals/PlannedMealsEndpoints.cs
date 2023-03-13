@@ -85,7 +85,7 @@ namespace Web_Client.Endpoints.PlannedMeals
         /// <returns>All of the user's planned meals.</returns>
         public PlannedMeal[] GetPlannedMeals()
         {
-            var serverMethodParameters = $"?sessionKey={Session.Key}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&currentDate={DateTime.Now}";
             var requestUri = $"{ServerSettings.ServerUri}{GetPlannedMealsRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);

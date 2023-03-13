@@ -2,7 +2,6 @@
 using Web_Client.Endpoints.PlannedMeals;
 
 namespace Web_Client.Service.PlannedMeals;
-
 /// <summary>
 /// The service for interfacing with <see cref="IPlannedMealsEndpoints"/>
 /// </summary>

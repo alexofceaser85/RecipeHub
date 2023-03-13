@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using Shared_Resources.Model.PlannedMeals;
 using Web_Client.Pages;
 using Web_Client.Service.PlannedMeals;
+using Web_Client.Service.Recipes;
 
 namespace Web_Client.ViewModel.PlannedMeals
 {
@@ -11,8 +12,11 @@ namespace Web_Client.ViewModel.PlannedMeals
     /// </summary>
     public class PlannedMealsViewModel : INotifyPropertyChanged
     {
-        private readonly IPlannedMealsService service;
+        private readonly IPlannedMealsService plannedMealService;
+        private readonly IRecipesService recipesService;
+
         private PlannedMeal[] plannedMeals;
+        private Dictionary<int, string[]> recipeTags;
 
         /// <summary>
         /// The array of planned meals to display
@@ -24,12 +28,22 @@ namespace Web_Client.ViewModel.PlannedMeals
         }
 
         /// <summary>
+        /// Stores the tags for a recipe by its id
+        /// </summary>
+        public Dictionary<int, string[]> RecipeTags
+        {
+            get => this.recipeTags;
+            set => this.SetField(ref this.recipeTags, value);
+        }
+
+        /// <summary>
         /// Creates a default instance of <see cref="PlannedMealsViewModel"/>, using a default <see cref="PlannedMealsService"/>.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>this.PlannedMeals.Length == 0
+        /// <b>Postcondition: </b>this.PlannedMeals.Length == 0<br/>
+        /// &amp;&amp; this.RecipeTags.Count == 0
         /// </summary>
-        public PlannedMealsViewModel() : this(new PlannedMealsService())
+        public PlannedMealsViewModel() : this(new PlannedMealsService(), new RecipesService())
         {
 
         }
@@ -37,15 +51,19 @@ namespace Web_Client.ViewModel.PlannedMeals
         /// <summary>
         /// Creates an instance of <see cref="PlannedMealsViewModel"/> with a specified <see cref="IPlannedMealsService"/>.<br/>
         /// <br/>
-        /// <b>Precondition: </b>service != null<br/>
-        /// <b>Postcondition: </b>this.PlannedMeals.Length == 0
+        /// <b>Precondition: </b>plannedMealService != null<br/>
+        /// <b>Postcondition: </b>this.PlannedMeals.Length == 0<br/>
+        /// &amp;&amp; this.RecipeTags.Count == 0
         /// </summary>
-        /// <param name="service">The planned meal service</param>
+        /// <param name="plannedMealsService">The planned meal service</param>
+        /// <param name="recipesService">The recipes service</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PlannedMealsViewModel(IPlannedMealsService service)
+        public PlannedMealsViewModel(IPlannedMealsService plannedMealsService, IRecipesService recipesService)
         {
-            this.service = service ?? throw new ArgumentNullException(nameof(service));
+            this.plannedMealService = plannedMealsService ?? throw new ArgumentNullException(nameof(plannedMealsService));
+            this.recipesService = recipesService ?? throw new ArgumentNullException(nameof(recipesService));
             this.plannedMeals = Array.Empty<PlannedMeal>();
+            this.recipeTags = new Dictionary<int, string[]>();
         }
 
         /// <summary>
@@ -56,7 +74,16 @@ namespace Web_Client.ViewModel.PlannedMeals
         /// </summary>
         public void Initialize()
         {
-            this.PlannedMeals = this.service.GetPlannedMeals();
+            var plannedMeals = this.plannedMealService.GetPlannedMeals();
+
+            this.RecipeTags = plannedMeals.SelectMany(plannedMeal => plannedMeal.Meals)
+                                          .SelectMany(meal => meal.Recipes)
+                                          .Distinct()
+                                          .Select(recipe => recipe.Id)
+                                          .ToDictionary(recipeId => recipeId,
+                                              recipeId => this.recipesService.GetTypesForRecipe(recipeId));
+
+            this.PlannedMeals = plannedMeals;
         }
 
         /// <summary>
@@ -70,7 +97,7 @@ namespace Web_Client.ViewModel.PlannedMeals
         /// <param name="recipeId">The id of the recipe to remove</param>
         public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
         {
-            this.service.RemovePlannedMeal(mealDate, category, recipeId);
+            this.plannedMealService.RemovePlannedMeal(mealDate, category, recipeId);
         }
 
         /// <inheritdoc/>

@@ -82,7 +82,7 @@ namespace Desktop_Client.ViewModel.PlannedMeals
                                           .Distinct()
                                           .Select(recipe => recipe.Id)
                                           .ToDictionary(recipeId => recipeId, 
-                                                        recipeId => this.recipesService.GetTypesForRecipe(recipeId));
+                                              recipeId => this.recipesService.GetTypesForRecipe(recipeId));
             
             this.PlannedMeals = plannedMeals;
         }
