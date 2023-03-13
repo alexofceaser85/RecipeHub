@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using Shared_Resources.Model.Recipes;
 
 namespace Shared_Resources.Model.PlannedMeals
@@ -16,6 +17,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// <value>
         /// The category.
         /// </value>
+        [JsonPropertyName("category")]
         public MealCategory Category { get; set; }
 
         /// <summary>
@@ -24,6 +26,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// <value>
         /// The recipes.
         /// </value>
+        [JsonPropertyName("recipes")]
         public Recipe[] Recipes { get; set;}
 
         /// <summary>

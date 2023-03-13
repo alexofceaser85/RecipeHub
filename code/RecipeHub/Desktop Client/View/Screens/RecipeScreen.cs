@@ -1,4 +1,5 @@
-﻿using Desktop_Client.ViewModel.Recipes;
+﻿using Desktop_Client.View.Dialog;
+using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
 
 namespace Desktop_Client.View.Screens
@@ -45,7 +46,23 @@ namespace Desktop_Client.View.Screens
             this.yourRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
                 nameof(this.viewModel.YourRatingText)));
         }
-        
+
+        private void ShowPlannedMealAddedDialog()
+        {
+            var dialog = new MessageDialog("Added to planned meals", this.viewModel.PlannedMealAddedMessage,
+                MessageBoxButtons.YesNo);
+
+            dialog.DialogClosed += (_, _) =>
+            {
+                if (dialog.DialogResult == DialogResult.Yes)
+                {
+                    base.ChangeScreens(new PlannedMealsScreen());
+                }
+            };
+
+            base.DisplayDialog(dialog);
+        }
+
         private void backButton_Click(object sender, EventArgs e)
         {
             ChangeScreens(new RecipeListScreen());
@@ -54,6 +71,33 @@ namespace Desktop_Client.View.Screens
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
             ToggleHamburgerMenu();
+        }
+
+        private void addPlannedMeal_Click(object sender, EventArgs e)
+        {
+            var dialog = new AddPlannedMealDialog();
+
+            dialog.DialogClosed += (_, _) =>
+            {
+                if (dialog.DialogResult == DialogResult.OK)
+                {
+                    try
+                    {
+                        this.viewModel.AddRecipeToPlannedMeals(dialog.SelectedDate, dialog.SelectedCategory);
+                        this.ShowPlannedMealAddedDialog();
+                    }
+                    catch (UnauthorizedAccessException exception)
+                    {
+                        this.DisplayTimeOutDialog(exception.Message);
+                    }
+                    catch (Exception exception)
+                    {
+                        this.DisplayDialog(new MessageDialog("An error has occurred", exception.Message));
+                    }
+                }
+            };
+
+            base.DisplayDialog(dialog);
         }
     }
 }
