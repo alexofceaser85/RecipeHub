@@ -57,7 +57,7 @@ namespace Desktop_Client.View.Screens
                 {
                     SizeType = SizeType.AutoSize
                 };
-                var listItem = new PlannedMealListItem(meal);
+                var listItem = new PlannedMealListItem(meal, this.viewModel.RecipeTags);
                 this.mealsListTableLayout.Controls.Add(listItem);
                 this.mealsListTableLayout.RowStyles.Add(rowStyle);
 

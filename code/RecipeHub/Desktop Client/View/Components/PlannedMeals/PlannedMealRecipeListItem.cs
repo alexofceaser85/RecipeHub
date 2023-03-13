@@ -13,10 +13,15 @@ namespace Desktop_Client.View.Components.PlannedMeals
         public Recipe Recipe { get; }
 
         /// <summary>
-        /// Creates an instance of 
+        /// Creates an instance of <see cref="PlannedMealRecipeListItem"/> using a specified <see cref="Recipe"/>.<br/>
+        /// Optionally allows tags to be passed in to be displayed before the recipe and author names.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>The recipe's information is displayed
         /// </summary>
-        /// <param name="recipe"></param>
-        public PlannedMealRecipeListItem(Recipe recipe)
+        /// <param name="recipe">The recipe to display</param>
+        /// <param name="tags">The tags for the recipe. None will be displayed if null or an empty array is passed in.</param>
+        public PlannedMealRecipeListItem(Recipe recipe, string[]? tags = null)
         {
             this.InitializeComponent();
             this.Recipe = recipe;
@@ -24,6 +29,12 @@ namespace Desktop_Client.View.Components.PlannedMeals
 
             this.authorNameLabel.Text = recipe.AuthorName;
             this.recipeNameLabel.Text = recipe.Name;
+
+            if (tags == null || tags.Length == 0)
+            {
+                return;
+            }
+            this.tagsLabel.Text = string.Join(", ", tags);
         }
 
         /// <summary>

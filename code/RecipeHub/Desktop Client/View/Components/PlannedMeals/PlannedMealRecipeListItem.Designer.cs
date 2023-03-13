@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.removeButton = new System.Windows.Forms.Button();
             this.recipeNameLabel = new System.Windows.Forms.Label();
             this.authorNameLabel = new System.Windows.Forms.Label();
             this.ratingLabel = new System.Windows.Forms.Label();
-            this.removeButton = new System.Windows.Forms.Button();
             this.tagsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -42,10 +42,10 @@
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.04309F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.95691F));
+            this.tableLayoutPanel2.Controls.Add(this.removeButton, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.recipeNameLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.authorNameLabel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.ratingLabel, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.removeButton, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.tagsLabel, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
@@ -56,6 +56,21 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 61F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(555, 148);
             this.tableLayoutPanel2.TabIndex = 1;
+            // 
+            // removeButton
+            // 
+            this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.removeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.removeButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.removeButton.ForeColor = System.Drawing.Color.White;
+            this.removeButton.Location = new System.Drawing.Point(380, 89);
+            this.removeButton.MaximumSize = new System.Drawing.Size(280, 0);
+            this.removeButton.Name = "removeButton";
+            this.removeButton.Size = new System.Drawing.Size(172, 56);
+            this.removeButton.TabIndex = 5;
+            this.removeButton.Text = "Remove";
+            this.removeButton.UseVisualStyleBackColor = false;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // recipeNameLabel
             // 
@@ -92,20 +107,6 @@
             this.ratingLabel.Text = "Rating: 0/5";
             this.ratingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // removeButton
-            // 
-            this.removeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeButton.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.removeButton.Location = new System.Drawing.Point(380, 63);
-            this.removeButton.MaximumSize = new System.Drawing.Size(0, 64);
-            this.removeButton.Name = "removeButton";
-            this.tableLayoutPanel2.SetRowSpan(this.removeButton, 2);
-            this.removeButton.Size = new System.Drawing.Size(172, 64);
-            this.removeButton.TabIndex = 3;
-            this.removeButton.Text = "Remove";
-            this.removeButton.UseVisualStyleBackColor = true;
-            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
-            // 
             // tagsLabel
             // 
             this.tagsLabel.AutoSize = true;
@@ -116,6 +117,7 @@
             this.tagsLabel.Size = new System.Drawing.Size(371, 62);
             this.tagsLabel.TabIndex = 4;
             this.tagsLabel.Text = "No tags...";
+            this.tagsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // PlannedMealRecipeListItem
             // 
@@ -139,7 +141,7 @@
         private Label recipeNameLabel;
         private Label authorNameLabel;
         private Label ratingLabel;
-        private Button removeButton;
         private Label tagsLabel;
+        private Button removeButton;
     }
 }

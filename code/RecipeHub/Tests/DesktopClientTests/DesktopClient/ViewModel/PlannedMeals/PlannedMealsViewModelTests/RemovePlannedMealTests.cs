@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using Desktop_Client.Service.PlannedMeals;
+﻿using Desktop_Client.Service.PlannedMeals;
+using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.PlannedMeals;
 using Moq;
 using Shared_Resources.Model.PlannedMeals;
@@ -23,7 +18,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.PlannedMeals.PlannedMealsVi
             var service = new Mock<IPlannedMealsService>();
             service.Setup(mock => mock.RemovePlannedMeal(mealDate, category, recipeId));
 
-            var viewmodel = new PlannedMealsViewModel(service.Object);
+            var viewmodel = new PlannedMealsViewModel(service.Object, new RecipesService());
 
             Assert.Multiple(() =>
             {

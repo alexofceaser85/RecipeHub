@@ -26,8 +26,9 @@ namespace Desktop_Client.View.Components.PlannedMeals
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>All recipes in planned meal are listed, if any
         /// </summary>
-        /// <param name="plannedMeals"></param>
-        public PlannedMealListItem(PlannedMeal plannedMeals)
+        /// <param name="plannedMeals">The planned meal to display</param>
+        /// <param name="tags">Key-value pairs for recipes and their tags.</param>
+        public PlannedMealListItem(PlannedMeal plannedMeals, Dictionary<int, string[]> tags)
         {
             this.InitializeComponent();
 
@@ -37,7 +38,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
             this.PopulateControlArrays();
 
             this.titleLabel.Text = $@"{plannedMeals.MealDate.DayOfWeek} ({plannedMeals.MealDate.ToShortDateString()})";
-            this.PopulateRecipeList(plannedMeals);
+            this.PopulateRecipeList(plannedMeals, tags);
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
             };
         }
 
-        private void PopulateRecipeList(PlannedMeal plannedMeals)
+        private void PopulateRecipeList(PlannedMeal plannedMeals, Dictionary<int, string[]> tags)
         {
             bool[] mealHasRecipe = {
                 false,
@@ -84,7 +85,9 @@ namespace Desktop_Client.View.Components.PlannedMeals
 
                 foreach (var recipe in meal.Recipes)
                 {
-                    var innerListItem = new PlannedMealRecipeListItem(recipe);
+                    var recipeTags = tags!.GetValueOrDefault(recipe.Id, null);
+
+                    var innerListItem = new PlannedMealRecipeListItem(recipe, recipeTags);
                     innerListItem.DeletePressed += (sender, _) =>
                     {
                         this.listItem_DeletePressed((sender as PlannedMealRecipeListItem)!, meal.Category);
