@@ -10,7 +10,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
     public class GetPlannedMealTests
     {
         [Test]
-        public void SuccessfullyRemovePlannedMeal()
+        public void SuccessfullyGetPlannedMeals()
         {
             const string json = "{\"code\": 200, \"message\": \"Returned Okay\", \"plannedMeals\": " +
                                 "[{ \"mealDate\": \"2023-03-05T00:00:00.0Z\", \"meals\": [ { \"category\": 0, \"recipes\": [] }, " +
@@ -58,7 +58,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
         }
 
         [Test]
-        public void UnsuccessfullyRemoveNewRecipe()
+        public void UnsuccessfullyGetPlannedMeals()
         {
             const string errorMessage = "error message";
             const string json = $"{{\"code\": 500, \"message\": \"{errorMessage}\", \"plannedMeals\": []}}";
