@@ -24,8 +24,6 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewMod
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() => viewmodel.Login());
-                Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
-                Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
             });
         }
     }

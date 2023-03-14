@@ -36,6 +36,8 @@
             this.amountTextBox = new System.Windows.Forms.TextBox();
             this.measurementComboBox = new System.Windows.Forms.ComboBox();
             this.nameTextBox = new Desktop_Client.View.Components.General.AutocompleteTextBox();
+            this.nameErrorLabel = new System.Windows.Forms.Label();
+            this.amountErrorLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.addIngredientButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -68,17 +70,21 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 2);
-            this.tableLayoutPanel2.Controls.Add(this.amountTextBox, 1, 1);
-            this.tableLayoutPanel2.Controls.Add(this.measurementComboBox, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel2.Controls.Add(this.amountTextBox, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.measurementComboBox, 1, 4);
             this.tableLayoutPanel2.Controls.Add(this.nameTextBox, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.nameErrorLabel, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.amountErrorLabel, 0, 3);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 103);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowCount = 5;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(594, 284);
@@ -92,7 +98,7 @@
             this.label1.Location = new System.Drawing.Point(4, 0);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(289, 94);
+            this.label1.Size = new System.Drawing.Size(289, 73);
             this.label1.TabIndex = 12;
             this.label1.Text = "Name";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -102,10 +108,10 @@
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label2.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(4, 94);
+            this.label2.Location = new System.Drawing.Point(4, 105);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(289, 94);
+            this.label2.Size = new System.Drawing.Size(289, 73);
             this.label2.TabIndex = 13;
             this.label2.Text = "Amount";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -115,10 +121,10 @@
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(4, 188);
+            this.label3.Location = new System.Drawing.Point(4, 210);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(289, 96);
+            this.label3.Size = new System.Drawing.Size(289, 74);
             this.label3.TabIndex = 14;
             this.label3.Text = "Measurement";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -140,7 +146,7 @@
             this.measurementComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.measurementComboBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.measurementComboBox.FormattingEnabled = true;
-            this.measurementComboBox.Location = new System.Drawing.Point(301, 212);
+            this.measurementComboBox.Location = new System.Drawing.Point(301, 223);
             this.measurementComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 64, 5);
             this.measurementComboBox.Name = "measurementComboBox";
             this.measurementComboBox.Size = new System.Drawing.Size(229, 47);
@@ -150,13 +156,39 @@
             // 
             this.nameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.nameTextBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.nameTextBox.Location = new System.Drawing.Point(300, 24);
+            this.nameTextBox.Location = new System.Drawing.Point(300, 13);
             this.nameTextBox.Margin = new System.Windows.Forms.Padding(3, 3, 64, 3);
             this.nameTextBox.MaxSuggestions = 5;
             this.nameTextBox.Name = "nameTextBox";
             this.nameTextBox.Size = new System.Drawing.Size(230, 46);
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.Values = new string[0];
+            // 
+            // nameErrorLabel
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.nameErrorLabel, 2);
+            this.nameErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nameErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.nameErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.nameErrorLabel.Location = new System.Drawing.Point(3, 73);
+            this.nameErrorLabel.Margin = new System.Windows.Forms.Padding(3, 0, 64, 0);
+            this.nameErrorLabel.Name = "nameErrorLabel";
+            this.nameErrorLabel.Size = new System.Drawing.Size(527, 32);
+            this.nameErrorLabel.TabIndex = 15;
+            this.nameErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // amountErrorLabel
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.amountErrorLabel, 2);
+            this.amountErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.amountErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.amountErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.amountErrorLabel.Location = new System.Drawing.Point(3, 178);
+            this.amountErrorLabel.Margin = new System.Windows.Forms.Padding(3, 0, 64, 0);
+            this.amountErrorLabel.Name = "amountErrorLabel";
+            this.amountErrorLabel.Size = new System.Drawing.Size(527, 32);
+            this.amountErrorLabel.TabIndex = 16;
+            this.amountErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // cancelButton
             // 
@@ -232,5 +264,7 @@
         private Button cancelButton;
         private Button addIngredientButton;
         private Label label4;
+        private Label nameErrorLabel;
+        private Label amountErrorLabel;
     }
 }
