@@ -57,5 +57,11 @@ namespace Web_Client.Pages
                 Response.Redirect("/Index");
             }
         }
+
+
+        public IActionResult OnPostAddPlannedMeal()
+        {
+            return this.RedirectToPage("/Recipe", new { id = this.Id });
+        }
     }
 }
