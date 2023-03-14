@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Utils.Dates;
-using Web_Client.Pages.States;
+using Web_Client.Model.States;
 using Web_Client.Service.Recipes;
 using Web_Client.ViewModel.Recipes;
 

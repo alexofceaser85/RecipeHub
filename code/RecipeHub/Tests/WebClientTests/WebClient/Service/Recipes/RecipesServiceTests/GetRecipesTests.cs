@@ -1,9 +1,9 @@
-﻿using Web_Client.Endpoints.Recipes;
-using Web_Client.Service.Recipes;
-using Moq;
+﻿using Moq;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Endpoints.Recipes;
+using Web_Client.Service.Recipes;
 using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
@@ -18,13 +18,13 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
                 new(1, "author2 name2", "name2", "description2", false),
                 new(2, "author3 name3", "name3", "description3", false)
             };
-            Session.Key = "Key";
-            const string searchTerm = "a";
+            const string sessionKey = "Key";
+            Session.Key = sessionKey;
+            const string searchTerm = "";
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
             var usersService = new Mock<IUsersService>();
-
-            recipesEndpoint.Setup(mock => mock.GetRecipes(Session.Key, searchTerm)).Returns(recipes);
+            recipesEndpoint.Setup(mock => mock.GetRecipes(sessionKey, searchTerm)).Returns(recipes);
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
@@ -33,15 +33,15 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.EquivalentTo(recipes));
-                recipesEndpoint.Verify(mock => mock.GetRecipes(Session.Key, searchTerm), Times.Once);
+                recipesEndpoint.Verify(mock => mock.GetRecipes(sessionKey, searchTerm), Times.Once);
             });
         }
 
         [Test]
         public void NullSessionKey()
         {
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
             Session.Key = null;
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() => new RecipesService().GetRecipes(null!))!
@@ -53,8 +53,8 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
-            Session.Key = "  ";
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
+            Session.Key = "";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(() => new RecipesService().GetRecipes(""))!.Message;
@@ -69,8 +69,7 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             var errorMessage = RecipesServiceErrorMessages.SearchTermCannotBeNull + " (Parameter 'searchTerm')";
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentNullException>(() => new RecipesService().GetRecipes(null!))!
-                                    .Message;
+                var message = Assert.Throws<ArgumentNullException>(() => new RecipesService().GetRecipes(null!))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }

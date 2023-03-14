@@ -1,33 +1,32 @@
-﻿using Shared_Resources.ErrorMessages;
-using Web_Client.Endpoints.Recipes;
-using Web_Client.Service.Recipes;
+﻿using Web_Client.Endpoints.PlannedMeals;
+using Web_Client.Service.PlannedMeals;
 using Web_Client.Service.Users;
 
-namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
+namespace WebClientTests.WebClient.Service.PlannedMeals.PlannedMealsServiceTests
 {
     public class ConstructorTests
     {
         [Test]
         public void ValidDefaultConstructor()
         {
-            Assert.DoesNotThrow(() => _ = new RecipesService());
+            Assert.DoesNotThrow(() => _ = new PlannedMealsService());
         }
 
         [Test]
         public void ValidTweParameterConstructor()
         {
-            Assert.DoesNotThrow(() => _ = new RecipesService(new RecipesEndpoints(), new UsersService()));
+            Assert.DoesNotThrow(() => _ = new PlannedMealsService(new PlannedMealsEndpoints(), new UsersService()));
         }
 
         [Test]
-        public void NullRecipesEndpoint()
+        public void NullPlannedMealsEndpoints()
         {
-            var errorMessage = RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull + " (Parameter 'endpoints')";
+            var errorMessage = "Value cannot be null. (Parameter 'plannedMealsEndpoints')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
                 {
-                    _ = new RecipesService(null!, new UsersService());
+                    _ = new PlannedMealsService(null!, new UsersService());
                 })?.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
@@ -36,12 +35,12 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void NullUsersService()
         {
-            var errorMessage = RecipesServiceErrorMessages.UserServiceCannotBeNull + " (Parameter 'endpoints')";
+            var errorMessage = "Value cannot be null. (Parameter 'usersService')";
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(() =>
                 {
-                    _ = new RecipesService(new RecipesEndpoints(), null!);
+                    _ = new PlannedMealsService(new PlannedMealsEndpoints(), null!);
                 })?.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });

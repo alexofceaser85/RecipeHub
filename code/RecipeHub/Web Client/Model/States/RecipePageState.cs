@@ -1,6 +1,6 @@
 ﻿using Web_Client.ViewModel.Recipes;
 
-namespace Web_Client.Pages.States
+namespace Web_Client.Model.States
 {
     /// <summary>
     /// Holds the values for the Recipe page for necessity of maintaining values across requests.

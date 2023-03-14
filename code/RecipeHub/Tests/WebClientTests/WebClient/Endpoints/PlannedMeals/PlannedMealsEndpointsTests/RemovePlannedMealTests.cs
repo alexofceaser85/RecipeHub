@@ -1,14 +1,15 @@
 ﻿using System.Net;
 using Moq;
 using Moq.Protected;
-using Web_Client.Endpoints.Recipes;
+using Shared_Resources.Model.PlannedMeals;
+using Web_Client.Endpoints.PlannedMeals;
 
-namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
+namespace WebClientTests.WebClient.Endpoints.PlannedMeals.PlannedMealsEndpointsTests
 {
-    public class AddRecipeTests
+    public class RemovePlannedMealTests
     {
         [Test]
-        public void SuccessfullyAddNewRecipe()
+        public void SuccessfullyRemovePlannedMeal()
         {
             const string json = "{\"code\": 200, \"message\": \"Returned Okay\"}";
 
@@ -17,17 +18,18 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage {
+                .ReturnsAsync(new HttpResponseMessage
+                {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
-            var endpoints = new RecipesEndpoints(httpClient);
+            var endpoints = new PlannedMealsEndpoints(httpClient);
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => endpoints.AddRecipe("key", "name", "description", false));
+                Assert.DoesNotThrow(() => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
@@ -36,7 +38,7 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
         }
 
         [Test]
-        public void UnsuccessfullyAddNewRecipe()
+        public void UnsuccessfullyRemoveNewRecipe()
         {
             const string errorMessage = "error message";
             const string json = $"{{\"code\": 500, \"message\": \"{errorMessage}\", \"recipes\": []}}";
@@ -46,18 +48,19 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage {
+                .ReturnsAsync(new HttpResponseMessage
+                {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent(json)
                 });
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
-            var endpoints = new RecipesEndpoints(httpClient);
+            var endpoints = new PlannedMealsEndpoints(httpClient);
 
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(
-                    () => endpoints.AddRecipe("key", "name", "description", false))!.Message;
+                    () => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler

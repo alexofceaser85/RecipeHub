@@ -1,8 +1,8 @@
-﻿using Moq.Protected;
+﻿using System.Net;
 using Moq;
-using System.Net;
-using Web_Client.Endpoints.Recipes;
+using Moq.Protected;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Endpoints.Recipes;
 
 namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
 {
