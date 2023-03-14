@@ -161,10 +161,10 @@
             this.usernameErrorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.usernameErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.usernameErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.usernameErrorLabel.Location = new System.Drawing.Point(184, 108);
-            this.usernameErrorLabel.MaximumSize = new System.Drawing.Size(498, 0);
+            this.usernameErrorLabel.Location = new System.Drawing.Point(183, 108);
+            this.usernameErrorLabel.MaximumSize = new System.Drawing.Size(500, 0);
             this.usernameErrorLabel.Name = "usernameErrorLabel";
-            this.usernameErrorLabel.Size = new System.Drawing.Size(498, 42);
+            this.usernameErrorLabel.Size = new System.Drawing.Size(500, 42);
             this.usernameErrorLabel.TabIndex = 6;
             // 
             // passwordErrorLabel
@@ -173,9 +173,10 @@
             this.passwordErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.passwordErrorLabel.ForeColor = System.Drawing.Color.Red;
             this.passwordErrorLabel.Location = new System.Drawing.Point(183, 258);
-            this.passwordErrorLabel.MaximumSize = new System.Drawing.Size(499, 0);
+            this.passwordErrorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.passwordErrorLabel.MaximumSize = new System.Drawing.Size(500, 0);
             this.passwordErrorLabel.Name = "passwordErrorLabel";
-            this.passwordErrorLabel.Size = new System.Drawing.Size(499, 42);
+            this.passwordErrorLabel.Size = new System.Drawing.Size(500, 42);
             this.passwordErrorLabel.TabIndex = 7;
             // 
             // LoginForm

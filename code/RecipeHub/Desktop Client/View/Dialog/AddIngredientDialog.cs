@@ -45,15 +45,23 @@ namespace Desktop_Client.View.Dialog
         private void BindComponents()
         {
             this.nameTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
-                nameof(this.viewModel.IngredientName)));
+                nameof(this.viewModel.IngredientName), false, DataSourceUpdateMode.OnPropertyChanged));
+            this.nameTextBox.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.IngredientNameTextBoxColor)));
             this.nameTextBox.DataBindings.Add(new Binding("Values", this.viewModel,
                 nameof(this.viewModel.IngredientNames)));
             this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
-                nameof(this.viewModel.IngredientAmount)));
+                nameof(this.viewModel.IngredientAmount), false, DataSourceUpdateMode.OnPropertyChanged));
+            this.amountTextBox.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.IngredientAmountTextBoxColor)));
             this.measurementComboBox.DataBindings.Add(new Binding("SelectedItem", this.viewModel,
                 nameof(this.viewModel.SelectedMeasurementType)));
             this.measurementComboBox.DataBindings.Add(new Binding("SelectedIndex", this.viewModel,
                 nameof(this.viewModel.SelectedMeasurementIndex)));
+            this.nameErrorLabel.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.IngredientNameErrorMessage)));
+            this.amountErrorLabel.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.IngredientAmountErrorMessage)));
         }
 
         /// <summary>
