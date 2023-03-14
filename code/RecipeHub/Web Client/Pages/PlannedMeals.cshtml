@@ -27,7 +27,8 @@
                         {
                             @foreach (var recipe in mealsForCategory.Recipes)
                             {
-                                <div class="recipe-list-item">
+                                <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
+                                    <div class="recipe-list-item">
                                         <div>
                                             <p class="recipe-name">@recipe.Name</p>
                                             <p class="recipe-author">By: @recipe.AuthorName</p>
@@ -35,7 +36,7 @@
                                         <div class="planned-meal-end-point">
                                             <div>
                                                 <div class="text-end">Rating: 0/5</div>
-                                                <div class="text-end">@string.Join(",", Model.ViewModel.RecipeTags[recipe.Id])</div>
+                                                <div class="text-end">@string.Join(", ", Model.ViewModel.RecipeTags[recipe.Id])</div>
                                             </div>
                                             <div>
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#remove-planned-meal-modal"
@@ -46,9 +47,10 @@
                                             </div>
                                         </div>
                                         <div>
-                                        
+                                                    
                                         </div>
                                     </div>
+                                </a>
                             }
                         }
                     }

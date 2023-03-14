@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shared_Resources.Model.PlannedMeals;
 using Web_Client.ViewModel.PlannedMeals;
 
 namespace Web_Client.Pages
@@ -40,7 +41,10 @@ namespace Web_Client.Pages
         /// <returns>a redirect to the planned meals page.</returns>
         public IActionResult OnPostRemovePlannedMeal()
         {
-            var form = Request.Form;
+            int recipeId = int.Parse(Request.Form["RecipeId"][0]!);
+            MealCategory mealCategory = (MealCategory)int.Parse(Request.Form["Category"][0]!);
+            DateTime date = DateTime.Parse(Request.Form["Date"][0]!);
+            this.ViewModel.RemovePlannedMeal(date, mealCategory, recipeId);
             return RedirectToPage("PlannedMeals");
         }
     }
