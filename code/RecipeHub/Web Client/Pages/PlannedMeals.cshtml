@@ -1,9 +1,57 @@
 ﻿@page
+@using Web_Client.ViewModel.PlannedMeals
 @model Web_Client.Pages.PlannedMealsModel
 @{
     ViewData["Title"] = "Planned Meals";
     ViewData["Header"] = "Planned Meals";
 
 
-
+    @foreach (var dayOfMeals in Model.ViewModel.PlannedMeals)
+    {
+        <div class="card" id="">
+            <div class="card-header">
+                <button class="btn" data-bs-toggle="collapse" data-bs-target="#planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" aria-expanded="true" aria-controls="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")">
+                    <div class="recipe-collapse-header">@dayOfMeals.MealDate.ToString("D")</div>
+                </button>
+            </div>
+            <div id="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" class="collapse" aria-labelledby="recipe-types">
+                <div class="card-body">
+                    @foreach (var mealsForCategory in dayOfMeals.Meals)
+                    {
+                        <h3 class="planned-meal-category-header">@mealsForCategory.Category.ToString()</h3>
+                        @if (mealsForCategory.Recipes.Length == 0)
+                        {
+                            <p class="no-planned-recipes">No Planned Recipes.</p>
+                        }
+                        else
+                        {
+                            @foreach (var recipe in mealsForCategory.Recipes)
+                            {
+                                <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
+                                    <div class="recipe-list-item">
+                                        <div>
+                                            <p class="recipe-name">@recipe.Name</p>
+                                            <p class="recipe-author">By: @recipe.AuthorName</p>
+                                        </div>
+                                        <div class="planned-meal-end-point">
+                                            <div>
+                                                <div class="text-end">Rating: 0/5</div>
+                                                <div class="text-end">@string.Join(",", Model.ViewModel.RecipeTags[recipe.Id])</div>
+                                            </div>
+                                            <div>
+                                                <button class="planned-meal-remove-recipe">Remove</button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                        
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
 }
