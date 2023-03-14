@@ -1,4 +1,5 @@
-﻿using Desktop_Client.Service.Ingredients;
+﻿using System.Drawing;
+using Desktop_Client.Service.Ingredients;
 using Desktop_Client.ViewModel.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.EditIngredientViewModelTests
@@ -14,6 +15,8 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.EditIngredientViewM
                 Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Title, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Amount, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.AmountErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.AmountTextBoxColor, Is.EqualTo(Color.White));
             });
         }
 
@@ -26,6 +29,8 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Dialogs.EditIngredientViewM
                 Assert.That(viewmodel.IngredientName, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Title, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Amount, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.AmountErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.AmountTextBoxColor, Is.EqualTo(Color.White));
             });
         }
 

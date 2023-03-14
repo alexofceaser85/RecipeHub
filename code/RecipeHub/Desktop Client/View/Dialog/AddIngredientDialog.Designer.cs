@@ -36,11 +36,11 @@
             this.amountTextBox = new System.Windows.Forms.TextBox();
             this.measurementComboBox = new System.Windows.Forms.ComboBox();
             this.nameTextBox = new Desktop_Client.View.Components.General.AutocompleteTextBox();
+            this.nameErrorLabel = new System.Windows.Forms.Label();
+            this.amountErrorLabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.addIngredientButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.nameErrorLabel = new System.Windows.Forms.Label();
-            this.amountErrorLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -164,6 +164,32 @@
             this.nameTextBox.TabIndex = 1;
             this.nameTextBox.Values = new string[0];
             // 
+            // nameErrorLabel
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.nameErrorLabel, 2);
+            this.nameErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nameErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.nameErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.nameErrorLabel.Location = new System.Drawing.Point(3, 73);
+            this.nameErrorLabel.Margin = new System.Windows.Forms.Padding(3, 0, 64, 0);
+            this.nameErrorLabel.Name = "nameErrorLabel";
+            this.nameErrorLabel.Size = new System.Drawing.Size(527, 32);
+            this.nameErrorLabel.TabIndex = 15;
+            this.nameErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // amountErrorLabel
+            // 
+            this.tableLayoutPanel2.SetColumnSpan(this.amountErrorLabel, 2);
+            this.amountErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.amountErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.amountErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.amountErrorLabel.Location = new System.Drawing.Point(3, 178);
+            this.amountErrorLabel.Margin = new System.Windows.Forms.Padding(3, 0, 64, 0);
+            this.amountErrorLabel.Name = "amountErrorLabel";
+            this.amountErrorLabel.Size = new System.Drawing.Size(527, 32);
+            this.amountErrorLabel.TabIndex = 16;
+            this.amountErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
@@ -209,30 +235,6 @@
             this.label4.TabIndex = 17;
             this.label4.Text = "Add Ingredient";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // nameErrorLabel
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.nameErrorLabel, 2);
-            this.nameErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nameErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.nameErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.nameErrorLabel.Location = new System.Drawing.Point(3, 73);
-            this.nameErrorLabel.Name = "nameErrorLabel";
-            this.nameErrorLabel.Size = new System.Drawing.Size(588, 32);
-            this.nameErrorLabel.TabIndex = 15;
-            this.nameErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
-            // amountErrorLabel
-            // 
-            this.tableLayoutPanel2.SetColumnSpan(this.amountErrorLabel, 2);
-            this.amountErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.amountErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.amountErrorLabel.ForeColor = System.Drawing.Color.Red;
-            this.amountErrorLabel.Location = new System.Drawing.Point(3, 178);
-            this.amountErrorLabel.Name = "amountErrorLabel";
-            this.amountErrorLabel.Size = new System.Drawing.Size(588, 32);
-            this.amountErrorLabel.TabIndex = 16;
-            this.amountErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // AddIngredientDialog
             // 

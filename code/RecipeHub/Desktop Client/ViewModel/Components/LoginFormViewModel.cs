@@ -163,13 +163,7 @@ namespace Desktop_Client.ViewModel.Components
         /// <exception cref="ArgumentException"></exception>
         public void Login()
         {
-            var username = Username;
-            var password = Password;
-
-            Username = string.Empty;
-            Password = string.Empty;
-
-            service.Login(username, password);
+            this.service.Login(this.username, this.password);
         }
 
         /// <inheritdoc/>

@@ -31,12 +31,12 @@ namespace Desktop_Client.View.Components.Login
 
         private void BindComponents()
         {
-            this.usernameTextBox.DataBindings.Add(
-                new Binding("Text", this.viewModel, nameof(this.viewModel.Username), 
-                    true, DataSourceUpdateMode.OnPropertyChanged));
-            this.passwordTextInput.DataBindings.Add(
-                new Binding("Text", this.viewModel, nameof(this.viewModel.Password),
-                    true, DataSourceUpdateMode.OnPropertyChanged));
+            this.usernameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Username), true, 
+                DataSourceUpdateMode.OnPropertyChanged));
+            this.passwordTextInput.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Password),true,
+                DataSourceUpdateMode.OnPropertyChanged));
             this.usernameErrorLabel.DataBindings.Add(
                 new Binding("Text", this.viewModel, nameof(this.viewModel.UsernameErrorMessage)));
             this.passwordErrorLabel.DataBindings.Add(
@@ -71,6 +71,9 @@ namespace Desktop_Client.View.Components.Login
             }
             catch (Exception ex)
             {
+                this.usernameTextBox.Text = string.Empty;
+                this.passwordTextInput.Text = string.Empty;
+
                 var curParent = this.Parent!;
                 while (curParent is not Screens.Screen)
                 {

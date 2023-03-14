@@ -35,6 +35,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.amountTextBox = new System.Windows.Forms.TextBox();
+            this.amountErrorLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -43,16 +44,18 @@
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.editIngredientButton, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.editIngredientButton, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.editTitle, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.cancelButton, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.amountErrorLabel, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 98F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 133F));
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 130F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 51F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(560, 460);
@@ -65,11 +68,11 @@
             this.editIngredientButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.editIngredientButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.editIngredientButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.editIngredientButton.Location = new System.Drawing.Point(117, 243);
+            this.editIngredientButton.Location = new System.Drawing.Point(117, 259);
             this.editIngredientButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.editIngredientButton.MaximumSize = new System.Drawing.Size(429, 0);
             this.editIngredientButton.Name = "editIngredientButton";
-            this.editIngredientButton.Size = new System.Drawing.Size(326, 90);
+            this.editIngredientButton.Size = new System.Drawing.Size(326, 82);
             this.editIngredientButton.TabIndex = 17;
             this.editIngredientButton.Text = "Edit Ingredient";
             this.editIngredientButton.UseVisualStyleBackColor = false;
@@ -83,7 +86,7 @@
             this.editTitle.Location = new System.Drawing.Point(4, 0);
             this.editTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.editTitle.Name = "editTitle";
-            this.editTitle.Size = new System.Drawing.Size(552, 98);
+            this.editTitle.Size = new System.Drawing.Size(552, 130);
             this.editTitle.TabIndex = 19;
             this.editTitle.Text = "Edit";
             this.editTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -95,11 +98,11 @@
             this.cancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancelButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.cancelButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.cancelButton.Location = new System.Drawing.Point(117, 357);
+            this.cancelButton.Location = new System.Drawing.Point(117, 365);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 12, 4, 12);
             this.cancelButton.MaximumSize = new System.Drawing.Size(429, 0);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(326, 91);
+            this.cancelButton.Size = new System.Drawing.Size(326, 83);
             this.cancelButton.TabIndex = 18;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = false;
@@ -113,11 +116,11 @@
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.amountTextBox, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 101);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 133);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(554, 127);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(554, 60);
             this.tableLayoutPanel2.TabIndex = 19;
             // 
             // label2
@@ -128,7 +131,7 @@
             this.label2.Location = new System.Drawing.Point(4, 0);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(218, 127);
+            this.label2.Size = new System.Drawing.Size(218, 60);
             this.label2.TabIndex = 15;
             this.label2.Text = "Amount";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -137,12 +140,25 @@
             // 
             this.amountTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.amountTextBox.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.amountTextBox.Location = new System.Drawing.Point(230, 40);
-            this.amountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.amountTextBox.Location = new System.Drawing.Point(230, 7);
+            this.amountTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 92, 5);
             this.amountTextBox.Name = "amountTextBox";
-            this.amountTextBox.Size = new System.Drawing.Size(320, 46);
+            this.amountTextBox.Size = new System.Drawing.Size(232, 46);
             this.amountTextBox.TabIndex = 14;
             this.amountTextBox.Click += new System.EventHandler(this.amountTextBox_TextChanged);
+            this.amountTextBox.TextChanged += new System.EventHandler(this.amountTextBox_TextChanged);
+            // 
+            // amountErrorLabel
+            // 
+            this.amountErrorLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.amountErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.amountErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.amountErrorLabel.Location = new System.Drawing.Point(3, 196);
+            this.amountErrorLabel.Margin = new System.Windows.Forms.Padding(3, 0, 92, 0);
+            this.amountErrorLabel.Name = "amountErrorLabel";
+            this.amountErrorLabel.Size = new System.Drawing.Size(465, 51);
+            this.amountErrorLabel.TabIndex = 20;
+            this.amountErrorLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // EditIngredientDialog
             // 
@@ -168,5 +184,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private Label label2;
         private TextBox amountTextBox;
+        private Label amountErrorLabel;
     }
 }
