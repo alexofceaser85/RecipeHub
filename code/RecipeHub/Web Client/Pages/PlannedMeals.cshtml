@@ -9,10 +9,8 @@
     @foreach (var dayOfMeals in Model.ViewModel.PlannedMeals)
     {
         <div class="card" id="">
-            <div class="card-header">
-                <button class="btn" data-bs-toggle="collapse" data-bs-target="#planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" aria-expanded="true" aria-controls="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")">
-                    <div class="recipe-collapse-header">@dayOfMeals.MealDate.ToString("D")</div>
-                </button>
+            <div class="card-header collapse-header" data-bs-toggle="collapse" data-bs-target="#planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" aria-expanded="true" aria-controls="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")">
+                @dayOfMeals.MealDate.ToString("D")
             </div>
             <div id="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" class="collapse" aria-labelledby="recipe-types">
                 <div class="card-body">
@@ -27,8 +25,7 @@
                         {
                             @foreach (var recipe in mealsForCategory.Recipes)
                             {
-                                <a class="non-styled-link" asp-page="./Recipe" asp-route-id="@recipe.Id">
-                                    <div class="recipe-list-item">
+                                <div class="recipe-list-item">
                                         <div>
                                             <p class="recipe-name">@recipe.Name</p>
                                             <p class="recipe-author">By: @recipe.AuthorName</p>
@@ -46,11 +43,7 @@
                                                 </button>
                                             </div>
                                         </div>
-                                        <div>
-                                                    
-                                        </div>
-                                    </div>
-                                </a>
+                                </div>
                             }
                         }
                     }

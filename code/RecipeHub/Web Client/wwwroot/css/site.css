@@ -144,10 +144,12 @@ body {
     width: 100%;
     border: 2px solid #ccc;
     padding: 4px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     flex-direction: row;
 }
+
+
 
 .recipe-name {
     font-size: 32px;
@@ -242,4 +244,13 @@ body {
 
 .no-planned-recipes {
     font-size: 24px;
+}
+
+.collapse-header {
+    font-size: 24px;
+}
+
+.collapse-header:hover{
+    background-color: #eeeeee;
+    cursor: pointer;
 }
