@@ -1,4 +1,6 @@
-﻿namespace Desktop_Client.View.Screens
+﻿using Desktop_Client.View.Dialog;
+
+namespace Desktop_Client.View.Screens
 {
     /// <summary>
     /// The login screen for the application.

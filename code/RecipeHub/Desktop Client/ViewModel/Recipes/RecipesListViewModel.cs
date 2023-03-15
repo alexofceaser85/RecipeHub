@@ -14,10 +14,28 @@ namespace Desktop_Client.ViewModel.Recipes
     /// </summary>
     public class RecipesListViewModel : INotifyPropertyChanged
     {
+        /// <summary>
+        /// No recipes with owned ingredients message
+        /// </summary>
+        public const string NoRecipesWithOwnedIngredients = "There are no recipes that you have the ingredients to make.";
+        /// <summary>
+        /// No recipes with tags message
+        /// </summary>
+        public const string NoRecipesWithTags = "There are no recipes with the selected tag(s).";
+        /// <summary>
+        /// No recipe with name message
+        /// </summary>
+        public const string NoRecipesWithName = "There are no recipes that match the search term.";
+        /// <summary>
+        /// No recipes uploaded message
+        /// </summary>
+        public const string NoRecipesUploaded = "There are no recipes that are currently available.";
+
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
 
         private string searchTerm;
+        private string noRecipesLabelText;
         private Recipe[] recipes;
         private string[][] recipeTags;
 
@@ -28,6 +46,15 @@ namespace Desktop_Client.ViewModel.Recipes
         {
             get => this.searchTerm;
             set => this.SetField(ref this.searchTerm, value);
+        }
+
+        /// <summary>
+        /// The text to display in the label showing that there are no recipes.
+        /// </summary>
+        public string NoRecipesLabelText
+        {
+            get => this.noRecipesLabelText;
+            set => this.SetField(ref this.noRecipesLabelText, value);
         }
 
         /// <summary>
@@ -81,7 +108,9 @@ namespace Desktop_Client.ViewModel.Recipes
                 RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
             this.Filters = new RecipeFilters();
             this.searchTerm = "";
+            this.noRecipesLabelText = "";
             this.recipes = Array.Empty<Recipe>();
+            this.recipeTags = Array.Empty<string[]>();
         }
 
         /// <summary>
@@ -104,6 +133,10 @@ namespace Desktop_Client.ViewModel.Recipes
                 filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags.ToArray());
             }
 
+            if (filteredRecipes.Length == 0)
+            {
+                this.UpdateNoFoundRecipesLabel();
+            }
             this.Recipes = filteredRecipes;
             this.RecipeTags = this.GetTagsForRecipes(this.recipes);
         }
@@ -145,6 +178,27 @@ namespace Desktop_Client.ViewModel.Recipes
             }
 
             return filteredRecipes.ToArray();
+        }
+
+        private void UpdateNoFoundRecipesLabel()
+        {
+            if (this.Filters.OnlyAvailableIngredients)
+            {
+                this.NoRecipesLabelText = NoRecipesWithOwnedIngredients;
+            }
+            else if (this.Filters.MatchTags?.Length > 0)
+            {
+                this.NoRecipesLabelText = NoRecipesWithTags;
+
+            }
+            else if (!string.IsNullOrEmpty(this.SearchTerm))
+            {
+                this.NoRecipesLabelText = NoRecipesWithName;
+            }
+            else
+            {
+                this.NoRecipesLabelText = NoRecipesUploaded;
+            }
         }
 
         private string[][] GetTagsForRecipes(Recipe[] recipes)

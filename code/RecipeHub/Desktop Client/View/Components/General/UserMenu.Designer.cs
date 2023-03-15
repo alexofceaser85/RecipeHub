@@ -98,7 +98,6 @@
             // 
             this.plannedMealsButton.BackColor = System.Drawing.Color.Transparent;
             this.plannedMealsButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.plannedMealsButton.Enabled = false;
             this.plannedMealsButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.plannedMealsButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.plannedMealsButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
@@ -109,6 +108,7 @@
             this.plannedMealsButton.TabIndex = 4;
             this.plannedMealsButton.Text = "Planned Meals";
             this.plannedMealsButton.UseVisualStyleBackColor = false;
+            this.plannedMealsButton.Click += new System.EventHandler(this.plannedMealsButton_Click);
             // 
             // homeButton
             // 

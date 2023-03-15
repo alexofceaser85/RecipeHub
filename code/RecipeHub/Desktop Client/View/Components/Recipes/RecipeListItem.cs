@@ -100,6 +100,8 @@ namespace Desktop_Client.View.Components.Recipes
                     this.tagsPlaceholderLabel.Text += $@", {tags[i]}";
                 }
             }
+
+            base.Anchor = AnchorStyles.Left | AnchorStyles.Right;
         }
 
         private void childControlMouseClick(object sender, EventArgs e)

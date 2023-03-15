@@ -1,22 +1,16 @@
-﻿using System.Text;
-using Desktop_Client.ViewModel.Ingredients;
-using Shared_Resources.Model.Ingredients;
+﻿using Desktop_Client.ViewModel.Ingredients;
+using System.Text;
 
 namespace Desktop_Client.View.Dialog
 {
     /// <summary>
     /// Dialog for Editing the Amount of a chosen ingredient.
     /// </summary>
-    /// <seealso cref="System.Windows.Forms.Form" />
-    public partial class EditIngredientDialog : Form
+    /// <seealso cref="MobileDialog" />
+    public partial class EditIngredientDialog : MobileDialog
     {
         private readonly EditIngredientViewModel viewModel;
-
-        /// <summary>
-        /// The error occured event handler
-        /// </summary>
-        public EventHandler<ErrorEventArgs>? ErrorOccurred;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="EditIngredientDialog"/> class. <br />
         /// <br />
@@ -35,10 +29,14 @@ namespace Desktop_Client.View.Dialog
 
         private void BindComponents()
         {
-            this.editTitle.DataBindings.Add(new Binding("Text", this.viewModel, 
+            this.editTitle.DataBindings.Add(new Binding("Text", this.viewModel,
                 nameof(this.viewModel.Title)));
-            this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
-                nameof(this.viewModel.Amount)));
+            this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.Amount), true, DataSourceUpdateMode.OnPropertyChanged));
+            this.amountTextBox.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.AmountTextBoxColor)));
+            this.amountErrorLabel.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.AmountErrorMessage)));
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)
@@ -54,7 +52,9 @@ namespace Desktop_Client.View.Dialog
             }
             catch (UnauthorizedAccessException ex)
             {
-                this.ErrorOccurred?.Invoke(this, new ErrorEventArgs(ex));
+                this.Exception = ex;
+                this.Dispose();
+                this.Close();
             }
         }
 

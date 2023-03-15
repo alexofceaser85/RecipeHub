@@ -35,6 +35,8 @@
             this.usernameTextBox = new System.Windows.Forms.TextBox();
             this.passwordTextInput = new System.Windows.Forms.TextBox();
             this.LoginButton = new System.Windows.Forms.Button();
+            this.usernameErrorLabel = new System.Windows.Forms.Label();
+            this.passwordErrorLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,6 +50,8 @@
             this.tableLayoutPanel1.Controls.Add(this.usernameTextBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.passwordTextInput, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.LoginButton, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.usernameErrorLabel, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.passwordErrorLabel, 0, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -116,6 +120,7 @@
             this.usernameTextBox.Margin = new System.Windows.Forms.Padding(15, 3, 15, 3);
             this.usernameTextBox.MaximumSize = new System.Drawing.Size(350, 0);
             this.usernameTextBox.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.usernameTextBox.MaxLength = 100;
             this.usernameTextBox.Name = "usernameTextBox";
             this.usernameTextBox.Size = new System.Drawing.Size(350, 23);
             this.usernameTextBox.TabIndex = 1;
@@ -128,6 +133,7 @@
             this.passwordTextInput.Margin = new System.Windows.Forms.Padding(15, 3, 15, 3);
             this.passwordTextInput.MaximumSize = new System.Drawing.Size(350, 0);
             this.passwordTextInput.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.passwordTextInput.MaxLength = 20;
             this.passwordTextInput.Name = "passwordTextInput";
             this.passwordTextInput.Size = new System.Drawing.Size(350, 23);
             this.passwordTextInput.TabIndex = 3;
@@ -149,6 +155,29 @@
             this.LoginButton.Text = "Login";
             this.LoginButton.UseVisualStyleBackColor = false;
             this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
+            // 
+            // usernameErrorLabel
+            // 
+            this.usernameErrorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.usernameErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.usernameErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.usernameErrorLabel.Location = new System.Drawing.Point(183, 108);
+            this.usernameErrorLabel.MaximumSize = new System.Drawing.Size(500, 0);
+            this.usernameErrorLabel.Name = "usernameErrorLabel";
+            this.usernameErrorLabel.Size = new System.Drawing.Size(500, 42);
+            this.usernameErrorLabel.TabIndex = 6;
+            // 
+            // passwordErrorLabel
+            // 
+            this.passwordErrorLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.passwordErrorLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.passwordErrorLabel.ForeColor = System.Drawing.Color.Red;
+            this.passwordErrorLabel.Location = new System.Drawing.Point(183, 258);
+            this.passwordErrorLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.passwordErrorLabel.MaximumSize = new System.Drawing.Size(500, 0);
+            this.passwordErrorLabel.Name = "passwordErrorLabel";
+            this.passwordErrorLabel.Size = new System.Drawing.Size(500, 42);
+            this.passwordErrorLabel.TabIndex = 7;
             // 
             // LoginForm
             // 
@@ -172,5 +201,7 @@
         private TextBox usernameTextBox;
         private TextBox passwordTextInput;
         private Button LoginButton;
+        private Label usernameErrorLabel;
+        private Label passwordErrorLabel;
     }
 }

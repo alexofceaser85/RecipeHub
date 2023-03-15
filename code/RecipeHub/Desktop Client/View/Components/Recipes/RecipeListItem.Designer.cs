@@ -121,6 +121,7 @@
             this.tagsPlaceholderLabel.TabIndex = 1;
             this.tagsPlaceholderLabel.Text = "Tags go here";
             this.tagsPlaceholderLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tagsPlaceholderLabel.Click += new System.EventHandler(this.childControlMouseClick);
             // 
             // RecipeListItem
             // 

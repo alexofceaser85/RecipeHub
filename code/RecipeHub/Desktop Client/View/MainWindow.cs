@@ -34,6 +34,7 @@ namespace Desktop_Client.View
             {
                 this.activeScreen.ScreenChanged -= this.OnScreenChanged;
                 this.Controls.Remove(this.activeScreen);
+                this.activeScreen.Dispose();
             }
             
             newScreen.ScreenChanged += this.OnScreenChanged;

@@ -50,6 +50,7 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.pevImageButton = new System.Windows.Forms.Button();
             this.nextImageButton = new System.Windows.Forms.Button();
+            this.addPlannedMealButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -199,14 +200,17 @@
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.addPlannedMealButton, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowCount = 3;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(665, 1181);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
@@ -223,7 +227,7 @@
             this.tableLayoutPanel4.Controls.Add(this.stepsLabel, 0, 4);
             this.tableLayoutPanel4.Controls.Add(this.commentsLabel, 0, 5);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 366);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 430);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(6);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 6;
@@ -233,7 +237,7 @@
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 809);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 745);
             this.tableLayoutPanel4.TabIndex = 0;
             // 
             // tableLayoutPanel6
@@ -282,7 +286,7 @@
             this.descriptionLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.descriptionLabel.Location = new System.Drawing.Point(4, 85);
             this.descriptionLabel.Name = "descriptionLabel";
-            this.descriptionLabel.Size = new System.Drawing.Size(645, 25);
+            this.descriptionLabel.Size = new System.Drawing.Size(645, 27);
             this.descriptionLabel.TabIndex = 1;
             this.descriptionLabel.Text = "This is the description for the recipe.";
             // 
@@ -291,9 +295,9 @@
             this.tagsPlaceholderLabel.AutoSize = true;
             this.tagsPlaceholderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagsPlaceholderLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tagsPlaceholderLabel.Location = new System.Drawing.Point(4, 192);
+            this.tagsPlaceholderLabel.Location = new System.Drawing.Point(4, 113);
             this.tagsPlaceholderLabel.Name = "tagsPlaceholderLabel";
-            this.tagsPlaceholderLabel.Size = new System.Drawing.Size(645, 93);
+            this.tagsPlaceholderLabel.Size = new System.Drawing.Size(645, 27);
             this.tagsPlaceholderLabel.TabIndex = 2;
             this.tagsPlaceholderLabel.Text = "Tags go here";
             // 
@@ -301,7 +305,7 @@
             // 
             this.ingredientsListLabel.AutoSize = true;
             this.ingredientsListLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ingredientsListLabel.Location = new System.Drawing.Point(4, 286);
+            this.ingredientsListLabel.Location = new System.Drawing.Point(4, 141);
             this.ingredientsListLabel.Name = "ingredientsListLabel";
             this.ingredientsListLabel.Size = new System.Drawing.Size(115, 27);
             this.ingredientsListLabel.TabIndex = 3;
@@ -311,7 +315,7 @@
             // 
             this.stepsLabel.AutoSize = true;
             this.stepsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.stepsLabel.Location = new System.Drawing.Point(4, 314);
+            this.stepsLabel.Location = new System.Drawing.Point(4, 169);
             this.stepsLabel.Name = "stepsLabel";
             this.stepsLabel.Size = new System.Drawing.Size(61, 27);
             this.stepsLabel.TabIndex = 4;
@@ -321,7 +325,7 @@
             // 
             this.commentsLabel.AutoSize = true;
             this.commentsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.commentsLabel.Location = new System.Drawing.Point(4, 342);
+            this.commentsLabel.Location = new System.Drawing.Point(4, 197);
             this.commentsLabel.Name = "commentsLabel";
             this.commentsLabel.Size = new System.Drawing.Size(111, 27);
             this.commentsLabel.TabIndex = 5;
@@ -365,6 +369,21 @@
             this.nextImageButton.TabIndex = 1;
             this.nextImageButton.Text = ">";
             this.nextImageButton.UseVisualStyleBackColor = true;
+            // 
+            // addPlannedMealButton
+            // 
+            this.addPlannedMealButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.addPlannedMealButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.addPlannedMealButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.addPlannedMealButton.ForeColor = System.Drawing.Color.White;
+            this.addPlannedMealButton.Location = new System.Drawing.Point(192, 363);
+            this.addPlannedMealButton.MaximumSize = new System.Drawing.Size(280, 0);
+            this.addPlannedMealButton.Name = "addPlannedMealButton";
+            this.addPlannedMealButton.Size = new System.Drawing.Size(280, 58);
+            this.addPlannedMealButton.TabIndex = 2;
+            this.addPlannedMealButton.Text = "Add to Planned Meals";
+            this.addPlannedMealButton.UseVisualStyleBackColor = false;
+            this.addPlannedMealButton.Click += new System.EventHandler(this.addPlannedMeal_Click);
             // 
             // RecipeScreen
             // 
@@ -412,5 +431,6 @@
         private Label stepsLabel;
         private Label commentsLabel;
         private Button hamburgerButton;
+        private Button addPlannedMealButton;
     }
 }

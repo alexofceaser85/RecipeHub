@@ -1,0 +1,90 @@
+﻿@page
+@using Web_Client.ViewModel.PlannedMeals
+@model Web_Client.Pages.PlannedMealsModel
+@{
+    ViewData["Title"] = "Planned Meals";
+    ViewData["Header"] = "Planned Meals";
+
+
+    @foreach (var dayOfMeals in Model.ViewModel.PlannedMeals)
+    {
+        <div class="card" id="">
+            <div class="card-header collapse-header" data-bs-toggle="collapse" data-bs-target="#planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" aria-expanded="true" aria-controls="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")">
+                @dayOfMeals.MealDate.ToString("D")
+            </div>
+            <div id="planned-meal-collapse-@dayOfMeals.MealDate.ToString("yy-MM-dd")" class="collapse" aria-labelledby="recipe-types">
+                <div class="card-body">
+                    @foreach (var mealsForCategory in dayOfMeals.Meals)
+                    {
+                        <h3 class="planned-meal-category-header">@mealsForCategory.Category.ToString()</h3>
+                        @if (mealsForCategory.Recipes.Length == 0)
+                        {
+                            <p class="no-planned-recipes">No Planned Recipes.</p>
+                        }
+                        else
+                        {
+                            @foreach (var recipe in mealsForCategory.Recipes)
+                            {
+                                <div class="recipe-list-item">
+                                        <div>
+                                            <p class="recipe-name">@recipe.Name</p>
+                                            <p class="recipe-author">By: @recipe.AuthorName</p>
+                                        </div>
+                                        <div class="planned-meal-end-point">
+                                            <div>
+                                                <div class="text-end">Rating: 0/5</div>
+                                                <div class="text-end">@string.Join(", ", Model.ViewModel.RecipeTags[recipe.Id])</div>
+                                            </div>
+                                            <div>
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#remove-planned-meal-modal"
+                                                        data-recipe-id="@recipe.Id" data-meal-category="@((int)mealsForCategory.Category)"
+                                                        data-meal-date="@dayOfMeals.MealDate.ToString()" class="planned-meal-remove-recipe-button">
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="modal fade" id="remove-planned-meal-modal" tabindex="-1" aria-labelledby="remove-planned-meal-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="remove-planned-meal-modal">Remove Planned Meal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-page-handler="RemovePlannedMeal">
+                    <div class="modal-body">
+                        <p>Are you sure you want to remove this recipe?</p>
+                        <input name="RecipeId" type="text" id="remove-planned-meal-recipe-id" hidden />
+                        <input name="Category" type="text" id="remove-planned-meal-meal-category" hidden />
+                        <input name="Date" type="text" id="remove-planned-meal-meal-date" hidden />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <button id="remove-ingredient-button" type="submit" class="btn btn-primary">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @section Scripts
+    {
+        <script type="text/javascript">
+            $(".planned-meal-remove-recipe-button").click(function() {
+                var recipeId = $(this).data("recipe-id");
+                var mealCategory = $(this).data("meal-category");
+                var mealDate = $(this).data("meal-date");
+                $("#remove-planned-meal-recipe-id").val(recipeId);
+                $("#remove-planned-meal-meal-category").val(mealCategory);
+                $("#remove-planned-meal-meal-date").val(mealDate);
+            });
+        </script>
+    }
+}

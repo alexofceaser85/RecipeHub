@@ -15,13 +15,14 @@ namespace Web_Client.Pages
     public class RecipesListModel : PageModel
     {
         private RecipesListViewModel viewModel;
+
         /// <summary>
         /// Gets or sets the recipes.
         /// </summary>
         /// <value>
         /// The recipes.
         /// </value>
-        public Recipe[] Recipes { get; set; }
+        public Recipe[] Recipes => this.viewModel.Recipes;
         /// <summary>
         /// Gets or sets the recipe types.
         /// </summary>
@@ -37,15 +38,6 @@ namespace Web_Client.Pages
         /// The binding model.
         /// </value>
         public FiltersBindingModel BindingModel { get; set; }
-
-        /// <summary>
-        /// Gets or sets the search text.
-        /// </summary>
-        /// <value>
-        /// The search text.
-        /// </value>
-        [BindProperty]
-        public string SearchText { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether [only available ingredients].
@@ -66,7 +58,6 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipesListModel()
         {
-            this.Recipes = Array.Empty<Recipe>();
             this.RecipeTypes = Array.Empty<string>();
             this.viewModel = new RecipesListViewModel {
                 Filters = {
@@ -76,7 +67,7 @@ namespace Web_Client.Pages
 
             try
             {
-                this.Recipes = this.viewModel.GetRecipes();
+                this.viewModel.GetRecipes();
             }
             catch (UnauthorizedAccessException exception)
             {
@@ -105,8 +96,8 @@ namespace Web_Client.Pages
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
             string searchText = Request.Form["SearchText"][0]!;
             this.viewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
-            var filteredRecipes = this.viewModel.GetRecipes(searchText);
-            this.Recipes = filteredRecipes;
+            this.viewModel.SearchTerm = searchText;
+            this.viewModel.GetRecipes();
 
             ModelState.Clear();
             ModelState.SetModelValue("BindingModel.FiltersTypes",

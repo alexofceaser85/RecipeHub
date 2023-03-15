@@ -1,5 +1,9 @@
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Utils.Dates;
+using Web_Client.Model.States;
 using Web_Client.Service.Recipes;
 using Web_Client.ViewModel.Recipes;
 
@@ -17,6 +21,7 @@ namespace Web_Client.Pages
         /// <value>
         /// The view model.
         /// </value>
+        [BindProperty]
         public RecipeViewModel ViewModel { get; set; }
 
         /// <summary>
@@ -28,6 +33,14 @@ namespace Web_Client.Pages
         public int Id{ get; set; }
 
         /// <summary>
+        /// Gets or sets the planned meal dates.
+        /// </summary>
+        /// <value>
+        /// The planned meal dates.
+        /// </value>
+        public DateTime[] PlannedMealDates { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="RecipeModel"/> class.<br />
         /// <br />
         /// Precondition: None<br />
@@ -36,6 +49,10 @@ namespace Web_Client.Pages
         public RecipeModel()
         {
             this.ViewModel = new RecipeViewModel();
+            var startDate = DateTime.Now.Date;
+
+            this.PlannedMealDates = DateUtils.GenerateDateTimesFromWeekToNextWeek(startDate)
+                                             .Where(date => date.Date >= startDate).ToArray();
         }
 
         /// <summary>
@@ -50,12 +67,32 @@ namespace Web_Client.Pages
             try
             {
                 this.ViewModel.Initialize(id);
+                RecipePageState.ViewModel = this.ViewModel;
             }
             catch (UnauthorizedAccessException exception)
             {
                 TempData["Message"] = exception.Message;
                 Response.Redirect("/Index");
             }
+        }
+
+
+        public IActionResult OnPostAddPlannedMeal()
+        {
+            this.ViewModel = RecipePageState.ViewModel!;
+            string date = Request.Form["Date"][0]!;
+            int mealCategory = int.Parse(Request.Form["MealCategory"][0]!);
+            try
+            {
+                this.ViewModel.AddRecipeToPlannedMeals(DateTime.Parse(date), (MealCategory)mealCategory);
+
+            }
+            catch (ArgumentException exception)
+            {
+                return BadRequest(exception.Message);
+            }
+            RecipePageState.ViewModel = this.ViewModel;
+            return Content(this.ViewModel.PlannedMealAddedMessage);
         }
     }
 }

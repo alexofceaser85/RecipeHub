@@ -38,10 +38,12 @@
             this.hamburgerButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.noRecipesLabel = new System.Windows.Forms.Label();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.recipeListTablePanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainLayoutPanel
@@ -139,6 +141,7 @@
             this.searchTextBox.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.searchTextBox.Location = new System.Drawing.Point(140, 23);
             this.searchTextBox.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.searchTextBox.MaxLength = 200;
             this.searchTextBox.Name = "searchTextBox";
             this.searchTextBox.PlaceholderText = "Search Recipes by Name";
             this.searchTextBox.Size = new System.Drawing.Size(447, 50);
@@ -194,6 +197,7 @@
             this.recipeListTablePanel.AutoScroll = true;
             this.recipeListTablePanel.ColumnCount = 1;
             this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.recipeListTablePanel.Controls.Add(this.noRecipesLabel, 0, 0);
             this.recipeListTablePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.recipeListTablePanel.Location = new System.Drawing.Point(19, 212);
             this.recipeListTablePanel.Margin = new System.Windows.Forms.Padding(2);
@@ -202,6 +206,19 @@
             this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1032F));
             this.recipeListTablePanel.Size = new System.Drawing.Size(675, 1101);
             this.recipeListTablePanel.TabIndex = 1;
+            // 
+            // noRecipesLabel
+            // 
+            this.noRecipesLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.noRecipesLabel.AutoSize = true;
+            this.noRecipesLabel.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.noRecipesLabel.Location = new System.Drawing.Point(143, 32);
+            this.noRecipesLabel.Margin = new System.Windows.Forms.Padding(3, 32, 3, 0);
+            this.noRecipesLabel.Name = "noRecipesLabel";
+            this.noRecipesLabel.Size = new System.Drawing.Size(389, 39);
+            this.noRecipesLabel.TabIndex = 0;
+            this.noRecipesLabel.Text = "No recipes have been found.";
+            this.noRecipesLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // RecipeListScreen
             // 
@@ -216,6 +233,8 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.recipeListTablePanel.ResumeLayout(false);
+            this.recipeListTablePanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -232,5 +251,6 @@
         private Label label1;
         private Button hamburgerButton;
         private Button searchButton;
+        private Label noRecipesLabel;
     }
 }

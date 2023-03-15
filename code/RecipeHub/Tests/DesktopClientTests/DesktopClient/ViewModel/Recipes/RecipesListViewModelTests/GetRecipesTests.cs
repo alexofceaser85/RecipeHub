@@ -291,5 +291,129 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
                 recipesService.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
             });
         }
+
+        [Test]
+        public void NoRecipesFoundWithoutFilters()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string searchTerm = "";
+            var recipes = Array.Empty<Recipe>();
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm,
+                Filters = new RecipeFilters() {
+                    OnlyAvailableIngredients = false
+                }
+            };
+            viewmodel.GetRecipes();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
+                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesUploaded));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NoRecipesFoundWithNameSearch()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string searchTerm = "a";
+            var recipes = Array.Empty<Recipe>();
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm,
+                Filters = new RecipeFilters()
+                {
+                    OnlyAvailableIngredients = false
+                }
+            };
+            viewmodel.GetRecipes();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
+                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesWithName));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NoRecipesFoundWithTagSearch()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string searchTerm = "";
+            var recipes = Array.Empty<Recipe>();
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm,
+                Filters = new RecipeFilters()
+                {
+                    OnlyAvailableIngredients = false,
+                    MatchTags = new []{"a"}
+                }
+            };
+            viewmodel.GetRecipes();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
+                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesWithTags));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void NoRecipesFoundWithOwnedIngredients()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string searchTerm = "a";
+            var recipes = Array.Empty<Recipe>();
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm,
+                Filters = new RecipeFilters()
+                {
+                    OnlyAvailableIngredients = true,
+                }
+            };
+            viewmodel.GetRecipes();
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
+                Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesWithOwnedIngredients));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
     }
 }

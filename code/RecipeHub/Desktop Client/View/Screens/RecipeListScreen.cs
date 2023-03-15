@@ -33,6 +33,8 @@ namespace Desktop_Client.View.Screens
         {
             this.searchTextBox.DataBindings.Add(new Binding("Text", this.viewmodel, 
                 nameof(this.viewmodel.SearchTerm)));
+            this.noRecipesLabel.DataBindings.Add(new Binding("Text", this.viewmodel,
+                nameof(this.viewmodel.NoRecipesLabelText)));
             this.viewmodel.PropertyChanged += (_, arg) =>
             {
                 if (arg.PropertyName != nameof(this.viewmodel.RecipeTags))
@@ -47,6 +49,11 @@ namespace Desktop_Client.View.Screens
         private void PopulateRecipeList(Recipe[] recipes, string[][] recipeTags)
         {
             this.ClearRecipeList();
+            if (recipes.Length == 0)
+            {
+                this.recipeListTablePanel.Controls.Add(this.noRecipesLabel);
+                return;
+            }
             for (var i = 0; i < recipes.Length; i++)
             {
                 var recipe = recipes[i];
@@ -73,15 +80,12 @@ namespace Desktop_Client.View.Screens
             }
             catch (ArgumentException exception)
             {
-                MessageBox.Show(exception.Message);
+                var dialog = new MessageDialog("An error has occurred.", exception.Message);
+                base.DisplayDialog(dialog);
             }
             catch (UnauthorizedAccessException exception)
             {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
+                base.DisplayTimeOutDialog(exception.Message);
             }
         }
 
@@ -92,12 +96,16 @@ namespace Desktop_Client.View.Screens
 
         private void filtersButton_Click(object sender, EventArgs e)
         {
-            var filtersDialog = new RecipeListFilterDialog(this.viewmodel.Filters);
-            if (filtersDialog.ShowDialog() == DialogResult.OK)
+            var filtersDialog = new RecipeListFiltersDialog(this.viewmodel.Filters);
+            filtersDialog.DialogClosed += (_, _) =>
             {
-                this.viewmodel.Filters = filtersDialog.Filters;
-                this.viewmodel.GetRecipes();
-            }
+                if (filtersDialog.DialogResult == DialogResult.OK)
+                {
+                    this.viewmodel.Filters = filtersDialog.Filters;
+                    this.viewmodel.GetRecipes();
+                }
+            };
+            base.DisplayDialog(filtersDialog);
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -109,15 +117,12 @@ namespace Desktop_Client.View.Screens
             }
             catch (ArgumentException exception)
             {
-                MessageBox.Show(exception.Message);
+                var dialog = new MessageDialog("An error has occurred.", exception.Message);
+                base.DisplayDialog(dialog);
             }
             catch (UnauthorizedAccessException exception)
             {
-                var result = MessageBox.Show(exception.Message);
-                if (result == DialogResult.OK)
-                {
-                    base.ChangeScreens(new LoginScreen());
-                }
+                base.DisplayTimeOutDialog(exception.Message);
             }
         }
     }

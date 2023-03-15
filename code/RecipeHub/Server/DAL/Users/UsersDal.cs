@@ -32,44 +32,44 @@ public class UsersDal : IUsersDal
         command.Parameters.Add("@email", SqlDbType.VarChar).Value = accountToCreate.Email;
         command.Parameters.Add("@password", SqlDbType.VarChar).Value = accountToCreate.Password;
 
-            connection.Open();
-            command.ExecuteNonQuery();
-        }
+        connection.Open();
+        command.ExecuteNonQuery();
+    }
 
-        /// <summary>
-        /// Removes the timed out session keys.
-        /// Precondition: None
-        /// Postcondition: None
-        /// </summary>
-        public void RemoveTimedOutSessionKeys()
-        {
-            var query = "DELETE FROM Sessions " +
+    /// <summary>
+    /// Removes the timed out session keys.
+    /// Precondition: None
+    /// Postcondition: None
+    /// </summary>
+    public void RemoveTimedOutSessionKeys()
+    {
+        var query = "DELETE FROM Sessions " +
                         "WHERE lastUpdateTime < DATEADD(minute, @timeoutLength, GETUTCDATE())";
 
-            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-            using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@timeoutLength", SqlDbType.Int).Value = ServerSettings.SessionTimeOutLengthInMinutes;
+        using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+        using var command = new SqlCommand(query, connection);
+        command.Parameters.Add("@timeoutLength", SqlDbType.Int).Value = ServerSettings.SessionTimeOutLengthInMinutes;
 
-            connection.Open(); 
-            command.ExecuteNonQuery();
-        }
+        connection.Open(); 
+        command.ExecuteNonQuery();
+    }
 
-        /// <summary>
-        /// Verifies the user name does not exist.
-        ///
-        /// Precondition: None
-        /// Postcondition: None
-        /// </summary>
-        /// <param name="userName">Name of the user.</param>
-        /// <returns>
-        /// Whether or not the username exists
-        /// </returns>
-        public bool CheckIfUserNameExists(string userName)
-        {
-            var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
-            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
-            using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
+    /// <summary>
+    /// Verifies the user name does not exist.
+    ///
+    /// Precondition: None
+    /// Postcondition: None
+    /// </summary>
+    /// <param name="userName">Name of the user.</param>
+    /// <returns>
+    /// Whether or not the username exists
+    /// </returns>
+    public bool CheckIfUserNameExists(string userName)
+    {
+        var query = "select \"Users\".username from \"Users\" where \"Users\".username = @username";
+        using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+        using var command = new SqlCommand(query, connection);
+        command.Parameters.Add("@username", SqlDbType.VarChar).Value = userName;
 
         connection.Open();
         return command.ExecuteScalar() != null;

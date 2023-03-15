@@ -20,7 +20,7 @@ namespace Desktop_Client.Service.Users
         /// <summary>
         /// The session key load file path
         /// </summary>
-        public string? SessionKeyLoadFile { get; set; }
+        public string SessionKeyLoadFile = SessionKeySettings.SaveSessionFilePath;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersService"/> class.
@@ -84,6 +84,11 @@ namespace Desktop_Client.Service.Users
             {
                 var newSessionKey = this.endpoints.RefreshSessionKey(previousSessionKey);
                 Session.Key = newSessionKey;
+            }
+
+            if (Session.Key != null)
+            {
+                SessionKeySerializers.SaveSessionKey(Session.Key, this.SessionKeyLoadFile);
             }
         }
 

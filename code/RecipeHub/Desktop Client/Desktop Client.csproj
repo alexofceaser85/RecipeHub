@@ -13,6 +13,26 @@
   <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
 
   <ItemGroup>
+    <Compile Remove="ViewModel\RecipeTypes\**" />
+    <EmbeddedResource Remove="ViewModel\RecipeTypes\**" />
+    <None Remove="ViewModel\RecipeTypes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="View\Dialog\AddIngredientDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Dialog\MessageDialog.cs" />
+    <Compile Update="View\Dialog\EditIngredientDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Dialog\AddPlannedMealDialog.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="View\Dialog\RecipeListFiltersDialog.cs" />
+    <Compile Update="View\Screens\PlannedMealsScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\Screens\LoginScreen.cs" />
     <Compile Update="View\Screens\RegistrationScreen.cs" />
     <Compile Update="View\Screens\RecipeListScreen.cs" />
@@ -23,10 +43,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\Screens\UserInfoScreen.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModel\RecipeTypes\" />
   </ItemGroup>
 
 </Project>

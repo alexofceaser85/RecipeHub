@@ -57,4 +57,19 @@
         /// </summary>
         public static string EmailFormat = @"^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})";
     }
+
+    /// <summary>
+    /// The date utils settings
+    /// </summary>
+    public static class DateUtilsSettings
+    {
+        /// <summary>
+        /// The number of days to generate for a week
+        /// </summary>
+        public static int NumberOfDaysToGenerateForWeek = 7;
+        /// <summary>
+        /// The number of days to generate to next week
+        /// </summary>
+        public static int NumberOfDaysToGenerateToNextWeek = 13;
+    }
 }

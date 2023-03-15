@@ -8,8 +8,19 @@ namespace Desktop_Client.View.Components.Ingredients
     /// </summary>
     public partial class IngredientListItem : UserControl
     {
+        /// <summary>
+        /// The ingredient to display.
+        /// </summary>
         public Ingredient Ingredient { get; set; }
 
+        /// <summary>
+        /// Creates an instance of <see cref="IngredientListItem"/> with a specified <see cref="Ingredient"/>.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None
+        /// <b>Postcondition: </b>this.Ingredient == ingredient<br/>
+        /// &amp;&amp; ingredient's information is displayed on the IngredientListItem.
+        /// </summary>
+        /// <param name="ingredient">The ingredient to display.</param>
         public IngredientListItem(Ingredient ingredient)
         {
             this.InitializeComponent();
@@ -37,11 +48,6 @@ namespace Desktop_Client.View.Components.Ingredients
         private void removeButton_Click(object sender, EventArgs e)
         {
             this.RemoveSelected?.Invoke(this, this.Ingredient);
-        }
-
-        private void ingrediantNameLabel_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }
