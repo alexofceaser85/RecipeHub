@@ -1,4 +1,5 @@
-﻿using Desktop_Client.Service.Users;
+﻿using System.Drawing;
+using Desktop_Client.Service.Users;
 using Desktop_Client.ViewModel.Components;
 
 namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewModelTests
@@ -13,6 +14,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewMod
             {
                 Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.UsernameErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.PasswordErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.UsernameTextBoxColor, Is.EqualTo(Color.White));
+                Assert.That(viewmodel.PasswordTextBoxColor, Is.EqualTo(Color.White));
             });
         }
 
@@ -24,6 +29,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewMod
             {
                 Assert.That(viewmodel.Username, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Password, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.UsernameErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.PasswordErrorMessage, Is.EqualTo(string.Empty));
+                Assert.That(viewmodel.UsernameTextBoxColor, Is.EqualTo(Color.White));
+                Assert.That(viewmodel.PasswordTextBoxColor, Is.EqualTo(Color.White));
             });
         }
 

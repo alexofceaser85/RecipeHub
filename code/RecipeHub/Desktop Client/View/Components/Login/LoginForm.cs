@@ -21,18 +21,30 @@ namespace Desktop_Client.View.Components.Login
         {
             this.InitializeComponent();
             this.viewModel = new LoginFormViewModel();
+            this.BindComponents();
 
             //Forces the max size to be correct, despite what the local version of Windows Forms says it is.
             this.usernameTextBox.MaximumSize = new Size(this.usernameTextBox.MaximumSize.Width, 0);
             this.passwordTextInput.MaximumSize = new Size(this.passwordTextInput.MaximumSize.Width, 0);
 
-            this.BindComponents();
         }
 
         private void BindComponents()
         {
-            this.usernameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Username)));
-            this.passwordTextInput.DataBindings.Add(new Binding("Text", this.viewModel, nameof(this.viewModel.Password)));
+            this.usernameTextBox.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Username), true, 
+                DataSourceUpdateMode.OnPropertyChanged));
+            this.passwordTextInput.DataBindings.Add(new Binding("Text", this.viewModel, 
+                nameof(this.viewModel.Password),true,
+                DataSourceUpdateMode.OnPropertyChanged));
+            this.usernameErrorLabel.DataBindings.Add(
+                new Binding("Text", this.viewModel, nameof(this.viewModel.UsernameErrorMessage)));
+            this.passwordErrorLabel.DataBindings.Add(
+                new Binding("Text", this.viewModel, nameof(this.viewModel.PasswordErrorMessage)));
+            this.usernameTextBox.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.UsernameTextBoxColor)));
+            this.passwordTextInput.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.PasswordTextBoxColor)));
         }
 
         /// <summary>
@@ -59,6 +71,9 @@ namespace Desktop_Client.View.Components.Login
             }
             catch (Exception ex)
             {
+                this.usernameTextBox.Text = string.Empty;
+                this.passwordTextInput.Text = string.Empty;
+
                 var curParent = this.Parent!;
                 while (curParent is not Screens.Screen)
                 {
@@ -66,7 +81,7 @@ namespace Desktop_Client.View.Components.Login
                 };
                 var screen = (Screens.Screen)curParent;
 
-                var messageDialog = new MessageDialog("Error with logging in", ex.Message, MessageBoxButtons.OK);
+                var messageDialog = new MessageDialog("Error with logging in", ex.Message);
                 screen.DisplayDialog(messageDialog);
             }
         }

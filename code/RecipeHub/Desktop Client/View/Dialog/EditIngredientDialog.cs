@@ -32,7 +32,11 @@ namespace Desktop_Client.View.Dialog
             this.editTitle.DataBindings.Add(new Binding("Text", this.viewModel,
                 nameof(this.viewModel.Title)));
             this.amountTextBox.DataBindings.Add(new Binding("Text", this.viewModel,
-                nameof(this.viewModel.Amount)));
+                nameof(this.viewModel.Amount), true, DataSourceUpdateMode.OnPropertyChanged));
+            this.amountTextBox.DataBindings.Add(new Binding("BackColor", this.viewModel,
+                nameof(this.viewModel.AmountTextBoxColor)));
+            this.amountErrorLabel.DataBindings.Add(new Binding("Text", this.viewModel,
+                nameof(this.viewModel.AmountErrorMessage)));
         }
 
         private void editIngredientButton_Click(object sender, EventArgs e)

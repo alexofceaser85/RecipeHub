@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Desktop_Client.Service.Ingredients;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.ViewModel.Ingredients
@@ -14,13 +15,28 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// The error message for when the ingredient amount is not an int
         /// </summary>
         public const string NonIntIngredientAmount = "IngredientAmount could not be parsed as an int";
-        
+
+        /// <summary>
+        /// The error message for when the ingredient name is empty
+        /// </summary>
+        public const string EmptyIngredientNameErrorMessage = "The ingredient name cannot be empty.";
+
+        /// <summary>
+        /// The error message for when the ingredient name is empty
+        /// </summary>
+        public const string EmptyIngredientAmountErrorMessage = "The ingredient amount cannot be empty.";
+
+        private readonly IIngredientsService service;
+
         private string ingredientName;
         private string[] ingredientNames;
         private string ingredientAmount;
+        private string ingredientNameErrorMessage;
+        private string ingredientAmountErrorMessage;
+        private Color ingredientNameTextBoxColor;
+        private Color ingredientAmountTextBoxColor;
         private int selectedMeasurementIndex;
         private MeasurementType selectedMeasurementType;
-        private readonly IIngredientsService service;
 
         /// <summary>
         /// The name of the ingredient to add.
@@ -28,7 +44,20 @@ namespace Desktop_Client.ViewModel.Ingredients
         public string IngredientName
         {
             get => this.ingredientName;
-            set => this.SetField(ref this.ingredientName, value);
+            set
+            {
+                if (value == string.Empty)
+                {
+                    this.ingredientNameErrorMessage = EmptyIngredientNameErrorMessage;
+                    this.ingredientNameTextBoxColor = ColorTranslator.FromHtml(UserInterfaceSettings.ErrorColor);
+                }
+                else
+                {
+                    this.ingredientNameErrorMessage = string.Empty;
+                    this.ingredientNameTextBoxColor = Color.White;
+                }
+                this.SetField(ref this.ingredientName, value);
+            }
         }
 
         /// <summary>
@@ -46,7 +75,56 @@ namespace Desktop_Client.ViewModel.Ingredients
         public string IngredientAmount
         {
             get => this.ingredientAmount;
-            set => this.SetField(ref this.ingredientAmount, value);
+            set
+            {
+                if (value == string.Empty)
+                {
+                    this.ingredientAmountErrorMessage = EmptyIngredientAmountErrorMessage;
+                    this.ingredientAmountTextBoxColor = ColorTranslator.FromHtml(UserInterfaceSettings.ErrorColor);
+                }
+                else
+                {
+                    this.ingredientAmountErrorMessage = string.Empty;
+                    this.ingredientAmountTextBoxColor = Color.White;
+                }
+                this.SetField(ref this.ingredientAmount, value);
+            }
+        }
+
+        /// <summary>
+        /// The error message to display for the ingredient name text box
+        /// </summary>
+        public string IngredientNameErrorMessage
+        {
+            get => this.ingredientNameErrorMessage;
+            set => this.SetField(ref this.ingredientNameErrorMessage, value);
+        }
+
+        /// <summary>
+        /// The error message to display for the ingredient amount text box
+        /// </summary>
+        public string IngredientAmountErrorMessage
+        {
+            get => this.ingredientAmountErrorMessage;
+            set => this.SetField(ref this.ingredientAmountErrorMessage, value);
+        }
+
+        /// <summary>
+        /// The back color for the ingredient name text box
+        /// </summary>
+        public Color IngredientNameTextBoxColor
+        {
+            get => this.ingredientNameTextBoxColor;
+            set => this.SetField(ref this.ingredientNameTextBoxColor, value);
+        }
+
+        /// <summary>
+        /// The back color for the ingredient amount text box
+        /// </summary>
+        public Color IngredientAmountTextBoxColor
+        {
+            get => this.ingredientAmountTextBoxColor;
+            set => this.SetField(ref this.ingredientAmountTextBoxColor, value);
         }
 
         /// <summary>
@@ -79,7 +157,17 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// Initializes a new instance of the <see cref="AddIngredientsViewModel"/> class.<br />
         /// <br />
         /// Precondition: None<br />
-        /// Postcondition: Service is set to default value.<br />
+        /// <b>Postcondition: </b>service != null <br/>
+        /// &amp;&amp; this.IngredientName == string.Empty<br/>
+        /// &amp;&amp; this.IngredientName == string.Empty<br/>
+        /// &amp;&amp; this.IngredientNames.Length == 0<br/>
+        /// &amp;&amp; this.IngredientAmount == string.Empty<br/>
+        /// &amp;&amp; this.SelectedMeasurementType == MeasurementTypes.Quantity<br/>
+        /// &amp;&amp; this.SelectedMeasurementIndex == 0<br/>
+        /// &amp;&amp; this.IngredientNameErrorMessage == string.Empty<br/>
+        /// &amp;&amp; this.IngredientAmountErrorMessage == string.Empty<br/>
+        /// &amp;&amp; this.IngredientNameTextBoxColor == Color.White<br/>
+        /// &amp;&amp; this.IngredientAmountTextBoxColor == Color.White
         /// </summary>
         public AddIngredientsViewModel() : this(new IngredientsService())
         {
@@ -96,7 +184,11 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// &amp;&amp; this.IngredientNames.Length == 0<br/>
         /// &amp;&amp; this.IngredientAmount == string.Empty<br/>
         /// &amp;&amp; this.SelectedMeasurementType == MeasurementTypes.Quantity<br/>
-        /// &amp;&amp; this.SelectedMeasurementIndex == 0
+        /// &amp;&amp; this.SelectedMeasurementIndex == 0<br/>
+        /// &amp;&amp; this.IngredientNameErrorMessage == string.Empty<br/>
+        /// &amp;&amp; this.IngredientAmountErrorMessage == string.Empty<br/>
+        /// &amp;&amp; this.IngredientNameTextBoxColor == Color.White<br/>
+        /// &amp;&amp; this.IngredientAmountTextBoxColor == Color.White
         /// </summary>
         /// <param name="service">the specified service</param>
         /// <exception cref="InvalidOperationException"></exception>
@@ -107,6 +199,11 @@ namespace Desktop_Client.ViewModel.Ingredients
             this.ingredientNames = Array.Empty<string>();
             this.ingredientAmount = string.Empty;
             this.selectedMeasurementType = MeasurementType.Quantity;
+            this.selectedMeasurementIndex = 0;
+            this.ingredientNameErrorMessage = string.Empty;
+            this.ingredientAmountErrorMessage = string.Empty;
+            this.ingredientNameTextBoxColor = Color.White;
+            this.ingredientAmountTextBoxColor = Color.White;
         }
 
         /// <summary>
