@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\Recipes\RecipesController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Server.Controllers.ResponseModels;
+using Server.Data.Settings;
+using Server.ErrorMessages;
+using Server.Service.Recipes;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace Server.Controllers.Recipes
+{
+    /// &lt;summary&gt;
+    /// The controller for the users methods
+    /// &lt;/summary&gt;
+    [ApiController]
+    public class RecipesController
+    {
+        private readonly IRecipesService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipesController&quot;/&gt; class.
+        /// &lt;/summary&gt;
+        [ActivatorUtilitiesConstructor]
+        public RecipesController()
+        {
+            this.service = new RecipesService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipesController&quot;/&gt; class.&lt;br/&gt;
+        ///&lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;usersService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipesService&quot;&gt;The recipes service.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public RecipesController(IRecipesService recipesService)
+        {
+            this.service = recipesService ??
+                           throw new ArgumentNullException(nameof(recipesService),
+                               RecipesControllerErrorMessages.RecipesServiceCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets a specified recipe, if the recipe exists and is visible to the user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key associated with the user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to search.&lt;/param&gt;
+        /// &lt;returns&gt;A response containing the recipe.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;Recipe&quot;)]
+        public RecipeResponseModel GetRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipe(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeResponseModel(HttpStatusCode.Unauthorized, ex.Message, null!);
+            }
+            catch (Exception ex)
+            {
+                return new RecipeResponseModel(HttpStatusCode.InternalServerError, ex.Message, new Recipe());
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the recipes for a type
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
+        /// &lt;returns&gt;The recipes for a type&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;RecipesForType&quot;)]
+        public RecipeListResponseModel GetRecipesForType(string sessionKey, string tags)
+        {
+            try
+            {
+                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipesForType(sessionKey, tags));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;Recipe&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;Recipe&gt;());
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all of the types for a recipe, if the recipe exists and is visible to the user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key associated with the user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to search.&lt;/param&gt;
+        /// &lt;returns&gt;A response containing the types for recipe.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;TypesForRecipe&quot;)]
+        public RecipeTypesResponseModel GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetTypesForRecipe(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;string&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeTypesResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;string&gt;());
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the ingredients for a specified recipe, if the recipe exists and is visible to the user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key associated with the user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to search.&lt;/param&gt;
+        /// &lt;returns&gt;A response containing the ingredients for recipe.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;RecipeIngredients&quot;)]
+        public RecipeIngredientsResponseModel GetRecipeIngredients(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeIngredients(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;Ingredient&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;Ingredient&gt;());
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the steps for a recipe, if the recipe exists and is visible to the user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key associated with the user&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to search.&lt;/param&gt;
+        /// &lt;returns&gt;A response containing the steps for the recipe.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;RecipeSteps&quot;)]
+        public RecipeStepsResponseModel GetRecipeSteps(string sessionKey, int recipeId)
+        {
+            try
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipeSteps(sessionKey, recipeId));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;RecipeStep&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeStepsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;RecipeStep&gt;());
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Adds a recipe with the user associated with the session key as the author.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The active user&#39;s session key.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The recipe&#39;s description.&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is public or not.&lt;/param&gt;
+        /// &lt;returns&gt;The server&#39;s response.&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;Recipe&quot;)]
+        public StandardResponseModel AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        {
+            try
+            {
+                if (this.service.AddRecipe(sessionKey, name, description, isPublic))
+                {
+                    return new StandardResponseModel(HttpStatusCode.OK,
+                        ServerSettings.DefaultSuccessfulConnectionMessage);
+                }
+
+                return new StandardResponseModel(HttpStatusCode.InternalServerError,
+                    RecipesControllerErrorMessages.RecipeFailedToAdd);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the specified recipe.&lt;br/&gt;
+        /// The user associated with the provided session key must be the author of the recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the active user.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;Thee ID for the recipe to remove.&lt;/param&gt;
+        /// &lt;returns&gt;Thee server&#39;s response.&lt;/returns&gt;
+        [HttpDelete]
+        [Route(&quot;Recipe&quot;)]
+        public StandardResponseModel RemoveRecipe(string sessionKey, int recipeId)
+        {
+            try
+            {
+                if (this.service.RemoveRecipe(sessionKey, recipeId))
+                {
+                    return new StandardResponseModel(HttpStatusCode.OK,
+                        ServerSettings.DefaultSuccessfulConnectionMessage);
+                }
+
+                return new StandardResponseModel(HttpStatusCode.InternalServerError,
+                    RecipesControllerErrorMessages.RecipeFailedToRemove);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Updates the information for a specified recipe.&lt;br/&gt;
+        /// The user associated with the session key must be the author of the recipe.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The active user&#39;s session key.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The ID for the recipe to update.&lt;/param&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The new name of the recipe.&lt;/param&gt;
+        /// &lt;param name=&quot;description&quot;&gt;The new description for the recipe..&lt;/param&gt;
+        /// &lt;param name=&quot;isPublic&quot;&gt;Whether the recipe is public or not.&lt;/param&gt;
+        /// &lt;returns&gt;The server&#39;s response.&lt;/returns&gt;
+        [HttpPut]
+        [Route(&quot;Recipe&quot;)]
+        public StandardResponseModel EditRecipe(string sessionKey, int recipeId, string name, string description,
+            bool isPublic)
+        {
+            try
+            {
+                if (this.service.EditRecipe(sessionKey, recipeId, name, description, isPublic))
+                {
+                    return new StandardResponseModel(HttpStatusCode.OK,
+                        ServerSettings.DefaultSuccessfulConnectionMessage);
+                }
+
+                return new StandardResponseModel(HttpStatusCode.InternalServerError,
+                    RecipesControllerErrorMessages.RecipeFailedToEdit);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new StandardResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all of the recipes who&#39;s name contains the search term for the user.&lt;br/&gt;
+        /// If no search term is provided, all recipes visible to the user are fetched.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The active user&#39;s session key.&lt;/param&gt;
+        /// &lt;param name=&quot;searchTerm&quot;&gt;The term to search recipe names for.&lt;/param&gt;
+        /// &lt;returns&gt;The server&#39;s response.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;Recipes&quot;)]
+        public RecipeListResponseModel GetRecipes(string sessionKey, string searchTerm = &quot;&quot;)
+        {
+            try
+            {
+                return new RecipeListResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetRecipes(sessionKey, searchTerm));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;Recipe&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeListResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;Recipe&gt;());
+            }
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,9,24,35,1],[25,9,25,10,1],[26,13,26,49,1],[27,9,27,10,1],[37,9,37,65,1],[38,9,38,10,1],[39,13,41,91,1],[42,9,42,10,1],[56,9,56,10,1],[58,13,58,14,1],[59,17,60,67,1],[62,13,62,51,1],[63,13,63,14,1],[64,17,64,96,1],[66,13,66,33,1],[67,13,67,14,1],[68,17,68,110,1],[70,9,70,10,1],[84,9,84,10,1],[86,13,86,14,1],[87,17,88,71,1],[90,13,90,51,1],[91,13,91,14,1],[92,17,92,116,1],[94,13,94,33,1],[95,13,95,14,1],[96,17,97,44,1],[99,9,99,10,1],[113,9,113,10,1],[115,13,115,14,1],[116,17,118,75,1],[120,13,120,51,1],[121,13,121,14,1],[122,17,122,117,1],[124,13,124,33,1],[125,13,125,14,1],[126,17,127,44,1],[129,9,129,10,1],[143,9,143,10,1],[145,13,145,14,1],[146,17,148,78,1],[150,13,150,51,1],[151,13,151,14,1],[152,17,152,127,1],[154,13,154,33,1],[155,13,155,14,1],[156,17,157,48,1],[159,9,159,10,1],[173,9,173,10,1],[175,13,175,14,1],[176,17,178,72,1],[180,13,180,51,1],[181,13,181,14,1],[182,17,182,121,1],[184,13,184,33,1],[185,13,185,14,1],[186,17,187,48,1],[189,9,189,10,1],[205,9,205,10,1],[207,13,207,14,1],[208,17,208,85,1],[209,17,209,18,1],[210,21,211,76,1],[214,17,215,71,1],[217,13,217,51,1],[218,13,218,14,1],[219,17,219,91,1],[221,13,221,33,1],[222,13,222,14,1],[223,17,223,98,1],[225,9,225,10,1],[240,9,240,10,1],[242,13,242,14,1],[243,17,243,69,1],[244,17,244,18,1],[245,21,246,76,1],[249,17,250,74,1],[252,13,252,51,1],[253,13,253,14,1],[254,17,254,91,1],[256,13,256,33,1],[257,13,257,14,1],[258,17,258,98,1],[260,9,260,10,1],[279,9,279,10,1],[281,13,281,14,1],[282,17,282,96,1],[283,17,283,18,1],[284,21,285,76,1],[288,17,289,72,1],[291,13,291,51,1],[292,13,292,14,1],[293,17,293,91,1],[295,13,295,33,1],[296,13,296,14,1],[297,17,297,98,1],[299,9,299,10,1],[314,9,314,10,1],[316,13,316,14,1],[317,17,318,70,1],[320,13,320,51,1],[321,13,321,14,1],[322,17,322,116,1],[324,13,324,33,1],[325,13,325,14,1],[326,17,327,44,1],[329,9,329,10,1]]);
+    </script>
+  </body>
+</html>

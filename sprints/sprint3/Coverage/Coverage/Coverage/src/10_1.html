@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ResponseModels\RecipeIngredientsResponseModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Controllers.ResponseModels
+{
+    /// &lt;summary&gt;
+    /// The response model for the login
+    /// &lt;/summary&gt;
+    public class RecipeIngredientsResponseModel : BaseResponseModel
+    {
+        /// &lt;summary&gt;
+        /// The list of ingredients for a recipe.
+        /// &lt;/summary&gt;
+        public Ingredient[] Ingredients { get; set; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeIngredientsResponseModel&quot;/&gt; class.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// Precondition: message != null and message IS NOT empty&lt;br/&gt;
+        /// Postcondition: this.Code == code and this.Message == message
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;code&quot;&gt;The status code.&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The response content.&lt;/param&gt;
+        /// &lt;param name=&quot;ingredients&quot;&gt;The list of ingredients&lt;/param&gt;
+        public RecipeIngredientsResponseModel(HttpStatusCode code, string message, Ingredient[] ingredients)
+            : base(code, message)
+        {
+            this.Ingredients = ingredients;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[14,43,14,47,1],[14,48,14,52,1],[26,15,26,34,1],[27,9,27,10,1],[28,13,28,44,1],[29,9,29,10,1]]);
+    </script>
+  </body>
+</html>

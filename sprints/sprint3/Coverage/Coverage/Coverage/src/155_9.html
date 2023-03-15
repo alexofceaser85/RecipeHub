@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Recipes\RecipeListFilterViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Desktop_Client.Service.RecipeTypes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Filters;
+
+namespace Desktop_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the recipe types
+    /// &lt;/summary&gt;
+    public class RecipeListFilterViewModel : INotifyPropertyChanged
+    {
+        private readonly IRecipeTypesService service;
+
+        private string searchTerm;
+        private bool filterForAvailableIngredients;
+        private string[] tags;
+        private List&lt;string&gt; selectedTags;
+
+        /// &lt;summary&gt;
+        /// The text displayed in the tag text box.
+        /// &lt;/summary&gt;
+        public string SearchTerm
+        {
+            get =&gt; this.searchTerm;
+            set =&gt; this.SetField(ref this.searchTerm, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Whether the checkbox for the filter for available ingredients toggle should be checked.
+        /// &lt;/summary&gt;
+        public bool FilterForAvailableIngredients
+        {
+            get =&gt; filterForAvailableIngredients;
+            set =&gt; SetField(ref filterForAvailableIngredients, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The list of all selected tags
+        /// &lt;/summary&gt;
+        public List&lt;string&gt; SelectedTags
+        {
+            get =&gt; this.selectedTags;
+            set =&gt; this.SetField(ref this.selectedTags, value);
+        }
+        
+        /// &lt;summary&gt;
+        /// The list of filtered tags displayed in the tag list
+        /// &lt;/summary&gt;
+        public BindingList&lt;string&gt; FilteredTags { get; set; }
+
+        /// &lt;summary&gt;
+        /// The filter object that represents all selected filters.
+        /// &lt;/summary&gt;
+        public RecipeFilters Filters =&gt; new() {
+            OnlyAvailableIngredients = this.filterForAvailableIngredients,
+            MatchTags = this.selectedTags.ToArray()
+        };
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeListFilterViewModel&quot;/&gt; class.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.FilteredTags.Count == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.FilterForAvailableIngredients == true&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SearchTerm == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedTags.Count == 0
+        /// &lt;/summary&gt;
+        public RecipeListFilterViewModel() : this (new RecipeTypesService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeListFilterViewModel&quot;/&gt; class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public RecipeListFilterViewModel(IRecipeTypesService service)
+        {
+            this.service = service ?? throw new ArgumentNullException(nameof(service),
+                RecipeTypesViewModelErrorMessages.ServiceCannotBeNull);
+            this.FilteredTags = new BindingList&lt;string&gt;();
+            this.searchTerm = &quot;&quot;;
+            this.tags = Array.Empty&lt;string&gt;();
+            this.selectedTags = new List&lt;string&gt;();
+            this.filterForAvailableIngredients = true;
+        }
+        
+        /// &lt;summary&gt;
+        /// Sets up the initial values for the viewmodel using the specified &lt;see cref=&quot;RecipeFilters&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.FilterForAvailableIngredients == filters.OnlyAvailableIngredients&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedTags contains all items in filters.MatchTags
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;filters&quot;&gt;&lt;/param&gt;
+        public void Initialize(RecipeFilters filters)
+        {
+            this.FilterForAvailableIngredients = filters.OnlyAvailableIngredients;
+            this.tags = this.service.GetAllRecipeTypes();
+            this.SelectedTags = filters.MatchTags?.ToList() ?? new List&lt;string&gt;();
+            this.ApplySearchTermFilter();
+        }
+
+        /// &lt;summary&gt;
+        /// Applies the current search term to the list of filtered tags.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;All items in this.FilteredTags contains this.SearchTerm
+        /// &lt;/summary&gt;
+        public void ApplySearchTermFilter()
+        {
+            this.FilteredTags.Clear();
+            var filteredTags = this.tags.Where(tag =&gt; 
+                tag.Contains(this.searchTerm, StringComparison.InvariantCultureIgnoreCase));
+            foreach (var tag in filteredTags)
+            {
+                this.FilteredTags.Add(tag);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the tag to the list of selected tags.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;newTag != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.SelectedTags.Contains(newTag)
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;newTag&quot;&gt;The tag to add&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public void AddSelectedTag(string newTag)
+        {
+            if (newTag == null)
+            {
+                throw new ArgumentNullException(nameof(newTag));
+            }
+
+            if (this.selectedTags.Contains(newTag))
+            {
+                return;
+            }
+            this.selectedTags.Add(newTag);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the tag from the list of selected tags.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;tag != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;!this.SelectedTags.Contains(tag)
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;tag&quot;&gt;The tag to remove&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public void RemoveSelectedTag(string tag)
+        {
+            if (tag == null)
+            {
+                throw new ArgumentNullException(nameof(tag));
+            }
+            this.selectedTags = this.selectedTags.Where(selectedTag =&gt; selectedTag != tag).ToList();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,20,26,35,1],[27,20,27,61,1],[35,20,35,49,1],[36,20,36,70,1],[44,20,44,37,1],[45,20,45,63,1],[51,51,51,55,1],[51,56,51,60,1],[56,41,59,10,1],[70,46,70,77,1],[71,9,71,10,1],[73,9,73,10,1],[83,9,83,70,1],[84,9,84,10,1],[85,13,86,72,1],[87,13,87,59,1],[88,13,88,34,1],[89,13,89,47,1],[90,13,90,52,1],[91,13,91,55,1],[92,9,92,10,1],[103,9,103,10,1],[104,13,104,83,1],[105,13,105,58,1],[106,13,106,83,1],[107,13,107,42,1],[108,9,108,10,1],[117,9,117,10,1],[118,13,118,39,1],[119,13,120,17,1],[120,17,120,91,1],[120,91,120,93,1],[121,13,121,20,1],[121,22,121,29,1],[121,30,121,32,1],[121,33,121,45,1],[122,13,122,14,1],[123,17,123,44,1],[124,13,124,14,1],[125,9,125,10,1],[136,9,136,10,1],[137,13,137,32,1],[138,13,138,14,1],[139,17,139,65,1],[142,13,142,52,1],[143,13,143,14,1],[144,17,144,24,1],[146,13,146,43,1],[147,9,147,10,1],[158,9,158,10,1],[159,13,159,29,1],[160,13,160,14,1],[161,17,161,62,1],[163,13,163,72,1],[163,72,163,90,1],[163,90,163,101,1],[164,9,164,10,1],[178,9,178,10,1],[179,13,179,92,1],[180,9,180,10,1],[194,9,194,10,1],[195,13,195,66,1],[195,67,195,80,1],[196,13,196,27,1],[197,13,197,45,1],[198,13,198,25,1],[199,9,199,10,1]]);
+    </script>
+  </body>
+</html>

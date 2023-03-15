@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Users\UsersViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Service.Users;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+
+namespace Desktop_Client.ViewModel.Users
+{
+    /// &lt;summary&gt;
+    /// The view model for the users
+    /// &lt;/summary&gt;
+    public class UsersViewModel
+    {
+        private readonly IUsersService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersViewModel&quot;/&gt; class.
+        /// &lt;/summary&gt;
+        public UsersViewModel()
+        {
+            this.service = new UsersService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersViewModel&quot;/&gt; class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;&lt;/exception&gt;
+        public UsersViewModel(IUsersService service)
+        {
+            this.service = service ?? 
+                           throw new ArgumentException(UsersServiceViewModelErrorMessages.UsersServiceCannotBeNull);
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an account.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;username&quot;&gt;The username.&lt;/param&gt;
+        /// &lt;param name=&quot;password&quot;&gt;The password.&lt;/param&gt;
+        /// &lt;param name=&quot;verifyPassword&quot;&gt;The verify password.&lt;/param&gt;
+        /// &lt;param name=&quot;firstName&quot;&gt;The first name.&lt;/param&gt;
+        /// &lt;param name=&quot;lastName&quot;&gt;The last name.&lt;/param&gt;
+        /// &lt;param name=&quot;email&quot;&gt;The email.&lt;/param&gt;
+        public void CreateAccount(string username, string password, string verifyPassword, string firstName,
+            string lastName, string email)
+        {
+            this.service.CreateAccount(new NewAccount(username, password, verifyPassword, firstName, lastName, email));
+        }
+
+        /// &lt;summary&gt;
+        /// Logins the specified username and password combination.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;username&quot;&gt;The username.&lt;/param&gt;
+        /// &lt;param name=&quot;password&quot;&gt;The password.&lt;/param&gt;
+        public void Login(string username, string password)
+        {
+            this.service.Login(username, password);
+        }
+
+        /// &lt;summary&gt;
+        /// Logs the user out.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public void Logout()
+        {
+            this.service.Logout();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the user information.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;The user information&lt;/returns&gt;
+        public UserInfo GetUserInfo()
+        {
+            return this.service.GetUserInfo();
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,9,17,32,1],[18,9,18,10,1],[19,13,19,47,1],[20,9,20,10,1],[30,9,30,53,1],[31,9,31,10,1],[32,13,33,117,1],[34,9,34,10,1],[50,9,50,10,1],[51,13,51,120,1],[52,9,52,10,1],[63,9,63,10,1],[64,13,64,52,1],[65,9,65,10,1],[74,9,74,10,1],[75,13,75,35,1],[76,9,76,10,1],[86,9,86,10,1],[87,13,87,47,1],[88,9,88,10,1]]);
+    </script>
+  </body>
+</html>
