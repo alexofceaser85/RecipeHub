@@ -1,10 +1,14 @@
 ﻿@page "{id:int}"
+@using Shared_Resources.Model.PlannedMeals
+@using Web_Client.Model.States
 @model Web_Client.Pages.RecipeModel
 @{
     ViewData["Title"] = $"{Model.ViewModel.RecipeName}";
     ViewData["Header"] = $"{Model.ViewModel.RecipeName}<br />By {Model.ViewModel.AuthorName}";
     <div class="center-screen">
-
+        <div id="add-planned-meal-button-container">
+            <button id="add-planned-meal-modal-button" data-bs-toggle="modal" data-bs-target="#add-planned-meal-modal">Add to Planned Meals</button>
+        </div>
         <div class="recipe-photos">
             <button type="button">
                 <i class="arrow left"></i>
@@ -23,12 +27,10 @@
             <hr/>
 
             <div class="card" id="recipe-types">
-                <div class="card-header">
-                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-types-collapse" aria-expanded="true" aria-controls="recipe-types-collapse">
-                        <div class="recipe-collapse-header"><span>Types</span><i class="fas fa-chevron-down ml-2"></i></div>
-                    </button>
+                <div class="card-header recipe-collapse-header" data-bs-toggle="collapse" data-bs-target="#recipe-types-collapse" aria-expanded="true" aria-controls="recipe-types-collapse">
+                    Types
                 </div>
-                <div id="recipe-types-collapse" class="collapse" aria-labelledby="recipe-types">
+                    <div id="recipe-types-collapse" class="collapse" aria-labelledby="recipe-types">
                     <div class="card-body">
                         <p>@Html.Raw(Model.ViewModel.Tags)</p>
                     </div>
@@ -36,10 +38,8 @@
             </div>
             
             <div class="card" id="recipe-ingredients">
-                <div class="card-header">
-                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-ingredients-collapse" aria-expanded="true" aria-controls="recipe-ingredients-collapse">
-                        <div class="recipe-collapse-header"><span>Ingredients</span><i class="fas fa-chevron-down ml-2"></i></div>
-                    </button>
+                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#recipe-ingredients-collapse" aria-expanded="true" aria-controls="recipe-ingredients-collapse">
+                    Ingredients
                 </div>
                 <div id="recipe-ingredients-collapse" class="collapse" aria-labelledby="recipe-ingredients">
                     <div class="card-body">
@@ -49,10 +49,8 @@
             </div>
 
             <div class="card" id="recipe-steps">
-                <div class="card-header">
-                    <button class="btn" data-bs-toggle="collapse" data-bs-target="#recipe-steps-collapse" aria-expanded="true" aria-controls="recipe-steps-collapse">
-                        <div class="recipe-collapse-header"><span>Steps</span><i class="fas fa-chevron-down ml-2"></i></div>
-                    </button>
+                <div class="card-header" data-bs-toggle="collapse" data-bs-target="#recipe-steps-collapse" aria-expanded="true" aria-controls="recipe-steps-collapse">
+                    Steps
                 </div>
                 <div id="recipe-steps-collapse" class="collapse" aria-labelledby="recipe-steps">
                     <div class="card-body">
@@ -63,4 +61,88 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="add-planned-meal-modal" tabindex="-1" aria-labelledby="add-planned-meal-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-planned-meal-modal-label">Add Planned Meal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="add-planned-meal-form" method="post" asp-page-handler="AddPlannedMeal">
+                    <div class="modal-body">
+                        <label for="planned-meal-date-dropdown">Date</label>
+                        <select id="planned-meal-date-dropdown" class="add-planned-meal-dropdown" name="Date">
+                            @foreach (var date in @Model.PlannedMealDates)
+                            {
+                                <option value="@date">@date.ToString("D")</option>
+                            }
+                        </select>
+                        <label for="planned-meal-meal-category-dropdown">Meal</label>
+                        <select class="add-planned-meal-dropdown" id="planned-meal-meal-category-dropdown" name="MealCategory">
+                            @foreach (var mealCategory in Enum.GetValues<MealCategory>())
+                            {
+                                <option value="@((int)mealCategory)">@mealCategory.ToString()</option>
+                            }
+                        </select>
+                        <p id="add-planned-meal-error-text"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button id="add-planned-meal-button" type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="add-planned-meal-confirmation-modal" tabindex="-1" aria-labelledby="add-planned-meal-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="add-planned-meal-confirmation-modal-label">Confirmation</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <pre id="add-planned-meal-confirmation"></pre>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a asp-page="/PlannedMeals"><button id="add-planned-meal-button" type="submit" class="btn btn-primary">Yes</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script type="text/javascript">
+            $("#add-planned-meal-form").submit(function (event) {
+                event.preventDefault();
+
+                var form = $(this);
+                var url = form.attr("action");
+                var method = form.attr("method");
+                var data = form.serialize();
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: function (result) {
+                        $("#add-planned-meal-confirmation-modal").modal("show");
+                        $("#add-planned-meal-confirmation").text(result);
+
+                    },
+                    error: function (error) {
+                        $("#add-planned-meal-error-text").text(error.responseText);
+                    }
+                });
+            });
+
+            $(".add-planned-meal-dropdown").on("click", function() {
+                $("#add-planned-meal-error-text").text("");
+            });
+        </script>
+    }
 }
