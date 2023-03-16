@@ -1,5 +1,5 @@
-﻿using Web_Client.Endpoints.Recipes;
-using Shared_Resources.ErrorMessages;
+﻿using Shared_Resources.ErrorMessages;
+using Web_Client.Endpoints.Recipes;
 
 namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
 {

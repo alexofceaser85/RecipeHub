@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Utils.Units;
+using Web_Client.Service.PlannedMeals;
 using Web_Client.Service.Recipes;
 
 namespace Web_Client.ViewModel.Recipes
@@ -26,6 +29,7 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public const string NoInstructionsMessage = "No steps have been added... Yet!";
 
+        private int recipeId;
         private string recipeName;
         private string authorName;
         private string description;
@@ -34,7 +38,8 @@ namespace Web_Client.ViewModel.Recipes
         private string instructions;
         private string userRatingText;
         private string yourRatingText;
-        private readonly IRecipesService service;
+        private readonly IRecipesService recipeService;
+        private readonly IPlannedMealsService plannedMealsService;
 
         /// <summary>
         /// The name of the recipe, as should be displayed on the screen.
@@ -77,7 +82,7 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public string Ingredients
         {
-            get => this.ingredients;
+            get => ingredients;
             set => this.SetField(ref this.ingredients, value);
         }
 
@@ -109,6 +114,11 @@ namespace Web_Client.ViewModel.Recipes
         }
 
         /// <summary>
+        /// The message to display on the dialog that appears after adding a planned meal.
+        /// </summary>
+        public string PlannedMealAddedMessage { get; private set; }
+
+        /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
         /// Uses an instance of <see cref="RecipesService"/> as the endpoint by default.<br/>
         /// <br/>
@@ -121,27 +131,33 @@ namespace Web_Client.ViewModel.Recipes
         /// &amp;&amp; this.UserRatingText == string.Empty<br/>
         /// &amp;&amp; this.YourRatingText == string.Empty.
         /// </summary>
-        public RecipeViewModel() : this(new RecipesService())
+        public RecipeViewModel() : this(new RecipesService(), new PlannedMealsService())
         {
         }
 
         /// <summary>
-        /// Creates a instance of <see cref="RecipesListViewModel"/> with a specified <see cref="IRecipesService"/> object.<br/>
+        /// Creates a instance of <see cref="RecipesListViewModel"/> with specified <see cref="IRecipesService"/> and <see cref="IPlannedMealsService"/> objects.<br/>
         /// <br/>
-        /// <b>Precondition: </b>service != null<br/>
+        /// <b>Precondition: </b>recipeService != null<br/>
+        /// &amp;&amp; plannedMealService != null<br/>
         /// <b>Postcondition: </b>this.RecipeName == string.Empty<br/>
         /// &amp;&amp; this.AuthorName == string.Empty<br/>
         /// &amp;&amp; this.Description == string.Empty<br/>
         /// &amp;&amp; this.Ingredients == string.Empty<br/>
         /// &amp;&amp; this.Instructions == string.Empty<br/>
         /// &amp;&amp; this.UserRatingText == string.Empty<br/>
-        /// &amp;&amp; this.YourRatingText == string.Empty.
+        /// &amp;&amp; this.YourRatingText == string.Empty
         /// </summary>
-        public RecipeViewModel(IRecipesService service)
+        /// <param name="recipeService">The recipe service</param>
+        /// <param name="plannedMealService">The planned meal service</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public RecipeViewModel(IRecipesService recipeService, IPlannedMealsService plannedMealService)
         {
-            this.service = service ??
-                           throw new ArgumentNullException(nameof(service),
-                               RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.recipeService =
+                recipeService ?? throw new ArgumentNullException(nameof(recipeService),
+                    RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.plannedMealsService =
+                plannedMealService ?? throw new ArgumentNullException(nameof(plannedMealService));
 
             this.recipeName = "";
             this.authorName = "";
@@ -150,11 +166,13 @@ namespace Web_Client.ViewModel.Recipes
             this.instructions = "";
             this.userRatingText = "";
             this.yourRatingText = "";
+            this.tags = "";
+            this.PlannedMealAddedMessage = "";
         }
 
         /// <inheritdoc/>
         public event PropertyChangedEventHandler? PropertyChanged;
-        
+
         /// <summary>
         /// Loads the information for a recipe from the server and updates the appropriate properties to match them.<br/>
         /// <br/>
@@ -168,18 +186,49 @@ namespace Web_Client.ViewModel.Recipes
         /// &amp;&amp; this.UserRatingText == the recipe's overall rating<br/>
         /// &amp;&amp; this.YourRatingText == the user's rating for the recipe.
         /// </summary>
-        /// <param name="recipeId"></param>
+        /// <param name="recipeId">The id for the recipe to load</param>
         public void Initialize(int recipeId)
         {
+            this.recipeId = recipeId;
             this.LoadRecipe(recipeId);
             this.LoadTags(recipeId);
             this.LoadIngredients(recipeId);
             this.LoadInstructions(recipeId);
         }
 
+        /// <summary>
+        /// Adds the loaded recipe to the user's planned meals for the specified date and the specified category.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>None
+        /// </summary>
+        /// <param name="mealDate">The date for the meal</param>
+        /// <param name="category">The category of the meal</param>
+        public void AddRecipeToPlannedMeals(DateTime mealDate, MealCategory category)
+        {
+            this.plannedMealsService.AddPlannedMeal(mealDate, category, this.recipeId);
+            var plannedMeals = this.plannedMealsService.GetPlannedMeals()
+                                   .First(plannedMeal => plannedMeal.MealDate.Date == mealDate.Date)
+                                   .Meals[(int)category];
+
+            var sb = new StringBuilder();
+            sb.AppendLine(
+                $"{this.recipeName} has been added to your meals for {mealDate.ToShortDateString()}");
+            sb.AppendLine($"You now have {plannedMeals.Recipes.Length} meals planned for {category.ToString().ToLower()}:");
+            foreach (var recipe in plannedMeals.Recipes)
+            {
+                sb.Append(" - ");
+                sb.AppendLine(recipe.Name);
+            }
+
+            sb.Append("Would you like to see all of your planned meals now?");
+
+            this.PlannedMealAddedMessage = sb.ToString();
+        }
+
         private void LoadRecipe(int recipeId)
         {
-            var recipe = this.service.GetRecipe(recipeId);
+            var recipe = this.recipeService.GetRecipe(recipeId);
             this.RecipeName = recipe.Name;
             this.AuthorName = recipe.AuthorName;
             this.UserRatingText = $"User Rating: {recipe.Rating}/5";
@@ -189,7 +238,7 @@ namespace Web_Client.ViewModel.Recipes
 
         private void LoadTags(int recipeId)
         {
-            var tags = this.service.GetTypesForRecipe(recipeId);
+            var tags = this.recipeService.GetTypesForRecipe(recipeId);
             if (tags.Length == 0)
             {
                 this.Tags = NoTagsMessage;
@@ -199,13 +248,13 @@ namespace Web_Client.ViewModel.Recipes
             this.Tags = tags[0];
             for (var i = 1; i < tags.Length; i++)
             {
-                this.Tags += $"<br>{tags[i]}";
+                this.Tags += $"\n{tags[i]}";
             }
         }
 
         private void LoadIngredients(int recipeId)
         {
-            var ingredients = this.service.GetIngredientsForRecipe(recipeId);
+            var ingredients = this.recipeService.GetIngredientsForRecipe(recipeId);
             if (ingredients.Length == 0)
             {
                 this.Ingredients = NoIngredientsMessage;
@@ -216,7 +265,7 @@ namespace Web_Client.ViewModel.Recipes
             foreach (var ingredient in ingredients)
             {
                 var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
-                ingredientText += $"- {ingredient.Name} - {ingredient.Amount} {unit}<br>";
+                ingredientText += $"{ingredient.Name} - {ingredient.Amount} {unit}\n";
             }
 
             this.Ingredients = ingredientText.TrimEnd();
@@ -224,7 +273,7 @@ namespace Web_Client.ViewModel.Recipes
 
         private void LoadInstructions(int recipeId)
         {
-            var steps = this.service.GetStepsForRecipe(recipeId);
+            var steps = this.recipeService.GetStepsForRecipe(recipeId);
             if (steps.Length == 0)
             {
                 this.Instructions = NoInstructionsMessage;
@@ -234,7 +283,7 @@ namespace Web_Client.ViewModel.Recipes
             var instructions = "";
             foreach (var step in steps)
             {
-                instructions += $"{step.StepNumber}: {step.Name}<br>{step.Instructions}<br><br>";
+                instructions += $"{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n";
             }
 
             this.Instructions = instructions.TrimEnd();
@@ -268,7 +317,7 @@ namespace Web_Client.ViewModel.Recipes
         {
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;
-            this.OnPropertyChanged(propertyName);
+            OnPropertyChanged(propertyName);
             return true;
         }
     }

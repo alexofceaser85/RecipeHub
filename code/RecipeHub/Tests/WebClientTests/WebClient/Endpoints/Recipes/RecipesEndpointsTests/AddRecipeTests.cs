@@ -1,6 +1,6 @@
-﻿using Moq.Protected;
+﻿using System.Net;
 using Moq;
-using System.Net;
+using Moq.Protected;
 using Web_Client.Endpoints.Recipes;
 
 namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
@@ -15,10 +15,9 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
             mockHttpMessageHandler
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", 
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.OK,
                     Content = new StringContent(json)
                 });
@@ -31,7 +30,7 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
                 Assert.DoesNotThrow(() => endpoints.AddRecipe("key", "name", "description", false));
                 mockHttpMessageHandler
                     .Protected()
-                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(), 
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
                         ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
             });
         }
@@ -47,15 +46,14 @@ namespace WebClientTests.WebClient.Endpoints.Recipes.RecipesEndpointsTests
                 .Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync",
                     ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage
-                {
+                .ReturnsAsync(new HttpResponseMessage {
                     StatusCode = HttpStatusCode.InternalServerError,
                     Content = new StringContent(json)
                 });
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new RecipesEndpoints(httpClient);
-            
+
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(

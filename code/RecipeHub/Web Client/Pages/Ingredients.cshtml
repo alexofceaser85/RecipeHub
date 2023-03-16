@@ -184,8 +184,8 @@
                         success: function (result) {
                             updateSuggestions(result);
                         },
-                        error: function () {
-                            console.log("Error occurred.");
+                        error: function (error) {
+                            console.log(error);
                         }
                     });
             });

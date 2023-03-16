@@ -16,31 +16,30 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
             var ingredients = new Ingredient[] {
                 new("name", 0, MeasurementType.Volume)
             };
-            Session.Key = "Key";
+            const string sessionKey = "Key";
+            Session.Key = sessionKey;
             const int recipeId = 0;
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
             var usersService = new Mock<IUsersService>();
-
-            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(Session.Key, recipeId)).Returns(ingredients);
+            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId)).Returns(ingredients);
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
-
             var result = service.GetIngredientsForRecipe(recipeId);
 
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.EquivalentTo(ingredients));
-                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(Session.Key, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId), Times.Once);
             });
         }
 
         [Test]
         public void NullSessionKey()
         {
-            Session.Key = null!;
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull + " (Parameter 'Key')";
+            Session.Key = null;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(
@@ -52,8 +51,8 @@ namespace WebClientTests.WebClient.Service.Recipes.RecipesServiceTests
         [Test]
         public void EmptySessionKey()
         {
+            var errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Session.Key = "";
-            const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(

@@ -1,6 +1,6 @@
-﻿using Moq.Protected;
+﻿using System.Net;
 using Moq;
-using System.Net;
+using Moq.Protected;
 using Shared_Resources.Model.Ingredients;
 using Web_Client.Endpoints.Recipes;
 
