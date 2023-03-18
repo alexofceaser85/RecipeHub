@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\Endpoints\PlannedMeals\PlannedMealsEndpoints.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Utils.Json;
+using Shared_Resources.Utils.Server;
+
+namespace Desktop_Client.Endpoints.PlannedMeals
+{
+    /// &lt;inheritdoc cref=&quot;IPlannedMealsEndpoints&quot;/&gt;
+    public class PlannedMealsEndpoints : IPlannedMealsEndpoints
+    {
+        private const string AddPlannedMealsRoute = &quot;AddPlannedMeal&quot;;
+        private const string RemovePlannedMealsRoute = &quot;RemovePlannedMeal&quot;;
+        private const string GetPlannedMealsRoute = &quot;GetPlannedMeals&quot;;
+
+        private const string PlannedMealsElementName = &quot;plannedMeals&quot;;
+
+        private readonly HttpClient client;
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;PlannedMealsEndpoints&quot;/&gt;, using a default &lt;see cref=&quot;HttpClient&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public PlannedMealsEndpoints() : this(new HttpClient())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;PlannedMealsEndpoints&quot;/&gt; with a specified &lt;see cref=&quot;HttpClient&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;client != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;client&quot;&gt;&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public PlannedMealsEndpoints(HttpClient client)
+        {
+            this.client = client ?? throw new ArgumentNullException(nameof(client));
+        }
+
+        /// &lt;summary&gt;
+        /// Adds a recipe to the active user&#39;s planned meals, using a specified &lt;see cref=&quot;DateTime&quot;/&gt; and &lt;see cref=&quot;MealCategory&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The date to add the meal&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category of the meal&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe to add to the meal&lt;/param&gt;
+        public void AddPlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;mealDate={mealDate}&amp;category={category}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{AddPlannedMealsRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a recipe to the active user&#39;s planned meals, using a specified &lt;see cref=&quot;DateTime&quot;/&gt; and &lt;see cref=&quot;MealCategory&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The date to remove the meal&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category of the meal&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe to remove from the meal&lt;/param&gt;
+        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;mealDate={mealDate}&amp;category={category}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RemovePlannedMealsRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all of the planned meals for the active user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;All of the user&#39;s planned meals.&lt;/returns&gt;
+        public PlannedMeal[] GetPlannedMeals()
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;currentDate={DateTime.Now}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetPlannedMealsRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var meals = json[PlannedMealsElementName]!.AsArray().Deserialize&lt;PlannedMeal[]&gt;();
+
+            return meals!;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[27,42,27,64,1],[28,9,28,10,1],[30,9,30,10,1],[40,9,40,56,1],[41,9,41,10,1],[42,13,42,85,1],[43,9,43,10,1],[55,9,55,10,1],[56,13,56,131,1],[57,13,57,106,1],[58,13,58,90,1],[59,13,59,53,1],[60,9,60,10,1],[72,9,72,10,1],[73,13,73,131,1],[74,13,74,109,1],[75,13,75,90,1],[76,13,76,53,1],[77,9,77,10,1],[87,9,87,10,1],[88,13,88,98,1],[89,13,89,106,1],[90,13,90,89,1],[91,13,91,53,1],[93,13,93,95,1],[95,13,95,27,1],[96,9,96,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\Recipes\RecipeViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Units;
+using Web_Client.Service.Recipes;
+
+namespace Web_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes screen.
+    /// &lt;/summary&gt;
+    public class RecipeViewModel : INotifyPropertyChanged
+    {
+        /// &lt;summary&gt;
+        /// The message displayed when no tags have been added.
+        /// &lt;/summary&gt;
+        public const string NoTagsMessage = &quot;No tags have been added...Yet!&quot;;
+
+        /// &lt;summary&gt;
+        /// The message displayed when no ingredients have been added.
+        /// &lt;/summary&gt;
+        public const string NoIngredientsMessage = &quot;No ingredients have been added...Yet!&quot;;
+
+        /// &lt;summary&gt;
+        /// The message displayed when no instructions have been added.
+        /// &lt;/summary&gt;
+        public const string NoInstructionsMessage = &quot;No steps have been added... Yet!&quot;;
+
+        private string recipeName;
+        private string authorName;
+        private string description;
+        private string tags;
+        private string ingredients;
+        private string instructions;
+        private string userRatingText;
+        private string yourRatingText;
+        private readonly IRecipesService service;
+
+        /// &lt;summary&gt;
+        /// The name of the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string RecipeName
+        {
+            get =&gt; this.recipeName;
+            set =&gt; this.SetField(ref this.recipeName, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The name of the author, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string AuthorName
+        {
+            get =&gt; this.authorName;
+            set =&gt; this.SetField(ref this.authorName, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The tags for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Tags
+        {
+            get =&gt; this.tags;
+            set =&gt; this.SetField(ref this.tags, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The description of the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Description
+        {
+            get =&gt; this.description;
+            set =&gt; this.SetField(ref this.description, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The ingredients for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Ingredients
+        {
+            get =&gt; this.ingredients;
+            set =&gt; this.SetField(ref this.ingredients, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The instructions for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Instructions
+        {
+            get =&gt; this.instructions;
+            set =&gt; this.SetField(ref this.instructions, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The over all user rating in text for, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string UserRatingText
+        {
+            get =&gt; this.userRatingText;
+            set =&gt; this.SetField(ref this.userRatingText, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The current user&#39;s rating for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string YourRatingText
+        {
+            get =&gt; this.yourRatingText;
+            set =&gt; this.SetField(ref this.yourRatingText, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesService&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == string.Empty.
+        /// &lt;/summary&gt;
+        public RecipeViewModel() : this(new RecipesService())
+        {
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesService&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;service != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == string.Empty.
+        /// &lt;/summary&gt;
+        public RecipeViewModel(IRecipesService service)
+        {
+            this.service = service ??
+                           throw new ArgumentNullException(nameof(service),
+                               RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+
+            this.recipeName = &quot;&quot;;
+            this.authorName = &quot;&quot;;
+            this.description = &quot;&quot;;
+            this.ingredients = &quot;&quot;;
+            this.instructions = &quot;&quot;;
+            this.userRatingText = &quot;&quot;;
+            this.yourRatingText = &quot;&quot;;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        /// &lt;summary&gt;
+        /// Loads the information for a recipe from the server and updates the appropriate properties to match them.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;A recipe with recipeId exists and is visible to the user.&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == the recipe&#39;s name&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == the recipe author&#39;s name&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Tags == the recipe&#39;s tags&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == the recipe&#39;s description&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == the recipe&#39;s ingredients&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == the recipe&#39;s instructions&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == the recipe&#39;s overall rating&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == the user&#39;s rating for the recipe.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;&lt;/param&gt;
+        public void Initialize(int recipeId)
+        {
+            this.LoadRecipe(recipeId);
+            this.LoadTags(recipeId);
+            this.LoadIngredients(recipeId);
+            this.LoadInstructions(recipeId);
+        }
+
+        private void LoadRecipe(int recipeId)
+        {
+            var recipe = this.service.GetRecipe(recipeId);
+            this.RecipeName = recipe.Name;
+            this.AuthorName = recipe.AuthorName;
+            this.UserRatingText = $&quot;User Rating: {recipe.Rating}/5&quot;;
+            this.YourRatingText = &quot;Your Rating: 0/5&quot;;
+            this.Description = recipe.Description;
+        }
+
+        private void LoadTags(int recipeId)
+        {
+            var tags = this.service.GetTypesForRecipe(recipeId);
+            if (tags.Length == 0)
+            {
+                this.Tags = NoTagsMessage;
+                return;
+            }
+
+            this.Tags = tags[0];
+            for (var i = 1; i &lt; tags.Length; i++)
+            {
+                this.Tags += $&quot;&lt;br&gt;{tags[i]}&quot;;
+            }
+        }
+
+        private void LoadIngredients(int recipeId)
+        {
+            var ingredients = this.service.GetIngredientsForRecipe(recipeId);
+            if (ingredients.Length == 0)
+            {
+                this.Ingredients = NoIngredientsMessage;
+                return;
+            }
+
+            var ingredientText = &quot;&quot;;
+            foreach (var ingredient in ingredients)
+            {
+                var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
+                ingredientText += $&quot;- {ingredient.Name} - {ingredient.Amount} {unit}&lt;br&gt;&quot;;
+            }
+
+            this.Ingredients = ingredientText.TrimEnd();
+        }
+
+        private void LoadInstructions(int recipeId)
+        {
+            var steps = this.service.GetStepsForRecipe(recipeId);
+            if (steps.Length == 0)
+            {
+                this.Instructions = NoInstructionsMessage;
+                return;
+            }
+
+            var instructions = &quot;&quot;;
+            foreach (var step in steps)
+            {
+                instructions += $&quot;{step.StepNumber}: {step.Name}&lt;br&gt;{step.Instructions}&lt;br&gt;&lt;br&gt;&quot;;
+            }
+
+            this.Instructions = instructions.TrimEnd();
+        }
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            this.OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[44,20,44,35,0],[45,20,45,61,0],[53,20,53,35,0],[54,20,54,61,0],[62,20,62,29,0],[63,20,63,55,0],[71,20,71,36,0],[72,20,72,62,0],[80,20,80,36,0],[81,20,81,62,0],[89,20,89,37,0],[90,20,90,63,0],[98,20,98,39,0],[99,20,99,65,0],[107,20,107,39,0],[108,20,108,65,0],[124,36,124,62,0],[125,9,125,10,0],[126,9,126,10,0],[140,9,140,56,0],[141,9,141,10,0],[142,13,144,90,0],[146,13,146,34,0],[147,13,147,34,0],[148,13,148,35,0],[149,13,149,35,0],[150,13,150,36,0],[151,13,151,38,0],[152,13,152,38,0],[153,9,153,10,0],[173,9,173,10,0],[174,13,174,39,0],[175,13,175,37,0],[176,13,176,44,0],[177,13,177,45,0],[178,9,178,10,0],[181,9,181,10,0],[182,13,182,59,0],[183,13,183,43,0],[184,13,184,49,0],[185,13,185,69,0],[186,13,186,54,0],[187,13,187,51,0],[188,9,188,10,0],[191,9,191,10,0],[192,13,192,65,0],[193,13,193,34,0],[194,13,194,14,0],[195,17,195,43,0],[196,17,196,24,0],[199,13,199,33,0],[200,18,200,27,0],[200,29,200,44,0],[200,46,200,49,0],[201,13,201,14,0],[202,17,202,47,0],[203,13,203,14,0],[204,9,204,10,0],[207,9,207,10,0],[208,13,208,78,0],[209,13,209,41,0],[210,13,210,14,0],[211,17,211,57,0],[212,17,212,24,0],[215,13,215,37,0],[216,13,216,20,0],[216,22,216,36,0],[216,37,216,39,0],[216,40,216,51,0],[217,13,217,14,0],[218,17,218,86,0],[219,17,219,91,0],[220,13,220,14,0],[222,13,222,57,0],[223,9,223,10,0],[226,9,226,10,0],[227,13,227,66,0],[228,13,228,35,0],[229,13,229,14,0],[230,17,230,59,0],[231,17,231,24,0],[234,13,234,35,0],[235,13,235,20,0],[235,22,235,30,0],[235,31,235,33,0],[235,34,235,39,0],[236,13,236,14,0],[237,17,237,98,0],[238,13,238,14,0],[240,13,240,56,0],[241,9,241,10,0],[252,9,252,10,0],[253,13,253,92,0],[254,9,254,10,0],[268,9,268,10,0],[269,13,269,66,0],[269,67,269,80,0],[270,13,270,27,0],[271,13,271,50,0],[272,13,272,25,0],[273,9,273,10,0]]);
+    </script>
+  </body>
+</html>
