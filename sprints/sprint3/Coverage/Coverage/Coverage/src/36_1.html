@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Service\PlannedMeals\PlannedMealsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Diagnostics.CodeAnalysis;
+using Server.DAL.PlannedMeals;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Server.ErrorMessages;
+using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Model.Recipes;
+using Shared_Resources.Utils.Dates;
+
+namespace Server.Service.PlannedMeals
+{
+    /// &lt;summary&gt;
+    /// The service for the planned meals
+    /// &lt;/summary&gt;
+    public class PlannedMealsService : IPlannedMealsService
+    {
+        private readonly IPlannedMealsDal plannedMealsDal;
+        private readonly IUsersDal usersDal;
+        private readonly IRecipesDal recipesDal;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;PlannedMealsService&quot;/&gt; class.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public PlannedMealsService()
+        {
+            this.plannedMealsDal = new PlannedMealsDal();
+            this.usersDal = new UsersDal();
+            this.recipesDal = new RecipeDal();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;PlannedMealsService&quot;/&gt; class.
+        ///
+        /// Precondition: plannedMealsDal != null AND usersDal != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;plannedMealsDal&quot;&gt;The planned meals dal.&lt;/param&gt;
+        /// &lt;param name=&quot;usersDal&quot;&gt;The users dal.&lt;/param&gt;
+        /// &lt;param name=&quot;recipesDal&quot;&gt;The recipes dal&lt;/param&gt;
+        public PlannedMealsService(IPlannedMealsDal plannedMealsDal, IUsersDal usersDal, IRecipesDal recipesDal)
+        {
+            if (plannedMealsDal == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.PlannedMealsDalCannotBeNull);
+            }
+
+            if (usersDal == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.UsersDalCannotBeNull);
+            }
+
+            if (recipesDal == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.RecipesDalCannotBeNull);
+            }
+
+            this.plannedMealsDal = plannedMealsDal;
+            this.usersDal = usersDal;
+            this.recipesDal = recipesDal;
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the planned meal.
+        /// 
+        /// Precondition: sessionKey != null AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The meal date.&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe identifier.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        /// &lt;exception cref=&quot;System.UnauthorizedAccessException&quot;&gt;If the session is not valid&lt;/exception&gt;
+        /// &lt;returns&gt;Whether or not the meal was added&lt;/returns&gt;
+        public bool AddPlannedMeal(string sessionKey, DateTime mealDate, MealCategory category, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException(PlannedMealsServiceErrorMessages.InvalidSession);
+            }
+
+            if (this.plannedMealsDal.IsPlannedMealInSystem(userId.Value, mealDate, category, recipeId))
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.RecipeAlreadyInPlannedMeal);
+            }
+
+            return this.plannedMealsDal.AddPlannedMeal(userId.Value, mealDate, category, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the planned meals.
+        ///
+        /// Precondition: sessionKey != null AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;param name=&quot;plannedMealsDate&quot;&gt;The planned meals date&lt;/param&gt;
+        /// &lt;returns&gt;
+        /// The planned meals
+        /// &lt;/returns&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        /// &lt;exception cref=&quot;System.UnauthorizedAccessException&quot;&gt;If the session is not valid&lt;/exception&gt;
+        public PlannedMeal[] GetPlannedMeals(string sessionKey, DateTime plannedMealsDate)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException(PlannedMealsServiceErrorMessages.InvalidSession);
+            }
+
+            var datesForMeals = DateUtils.GenerateDateTimesFromWeekToNextWeek(plannedMealsDate);
+            return this.getPlannedMeals(datesForMeals, userId);
+        }
+
+        private PlannedMeal[] getPlannedMeals(DateTime[] datesForMeals, [DisallowNull] int? userId)
+        {
+            var plannedMeals = new List&lt;PlannedMeal&gt;();
+
+            foreach (var date in datesForMeals)
+            {
+                var mealsForCategory = this.getCategoriesForMeal(userId, date);
+                var plannedMeal = new PlannedMeal(date, mealsForCategory);
+                plannedMeals.Add(plannedMeal);
+            }
+
+            return plannedMeals.ToArray();
+        }
+
+        private MealsForCategory[] getCategoriesForMeal([DisallowNull] int? userId, DateTime date)
+        {
+            var mealsForCategory = new List&lt;MealsForCategory&gt;();
+
+            foreach (var category in Enum.GetValues(typeof(MealCategory)).Cast&lt;MealCategory&gt;())
+            {
+                var recipeIds = this.plannedMealsDal.GetPlannedMealRecipes(userId.Value, date, category);
+                var recipes = this.getRecipesFromId(recipeIds);
+
+                var mealForCategory = new MealsForCategory(category, recipes.ToArray());
+                mealsForCategory.Add(mealForCategory);
+            }
+
+            return mealsForCategory.ToArray();
+        }
+
+        private Recipe[] getRecipesFromId(int[] recipeIds)
+        {
+            var recipes = new List&lt;Recipe&gt;();
+
+            foreach (var id in recipeIds)
+            {
+                var recipe = this.recipesDal.GetRecipe(id);
+
+                if (recipe != null)
+                {
+                    recipes.Add(recipe.Value);
+                }
+            }
+
+            return recipes.ToArray();
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a planned meal.
+        /// Precondition: sessionKey != null AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The meal date.&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category.&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe identifier.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        /// &lt;exception cref=&quot;System.UnauthorizedAccessException&quot;&gt;If the session is not valid&lt;/exception&gt;
+        /// &lt;return&gt;Whether or not the meal was removed&lt;/return&gt;
+        public bool RemovePlannedMeal(string sessionKey, DateTime mealDate, MealCategory category, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(PlannedMealsServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException(PlannedMealsServiceErrorMessages.InvalidSession);
+            }
+
+            return this.plannedMealsDal.RemovePlannedMeal(userId.Value, mealDate, category, recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the out of date meals.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The meal date.&lt;/param&gt;
+        public void RemoveOutOfDateMeals(DateTime mealDate)
+        {
+            this.plannedMealsDal.RemoveOutOfDateMeals(mealDate);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[27,9,27,37,1],[28,9,28,10,1],[29,13,29,58,1],[30,13,30,44,1],[31,13,31,47,1],[32,9,32,10,1],[43,9,43,113,1],[44,9,44,10,1],[45,13,45,41,1],[46,13,46,14,1],[47,17,47,107,1],[50,13,50,34,1],[51,13,51,14,1],[52,17,52,100,1],[55,13,55,36,1],[56,13,56,14,1],[57,17,57,102,1],[60,13,60,52,1],[61,13,61,38,1],[62,13,62,42,1],[63,9,63,10,1],[79,9,79,10,1],[80,13,80,36,1],[81,13,81,14,1],[82,17,82,102,1],[85,13,85,47,1],[86,13,86,14,1],[87,17,87,103,1],[90,13,90,71,1],[92,13,92,32,1],[93,13,93,14,1],[94,17,94,104,1],[97,13,97,104,1],[98,13,98,14,1],[99,17,99,106,1],[102,13,102,100,1],[103,9,103,10,1],[119,9,119,10,1],[120,13,120,36,1],[121,13,121,14,1],[122,17,122,102,1],[125,13,125,47,1],[126,13,126,14,1],[127,17,127,103,1],[130,13,130,71,1],[132,13,132,32,1],[133,13,133,14,1],[134,17,134,104,1],[137,13,137,97,1],[138,13,138,64,1],[139,9,139,10,1],[142,9,142,10,1],[143,13,143,56,1],[145,13,145,20,1],[145,22,145,30,1],[145,31,145,33,1],[145,34,145,47,1],[146,13,146,14,1],[147,17,147,80,1],[148,17,148,75,1],[149,17,149,47,1],[150,13,150,14,1],[152,13,152,43,1],[153,9,153,10,1],[156,9,156,10,1],[157,13,157,65,1],[159,13,159,20,1],[159,22,159,34,1],[159,35,159,37,1],[159,38,159,95,1],[160,13,160,14,1],[161,17,161,106,1],[162,17,162,64,1],[164,17,164,89,1],[165,17,165,55,1],[166,13,166,14,1],[168,13,168,47,1],[169,9,169,10,1],[172,9,172,10,1],[173,13,173,46,1],[175,13,175,20,1],[175,22,175,28,1],[175,29,175,31,1],[175,32,175,41,1],[176,13,176,14,1],[177,17,177,60,1],[179,17,179,36,1],[180,17,180,18,1],[181,21,181,47,1],[182,17,182,18,1],[183,13,183,14,1],[185,13,185,38,1],[186,9,186,10,1],[201,9,201,10,1],[202,13,202,36,1],[203,13,203,14,1],[204,17,204,102,1],[207,13,207,47,1],[208,13,208,14,1],[209,17,209,103,1],[212,13,212,71,1],[214,13,214,32,1],[215,13,215,14,1],[216,17,216,104,1],[219,13,219,103,1],[220,9,220,10,1],[230,9,230,10,1],[231,13,231,65,1],[232,9,232,10,1]]);
+    </script>
+  </body>
+</html>

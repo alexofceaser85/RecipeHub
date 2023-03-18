@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Service\Recipes\RecipesService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.DAL.Recipes;
+using Server.DAL.RecipeTypes;
+using Server.DAL.Users;
+using Server.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+
+namespace Server.Service.Recipes
+{
+    /// &lt;summary&gt;
+    /// Holds the service methods for the recipes table
+    /// &lt;/summary&gt;
+    public class RecipesService : IRecipesService
+    {
+        private readonly IRecipesDal recipesDal;
+        private readonly IUsersDal usersDal;
+        private readonly IRecipeTypesDal recipeTypesDal;
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;RecipesService&quot;/&gt;.&lt;br/&gt;
+        /// A &lt;see cref=&quot;RecipeDal&quot;/&gt; will be used as the DAL.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesService()
+        {
+            this.recipesDal = new RecipeDal();
+            this.usersDal = new UsersDal();
+            this.recipeTypesDal = new RecipeTypesDal();
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;RecipesService&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesDal&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;recipesDal != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipesDal&quot;&gt;The DAL for the recipes table&lt;/param&gt;
+        /// &lt;param name=&quot;usersDal&quot;&gt;The DAL for the users table&lt;/param&gt;
+        /// &lt;param name=&quot;recipeTypesDal&quot;&gt;The DAL for the recipe types&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;recipesDal&lt;/exception&gt;
+        public RecipesService(IRecipesDal recipesDal, IUsersDal usersDal, IRecipeTypesDal recipeTypesDal)
+        {
+            this.recipesDal = recipesDal ?? throw new ArgumentNullException(nameof(recipesDal),
+                ServerRecipesServiceErrorMessages.RecipesDataAccessLayerCannotBeNull);
+            this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal),
+                ServerRecipesServiceErrorMessages.UsersDataAccessLayerCannotBeNull);
+            this.recipeTypesDal = recipeTypesDal ?? throw new ArgumentNullException(nameof(recipeTypesDal), ServerRecipesServiceErrorMessages.RecipeTypesDalCannotBeNull);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe[] GetRecipes(string sessionKey, string searchTerm = &quot;&quot;)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (searchTerm == null)
+            {
+                throw new ArgumentNullException(nameof(searchTerm),
+                    ServerRecipesServiceErrorMessages.SearchTermCannotBeNull);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+
+            return this.recipesDal.GetRecipesWithName((int) userId, searchTerm);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the recipes given a recipe type
+        /// Precondition:
+        /// sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// AND tags != null
+        /// AND tags IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;param name=&quot;tags&quot;&gt;The tags.&lt;/param&gt;
+        /// &lt;returns&gt;
+        /// The recipes for a given recipe type
+        /// &lt;/returns&gt;
+        /// &lt;exception cref=&quot;System.UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;&lt;/exception&gt;
+        public Recipe[] GetRecipesForType(string sessionKey, string tags)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (tags == null)
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeNull);
+            }
+
+            if (tags.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.TagsCannotBeEmpty);
+            }
+
+            var tagsList = tags.Split(&quot;,&quot;);
+            var typeIds = new List&lt;int&gt;();
+
+            foreach (var tag in tagsList)
+            {
+                var type = this.recipeTypesDal.GetTypeIdForTypeName(tag);
+
+                if (type != null)
+                {
+                    typeIds.Add(type.Value);
+                }
+            }
+
+            var recipeIds = this.recipeTypesDal.GetRecipeIdsForTypeIds(typeIds.ToArray());
+            var recipes = new List&lt;Recipe&gt;();
+
+            foreach (var id in recipeIds)
+            {
+                try
+                {
+                    var recipe = this.GetRecipe(sessionKey, id);
+                    recipes.Add(recipe);
+                }
+                catch (ArgumentException)
+                {
+
+                }
+            }
+
+            return recipes.ToArray();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe GetRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ?? throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return (Recipe) this.recipesDal.GetRecipe(recipeId)!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetRecipeIngredients(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.GetIngredientsForRecipe(recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public RecipeStep[] GetRecipeSteps(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.GetStepsForRecipe(recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public string[] GetTypesForRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.UserCanSeeRecipe((int)userId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.GetTypesForRecipe(recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public bool AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name),
+                    ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (description == null)
+            {
+                throw new ArgumentNullException(nameof(description),
+                    ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ?? throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+
+            return this.recipesDal.AddRecipe((int) authorId, name, description, isPublic);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public bool RemoveRecipe(string sessionKey, int recipeId)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                            throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.RemoveRecipe(recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public bool EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(sessionKey))
+            {
+                throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name),
+                    ServerRecipesServiceErrorMessages.RecipeNameCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (description == null)
+            {
+                throw new ArgumentNullException(nameof(description),
+                    ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            int? authorId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                            throw new UnauthorizedAccessException(ServerRecipesServiceErrorMessages.SessionKeyIsNotValid);
+            if (!this.recipesDal.IsAuthorOfRecipe((int)authorId, recipeId))
+            {
+                throw new ArgumentException(ServerRecipesServiceErrorMessages.UserDidNotMakeRecipe);
+            }
+
+            return this.recipesDal.EditRecipe(recipeId, name, description, isPublic);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,9,26,32,1],[27,9,27,10,1],[28,13,28,47,1],[29,13,29,44,1],[30,13,30,56,1],[31,9,31,10,1],[43,9,43,106,1],[44,9,44,10,1],[45,13,46,87,1],[47,13,48,85,1],[49,13,49,171,1],[50,9,50,10,1],[54,9,54,10,1],[55,13,55,36,1],[56,13,56,14,1],[57,17,57,113,1],[60,13,60,55,1],[61,13,61,14,1],[62,17,62,114,1],[65,13,65,36,1],[66,13,66,14,1],[67,17,68,79,1],[71,13,72,121,1],[74,13,74,81,1],[75,9,75,10,1],[94,9,94,10,1],[95,13,95,36,1],[96,13,96,14,1],[97,17,97,113,1],[100,13,100,55,1],[101,13,101,14,1],[102,17,102,114,1],[105,13,105,30,1],[106,13,106,14,1],[107,17,107,97,1],[110,13,110,41,1],[111,13,111,14,1],[112,17,112,98,1],[115,13,115,44,1],[116,13,116,43,1],[118,13,118,20,1],[118,22,118,29,1],[118,30,118,32,1],[118,33,118,41,1],[119,13,119,14,1],[120,17,120,74,1],[122,17,122,34,1],[123,17,123,18,1],[124,21,124,45,1],[125,17,125,18,1],[126,13,126,14,1],[128,13,128,91,1],[129,13,129,46,1],[131,13,131,20,1],[131,22,131,28,1],[131,29,131,31,1],[131,32,131,41,1],[132,13,132,14,1],[134,17,134,18,1],[135,21,135,65,1],[136,21,136,41,1],[137,17,137,18,1],[138,17,138,42,1],[139,17,139,18,1],[141,17,141,18,1],[142,13,142,14,1],[144,13,144,38,1],[145,9,145,10,1],[149,9,149,10,1],[150,13,150,36,1],[151,13,151,14,1],[152,17,152,113,1],[155,13,155,55,1],[156,13,156,14,1],[157,17,157,114,1],[160,13,160,169,1],[161,13,161,74,1],[162,13,162,14,1],[163,17,163,101,1],[166,13,166,66,1],[167,9,167,10,1],[171,9,171,10,1],[172,13,172,36,1],[173,13,173,14,1],[174,17,174,113,1],[177,13,177,55,1],[178,13,178,14,1],[179,17,179,114,1],[182,13,183,121,1],[184,13,184,74,1],[185,13,185,14,1],[186,17,186,101,1],[189,13,189,70,1],[190,9,190,10,1],[194,9,194,10,1],[195,13,195,36,1],[196,13,196,14,1],[197,17,197,113,1],[200,13,200,55,1],[201,13,201,14,1],[202,17,202,114,1],[205,13,206,121,1],[207,13,207,74,1],[208,13,208,14,1],[209,17,209,101,1],[212,13,212,64,1],[213,9,213,10,1],[217,9,217,10,1],[218,13,218,36,1],[219,13,219,14,1],[220,17,220,113,1],[223,13,223,55,1],[224,13,224,14,1],[225,17,225,114,1],[228,13,229,121,1],[230,13,230,74,1],[231,13,231,14,1],[232,17,232,101,1],[235,13,235,64,1],[236,9,236,10,1],[240,9,240,10,1],[241,13,241,36,1],[242,13,242,14,1],[243,17,243,113,1],[246,13,246,55,1],[247,13,247,14,1],[248,17,248,114,1],[251,13,251,30,1],[252,13,252,14,1],[253,17,254,80,1],[257,13,257,49,1],[258,13,258,14,1],[259,17,259,104,1],[262,13,262,37,1],[263,13,263,14,1],[264,17,265,87,1],[268,13,268,56,1],[269,13,269,14,1],[270,17,270,111,1],[273,13,273,171,1],[275,13,275,91,1],[276,9,276,10,1],[280,9,280,10,1],[281,13,281,36,1],[282,13,282,14,1],[283,17,283,113,1],[286,13,286,55,1],[287,13,287,14,1],[288,17,288,114,1],[291,13,292,123,1],[293,13,293,76,1],[294,13,294,14,1],[295,17,295,101,1],[298,13,298,59,1],[299,9,299,10,1],[303,9,303,10,1],[304,13,304,36,1],[305,13,305,14,1],[306,17,306,113,1],[309,13,309,55,1],[310,13,310,14,1],[311,17,311,114,1],[314,13,314,30,1],[315,13,315,14,1],[316,17,317,79,1],[320,13,320,49,1],[321,13,321,14,1],[322,17,322,104,1],[325,13,325,37,1],[326,13,326,14,1],[327,17,328,86,1],[331,13,331,56,1],[332,13,332,14,1],[333,17,333,111,1],[336,13,337,123,1],[338,13,338,76,1],[339,13,339,14,1],[340,17,340,101,1],[343,13,343,86,1],[344,9,344,10,1]]);
+    </script>
+  </body>
+</html>

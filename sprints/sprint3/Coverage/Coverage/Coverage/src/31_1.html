@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\ErrorMessages\ServerErrorMessages.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+namespace Server.ErrorMessages
+{
+    /// &lt;summary&gt;
+    /// The error messages for the users service
+    /// &lt;/summary&gt;
+    public static class ServerUsersServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The previous session key cannot be null error message
+        /// &lt;/summary&gt;
+        public const string PreviousSessionKeyCannotBeNull = &quot;The previous session key cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The previous session key cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string PreviousSessionKeyCannotBeEmpty = &quot;The previous session key cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be null error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeNull = &quot;The session key cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeEmpty = &quot;The session key cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The username and password combination is wrong error message
+        /// &lt;/summary&gt;
+        public const string UsernameAndPasswordCombinationIsWrong = &quot;The username and password combination is wrong&quot;;
+        /// &lt;summary&gt;
+        /// The data access layer cannot be null error message
+        /// &lt;/summary&gt;
+        public const string DataAccessLayerCannotBeNull = &quot;The data access layer cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be expired error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeExpired = &quot;Session Expired Returning to Login Screen&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the recipes service
+    /// &lt;/summary&gt;
+    public static class ServerRecipesServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The recipes data access layer cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipesDataAccessLayerCannotBeNull = &quot;The recipes data access layer cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The users data access layer cannot be null error message
+        /// &lt;/summary&gt;
+        public const string UsersDataAccessLayerCannotBeNull = &quot;The users data access layer cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The search term cannot be null error message
+        /// &lt;/summary&gt;
+        public const string SearchTermCannotBeNull = &quot;The search term cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe name cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeNameCannotBeNull = &quot;The recipe name cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe name cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string RecipeNameCannotBeEmpty = &quot;The recipe name cannot be empty&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeDescriptionCannotBeNull = &quot;The recipe description cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string RecipeDescriptionCannotBeEmpty = &quot;The recipe description cannot be empty&quot;;
+
+        /// &lt;summary&gt;
+        /// The user did not make the recipe error message
+        /// &lt;/summary&gt;
+        public const string UserDidNotMakeRecipe = &quot;The user did not make the recipe&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe description cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string AuthorIdDoesNotExist = &quot;The recipe description cannot be empty&quot;;
+
+        /// &lt;summary&gt;
+        /// The session key cannot be null error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeNull = &quot;The session key cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The session key cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyCannotBeEmpty = &quot;The session key cannot be empty&quot;;
+        
+        /// &lt;summary&gt;
+        /// The session key is not valid error message
+        /// &lt;/summary&gt;
+        public const string SessionKeyIsNotValid = &quot;The session key is not valid&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe types dal cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipeTypesDalCannotBeNull = &quot;The recipe types Dal cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The tags cannot be null error message
+        /// &lt;/summary&gt;
+        public const string TagsCannotBeNull = &quot;The tags cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The tags cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string TagsCannotBeEmpty = &quot;The tags cannot be empty&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the recipes controller
+    /// &lt;/summary&gt;
+    public static class RecipesControllerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The recipes service cannot be null error message
+        /// &lt;/summary&gt;
+        public const string RecipesServiceCannotBeNull = &quot;The recipes service cannot be null&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe failed to add error message
+        /// &lt;/summary&gt;
+        public const string RecipeFailedToAdd = &quot;The recipe failed to be added&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe failed to remove error message
+        /// &lt;/summary&gt;
+        public const string RecipeFailedToRemove = &quot;The recipe failed to be removed&quot;;
+
+        /// &lt;summary&gt;
+        /// The recipe failed to edit error message
+        /// &lt;/summary&gt;
+        public const string RecipeFailedToEdit = &quot;The recipe failed to be edited&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The user info response model error message
+    /// &lt;/summary&gt;
+    public static class ResponseModelErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The message cannot be null error message
+        /// &lt;/summary&gt;
+        public const string MessageCannotBeNull = &quot;The message cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The message cannot be empty error message
+        /// &lt;/summary&gt;
+        public const string MessageCannotBeEmpty = &quot;The message cannot be empty&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the users service
+    /// &lt;/summary&gt;
+    public static class UsersServiceServerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The user name already exists error message
+        /// &lt;/summary&gt;
+        public const string UserNameAlreadyExists = &quot;The username already exists&quot;;
+        /// &lt;summary&gt;
+        /// The account to create cannot be null error message
+        /// &lt;/summary&gt;
+        public const string AccountToCreateCannotBeNull = &quot;The account to create cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the planned meals controller
+    /// &lt;/summary&gt;
+    public static class PlannedMealsControllerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The planned meals service cannot be null error message
+        /// &lt;/summary&gt;
+        public const string PlannedMealsServiceCannotBeNull = &quot;The planned meals service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error message for the planned meals service
+    /// &lt;/summary&gt;
+    public static class PlannedMealsServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The planned meals dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string PlannedMealsDalCannotBeNull = &quot;The planned meals dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The users dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string UsersDalCannotBeNull = &quot;The user dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The recipes Dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string RecipesDalCannotBeNull = &quot;The recipes service cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be null error message
+        /// &lt;/summary&gt;
+        public static string SessionKeyCannotBeNull = &quot;The session key cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be empty error message
+        /// &lt;/summary&gt;
+        public static string SessionKeyCannotBeEmpty = &quot;The session key cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The invalid session error message
+        /// &lt;/summary&gt;
+        public static string InvalidSession = &quot;The session is invalid&quot;;
+        /// &lt;summary&gt;
+        /// The recipe already in planned meal error message
+        /// &lt;/summary&gt;
+        public static string RecipeAlreadyInPlannedMeal =
+            &quot;The recipe is already in the planned meal category, cannot add duplicate recipes&quot;;
+    }
+    /// &lt;summary&gt;
+    /// The error messages for the shopping list controller
+    /// &lt;/summary&gt;
+    public static class ShoppingListControllerErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The shopping list service cannot be null error message
+        /// &lt;/summary&gt;
+        public static string ShoppingListServiceCannotBeNull = &quot;The shopping list service cannot be null&quot;;
+    }
+
+    /// &lt;summary&gt;
+    /// The error messages for the shopping list service
+    /// &lt;/summary&gt;
+    public static class ShoppingListServiceErrorMessages
+    {
+        /// &lt;summary&gt;
+        /// The users dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string UsersDalCannotBeNull = &quot;The user dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The planned meals dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string PlannedMealsDalCannotBeNull = &quot;The planned meals dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The ingredients dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string IngredientsDalCannotBeNull = &quot;The ingredients dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The recipes dal cannot be null error message
+        /// &lt;/summary&gt;
+        public static string RecipesDalCannotBeNull = &quot;The recipes dal cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be null error message
+        /// &lt;/summary&gt;
+        public static string SessionKeyCannotBeNull = &quot;The session key cannot be null&quot;;
+        /// &lt;summary&gt;
+        /// The session key cannot be empty error message
+        /// &lt;/summary&gt;
+        public static string SessionKeyCannotBeEmpty = &quot;The session key cannot be empty&quot;;
+        /// &lt;summary&gt;
+        /// The invalid session key error message
+        /// &lt;/summary&gt;
+        public static string InvalidSessionKeyErrorMessage = &quot;The session is invalid&quot;;
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[194,9,194,99,1],[198,9,198,83,1],[202,9,202,92,1],[206,9,206,88,1],[210,9,210,90,1],[214,9,214,72,1],[218,9,219,96,1],[229,9,229,107,1],[240,9,240,83,1],[244,9,244,99,1],[248,9,248,96,1],[252,9,252,88,1],[256,9,256,88,1],[260,9,260,90,1],[264,9,264,87,1]]);
+    </script>
+  </body>
+</html>
