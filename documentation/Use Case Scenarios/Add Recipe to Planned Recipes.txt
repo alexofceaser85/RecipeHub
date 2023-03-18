@@ -4,12 +4,21 @@ Context: User has successfully logged into the application and is viewing a reci
 Primary Flow:
     1: The user selects to add the recipe to their planned recipes
     2: The user is prompted to enter:
-        a: The date to plan the recipe for
-        b: The type of meal (beakfast, lunch, dinner)
+        a: The date to plan the recipe for (Limited to a week in the future)
+        b: The type of meal ( Limited to beakfast, lunch, dinner)
     3: The user submits the information
-    4: The user is informed that the recipe has been planned
+    4: The user is informed that the recipe has been planned and is shown all recipes for that date/meal type
+    5: The user is prompted to see all planned meals
+    6: The user accepts the prompt
+    7: The planned meals screen is displayed
 Alternate Flows:
+    a1-2:
+        1: The user cancels adding a recipe to their planned meals
+        2: The application closes the prompt
     a3:
         1: The application is unable to connect to the server
         2: The application informs the user about the connection error
         3: The application returns to step 1
+    a6:
+        1: The user declines the prompt
+        2: The application closes the prompt

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Recipes\RecipesListViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.Recipes;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.Recipes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Filters;
+using Shared_Resources.Model.Recipes;
+
+namespace Desktop_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes List screen.
+    /// &lt;/summary&gt;
+    public class RecipesListViewModel : INotifyPropertyChanged
+    {
+        /// &lt;summary&gt;
+        /// No recipes with owned ingredients message
+        /// &lt;/summary&gt;
+        public const string NoRecipesWithOwnedIngredients = &quot;There are no recipes that you have the ingredients to make.&quot;;
+        /// &lt;summary&gt;
+        /// No recipes with tags message
+        /// &lt;/summary&gt;
+        public const string NoRecipesWithTags = &quot;There are no recipes with the selected tag(s).&quot;;
+        /// &lt;summary&gt;
+        /// No recipe with name message
+        /// &lt;/summary&gt;
+        public const string NoRecipesWithName = &quot;There are no recipes that match the search term.&quot;;
+        /// &lt;summary&gt;
+        /// No recipes uploaded message
+        /// &lt;/summary&gt;
+        public const string NoRecipesUploaded = &quot;There are no recipes that are currently available.&quot;;
+
+        private readonly IRecipesService recipesService;
+        private readonly IIngredientsService ingredientsService;
+
+        private string searchTerm;
+        private string noRecipesLabelText;
+        private Recipe[] recipes;
+        private string[][] recipeTags;
+
+        /// &lt;summary&gt;
+        /// The name of the recipe to search for
+        /// &lt;/summary&gt;
+        public string SearchTerm
+        {
+            get =&gt; this.searchTerm;
+            set =&gt; this.SetField(ref this.searchTerm, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The text to display in the label showing that there are no recipes.
+        /// &lt;/summary&gt;
+        public string NoRecipesLabelText
+        {
+            get =&gt; this.noRecipesLabelText;
+            set =&gt; this.SetField(ref this.noRecipesLabelText, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The list of recipes to display
+        /// &lt;/summary&gt;
+        public Recipe[] Recipes
+        {
+            get =&gt; this.recipes;
+            set =&gt; this.SetField(ref this.recipes, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The tags for the recipes
+        /// &lt;/summary&gt;
+        public string[][] RecipeTags
+        {
+            get =&gt; this.recipeTags;
+            set =&gt; this.SetField(ref this.recipeTags, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The filters for recipe queries.
+        /// &lt;/summary&gt;
+        public RecipeFilters Filters { get; set; }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instances of &lt;see cref=&quot;RecipesService&quot;/&gt; and &lt;see cref=&quot;IngredientsService&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.SearchTerm == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Recipes.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Filters == new RecipeFilters()
+        /// &lt;/summary&gt;
+        public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
+        {
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesEndpoints&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;recipesService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.SearchTerm == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Recipes.Length == 0&lt;br/&gt;
+        /// &lt;/summary&gt;
+        public RecipesListViewModel(IRecipesService recipesService, IIngredientsService ingredientsService)
+        {
+            this.recipesService = recipesService ?? throw new ArgumentNullException(nameof(recipesService), 
+                RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.ingredientsService = ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService),
+                RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
+            this.Filters = new RecipeFilters();
+            this.searchTerm = &quot;&quot;;
+            this.noRecipesLabelText = &quot;&quot;;
+            this.recipes = Array.Empty&lt;Recipe&gt;();
+            this.recipeTags = Array.Empty&lt;string[]&gt;();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the visible recipes from the server, applying any filters in this.Filters and who&#39;s name contains this.SearchTerm.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.recipes contains all visible recipes from the server that match the filters.
+        /// &lt;/summary&gt;
+        public void GetRecipes()
+        {
+            var filteredRecipes = this.recipesService.GetRecipes(this.SearchTerm);
+
+            if (this.Filters.OnlyAvailableIngredients)
+            {
+                filteredRecipes = this.getRecipesWithOwnedIngredients(filteredRecipes);
+            }
+
+            if (this.Filters.MatchTags != null &amp;&amp; this.Filters.MatchTags.Length != 0)
+            {
+                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags.ToArray());
+            }
+
+            if (filteredRecipes.Length == 0)
+            {
+                this.UpdateNoFoundRecipesLabel();
+            }
+            this.Recipes = filteredRecipes;
+            this.RecipeTags = this.GetTagsForRecipes(this.recipes);
+        }
+
+        private Recipe[] getRecipesMatchingTags(Recipe[] unfilteredRecipes, string[] tags)
+        {
+            var recipesMatchingTags = this.recipesService.GetRecipesForTags(tags);
+            return recipesMatchingTags.Where(x =&gt; unfilteredRecipes.Any(y =&gt; y.Id == x.Id)).ToArray();
+        }
+
+        private Recipe[] getRecipesWithOwnedIngredients(IEnumerable&lt;Recipe&gt; visibleRecipes)
+        {
+            var filteredRecipes = new List&lt;Recipe&gt;();
+            var pantryIngredients = this.ingredientsService.GetAllIngredientsForUser();
+            var ingredientsCache = new Dictionary&lt;string, int&gt;();
+
+            foreach (var ingredient in pantryIngredients)
+            {
+                ingredientsCache[ingredient.Name] = ingredient.Amount;
+            }
+
+            foreach (var recipe in visibleRecipes)
+            {
+                var requiredIngredients = this.recipesService.GetIngredientsForRecipe(recipe.Id);
+                var canMake = true;
+                foreach (var ingredient in requiredIngredients)
+                {
+                    if (!ingredientsCache.ContainsKey(ingredient.Name))
+                    {
+                        canMake = false;
+                        break;
+                    }
+                }
+
+                if (canMake)
+                {
+                    filteredRecipes.Add(recipe);
+                }
+            }
+
+            return filteredRecipes.ToArray();
+        }
+
+        private void UpdateNoFoundRecipesLabel()
+        {
+            if (this.Filters.OnlyAvailableIngredients)
+            {
+                this.NoRecipesLabelText = NoRecipesWithOwnedIngredients;
+            }
+            else if (this.Filters.MatchTags?.Length &gt; 0)
+            {
+                this.NoRecipesLabelText = NoRecipesWithTags;
+
+            }
+            else if (!string.IsNullOrEmpty(this.SearchTerm))
+            {
+                this.NoRecipesLabelText = NoRecipesWithName;
+            }
+            else
+            {
+                this.NoRecipesLabelText = NoRecipesUploaded;
+            }
+        }
+
+        private string[][] GetTagsForRecipes(Recipe[] recipes)
+        {
+            var tags = new string[recipes.Length][];
+
+            for (int i = 0; i &lt; recipes.Length; i++)
+            {
+                tags[i] = this.recipesService.GetTypesForRecipe(recipes[i].Id);
+            }
+
+            return tags;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[47,20,47,35,1],[48,20,48,61,1],[56,20,56,43,1],[57,20,57,69,1],[65,20,65,32,1],[66,20,66,58,1],[74,20,74,35,0],[75,20,75,61,1],[81,40,81,44,1],[81,45,81,49,1],[92,41,92,93,1],[93,9,93,10,1],[94,9,94,10,1],[103,9,103,108,1],[104,9,104,10,1],[105,13,106,75,1],[107,13,108,79,1],[109,13,109,48,1],[110,13,110,34,1],[111,13,111,42,1],[112,13,112,50,1],[113,13,113,55,1],[114,9,114,10,1],[123,9,123,10,1],[124,13,124,83,1],[126,13,126,55,1],[127,13,127,14,1],[128,17,128,88,1],[129,13,129,14,1],[131,13,131,86,1],[132,13,132,14,1],[133,17,133,114,1],[134,13,134,14,1],[136,13,136,45,1],[137,13,137,14,1],[138,17,138,50,1],[139,13,139,14,1],[140,13,140,44,1],[141,13,141,68,1],[142,9,142,10,1],[145,9,145,10,1],[146,13,146,83,1],[147,13,147,51,1],[147,51,147,78,1],[147,78,147,90,1],[147,90,147,91,1],[147,91,147,103,1],[148,9,148,10,1],[151,9,151,10,1],[152,13,152,54,1],[153,13,153,88,1],[154,13,154,66,1],[156,13,156,20,1],[156,22,156,36,1],[156,37,156,39,1],[156,40,156,57,1],[157,13,157,14,1],[158,17,158,71,1],[159,13,159,14,1],[161,13,161,20,1],[161,22,161,32,1],[161,33,161,35,1],[161,36,161,50,1],[162,13,162,14,1],[163,17,163,98,1],[164,17,164,36,1],[165,17,165,24,1],[165,26,165,40,1],[165,41,165,43,1],[165,44,165,63,1],[166,17,166,18,1],[167,21,167,72,1],[168,21,168,22,1],[169,25,169,41,1],[170,25,170,31,1],[172,17,172,18,1],[174,17,174,29,1],[175,17,175,18,1],[176,21,176,49,1],[177,17,177,18,1],[178,13,178,14,1],[180,13,180,46,1],[181,9,181,10,1],[184,9,184,10,1],[185,13,185,55,1],[186,13,186,14,1],[187,17,187,73,1],[188,13,188,14,1],[189,18,189,57,1],[190,13,190,14,1],[191,17,191,61,1],[193,13,193,14,1],[194,18,194,61,1],[195,13,195,14,1],[196,17,196,61,1],[197,13,197,14,1],[199,13,199,14,1],[200,17,200,61,1],[201,13,201,14,1],[202,9,202,10,1],[205,9,205,10,1],[206,13,206,53,1],[208,18,208,27,1],[208,29,208,47,1],[208,49,208,52,1],[209,13,209,14,1],[210,17,210,80,1],[211,13,211,14,1],[213,13,213,25,1],[214,9,214,10,1],[228,9,228,10,1],[229,13,229,92,1],[230,9,230,10,1],[244,9,244,10,1],[245,13,245,66,1],[245,67,245,80,1],[246,13,246,27,1],[247,13,247,45,1],[248,13,248,25,1],[249,9,249,10,1]]);
+    </script>
+  </body>
+</html>
