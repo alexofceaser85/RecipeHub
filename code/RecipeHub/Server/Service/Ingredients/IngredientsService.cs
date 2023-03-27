@@ -80,6 +80,53 @@ namespace Server.Service.Ingredients
         }
 
         /// <inheritdoc />
+        public void AddIngredientsToPantry(Ingredient[] ingredients, string sessionKey)
+        {
+            if (ingredients == null)
+            {
+                throw new ArgumentException("Ingredients to add cannot be null");
+            }
+
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException("Session key cannot be null");
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException("Session key cannot be null");
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException("Session key must exist in the system.");
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new UnauthorizedAccessException("User must exist in the system.");
+            }
+
+            foreach (var ingredient in ingredients)
+            {
+                if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+                {
+                    var userIngredient = this.ingredientsDal.GetIngredientsFor(userId.Value)
+                        .First(x => x.Name == ingredient.Name);
+                    var newIngredient = new Ingredient(userIngredient.Name, userIngredient.Amount + ingredient.Amount,
+                        userIngredient.MeasurementType);
+                    this.ingredientsDal.UpdateIngredientInPantry(newIngredient, userId.Value);
+                }
+                else
+                {
+                    this.ingredientsDal.AddIngredientToPantry(ingredient, userId.Value);
+                }
+            }
+        }
+
+        /// <inheritdoc />
         public bool RemoveIngredientFromPantry(Ingredient ingredient, string sessionKey)
         {
             if (sessionKey == null)
