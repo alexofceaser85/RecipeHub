@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Moq;
+using Newtonsoft.Json;
 using Server.Controllers.Ingredients;
 using Server.Service.Ingredients;
 using Shared_Resources.Model.Ingredients;
@@ -17,11 +18,14 @@ namespace ServerTests.Server.Controllers.Ingredients.IngredientsControllerTests
                 new Ingredient("name2", 5, MeasurementType.Quantity),
                 new Ingredient("name3", 10, MeasurementType.Quantity),
             };
+
+            var json = JsonConvert.SerializeObject(ingredients);
+
             var service = new Mock<IIngredientsService>();
             var controller = new IngredientsController(service.Object);
 
             service.Setup(x => x.AddIngredientsToPantry(ingredients, "key"));
-            controller.AddIngredientsToPantry(ingredients, "key");
+            controller.AddIngredientsToPantry(json, "key");
 
             service.Verify(x => x.AddIngredientsToPantry(ingredients, "key"), Times.Once);
         }
@@ -35,12 +39,15 @@ namespace ServerTests.Server.Controllers.Ingredients.IngredientsControllerTests
                 new Ingredient("name2", 5, MeasurementType.Quantity),
                 new Ingredient("name3", 10, MeasurementType.Quantity),
             };
+
+            var json = JsonConvert.SerializeObject(ingredients);
+
             var service = new Mock<IIngredientsService>();
             var controller = new IngredientsController(service.Object);
 
             service.Setup(x => x.AddIngredientsToPantry(ingredients, "key")).Throws(() => new UnauthorizedAccessException("exception"));
 
-            var message = controller.AddIngredientsToPantry(ingredients, "key");
+            var message = controller.AddIngredientsToPantry(json, "key");
 
             service.Verify(x => x.AddIngredientsToPantry(ingredients, "key"), Times.Once);
             Assert.That(message.Message, Is.EqualTo("exception"));
@@ -56,12 +63,14 @@ namespace ServerTests.Server.Controllers.Ingredients.IngredientsControllerTests
                 new Ingredient("name2", 5, MeasurementType.Quantity),
                 new Ingredient("name3", 10, MeasurementType.Quantity),
             };
+
+            var json = JsonConvert.SerializeObject(ingredients);
             var service = new Mock<IIngredientsService>();
             var controller = new IngredientsController(service.Object);
 
             service.Setup(x => x.AddIngredientsToPantry(ingredients, "key")).Throws(() => new Exception("exception"));
 
-            var message = controller.AddIngredientsToPantry(ingredients, "key");
+            var message = controller.AddIngredientsToPantry(json, "key");
 
             service.Verify(x => x.AddIngredientsToPantry(ingredients, "key"), Times.Once);
             Assert.That(message.Message, Is.EqualTo("exception"));

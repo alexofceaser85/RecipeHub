@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Server.Controllers.ResponseModels;
 using Server.Data.Settings;
 using Server.Service.Ingredients;
@@ -77,15 +78,16 @@ namespace Server.Controllers.Ingredients
         /// Precondition: None.<br />
         /// Postcondition: The ingredients has been added to the user's pantry.<br />
         /// </summary>
-        /// <param name="ingredients">The ingredients</param>
+        /// <param name="ingredientsJson">The ingredients json</param>
         /// <param name="sessionKey">The session key</param>
         /// <returns>A response to the client, containing a flag dictating whether the ingredient was added or not.</returns>
         [HttpPost]
         [Route("AddIngredientsToPantry")]
-        public BaseResponseModel AddIngredientsToPantry(Ingredient[] ingredients, string sessionKey)
+        public BaseResponseModel AddIngredientsToPantry(string ingredientsJson, string sessionKey)
         {
             try
             {
+                var ingredients = JsonConvert.DeserializeObject<Ingredient[]>(ingredientsJson);
                 this.service.AddIngredientsToPantry(ingredients, sessionKey);
                 return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
