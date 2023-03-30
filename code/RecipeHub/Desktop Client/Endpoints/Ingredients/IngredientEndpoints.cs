@@ -1,4 +1,5 @@
-﻿using Shared_Resources.Data.Settings;
+﻿using Newtonsoft.Json;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Json;
@@ -15,6 +16,7 @@ namespace Desktop_Client.Endpoints.Ingredients
 
         private const string GetIngredientsEndpoint = "GetIngredientsInPantry";
         private const string AddIngredientEndpoint = "AddIngredientToPantry";
+        private const string AddIngredientsEndpoint = "AddIngredientsToPantry";
         private const string DeleteIngredientEndpoint = "RemoveIngredientFromPantry";
         private const string DeleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
         private const string UpdateIngredientEndpoint = "UpdateIngredientInPantry";
@@ -82,6 +84,28 @@ namespace Desktop_Client.Endpoints.Ingredients
             JsonUtils.VerifyAndGetRequestInfo(json);
 
             return json["flag"]!.GetValue<bool>();
+        }
+
+        /// <summary>
+        /// Adds multiple ingredients to a user's pantry. <br/>
+        /// <br/>
+        /// <b>Precondition: </b>The active user's session key is valid<br/>
+        /// &amp;&amp; All ingredients in ingredients are present on the server<br/>
+        /// <b>Postcondition: </b>Each ingredient is added to the user's pantry
+        /// </summary>
+        /// <param name="ingredients">The ingredients to add</param>
+        /// <returns>Whether the ingredient was successfully added</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public bool AddIngredients(Ingredient[] ingredients)
+        {
+            var ingredientsJson = JsonConvert.SerializeObject(ingredients);
+            var parameters =$"?ingredientsJson={ingredientsJson}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{AddIngredientsEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+            return true;
         }
 
         /// <inheritdoc />
