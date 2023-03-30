@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Server.DAL.Ingredients;
+using Server.DAL.Recipes;
 using Server.DAL.Users;
 using Server.Service.Ingredients;
 
@@ -14,9 +15,11 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var ingredientsDal = new Mock<IIngredientsDal>();
             var usersDal = new Mock<IUsersDal>();
-            ingredientsDal.Setup(mock => mock.GetIngredientNamesThatMatchText(name)).Returns(new List<string>());
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object, mockRecipesDal.Object);
 
-            var service = new IngredientsService(usersDal.Object, ingredientsDal.Object);
+            ingredientsDal.Setup(x => x.GetIngredientNamesThatMatchText(name)).Returns(new List<string>());
+
             var result = service.GetAllIngredientsThatMatch(name);
 
             ingredientsDal.Verify(mock => mock.GetIngredientNamesThatMatchText(name), Times.Once);
