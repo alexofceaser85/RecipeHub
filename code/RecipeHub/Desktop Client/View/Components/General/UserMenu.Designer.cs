@@ -35,6 +35,7 @@
             this.homeButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.closeButton = new System.Windows.Forms.Button();
+            this.shoppingListButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -76,21 +77,24 @@
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.shoppingListButton, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.plannedMealsButton, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.logoutNavbarOption, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.logoutNavbarOption, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.ingredientsNavbarOption, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.homeButton, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(412, 1296);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
@@ -154,6 +158,22 @@
             this.closeButton.UseVisualStyleBackColor = false;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
+            // shoppingListButton
+            // 
+            this.shoppingListButton.BackColor = System.Drawing.Color.Transparent;
+            this.shoppingListButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.shoppingListButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.shoppingListButton.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.shoppingListButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.shoppingListButton.Location = new System.Drawing.Point(5, 380);
+            this.shoppingListButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.shoppingListButton.Name = "shoppingListButton";
+            this.shoppingListButton.Size = new System.Drawing.Size(402, 80);
+            this.shoppingListButton.TabIndex = 5;
+            this.shoppingListButton.Text = "Shopping List";
+            this.shoppingListButton.UseVisualStyleBackColor = false;
+            this.shoppingListButton.Click += new System.EventHandler(this.shoppingListButton_Click);
+            // 
             // UserMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -177,5 +197,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private Button closeButton;
         private Button plannedMealsButton;
+        private Button shoppingListButton;
     }
 }

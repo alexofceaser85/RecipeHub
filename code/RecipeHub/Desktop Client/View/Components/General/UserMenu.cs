@@ -31,6 +31,11 @@
         public EventHandler? PlannedMealsSelected;
 
         /// <summary>
+        /// Occurs when the user presses the planned meals button
+        /// </summary>
+        public EventHandler? ShoppingListSelected;
+
+        /// <summary>
         /// Occurs when the user presses the users button
         /// </summary>
         public EventHandler? UserSelected;
@@ -69,6 +74,11 @@
         private void plannedMealsButton_Click(object sender, EventArgs e)
         {
             this.PlannedMealsSelected?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void shoppingListButton_Click(object sender, EventArgs e)
+        {
+            this.ShoppingListSelected?.Invoke(this, EventArgs.Empty);
         }
     }
 }
