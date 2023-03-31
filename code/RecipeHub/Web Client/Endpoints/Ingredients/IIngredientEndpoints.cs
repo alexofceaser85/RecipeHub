@@ -27,6 +27,17 @@ namespace Web_Client.Endpoints.Ingredients
         public bool AddIngredient(Ingredient ingredient);
 
         /// <summary>
+        /// Adds the specified ingredients to the logged in user's pantry.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: The list of Ingredients is added to system.<br />
+        /// </summary>
+        /// <param name="ingredients ">the ingredients being added.</param>
+        /// <returns>whether the ingredients were successfully added or not.</returns>
+
+        public bool AddIngredients(Ingredient[] ingredients);
+
+        /// <summary>
         /// Deletes the specified ingredient from the logged in user's pantry.<br />
         /// <br />
         /// Precondition: None<br />

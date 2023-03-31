@@ -23,6 +23,19 @@ namespace Server.Service.Ingredients
         public bool AddIngredientToPantry(Ingredient ingredient, string sessionKey);
 
         /// <summary>
+        /// Adds all of the ingredients to the user's pantry.<br />
+        /// <br />
+        /// Precondition: sessionKey != null<br />
+        /// AND ingredients != null<br />
+        /// sessionKey must be active, and in system<br />
+        /// Postcondition: ingredient is added to user's pantry.<br />
+        /// </summary>
+        /// <param name="ingredients">The ingredients being added.</param>
+        /// <param name="sessionKey">The session key to identify the user.</param>
+        /// <returns>whether the ingredients were added successfully or not.</returns>
+        public void AddIngredientsToPantry(Ingredient[] ingredients, string sessionKey);
+
+        /// <summary>
         /// Removes the specified ingredient from pantry.<br />
         /// <br />
         /// Precondition: sessionKey != null<br />

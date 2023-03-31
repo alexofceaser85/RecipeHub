@@ -1,4 +1,5 @@
-﻿using Shared_Resources.Data.Settings;
+﻿using Newtonsoft.Json;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Json;
@@ -15,6 +16,7 @@ namespace Web_Client.Endpoints.Ingredients
 
         private const string GetIngredientsEndpoint = "GetIngredientsInPantry";
         private const string AddIngredientEndpoint = "AddIngredientToPantry";
+        private const string AddIngredientsEndpoint = "AddIngredientsToPantry";
         private const string DeleteIngredientEndpoint = "RemoveIngredientFromPantry";
         private const string DeleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
         private const string UpdateIngredientEndpoint = "UpdateIngredientInPantry";
@@ -80,6 +82,17 @@ namespace Web_Client.Endpoints.Ingredients
             JsonUtils.VerifyAndGetRequestInfo(json);
 
             return json["flag"]!.GetValue<bool>();
+        }
+
+        /// <inheritdoc />
+        public bool AddIngredients(Ingredient[] ingredients)
+        {
+            var json = JsonConvert.SerializeObject(ingredients);
+            var parameters = $"?ingredientsJson={json}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{AddIngredientsEndpoint}{parameters}";
+            var response = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(response);
+            return response["flag"]!.GetValue<bool>();
         }
 
         /// <inheritdoc />

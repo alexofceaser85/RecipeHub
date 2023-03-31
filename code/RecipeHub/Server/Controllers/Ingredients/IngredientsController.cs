@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Server.Controllers.ResponseModels;
+using Server.Data.Settings;
 using Server.Service.Ingredients;
 using Shared_Resources.Model.Ingredients;
 
@@ -69,6 +71,36 @@ namespace Server.Controllers.Ingredients
                 return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
             }
         }
+
+        /// <summary>
+        /// Adds the specified ingredients to the specified user's pantry.<br />
+        /// <br />
+        /// Precondition: None.<br />
+        /// Postcondition: The ingredients has been added to the user's pantry.<br />
+        /// </summary>
+        /// <param name="ingredientsJson">The ingredients json</param>
+        /// <param name="sessionKey">The session key</param>
+        /// <returns>A response to the client, containing the status and connection message.</returns>
+        [HttpPost]
+        [Route("AddIngredientsToPantry")]
+        public BaseResponseModel AddIngredientsToPantry(string ingredientsJson, string sessionKey)
+        {
+            try
+            {
+                var ingredients = JsonConvert.DeserializeObject<Ingredient[]>(ingredientsJson);
+                this.service.AddIngredientsToPantry(ingredients, sessionKey);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
         /// <summary>
         /// Removes the specified ingredient from the specified user's pantry.<br />
