@@ -1,4 +1,5 @@
-﻿using Desktop_Client.Service.PlannedMeals;
+﻿using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.PlannedMeals;
 using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.Recipes;
 using Moq;
@@ -42,7 +43,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
             service.Setup(mock => mock.GetStepsForRecipe(recipeId)).Returns(instructions);
             service.Setup(mock => mock.GetTypesForRecipe(recipeId)).Returns(tags);
 
-            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService());
+            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService(), new IngredientsService());
             viewmodel.Initialize(recipeId);
             Assert.Multiple(() =>
             {
@@ -92,7 +93,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
             service.Setup(mock => mock.GetStepsForRecipe(recipeId)).Returns(instructions);
             service.Setup(mock => mock.GetTypesForRecipe(recipeId)).Returns(tags);
 
-            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService());
+            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService(), new IngredientsService());
             viewmodel.Initialize(recipeId);
             Assert.Multiple(() =>
             {
@@ -142,7 +143,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
             service.Setup(mock => mock.GetStepsForRecipe(recipeId)).Returns(instructions);
             service.Setup(mock => mock.GetTypesForRecipe(recipeId)).Returns(tags);
 
-            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService());
+            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService(), new IngredientsService());
             viewmodel.Initialize(recipeId);
             Assert.Multiple(() =>
             {
@@ -192,7 +193,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
             service.Setup(mock => mock.GetStepsForRecipe(recipeId)).Returns(instructions);
             service.Setup(mock => mock.GetTypesForRecipe(recipeId)).Returns(tags);
 
-            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService());
+            var viewmodel = new RecipeViewModel(service.Object, new PlannedMealsService(), new IngredientsService());
             viewmodel.Initialize(recipeId);
             Assert.Multiple(() =>
             {

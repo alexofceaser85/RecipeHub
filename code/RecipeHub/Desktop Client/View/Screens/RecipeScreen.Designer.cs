@@ -50,7 +50,9 @@
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.pevImageButton = new System.Windows.Forms.Button();
             this.nextImageButton = new System.Windows.Forms.Button();
+            this.buttonTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.addPlannedMealButton = new System.Windows.Forms.Button();
+            this.cookRecipeButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -60,6 +62,7 @@
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
+            this.buttonTableLayout.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainLayoutPanel
@@ -200,9 +203,9 @@
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.addPlannedMealButton, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.buttonTableLayout, 0, 1);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
@@ -370,20 +373,50 @@
             this.nextImageButton.Text = ">";
             this.nextImageButton.UseVisualStyleBackColor = true;
             // 
+            // buttonTableLayout
+            // 
+            this.buttonTableLayout.ColumnCount = 2;
+            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.buttonTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.buttonTableLayout.Controls.Add(this.cookRecipeButton, 1, 0);
+            this.buttonTableLayout.Controls.Add(this.addPlannedMealButton, 0, 0);
+            this.buttonTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonTableLayout.Location = new System.Drawing.Point(3, 363);
+            this.buttonTableLayout.Name = "buttonTableLayout";
+            this.buttonTableLayout.RowCount = 1;
+            this.buttonTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.buttonTableLayout.Size = new System.Drawing.Size(659, 58);
+            this.buttonTableLayout.TabIndex = 2;
+            // 
             // addPlannedMealButton
             // 
             this.addPlannedMealButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.addPlannedMealButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
             this.addPlannedMealButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.addPlannedMealButton.ForeColor = System.Drawing.Color.White;
-            this.addPlannedMealButton.Location = new System.Drawing.Point(192, 363);
+            this.addPlannedMealButton.Location = new System.Drawing.Point(24, 3);
             this.addPlannedMealButton.MaximumSize = new System.Drawing.Size(280, 0);
             this.addPlannedMealButton.Name = "addPlannedMealButton";
-            this.addPlannedMealButton.Size = new System.Drawing.Size(280, 58);
-            this.addPlannedMealButton.TabIndex = 2;
+            this.addPlannedMealButton.Size = new System.Drawing.Size(280, 52);
+            this.addPlannedMealButton.TabIndex = 3;
             this.addPlannedMealButton.Text = "Add to Planned Meals";
             this.addPlannedMealButton.UseVisualStyleBackColor = false;
             this.addPlannedMealButton.Click += new System.EventHandler(this.addPlannedMeal_Click);
+            // 
+            // cookRecipeButton
+            // 
+            this.cookRecipeButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.cookRecipeButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.cookRecipeButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.cookRecipeButton.ForeColor = System.Drawing.Color.White;
+            this.cookRecipeButton.Location = new System.Drawing.Point(354, 3);
+            this.cookRecipeButton.MaximumSize = new System.Drawing.Size(280, 0);
+            this.cookRecipeButton.Name = "cookRecipeButton";
+            this.cookRecipeButton.Size = new System.Drawing.Size(280, 52);
+            this.cookRecipeButton.TabIndex = 4;
+            this.cookRecipeButton.Text = "Cook this Recipe";
+            this.cookRecipeButton.UseVisualStyleBackColor = false;
+            this.cookRecipeButton.Click += new System.EventHandler(this.cookRecipeButton_Click);
             // 
             // RecipeScreen
             // 
@@ -403,6 +436,7 @@
             this.tableLayoutPanel6.ResumeLayout(false);
             this.tableLayoutPanel6.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.buttonTableLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -431,6 +465,8 @@
         private Label stepsLabel;
         private Label commentsLabel;
         private Button hamburgerButton;
+        private TableLayoutPanel buttonTableLayout;
+        private Button cookRecipeButton;
         private Button addPlannedMealButton;
     }
 }
