@@ -27,6 +27,15 @@ namespace Desktop_Client.Service.Ingredients
         public bool AddIngredient(Ingredient ingredient);
 
         /// <summary>
+        /// Adds multiple ingredients to a user's pantry. <br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>Each ingredient is added to the user's pantry
+        /// </summary>
+        /// <param name="ingredients">The ingredients to add</param>
+        public void AddIngredients(Ingredient[] ingredients);
+
+        /// <summary>
         /// Deletes the specified ingredient from the logged in user's pantry.<br />
         /// <br />
         /// Precondition: None<br />

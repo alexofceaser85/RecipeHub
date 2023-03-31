@@ -1,4 +1,6 @@
-﻿namespace Shared_Resources.Model.Ingredients
+﻿using System.Text.Json.Serialization;
+
+namespace Shared_Resources.Model.Ingredients
 {
     /// <summary>
     /// Represents an ingredient in the system.
@@ -9,16 +11,19 @@
         /// <summary>
         /// Represents the name of the ingredient.
         /// </summary>
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
         /// Represents the amount of the ingredient.
         /// </summary>
+        [JsonPropertyName("amount")]
         public int Amount { get; set; }
 
         /// <summary>
         /// Represents how the ingredient is measured, in quantity, mass, or volume.
         /// </summary>
+        [JsonPropertyName("measurementType")]
         public MeasurementType MeasurementType { get; set; }
 
         /// <summary>

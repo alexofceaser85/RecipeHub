@@ -152,6 +152,17 @@ namespace Desktop_Client.View.Screens
                     this.DisplayTimeOutDialog(exception.Message);
                 }
             };
+            this.menu.ShoppingListSelected += (_, _) =>
+            {
+                try
+                {
+                    this.ChangeScreens(new ShoppingListScreen());
+                }
+                catch (UnauthorizedAccessException exception)
+                {
+                    this.DisplayTimeOutDialog(exception.Message);
+                }
+            };
         }
 
         private void SetupDialog(MobileDialog dialog)

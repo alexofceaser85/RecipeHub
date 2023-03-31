@@ -119,5 +119,23 @@ namespace Desktop_Client.View.Screens
                 this.DisplayTimeOutDialog(exception.Message);
             }
         }
+
+        private void viewShoppingListButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                base.ChangeScreens(new ShoppingListScreen());
+            }
+            catch (ArgumentException exception)
+            {
+                var messageDialog =
+                    new MessageDialog("Error occurred", exception.Message);
+                base.DisplayDialog(messageDialog);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                this.DisplayTimeOutDialog(exception.Message);
+            }
+        }
     }
 }

@@ -144,6 +144,7 @@
             this.viewShoppingListButton.TabIndex = 3;
             this.viewShoppingListButton.Text = "Shopping List";
             this.viewShoppingListButton.UseVisualStyleBackColor = false;
+            this.viewShoppingListButton.Click += new System.EventHandler(this.viewShoppingListButton_Click);
             // 
             // mealsListTableLayout
             // 
