@@ -36,6 +36,27 @@ namespace Server.Service.Ingredients
         public void AddIngredientsToPantry(Ingredient[] ingredients, string sessionKey);
 
         /// <summary>
+        /// Gets the missing ingredients for recipe.
+        ///
+        /// Precondition: sessionKey != null AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The missing ingredients for the recipe</returns>
+        public IList<Ingredient> GetMissingIngredientsForRecipe(int recipeId, string sessionKey);
+
+        /// <summary>
+        /// Removes the ingredients for recipe.
+        ///
+        /// Precondition: sessionKey != null AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        public void RemoveIngredientsForRecipe(int recipeId, string sessionKey);
+
+        /// <summary>
         /// Removes the specified ingredient from pantry.<br />
         /// <br />
         /// Precondition: sessionKey != null<br />

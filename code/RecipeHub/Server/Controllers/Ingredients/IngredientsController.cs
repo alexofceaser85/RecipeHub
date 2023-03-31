@@ -101,6 +101,34 @@ namespace Server.Controllers.Ingredients
             }
         }
 
+        /// <summary>
+        /// Gets the missing ingredients for recipe.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The missing ingredients</returns>
+        [HttpGet]
+        [Route("GetMissingIngredientsForRecipe")]
+        public BaseResponseModel GetMissingIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            try
+            {
+                var ingredients = this.service.GetMissingIngredientsForRecipe(recipeId, sessionKey);
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage, ingredients.ToArray());
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         /// <summary>
         /// Removes the specified ingredient from the specified user's pantry.<br />
@@ -132,6 +160,34 @@ namespace Server.Controllers.Ingredients
             catch (Exception ex)
             {
                 return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
+            }
+        }
+
+        /// <summary>
+        /// Removes the ingredients from pantry.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// </summary>
+        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="sessionKey">The session key.</param>
+        /// <returns>The response when the ingredients for recipe are removed</returns>
+        [HttpPost]
+        [Route("RemoveIngredientsForRecipe")]
+        public BaseResponseModel RemoveIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            try
+            {
+                this.service.RemoveIngredientsForRecipe(recipeId, sessionKey);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 

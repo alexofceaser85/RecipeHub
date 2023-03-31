@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Server.DAL.Ingredients;
+using Server.DAL.Recipes;
 using Server.DAL.Users;
 using Server.Service.Ingredients;
 using Shared_Resources.Model.Ingredients;
@@ -46,7 +47,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.VerifySessionKeyDoesNotExist("key")).Returns(true);
 
@@ -63,7 +65,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.GetIdForSessionKey("key")).Returns(1);
             mockUsersDal.Setup(x => x.UserIdExists(1)).Returns(false);
@@ -82,7 +85,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
         {
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.GetIdForSessionKey("key")).Returns(1);
             mockUsersDal.Setup(x => x.UserIdExists(1)).Returns(true);
@@ -107,7 +111,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.GetIdForSessionKey("key")).Returns(1);
             mockUsersDal.Setup(x => x.UserIdExists(1)).Returns(true);
@@ -151,7 +156,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.GetIdForSessionKey("key")).Returns(1);
             mockUsersDal.Setup(x => x.UserIdExists(1)).Returns(true);
@@ -195,7 +201,8 @@ namespace ServerTests.Server.Service.Ingredients.IngredientsServiceTests
 
             var mockUsersDal = new Mock<IUsersDal>();
             var mockIngredientsDal = new Mock<IIngredientsDal>();
-            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object);
+            var mockRecipesDal = new Mock<IRecipesDal>();
+            var service = new IngredientsService(mockUsersDal.Object, mockIngredientsDal.Object, mockRecipesDal.Object);
 
             mockUsersDal.Setup(x => x.GetIdForSessionKey("key")).Returns(1);
             mockUsersDal.Setup(x => x.UserIdExists(1)).Returns(true);
