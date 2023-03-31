@@ -80,7 +80,7 @@ namespace Server.Controllers.Ingredients
         /// </summary>
         /// <param name="ingredientsJson">The ingredients json</param>
         /// <param name="sessionKey">The session key</param>
-        /// <returns>A response to the client, containing a flag dictating whether the ingredient was added or not.</returns>
+        /// <returns>A response to the client, containing the status and connection message.</returns>
         [HttpPost]
         [Route("AddIngredientsToPantry")]
         public BaseResponseModel AddIngredientsToPantry(string ingredientsJson, string sessionKey)
