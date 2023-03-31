@@ -43,16 +43,8 @@ namespace Desktop_Client.Endpoints.ShoppingList
             this.client = client ?? 
                           throw new ArgumentNullException(nameof(client));
         }
-
-        /// <summary>
-        /// Gets the shopping list for the current user.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>The active user's session key is valid<br/>
-        /// <b>Postcondition: </b>None
-        /// </summary>
-        /// <returns>The shopping list for the current active user.</returns>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        
+        /// <inheritdoc/>
         public Ingredient[] GetShoppingList()
         {
             var parameters = $"?sessionKey={Session.Key}";

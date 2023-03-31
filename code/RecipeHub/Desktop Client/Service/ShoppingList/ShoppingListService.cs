@@ -34,16 +34,8 @@ namespace Desktop_Client.Service.ShoppingList
         {
             this.endpoints = endpoints ?? throw new ArgumentNullException(nameof(endpoints));
         }
-
-        /// <summary>
-        /// Gets the shopping list for the active user.<br/>
-        /// <br/>
-        /// <b>Precondition: </b>The active user's session key is valid<br/>
-        /// <b>Postcondition: </b>None
-        /// </summary>
-        /// <returns>The ingredients in the active user's shopping list.</returns>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        
+        /// <inheritdoc/>
         public Ingredient[] GetShoppingList()
         {
             return this.endpoints.GetShoppingList();

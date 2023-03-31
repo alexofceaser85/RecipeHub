@@ -86,16 +86,7 @@ namespace Desktop_Client.Endpoints.Ingredients
             return json["flag"]!.GetValue<bool>();
         }
 
-        /// <summary>
-        /// Adds multiple ingredients to a user's pantry. <br/>
-        /// <br/>
-        /// <b>Precondition: </b>The active user's session key is valid<br/>
-        /// &amp;&amp; All ingredients in ingredients are present on the server<br/>
-        /// <b>Postcondition: </b>Each ingredient is added to the user's pantry
-        /// </summary>
-        /// <param name="ingredients">The ingredients to add</param>
-        /// <exception cref="UnauthorizedAccessException"></exception>
-        /// <exception cref="ArgumentException"></exception>
+        /// <inheritdoc/>
         public void AddIngredients(Ingredient[] ingredients)
         {
             var ingredientsJson = JsonConvert.SerializeObject(ingredients);
