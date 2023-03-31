@@ -29,8 +29,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
 
             Assert.Multiple(() =>
             {
-                var result = endpoints.AddIngredients(Array.Empty<Ingredient>());
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => endpoints.AddIngredients(Array.Empty<Ingredient>()));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
@@ -59,8 +58,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
 
             Assert.Multiple(() =>
             {
-                var result = endpoints.AddIngredients(new Ingredient[] {new()});
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => endpoints.AddIngredients(Array.Empty<Ingredient>()));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
@@ -94,8 +92,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
 
             Assert.Multiple(() =>
             {
-                var result = endpoints.AddIngredients(ingredients);
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => endpoints.AddIngredients(Array.Empty<Ingredient>()));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),

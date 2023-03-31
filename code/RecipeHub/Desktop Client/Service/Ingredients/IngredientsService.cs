@@ -61,13 +61,12 @@ namespace Desktop_Client.Service.Ingredients
         /// <b>Postcondition: </b>Each ingredient is added to the user's pantry
         /// </summary>
         /// <param name="ingredients">The ingredients to add</param>
-        /// <returns>Whether the ingredient was successfully added</returns>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public bool AddIngredients(Ingredient[] ingredients)
+        public void AddIngredients(Ingredient[] ingredients)
         {
             this.usersService.RefreshSessionKey();
-            return this.endpoints.AddIngredients(ingredients);
+            this.endpoints.AddIngredients(ingredients);
         }
 
         /// <inheritdoc />

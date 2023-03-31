@@ -94,10 +94,9 @@ namespace Desktop_Client.Endpoints.Ingredients
         /// <b>Postcondition: </b>Each ingredient is added to the user's pantry
         /// </summary>
         /// <param name="ingredients">The ingredients to add</param>
-        /// <returns>Whether the ingredient was successfully added</returns>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public bool AddIngredients(Ingredient[] ingredients)
+        public void AddIngredients(Ingredient[] ingredients)
         {
             var ingredientsJson = JsonConvert.SerializeObject(ingredients);
             var parameters =$"?ingredientsJson={ingredientsJson}&sessionKey={Session.Key}";
@@ -105,7 +104,6 @@ namespace Desktop_Client.Endpoints.Ingredients
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
 
             JsonUtils.VerifyAndGetRequestInfo(json);
-            return true;
         }
 
         /// <inheritdoc />

@@ -14,15 +14,14 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
             var ingredients = Array.Empty<Ingredient>();
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
-            endpoints.Setup(mock => mock.AddIngredients(ingredients)).Returns(true);
+            endpoints.Setup(mock => mock.AddIngredients(ingredients));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new IngredientsService(endpoints.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                var result = service.AddIngredients(ingredients);
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => service.AddIngredients(ingredients));
                 endpoints.Verify(mock => mock.AddIngredients(ingredients), Times.Once);
             });
         }
@@ -33,15 +32,14 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
             var ingredients = new Ingredient[] {new()};
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
-            endpoints.Setup(mock => mock.AddIngredients(ingredients)).Returns(true);
+            endpoints.Setup(mock => mock.AddIngredients(ingredients));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new IngredientsService(endpoints.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                var result = service.AddIngredients(ingredients);
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => service.AddIngredients(ingredients));
                 endpoints.Verify(mock => mock.AddIngredients(ingredients), Times.Once);
             });
         }
@@ -56,15 +54,14 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
             };
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
-            endpoints.Setup(mock => mock.AddIngredients(ingredients)).Returns(true);
+            endpoints.Setup(mock => mock.AddIngredients(ingredients));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new IngredientsService(endpoints.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                var result = service.AddIngredients(ingredients);
-                Assert.That(result, Is.EqualTo(true));
+                Assert.DoesNotThrow(() => service.AddIngredients(ingredients));
                 endpoints.Verify(mock => mock.AddIngredients(ingredients), Times.Once);
             });
         }

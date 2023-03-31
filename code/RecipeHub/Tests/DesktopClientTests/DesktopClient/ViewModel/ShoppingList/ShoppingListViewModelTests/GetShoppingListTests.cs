@@ -14,7 +14,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.ShoppingList.ShoppingListVi
             var shoppingList = Array.Empty<Ingredient>();
 
             var service = new Mock<IIngredientsService>();
-            service.Setup(x => x.AddIngredients(shoppingList)).Returns(true);
+            service.Setup(x => x.AddIngredients(shoppingList));
 
             var viewmodel = new ShoppingListViewModel(new ShoppingListService(), service.Object);
 
@@ -31,7 +31,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.ShoppingList.ShoppingListVi
             var shoppingList = new Ingredient[] {new()};
 
             var service = new Mock<IIngredientsService>();
-            service.Setup(x => x.AddIngredients(shoppingList)).Returns(true);
+            service.Setup(x => x.AddIngredients(shoppingList));
 
             var viewmodel = new ShoppingListViewModel(new ShoppingListService(), service.Object);
             
@@ -53,7 +53,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.ShoppingList.ShoppingListVi
             };
 
             var service = new Mock<IIngredientsService>();
-            service.Setup(x => x.AddIngredients(shoppingList)).Returns(true);
+            service.Setup(x => x.AddIngredients(shoppingList));
 
             var viewmodel = new ShoppingListViewModel(new ShoppingListService(), service.Object);
 

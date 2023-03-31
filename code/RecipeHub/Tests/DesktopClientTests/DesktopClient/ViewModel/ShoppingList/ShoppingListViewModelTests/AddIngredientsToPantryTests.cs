@@ -1,5 +1,5 @@
-﻿using Desktop_Client.Endpoints.ShoppingList;
-using Desktop_Client.Service.Ingredients;
+﻿using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.ShoppingList;
 using Desktop_Client.ViewModel.ShoppingList;
 using Moq;
 using Shared_Resources.Model.Ingredients;
