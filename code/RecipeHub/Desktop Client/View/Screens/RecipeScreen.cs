@@ -1,7 +1,9 @@
-﻿using Desktop_Client.View.Dialog;
+﻿using System.Text;
+using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using Shared_Resources.Utils.Units;
 
 namespace Desktop_Client.View.Screens
 {
@@ -102,6 +104,55 @@ namespace Desktop_Client.View.Screens
                     {
                         this.DisplayDialog(new MessageDialog("An error has occurred", exception.Message));
                     }
+                }
+            };
+
+            base.DisplayDialog(dialog);
+        }
+
+        private void cookRecipeButton_Click(object sender, EventArgs e)
+        {
+            this.viewModel.GetMissingIngredientsForRecipe();
+
+            MessageDialog dialog;
+
+            if (this.viewModel.MissingIngredients.Length > 0)
+            {
+                var message = new StringBuilder();
+                message.Append(
+                    "You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):");
+                foreach (var ingredient in this.viewModel.MissingIngredients)
+                {
+                    var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
+                    message.Append($"\n - {ingredient.Name}: {ingredient.Amount} {unit}");
+                }
+                dialog = new MessageDialog("Missing Ingredients", message.ToString(), MessageBoxButtons.YesNo);
+            }
+            else
+            {
+                dialog = new MessageDialog("Cook Meal",
+                    "Are you sure you would like to cook this meal?\nAll ingredients will be removed from your pantry.",
+                    MessageBoxButtons.YesNo);
+            }
+
+            dialog.DialogClosed += (_, _) =>
+            {
+                if (dialog.DialogResult != DialogResult.Yes)
+                {
+                    return;
+                }
+
+                try
+                {
+                    this.viewModel.RemoveIngredientsForRecipe();
+                }
+                catch (UnauthorizedAccessException exception)
+                {
+                    this.DisplayTimeOutDialog(exception.Message);
+                }
+                catch (Exception exception)
+                {
+                    this.DisplayDialog(new MessageDialog("An error has occurred", exception.Message));
                 }
             };
 

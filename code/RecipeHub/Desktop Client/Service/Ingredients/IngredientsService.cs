@@ -96,5 +96,19 @@ namespace Desktop_Client.Service.Ingredients
             this.usersService.RefreshSessionKey();
             return this.endpoints.GetSuggestions(ingredientName);
         }
+
+        /// <inheritdoc />
+        public Ingredient[] GetMissingIngredientsForRecipe(int recipeId)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetMissingIngredientsForRecipe(recipeId);
+        }
+
+        /// <inheritdoc />
+        public void RemoveIngredientsForRecipe(int recipeId)
+        {
+            this.usersService.RefreshSessionKey();
+            this.endpoints.RemoveIngredientsForRecipe(recipeId);
+        }
     }
 }
