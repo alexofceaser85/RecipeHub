@@ -2,6 +2,7 @@
 using Shared_Resources.Model.Ingredients;
 using Web_Client.Endpoints.Ingredients;
 using Web_Client.Service.Ingredients;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
 {
@@ -12,9 +13,12 @@ namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
         {
             var ingredient = new Ingredient();
             var endpoints = new Mock<IIngredientEndpoints>();
-            endpoints.Setup(mock => mock.DeleteIngredient(ingredient)).Returns(true);
+            var usersService = new Mock<IUsersService>();
 
-            var service = new IngredientsService(endpoints.Object);
+            endpoints.Setup(mock => mock.DeleteIngredient(ingredient)).Returns(true);
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new IngredientsService(endpoints.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
