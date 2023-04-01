@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.Ingredients;
@@ -21,6 +22,12 @@ namespace Web_Client.Pages
         /// </value>
         public Ingredient[] ShoppingList => this.viewModel.ShoppingList;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShoppingListModel"/> class.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: None<br />
+        /// </summary>
         public ShoppingListModel()
         {
             this.viewModel = new ShoppingListViewModel();
@@ -35,6 +42,17 @@ namespace Web_Client.Pages
         /// </summary>
         public void OnGet()
         {
+        }
+
+        /// <summary>
+        /// Called when the shopping list is added to the pantry.<br />
+        /// <br />
+        /// Precondition: None<br />
+        /// Postcondition: Shopping list has been added to the pantry.<br />
+        /// </summary>
+        public void OnPostAddShoppingListToPantry()
+        {
+            Debug.WriteLine(Request.Form);
         }
     }
 }

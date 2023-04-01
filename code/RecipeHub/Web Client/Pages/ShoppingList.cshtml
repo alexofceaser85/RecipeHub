@@ -5,16 +5,43 @@
     ViewData["Title"] = "Shopping List";
     ViewData["Header"] = "Shopping List";
 
-    foreach (var ingredient in Model.ShoppingList)
-    {
+    <form method="post" asp-page-handler="AddShoppingListToPantry">
+        <button type="button" data-bs-toggle="modal" data-bs-target="#add-shopping-list-modal">
+            Add All to Pantry
+        </button>
+        
+        @foreach (var ingredient in Model.ShoppingList)
+        {
         <div class="ingredient">
             <div class="ingredient-name">
                 <p>@ingredient.Name<p/>
             </div>
             <div class="shopping-list-quantity">
                 <span>Quantity</span>
-                <span><input type="number" min="1" step="1" value="@ingredient.Amount" /> @BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</span>
+                <input type="text" name="Name-@ingredient.Name" value="@ingredient.Name" hidden/>
+                <input type="text" name="MeasurementType-@ingredient.Name" value="@((int)ingredient.MeasurementType)" hidden/>
+                <span><input name="Amount-@ingredient.Name" type="number" min="1" step="1" value="@ingredient.Amount" /> @BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</span>
             </div>
         </div>
-    }
+        }
+
+        <div class="modal fade" id="add-shopping-list-modal" tabindex="-1" aria-labelledby="add-shopping-list-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="add-shopping-list-modal">Remove Planned Meal</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                            <p>Are you sure you want to add these ingredients to your pantry?</p>
+                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    
 }
