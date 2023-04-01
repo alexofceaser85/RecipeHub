@@ -1,4 +1,5 @@
-﻿using Desktop_Client.Service.PlannedMeals;
+﻿using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.PlannedMeals;
 using Desktop_Client.Service.Recipes;
 using Desktop_Client.ViewModel.Recipes;
 
@@ -23,9 +24,9 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
         }
 
         [Test]
-        public void TwoParameterConstructorDoesNotThrowException()
+        public void ThreeParameterConstructorDoesNotThrowException()
         {
-            var viewmodel  = new RecipeViewModel(new RecipesService(), new PlannedMealsService());
+            var viewmodel  = new RecipeViewModel(new RecipesService(), new PlannedMealsService(), new IngredientsService());
             Assert.Multiple(() =>
             {
                 Assert.That(viewmodel.RecipeName, Is.EqualTo(string.Empty));
@@ -44,20 +45,30 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesViewModelTes
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(
-                    () => _ = new RecipeViewModel(null!, new PlannedMealsService()))!.Message;
+                    () => _ = new RecipeViewModel(null!, new PlannedMealsService(), new IngredientsService()))!.Message;
                 Assert.That(message, Is.EqualTo("The recipes service cannot be null (Parameter 'recipeService')"));
             });
         }
-
-
+        
         [Test]
         public void NullPlannedMealsServiceThrowsException()
         {
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentNullException>(
-                    () => _ = new RecipeViewModel(new RecipesService(), null!))!.Message;
+                    () => _ = new RecipeViewModel(new RecipesService(), null!, new IngredientsService()))!.Message;
                 Assert.That(message, Is.EqualTo("Value cannot be null. (Parameter 'plannedMealService')"));
+            });
+        }
+
+        [Test]
+        public void NullIngredientsServiceThrowsException()
+        {
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<ArgumentNullException>(
+                    () => _ = new RecipeViewModel(new RecipesService(), new PlannedMealsService(), null!))!.Message;
+                Assert.That(message, Is.EqualTo("Value cannot be null. (Parameter 'ingredientsService')"));
             });
         }
     }
