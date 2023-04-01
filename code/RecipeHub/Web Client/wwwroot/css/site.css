@@ -254,3 +254,8 @@ body {
     background-color: #eeeeee;
     cursor: pointer;
 }
+
+.shopping-list-quantity {
+    width: 300px;
+}
+
