@@ -149,6 +149,8 @@
             // mealsListTableLayout
             // 
             this.mealsListTableLayout.AutoScroll = true;
+            this.mealsListTableLayout.AutoSize = true;
+            this.mealsListTableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mealsListTableLayout.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.mealsListTableLayout.ColumnCount = 1;
             this.mealsListTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -168,6 +170,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "PlannedMealsScreen";
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
