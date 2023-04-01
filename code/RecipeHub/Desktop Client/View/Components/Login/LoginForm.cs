@@ -26,7 +26,8 @@ namespace Desktop_Client.View.Components.Login
             //Forces the max size to be correct, despite what the local version of Windows Forms says it is.
             this.usernameTextBox.MaximumSize = new Size(this.usernameTextBox.MaximumSize.Width, 0);
             this.passwordTextInput.MaximumSize = new Size(this.passwordTextInput.MaximumSize.Width, 0);
-
+            this.usernameErrorLabel.MaximumSize = new Size(500, 0);
+            this.passwordErrorLabel.MaximumSize = new Size(500, 0);
         }
 
         private void BindComponents()
