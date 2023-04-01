@@ -36,6 +36,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.shoppingListTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.emptyListLabel = new System.Windows.Forms.Label();
+            this.backButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -101,6 +102,7 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.backButton, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.hamburgerButton, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label1, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -168,6 +170,20 @@
             this.emptyListLabel.Text = "Your shopping list is empty";
             this.emptyListLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // backButton
+            // 
+            this.backButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.backButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.backButton.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.backButton.ForeColor = System.Drawing.Color.White;
+            this.backButton.Location = new System.Drawing.Point(3, 3);
+            this.backButton.Name = "backButton";
+            this.backButton.Size = new System.Drawing.Size(94, 90);
+            this.backButton.TabIndex = 5;
+            this.backButton.Text = "<";
+            this.backButton.UseVisualStyleBackColor = false;
+            this.backButton.Click += new System.EventHandler(this.backButton_Click);
+            // 
             // ShoppingListScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -195,5 +211,6 @@
         private Button hamburgerButton;
         private Label emptyListLabel;
         private Button addButton;
+        private Button backButton;
     }
 }

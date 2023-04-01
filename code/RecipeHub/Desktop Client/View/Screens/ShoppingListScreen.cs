@@ -116,5 +116,17 @@ namespace Desktop_Client.View.Screens
 
             base.DisplayDialog(dialog);
         }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ChangeScreens(new PlannedMealsScreen());
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                this.DisplayTimeOutDialog(exception.Message);
+            }
+        }
     }
 }

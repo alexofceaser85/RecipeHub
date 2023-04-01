@@ -1,6 +1,7 @@
 ﻿using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Recipes;
 using Shared_Resources.Data.UserData;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Desktop_Client.View.Screens
 {
@@ -65,7 +66,14 @@ namespace Desktop_Client.View.Screens
 
         private void backButton_Click(object sender, EventArgs e)
         {
-            ChangeScreens(new RecipeListScreen());
+            try
+            {
+                ChangeScreens(new RecipeListScreen());
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                this.DisplayTimeOutDialog(exception.Message);
+            }
         }
 
         private void hamburgerButton_Click(object sender, EventArgs e)
