@@ -50,9 +50,17 @@ namespace Web_Client.Pages
         /// Precondition: None<br />
         /// Postcondition: Shopping list has been added to the pantry.<br />
         /// </summary>
-        public void OnPostAddShoppingListToPantry()
+        public IActionResult OnPostAddShoppingListToPantry()
         {
-            Debug.WriteLine(Request.Form);
+            var ingredients = new List<Ingredient>();
+            foreach (var ingredient in this.ShoppingList)
+            {
+                int amount = int.Parse(Request.Form[$"Amount-{ingredient.Name}"][0]!);
+                var addedIngredient = new Ingredient(ingredient.Name, amount, ingredient.MeasurementType);
+                ingredients.Add(addedIngredient);
+            }
+            this.viewModel.AddIngredientsToPantry(ingredients.ToArray());
+            return RedirectToPage("ShoppingList");
         }
     }
 }
