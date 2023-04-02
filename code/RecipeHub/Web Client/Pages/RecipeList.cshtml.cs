@@ -92,6 +92,11 @@ namespace Web_Client.Pages
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
             this.BindingModel = bindingModel;
+            if (this.BindingModel.FiltersTypes!.Contains(null!))
+            {
+                this.BindingModel.FiltersTypes.Remove(null!);
+            }
+            this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
             string searchText = Request.Form["SearchText"][0]!;
