@@ -130,6 +130,7 @@
                     type: method,
                     data: data,
                     success: function (result) {
+                        $("#add-planned-meal-modal").modal("hide");
                         $("#add-planned-meal-confirmation-modal").modal("show");
                         $("#add-planned-meal-confirmation").text(result);
 
