@@ -41,6 +41,11 @@
                                                         data-meal-date="@dayOfMeals.MealDate.ToString()" class="planned-meal-remove-recipe-button">
                                                     Remove
                                                 </button>
+                                            <a asp-page="./Recipe" asp-route-id="@recipe.Id">
+                                                    <button type="button">
+                                                        View
+                                                    </button>
+                                                </a>
                                             </div>
                                         </div>
                                 </div>
