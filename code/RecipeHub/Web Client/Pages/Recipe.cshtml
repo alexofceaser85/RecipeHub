@@ -21,15 +21,7 @@
         </div>
         <hr/>
         <div>
-            @if (Model.ViewModel.MissingIngredients.Length != 0) 
-            {
-            <button data-bs-toggle="modal" data-bs-target="#missing-ingredients-modal">Cook Recipe</button>
-            }
-            else
-            {
             <button id="cook-recipe-button" data-bs-toggle="modal" data-bs-target="#cook-meal-confirmation-modal">Cook Recipe</button>
-            }
-            
         </div>
         <div class="recipe-info">
             <div id="recipe-description">
@@ -126,23 +118,6 @@
         </div>
     </div>
 
-    <div class="modal fade" id="missing-ingredients-modal" tabindex="-1" aria-labelledby="missing-ingredients-modal-label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="missing-ingredients-modal-label">Missing Ingredients</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <pre>@Model.GetTextForMissingIngredients()</pre>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Ok</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="cook-meal-confirmation-modal" tabindex="-1" aria-labelledby="cook-meal-modal-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -152,6 +127,8 @@
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to cook this meal?</p>
+                    <p>@Model.GetTextForMissingIngredients().Item1</p>
+                    <pre>@Model.GetTextForMissingIngredients().Item2</pre>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         <form method="post" asp-page-handler="CookRecipe">

@@ -100,7 +100,10 @@ namespace Web_Client.Pages
             RecipePageState.ViewModel = this.ViewModel;
             return Content(this.ViewModel.PlannedMealAddedMessage);
         }
-
+        /// <summary>
+        /// Called when [post cook recipe].
+        /// </summary>
+        /// <returns>a redirect to the ingredients page.</returns>
         public IActionResult OnPostCookRecipe()
         {
             this.ViewModel = RecipePageState.ViewModel!;
@@ -114,23 +117,22 @@ namespace Web_Client.Pages
         /// <summary>
         /// Gets the text for missing ingredients.
         /// </summary>
-        /// <returns></returns>
-        public string GetTextForMissingIngredients()
+        /// <returns>an array containing the two elements of text.</returns>
+        public Tuple<string, string> GetTextForMissingIngredients()
         {
             if (this.ViewModel.MissingIngredients.Length == 0)
             {
-                return "You have all the ingredients for this meal!";
+                return Tuple.Create("All ingredients will be removed from your pantry.", string.Empty);
+
             }
             var message = new StringBuilder();
-            message.Append(
-                "You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):");
             foreach (var ingredient in this.ViewModel.MissingIngredients)
             {
                 var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
                 message.Append($"\n - {ingredient.Name}: {ingredient.Amount} {unit}");
             }
 
-            return message.ToString();
+            return Tuple.Create("You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):", message.ToString());
         }
     }
 }
