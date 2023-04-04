@@ -6,7 +6,7 @@ using Shared_Resources.Model.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServiceTests
 {
-    public class UpdateIngredientsTests
+    public class AddIngredientsTests
     {
         [Test]
         public void SuccessfullyAddEmptyIngredientArray()

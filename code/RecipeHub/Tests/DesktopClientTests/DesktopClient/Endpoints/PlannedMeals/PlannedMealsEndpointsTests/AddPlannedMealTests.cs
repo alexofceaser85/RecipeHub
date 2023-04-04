@@ -2,6 +2,9 @@
 using Moq;
 using System.Net;
 using Desktop_Client.Endpoints.PlannedMeals;
+using Desktop_Client.Endpoints.Recipes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.PlannedMeals;
 
 namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEndpointsTests
@@ -61,6 +64,39 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
             {
                 var message = Assert.Throws<ArgumentException>(
                     () => endpoints.AddPlannedMeal(DateTime.Now, MealCategory.Breakfast, 1))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
+                        ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            });
+        }
+
+        [Test]
+        public void SessionKeyIsInvalid()
+        {
+            const string errorMessage = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+            const string json = $"{{\"code\": 401, \"message\": \"{errorMessage}\"}}";
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new PlannedMealsEndpoints(httpClient);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(
+                    () => endpoints.AddPlannedMeal(new DateTime(2000, 1, 1), MealCategory.Breakfast, 0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler
