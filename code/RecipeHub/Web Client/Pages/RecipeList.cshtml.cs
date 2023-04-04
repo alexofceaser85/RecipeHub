@@ -51,6 +51,14 @@ namespace Web_Client.Pages
         }
 
         /// <summary>
+        /// Gets the recipe tags.
+        /// </summary>
+        /// <value>
+        /// The recipe tags.
+        /// </value>
+        public string[][] RecipeTags => this.viewModel.RecipeTags;
+
+        /// <summary>
         /// Creates a default instance of <see cref="RecipesListModel"/>.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
@@ -92,6 +100,10 @@ namespace Web_Client.Pages
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
             this.BindingModel = bindingModel;
+            if (this.BindingModel.FiltersTypes!.Contains(null!))
+            {
+                this.BindingModel.FiltersTypes.Remove(null!);
+            }
             this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
             string searchText = Request.Form["SearchText"][0]!;
