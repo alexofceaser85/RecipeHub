@@ -26,6 +26,7 @@ namespace Desktop_Client.Endpoints.Ingredients
         private const string RemoveIngredientsForRecipeEndpoint = "RemoveIngredientsForRecipe";
 
         private const string IngredientsElementName = "ingredients";
+        private const string PantryElementName = "pantry";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientEndpoints"/> class.<br />
@@ -59,24 +60,9 @@ namespace Desktop_Client.Endpoints.Ingredients
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
-            var pantry = json["pantry"];
-            var ingredients = new List<Ingredient>();
+            var missingIngredients = json[PantryElementName]!.AsArray().Deserialize<Ingredient[]>();
 
-            if (pantry == null)
-            {
-                return ingredients.ToArray();
-            }
-
-            foreach (var ingredient in pantry.AsArray())
-            {
-                var name = ingredient!["name"]!.GetValue<string>();
-                var amount = ingredient["amount"]!.GetValue<int>();
-                var measurementType = ingredient["measurementType"]!.GetValue<int>();
-
-                ingredients.Add(new Ingredient(name, amount, (MeasurementType) measurementType));
-            }
-
-            return ingredients.ToArray();
+            return missingIngredients!;
         }
 
         /// <inheritdoc />

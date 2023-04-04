@@ -6,9 +6,9 @@
     public interface IRecipeTypesService
     {
         /// <summary>
-        /// Gets the similar recipe types.
-        ///
-        /// Precondition: None
+        /// Gets the similar recipe types.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <returns>The similar recipe types</returns>

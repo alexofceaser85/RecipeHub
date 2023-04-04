@@ -17,6 +17,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="searchTerm">The string to search recipe names for. Default to an empty string.</param>
         /// <returns>An array containing all visible recipes that match the search term.</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Recipe[] GetRecipes(string searchTerm = "");
 
         /// <summary>
@@ -27,6 +29,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="tags">The tags to get recipes for.</param>
         /// <returns>The recipes with a given type</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Recipe[] GetRecipesForTags(string[] tags);
 
         /// <summary>
@@ -38,6 +42,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The queried recipe</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Recipe GetRecipe(int recipeId);
 
         /// <summary>
@@ -48,6 +54,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The ingredients for the recipe.</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public Ingredient[] GetIngredientsForRecipe(int recipeId);
 
         /// <summary>
@@ -58,6 +66,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="recipeId">The id for the recipe to look up.</param>
         /// <returns>A list of steps for the specified recipe.</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public RecipeStep[] GetStepsForRecipe(int recipeId);
 
         /// <summary>
@@ -68,6 +78,8 @@ namespace Desktop_Client.Service.Recipes
         /// </summary>
         /// <param name="recipeId">The id for the recipe to look up.</param>
         /// <returns>A list of types for the specified recipe.</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public string[] GetTypesForRecipe(int recipeId);
 
         /// <summary>
@@ -81,6 +93,8 @@ namespace Desktop_Client.Service.Recipes
         /// <param name="name">The name of the recipe.</param>
         /// <param name="description">The description of the recipe.</param>
         /// <param name="isPublic">Whether the recipe is public or not.</param>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void AddRecipe(string name, string description, bool isPublic);
 
         /// <summary>
@@ -90,6 +104,8 @@ namespace Desktop_Client.Service.Recipes
         /// <b>Postcondition: </b> None
         /// </summary>
         /// <param name="recipeId">The ID for the recipe to remove.</param>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void RemoveRecipe(int recipeId);
 
         /// <summary>
@@ -104,6 +120,8 @@ namespace Desktop_Client.Service.Recipes
         /// <param name="name">The name of the recipe.</param>
         /// <param name="description">The description of the recipe.</param>
         /// <param name="isPublic">Whether the recipe is public or not.</param>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void EditRecipe(int recipeId, string name, string description, bool isPublic);
     }
 }

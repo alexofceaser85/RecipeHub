@@ -8,18 +8,19 @@ namespace Desktop_Client.Endpoints.Users
     public interface IUsersEndpoints
     {
         /// <summary>
-        /// Creates an account.
-        ///
-        /// Precondition: None
+        /// Creates an account.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="accountToCreate">The account to create.</param>
         /// <returns>The create account information</returns>
         public string CreateAccount(NewAccount accountToCreate);
+
         /// <summary>
-        /// Logins the specified username and password combination.
-        ///
-        /// Precondition: None
+        /// Logins the specified username and password combination.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="username">The username.</param>
@@ -27,28 +28,31 @@ namespace Desktop_Client.Endpoints.Users
         /// <param name="previousSessionKey">The previous session key.</param>
         /// <returns>The login information</returns>
         public string Login(string username, string password, string previousSessionKey);
+
         /// <summary>
-        /// Refreshes the session key.
-        ///
-        /// Precondition: None
+        /// Refreshes the session key.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="previousSessionKey">The previous session key.</param>
         /// <returns>The refreshed session key</returns>
         public string RefreshSessionKey(string previousSessionKey);
+
         /// <summary>
-        /// Logs the user with the specified session key out of the system.
-        ///
-        /// Precondition: None
+        /// Logs the user with the specified session key out of the system.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
         /// <returns>The logout information</returns>
         public string Logout(string sessionKey);
+
         /// <summary>
-        /// Gets the user information.
-        ///
-        /// Precondition: None
+        /// Gets the user information.<br/>
+        /// <br/>
+        /// Precondition: None <br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
