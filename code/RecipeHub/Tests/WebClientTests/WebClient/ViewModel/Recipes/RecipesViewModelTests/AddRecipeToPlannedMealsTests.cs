@@ -2,6 +2,7 @@
 using Moq;
 using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Ingredients;
 using Web_Client.Service.PlannedMeals;
 using Web_Client.Service.Recipes;
 using Web_Client.ViewModel.Recipes;
@@ -45,7 +46,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesViewModelTests
             plannedMealsService.Setup(mock => mock.AddPlannedMeal(mealDate, category, 0));
             plannedMealsService.Setup(mock => mock.GetPlannedMeals()).Returns(plannedMeals);
 
-            var viewmodel = new RecipeViewModel(new RecipesService(), plannedMealsService.Object) {
+            var viewmodel = new RecipeViewModel(new RecipesService(), plannedMealsService.Object, new IngredientsService()) {
                 RecipeName = recipeName
             };
             viewmodel.AddRecipeToPlannedMeals(mealDate, category);

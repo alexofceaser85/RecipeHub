@@ -149,8 +149,6 @@ body {
     flex-direction: row;
 }
 
-
-
 .recipe-name {
     font-size: 32px;
 }
@@ -254,3 +252,8 @@ body {
     background-color: #eeeeee;
     cursor: pointer;
 }
+
+.shopping-list-quantity {
+    width: 300px;
+}
+

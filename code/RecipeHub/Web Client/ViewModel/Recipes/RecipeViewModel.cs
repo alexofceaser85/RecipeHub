@@ -4,6 +4,7 @@ using System.Text;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Utils.Units;
+using Web_Client.Service.Ingredients;
 using Web_Client.Service.PlannedMeals;
 using Web_Client.Service.Recipes;
 
@@ -29,6 +30,10 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public const string NoInstructionsMessage = "No steps have been added... Yet!";
 
+        private readonly IRecipesService recipeService;
+        private readonly IPlannedMealsService plannedMealsService;
+        private readonly IIngredientsService ingredientsService;
+
         private int recipeId;
         private string recipeName;
         private string authorName;
@@ -38,8 +43,7 @@ namespace Web_Client.ViewModel.Recipes
         private string instructions;
         private string userRatingText;
         private string yourRatingText;
-        private readonly IRecipesService recipeService;
-        private readonly IPlannedMealsService plannedMealsService;
+        private Shared_Resources.Model.Ingredients.Ingredient[] missingIngredients;
 
         /// <summary>
         /// The name of the recipe, as should be displayed on the screen.
@@ -114,13 +118,22 @@ namespace Web_Client.ViewModel.Recipes
         }
 
         /// <summary>
+        /// The list of missing ingredients to cook the recipe.
+        /// </summary>
+        public Shared_Resources.Model.Ingredients.Ingredient[] MissingIngredients
+        {
+            get => this.missingIngredients;
+            set => this.SetField(ref this.missingIngredients, value);
+        }
+
+        /// <summary>
         /// The message to display on the dialog that appears after adding a planned meal.
         /// </summary>
         public string PlannedMealAddedMessage { get; private set; }
 
         /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
-        /// Uses an instance of <see cref="RecipesService"/> as the endpoint by default.<br/>
+        /// Uses default instances of <see cref="RecipesService"/>, <see cref="PlannedMealsService"/>, and <see cref="IngredientsService"/><br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>this.RecipeName == string.Empty<br/>
@@ -129,9 +142,10 @@ namespace Web_Client.ViewModel.Recipes
         /// &amp;&amp; this.Ingredients == string.Empty<br/>
         /// &amp;&amp; this.Instructions == string.Empty<br/>
         /// &amp;&amp; this.UserRatingText == string.Empty<br/>
-        /// &amp;&amp; this.YourRatingText == string.Empty.
+        /// &amp;&amp; this.YourRatingText == string.Empty<br/>
+        /// &amp;&amp; this.MissingIngredients.Length == 0
         /// </summary>
-        public RecipeViewModel() : this(new RecipesService(), new PlannedMealsService())
+        public RecipeViewModel() : this(new RecipesService(), new PlannedMealsService(), new IngredientsService())
         {
         }
 
@@ -146,18 +160,23 @@ namespace Web_Client.ViewModel.Recipes
         /// &amp;&amp; this.Ingredients == string.Empty<br/>
         /// &amp;&amp; this.Instructions == string.Empty<br/>
         /// &amp;&amp; this.UserRatingText == string.Empty<br/>
-        /// &amp;&amp; this.YourRatingText == string.Empty
+        /// &amp;&amp; this.YourRatingText == string.Empty<br/>
+        /// &amp;&amp; this.MissingIngredients.Length == 0
         /// </summary>
         /// <param name="recipeService">The recipe service</param>
         /// <param name="plannedMealService">The planned meal service</param>
+        /// <param name="ingredientsService">The ingredients service</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public RecipeViewModel(IRecipesService recipeService, IPlannedMealsService plannedMealService)
+        public RecipeViewModel(IRecipesService recipeService, IPlannedMealsService plannedMealService,
+            IIngredientsService ingredientsService)
         {
             this.recipeService =
                 recipeService ?? throw new ArgumentNullException(nameof(recipeService),
                     RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
             this.plannedMealsService =
                 plannedMealService ?? throw new ArgumentNullException(nameof(plannedMealService));
+            this.ingredientsService =
+                ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService));
 
             this.recipeName = "";
             this.authorName = "";
@@ -168,6 +187,7 @@ namespace Web_Client.ViewModel.Recipes
             this.yourRatingText = "";
             this.tags = "";
             this.PlannedMealAddedMessage = "";
+            this.missingIngredients = Array.Empty<Shared_Resources.Model.Ingredients.Ingredient>();
         }
 
         /// <inheritdoc/>
@@ -214,7 +234,8 @@ namespace Web_Client.ViewModel.Recipes
             var sb = new StringBuilder();
             sb.AppendLine(
                 $"{this.recipeName} has been added to your meals for {mealDate.ToShortDateString()}");
-            sb.AppendLine($"You now have {plannedMeals.Recipes.Length} meals planned for {category.ToString().ToLower()}:");
+            sb.AppendLine(
+                $"You now have {plannedMeals.Recipes.Length} meals planned for {category.ToString().ToLower()}:");
             foreach (var recipe in plannedMeals.Recipes)
             {
                 sb.Append(" - ");
@@ -224,6 +245,33 @@ namespace Web_Client.ViewModel.Recipes
             sb.Append("Would you like to see all of your planned meals now?");
 
             this.PlannedMealAddedMessage = sb.ToString();
+        }
+
+        /// <summary>
+        /// Fetches all of the ingredients that the active user is missing for the displayed recipe from the server, storing
+        /// them in this.MissingIngredients.<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>this.MissingIngredients contains all of the ingredients that the active user is missing
+        /// </summary>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void GetMissingIngredientsForRecipe()
+        {
+            this.MissingIngredients = this.ingredientsService.GetMissingIngredientsForRecipe(this.recipeId);
+        }
+
+        /// <summary>
+        /// Removes all of the recipe's ingredients from the active user's pantry<br/>
+        /// <br/>
+        /// <b>Precondition: </b>None<br/>
+        /// <b>Postcondition: </b>The recipe's ingredients are removed from the active user's pantry
+        /// </summary>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
+        public void RemoveIngredientsForRecipe()
+        {
+            this.ingredientsService.RemoveIngredientsForRecipe(this.recipeId);
         }
 
         private void LoadRecipe(int recipeId)
