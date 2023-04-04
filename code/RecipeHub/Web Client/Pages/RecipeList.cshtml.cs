@@ -46,8 +46,8 @@ namespace Web_Client.Pages
         ///   <c>true</c> if [only available ingredients]; otherwise, <c>false</c>.
         /// </value>
         public bool OnlyAvailableIngredients { 
-            get => this.viewModel.Filters.OnlyAvailableIngredients;
-            set => this.viewModel.Filters.OnlyAvailableIngredients = value;
+            get => RecipesListViewModel.Filters.OnlyAvailableIngredients;
+            set => RecipesListViewModel.Filters.OnlyAvailableIngredients = value;
         }
 
         /// <summary>
@@ -67,11 +67,7 @@ namespace Web_Client.Pages
         public RecipesListModel()
         {
             this.RecipeTypes = Array.Empty<string>();
-            this.viewModel = new RecipesListViewModel {
-                Filters = {
-                    OnlyAvailableIngredients = true
-                }
-            };
+            this.viewModel = new RecipesListViewModel();
 
             try
             {
@@ -104,10 +100,10 @@ namespace Web_Client.Pages
             {
                 this.BindingModel.FiltersTypes.Remove(null!);
             }
-            this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
+            RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
             string searchText = Request.Form["SearchText"][0]!;
-            this.viewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
+            RecipesListViewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
             this.viewModel.SearchTerm = searchText;
             this.viewModel.GetRecipes();
 
