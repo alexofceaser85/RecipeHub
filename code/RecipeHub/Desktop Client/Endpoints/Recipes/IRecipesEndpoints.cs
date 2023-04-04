@@ -12,69 +12,63 @@ namespace Desktop_Client.Endpoints.Recipes
         /// Gets all of the visible recipes for the active user that match the search term.<br/>
         /// If the search term is empty, all recipes will be fetched<br/>
         /// <br/>
-        /// <b>Precondition: </b> The session key is valid.<br/>
+        /// <b>Precondition: </b> The active user's session key is valid.<br/>
         /// <b>Postcondition: </b> None
         /// </summary>
-        /// <param name="sessionKey">The session key for the current user.</param>
         /// <param name="searchTerm">The string to search recipe names for. Default to an empty string.</param>
         /// <returns>An array containing all visible recipes that match the search term.</returns>
-        public Recipe[] GetRecipes(string sessionKey, string searchTerm = "");
+        public Recipe[] GetRecipes(string searchTerm = "");
 
         /// <summary>
-        /// Gets all of the recipes with the given tags
-        ///
-        /// Precondition: None
-        /// Postcondition: None
+        /// Gets all of the recipes with the given tags<br/>
+        /// <br/>
+        /// Precondition: The active user's session key is valid<br/>
+        /// Postcondition: None<br/>
         /// </summary>
-        /// <param name="sessionKey">The session key.</param>
         /// <param name="tags">The tags.</param>
         /// <returns>The recipes with the given tags</returns>
-        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags);
+        public Recipe[] GetRecipesForTags(string[] tags);
 
         /// <summary>
         /// Gets a recipe from the server with a specified recipeId.<br/>
         /// The account associated with the session key must by the author if the recipe is private.<br/>
         /// <br/>
-        /// <b>Precondition: </b>The session key is valid and the user has access to the recipe<br/>
+        /// <b>Precondition: </b>The active user's session key is valid and the user has access to the recipe<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="sessionKey">The session key associated with the active user.</param>
         /// <param name="recipeId">The recipe id for the recipe to fetch</param>
         /// <returns>The recipe</returns>
-        public Recipe GetRecipe(string sessionKey, int recipeId);
+        public Recipe GetRecipe(int recipeId);
 
         /// <summary>
         /// Gets all of the ingredients for a recipe.<br/>
         /// <br/>
-        /// <b>Precondition: </b>The session key is valid and the user has access to the recipe.<br/>
+        /// <b>Precondition: </b>The active user's session key is valid and the user has access to the recipe.<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="sessionKey">The session key associated with the account</param>
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The ingredients for the recipe.</returns>
-        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId);
+        public Ingredient[] GetIngredientsForRecipe(int recipeId);
 
         /// <summary>
         /// Gets all of the steps for a recipe.<br/>
         /// <br/>
-        /// <b>Precondition: </b>The user has access to the recipe.<br/>
+        /// <b>Precondition: </b>The active user's session key is valid and the user has access to the recipe.<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="sessionKey">The session key associated with the account</param>
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The steps for the recipe.</returns>
-        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId);
+        public RecipeStep[] GetStepsForRecipe(int recipeId);
 
         /// <summary>
         /// Gets all of the types for a recipe.<br/>
         /// <br/>
-        /// <b>Precondition: </b>The user has access to the recipe.<br/>
+        /// <b>Precondition: </b>The active user's session key is valid and the user has access to the recipe.<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="sessionKey">The session key associated with the account</param>
         /// <param name="recipeId">The id for the recipe.</param>
         /// <returns>The types for the recipe.</returns>
-        public string[] GetTypesForRecipe(string sessionKey, int recipeId);
+        public string[] GetTypesForRecipe(int recipeId);
 
         /// <summary>
         /// Adds a recipe to the system, authored by the active user.<br/>
@@ -82,23 +76,23 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
         /// &amp;&amp; !string.IsNullOrWhiteSpace(name)<br/>
         /// &amp;&amp; !string.IsNullOrWhiteSpace(description)<br/>
+        /// &amp;&amp; The active user's session key is valid
         /// <b>Postcondition: </b> None
         /// </summary>
-        /// <param name="sessionKey">The session key for the current user.</param>
         /// <param name="name">The name of the recipe.</param>
         /// <param name="description">The description of the recipe.</param>
         /// <param name="isPublic">Whether the recipe is public or not.</param>
-        public void AddRecipe(string sessionKey, string name, string description, bool isPublic);
+        public void AddRecipe(string name, string description, bool isPublic);
 
         /// <summary>
         /// Removes a recipe from the database, if the user is the author of the recipe.<br/>
         /// <br/>
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
+        /// &amp;&amp; The active user's session key is valid
         /// <b>Postcondition: </b> None
         /// </summary>
-        /// <param name="sessionKey">The session key for the current user.</param>
         /// <param name="recipeId">The ID for the recipe to remove.</param>
-        public void RemoveRecipe(string sessionKey, int recipeId);
+        public void RemoveRecipe(int recipeId);
 
         /// <summary>
         /// Edits a recipe, updating the name, description, and public status.<br/>
@@ -106,13 +100,13 @@ namespace Desktop_Client.Endpoints.Recipes
         /// <b>Precondition: </b> !string.IsNullOrWhiteSpace(sessionKey)<br/>
         /// &amp;&amp; !string.IsNullOrWhiteSpace(name)<br/>
         /// &amp;&amp; !string.IsNullOrWhiteSpace(description)<br/>
+        /// &amp;&amp; The active user's session key is valid
         /// <b>Postcondition: </b> None
         /// </summary>
-        /// <param name="sessionKey">The session key for the current user.</param>
         /// <param name="recipeId">The ID for the recipe to update.</param>
         /// <param name="name">The name of the recipe.</param>
         /// <param name="description">The description of the recipe.</param>
         /// <param name="isPublic">Whether the recipe is public or not.</param>
-        public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic);
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic);
     }
 }
