@@ -58,7 +58,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetRecipes(Session.Key, searchTerm);
+            return this.endpoints.GetRecipes(searchTerm);
         }
 
         /// <inheritdoc/>
@@ -80,7 +80,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetRecipesForTags(Session.Key, tags);
+            return this.endpoints.GetRecipesForTags(tags);
         }
 
         /// <inheritdoc/>
@@ -97,7 +97,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetRecipe(Session.Key, recipeId);
+            return this.endpoints.GetRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -114,7 +114,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetIngredientsForRecipe(Session.Key, recipeId);
+            return this.endpoints.GetIngredientsForRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -131,7 +131,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetStepsForRecipe(Session.Key, recipeId);
+            return this.endpoints.GetStepsForRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -148,7 +148,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            return this.endpoints.GetTypesForRecipe(Session.Key, recipeId);
+            return this.endpoints.GetTypesForRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -186,7 +186,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            this.endpoints.AddRecipe(Session.Key, name, description, isPublic);
+            this.endpoints.AddRecipe(name, description, isPublic);
         }
 
         /// <inheritdoc/>
@@ -203,7 +203,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            this.endpoints.RemoveRecipe(Session.Key, recipeId);
+            this.endpoints.RemoveRecipe(recipeId);
         }
 
         /// <inheritdoc/>
@@ -241,7 +241,7 @@ namespace Desktop_Client.Service.Recipes
             }
 
             this.usersService.RefreshSessionKey();
-            this.endpoints.EditRecipe(Session.Key, recipeId, name, description, isPublic);
+            this.endpoints.EditRecipe(recipeId, name, description, isPublic);
         }
     }
 }

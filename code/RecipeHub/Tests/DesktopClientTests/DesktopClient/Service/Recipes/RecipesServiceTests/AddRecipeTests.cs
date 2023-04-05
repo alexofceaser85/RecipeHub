@@ -21,7 +21,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.AddRecipe(Session.Key, name, description, isPublic));
+            recipesEndpoint.Setup(mock => mock.AddRecipe(name, description, isPublic));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
@@ -30,7 +30,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             {
                 Assert.DoesNotThrow(() => service.AddRecipe(name, description, isPublic));
                 usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
-                recipesEndpoint.Verify(mock => mock.AddRecipe(Session.Key, name, description, isPublic), Times.Once);
+                recipesEndpoint.Verify(mock => mock.AddRecipe(name, description, isPublic), Times.Once);
             });
         }
 

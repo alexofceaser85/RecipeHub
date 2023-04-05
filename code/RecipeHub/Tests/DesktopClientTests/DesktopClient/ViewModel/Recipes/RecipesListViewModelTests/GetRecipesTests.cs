@@ -419,5 +419,57 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
                 service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
             });
         }
+        
+        [Test]
+        public void UnsuccessfullyGetRecipes()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string errorMessage = "error message";
+            const string searchTerm = "";
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Throws(new Exception(errorMessage));
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm
+            };
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<Exception>(() => viewmodel.GetRecipes())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InvalidSessionKey()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string errorMessage = "error message";
+            const string searchTerm = "";
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Throws(new UnauthorizedAccessException(errorMessage));
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm
+            };
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(() => viewmodel.GetRecipes())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
     }
 }

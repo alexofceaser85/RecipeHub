@@ -13,7 +13,7 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
     public class RemovePlannedMealTests
     {
         [Test]
-        public void SuccessfullyAddPlannedMeal()
+        public void SuccessfullyRemovePlannedMeal()
         {
             const string sessionKey = "Key";
             var dateTime = new DateTime(2000, 1, 1);
@@ -68,6 +68,60 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
                 var message = Assert.Throws<InvalidOperationException>(() => 
                     new PlannedMealsService().RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+
+        [Test]
+        public void UnsuccessfullyRemovePlannedMeal()
+        {
+            const string sessionKey = "Key";
+            const string errorMessage = "error message";
+            var dateTime = new DateTime(2000, 1, 1);
+            const MealCategory mealCategory = MealCategory.Dinner;
+            const int recipeId = 1;
+
+            Session.Key = sessionKey;
+            var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
+            var usersService = new Mock<IUsersService>();
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId))
+                           .Throws(new ArgumentException(errorMessage));
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new PlannedMealsService(recipesEndpoint.Object, usersService.Object);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<ArgumentException>(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InvalidSessionKey()
+        {
+            const string sessionKey = "Key";
+            const string errorMessage = "error message";
+            var dateTime = new DateTime(2000, 1, 1);
+            const MealCategory mealCategory = MealCategory.Dinner;
+            const int recipeId = 1;
+
+            Session.Key = sessionKey;
+            var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
+            var usersService = new Mock<IUsersService>();
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId))
+                           .Throws(new UnauthorizedAccessException(errorMessage));
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new PlannedMealsService(recipesEndpoint.Object, usersService.Object);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
             });
         }
     }

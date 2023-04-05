@@ -18,9 +18,9 @@ namespace Desktop_Client.Endpoints.RecipeTypes
         private readonly HttpClient client;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeTypesEndpoints"/> class.
-        ///
-        /// Precondition: None
+        /// Initializes a new instance of the <see cref="RecipeTypesEndpoints"/> class.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         public RecipeTypesEndpoints()
@@ -29,9 +29,9 @@ namespace Desktop_Client.Endpoints.RecipeTypes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeTypesEndpoints"/> class.
-        ///
-        /// Precondition: client != null
+        /// Initializes a new instance of the <see cref="RecipeTypesEndpoints"/> class.<br/>
+        /// <br/>
+        /// Precondition: client != null<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="client">The client.</param>
@@ -44,15 +44,8 @@ namespace Desktop_Client.Endpoints.RecipeTypes
 
             this.client = client;
         }
-
-        /// <summary>
-        /// Gets the similar recipe types.
-        /// Precondition: None
-        /// Postcondition: None
-        /// </summary>
-        /// <returns>
-        /// The recipe types
-        /// </returns>
+        
+        /// <inheritdoc/>
         public string[] GetAllRecipeTypes()
         {
             var requestUri = $"{ServerSettings.ServerUri}{GetAllRecipeTypesServiceMethodName}";

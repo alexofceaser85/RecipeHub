@@ -226,6 +226,7 @@ namespace Desktop_Client.ViewModel.Ingredients
         /// Postcondition: The ingredient is added to the logged in user's pantry.<br />
         /// </summary>
         /// <returns>Whether the ingredient was successfully added or not.</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
         public bool AddIngredient()
         {
             try
