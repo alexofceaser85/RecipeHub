@@ -8,7 +8,7 @@ Primary Flow:
         b: prompts the user to confirm that they completed the recipe
     3: The user confirms that they completed the recipe
     4: The application removes the ingredients from the user's pantry
-    5: The application closes the prompt and the recipe screen is made visible again
+    5: The recipe details are visible again.
 Alternate Flows:
     a2:
         1: The user does not have all of the ingredients to complete the recipe
@@ -17,8 +17,7 @@ Alternate Flows:
             b: they do not have all of the required ingredients
             c: any ingredient that they do not have enough of will be brought down to 0
             d: prompts the user to confirm that they still wish to completed the recipe
-        3: The application removes the ingredients from the user's pantry
-        4: The application closes the prompt and the recipe screen is made visible again
+        3: Return to Primary Step 4.
     
     a2:
         1: The user does not have all of the ingredients to complete the recipe
@@ -28,11 +27,11 @@ Alternate Flows:
             c: any ingredient that they do not have enough of will be brought down to 0
             d: prompts the user to confirm that they still wish to completed the recipe
         3: The user cancels completing the recipe
-        4: The application closes the prompt and the recipe screen is made visible again
+        4: Return to Primary Step 5.
     a3:
         1: The user cancels completing the recipe
-        2: The application closes the prompt and the recipe screen is made visible again
+        2: Return to Primary Step 5.
     a4:
         1: The application is unable to connect to the server
         2: The application informs the user about the connection error
-        3: The application returns to step 1
+        3: The application returns to Primary Step 1.
