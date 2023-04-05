@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
 using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Model.Recipes;
@@ -49,9 +50,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipes(string sessionKey, string searchTerm = "")
+        public Recipe[] GetRecipes(string searchTerm = "")
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&searchTerm={searchTerm}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&searchTerm={searchTerm}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -62,10 +63,10 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe[] GetRecipesForTags(string sessionKey, string[] tags)
+        public Recipe[] GetRecipesForTags(string[] tags)
         {
             var tagList = string.Join(",", tags);
-            var serverMethodParameters = $"?sessionKey={sessionKey}&tags={tagList}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&tags={tagList}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipesForTypeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -76,9 +77,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Recipe GetRecipe(string sessionKey, int recipeId)
+        public Recipe GetRecipe(int recipeId)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&recipeId={recipeId}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -89,9 +90,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public Ingredient[] GetIngredientsForRecipe(string sessionKey, int recipeId)
+        public Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&recipeId={recipeId}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeIngredientsRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -111,9 +112,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public RecipeStep[] GetStepsForRecipe(string sessionKey, int recipeId)
+        public RecipeStep[] GetStepsForRecipe(int recipeId)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&recipeId={recipeId}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeStepsRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -124,9 +125,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public string[] GetTypesForRecipe(string sessionKey, int recipeId)
+        public string[] GetTypesForRecipe(int recipeId)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&recipeId={recipeId}";
             var requestUri = $"{ServerSettings.ServerUri}{TypesForRecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);
@@ -137,10 +138,10 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public void AddRecipe(string sessionKey, string name, string description, bool isPublic)
+        public void AddRecipe(string name, string description, bool isPublic)
         {
             var serverMethodParameters =
-                $"?sessionKey={sessionKey}&name={name}&description={description}&isPublic={isPublic}";
+                $"?sessionKey={Session.Key}&name={name}&description={description}&isPublic={isPublic}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
 
@@ -148,9 +149,9 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public void RemoveRecipe(string sessionKey, int recipeId)
+        public void RemoveRecipe(int recipeId)
         {
-            var serverMethodParameters = $"?sessionKey={sessionKey}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&recipeId={recipeId}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Delete, requestUri, this.client);
 
@@ -158,10 +159,10 @@ namespace Desktop_Client.Endpoints.Recipes
         }
 
         /// <inheritdoc/>
-        public void EditRecipe(string sessionKey, int recipeId, string name, string description, bool isPublic)
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
         {
             var serverMethodParameters =
-                $"?sessionKey={sessionKey}&recipeId={recipeId}&name={name}&description={description}&isPublic={isPublic}";
+                $"?sessionKey={Session.Key}&recipeId={recipeId}&name={name}&description={description}&isPublic={isPublic}";
             var requestUri = $"{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Put, requestUri, this.client);
 

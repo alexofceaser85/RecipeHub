@@ -11,7 +11,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
     public class GetIngredientsForRecipeTests
     {
         [Test]
-        public void SuccessfullyGetRecipeSteps()
+        public void SuccessfullyGetRecipeIngredients()
         {
             var ingredients = new Ingredient[] {
                 new("name", 0, MeasurementType.Volume)
@@ -22,7 +22,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId)).Returns(ingredients);
+            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(recipeId)).Returns(ingredients);
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
@@ -31,7 +31,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.EquivalentTo(ingredients));
-                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(sessionKey, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(recipeId), Times.Once);
             });
         }
 
@@ -58,6 +58,54 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
                 var message = Assert.Throws<ArgumentException>(
                     () => new RecipesService().GetIngredientsForRecipe(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
+            });
+        }
+        
+        [Test]
+        public void UnsuccessfullyGetRecipeIngredients()
+        {
+            const string errorMessage = "error message";
+            const string sessionKey = "Key";
+            Session.Key = sessionKey;
+            const int recipeId = 0;
+
+            var recipesEndpoint = new Mock<IRecipesEndpoints>();
+            var usersService = new Mock<IUsersService>();
+            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(recipeId))
+                           .Throws(new ArgumentException(errorMessage));
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object) ;
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<ArgumentException>(() => service.GetIngredientsForRecipe(recipeId))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(recipeId), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InvalidSessionKey()
+        {
+            const string errorMessage = "error message";
+            const string sessionKey = "Key";
+            Session.Key = sessionKey;
+            const int recipeId = 0;
+
+            var recipesEndpoint = new Mock<IRecipesEndpoints>();
+            var usersService = new Mock<IUsersService>();
+            recipesEndpoint.Setup(mock => mock.GetIngredientsForRecipe(recipeId))
+                           .Throws(new UnauthorizedAccessException(errorMessage));
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(() => service.GetIngredientsForRecipe(recipeId))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                recipesEndpoint.Verify(mock => mock.GetIngredientsForRecipe(recipeId), Times.Once);
             });
         }
     }

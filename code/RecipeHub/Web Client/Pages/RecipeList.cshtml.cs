@@ -101,7 +101,7 @@ namespace Web_Client.Pages
                 this.BindingModel.FiltersTypes.Remove(null!);
             }
             RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
-            this.viewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
+            RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
             bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
             string searchText = Request.Form["SearchText"][0]!;
             RecipesListViewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;

@@ -6,12 +6,14 @@
     public interface IRecipeTypesEndpoints
     {
         /// <summary>
-        /// Gets the similar recipe types.
-        ///
-        /// Precondition: None
+        /// Gets the similar recipe types.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         /// <returns>The recipe types</returns>
+        /// <exception cref="UnauthorizedAccessException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public string[] GetAllRecipeTypes();
 
     }

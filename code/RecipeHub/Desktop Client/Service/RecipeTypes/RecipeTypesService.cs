@@ -12,9 +12,9 @@ namespace Desktop_Client.Service.RecipeTypes
         private readonly IRecipeTypesEndpoints endpoints;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeTypesService"/> class.
-        ///
-        /// Precondition: None
+        /// Initializes a new instance of the <see cref="RecipeTypesService"/> class.<br/>
+        /// <br/>
+        /// Precondition: None<br/>
         /// Postcondition: None
         /// </summary>
         public RecipeTypesService()
@@ -23,9 +23,9 @@ namespace Desktop_Client.Service.RecipeTypes
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RecipeTypesService"/> class.
-        ///
-        /// Precondition endpoints != null
+        /// Initializes a new instance of the <see cref="RecipeTypesService"/> class.<br/>
+        /// <br/>
+        /// Precondition endpoints != null<br/>
         /// Postcondition: None
         /// </summary>
         /// <param name="endpoints">The endpoints.</param>
@@ -37,15 +37,8 @@ namespace Desktop_Client.Service.RecipeTypes
             }
             this.endpoints = endpoints;
         }
-
-        /// <summary>
-        /// Gets the similar recipe types.
-        /// Precondition: None
-        /// Postcondition: None
-        /// </summary>
-        /// <returns>
-        /// The similar recipe types
-        /// </returns>
+        
+        /// <inheritdoc/>
         public string[] GetAllRecipeTypes()
         {
             return this.endpoints.GetAllRecipeTypes();
