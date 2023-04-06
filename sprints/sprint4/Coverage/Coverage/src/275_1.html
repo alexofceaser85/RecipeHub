@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Service\Ingredients\IngredientsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.DAL.Ingredients;
+using Server.DAL.Recipes;
+using Server.DAL.Users;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Service.Ingredients
+{
+    /// &lt;summary&gt;
+    /// An interface for interacting with the DAL layer for the Ingredients table.
+    /// &lt;/summary&gt;
+    public class IngredientsService : IIngredientsService
+    {
+        private readonly IUsersDal usersDal;
+        private readonly IIngredientsDal ingredientsDal;
+        private readonly IRecipesDal recipesDal;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        ///&lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: All fields have been assigned to default values.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService()
+        {
+            this.usersDal = new UsersDal();
+            this.ingredientsDal = new IngredientsDal();
+            this.recipesDal = new RecipeDal();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        ///&lt;br /&gt;
+        /// Precondition: usersDal != null&lt;br /&gt;
+        /// AND ingredientsDal != null&lt;br /&gt;
+        /// AND recipesDal != null &lt;br /&gt;
+        /// Postcondition: All fields have been assigned to specified values.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService(IUsersDal usersDal, IIngredientsDal ingredientsDal, IRecipesDal recipesDal)
+        {
+            this.usersDal = usersDal ?? throw new ArgumentNullException(nameof(usersDal));
+            this.ingredientsDal = ingredientsDal ?? throw new ArgumentNullException(nameof(ingredientsDal));
+            this.recipesDal = recipesDal ?? throw new ArgumentNullException(nameof(recipesDal));
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool AddIngredientToPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be null&quot;);
+            }
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                this.ingredientsDal.AddIngredientToSystem(ingredient);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int) userId!))
+            {
+                throw new ArgumentException(&quot;User must exist in the system.&quot;);
+            }
+
+            if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int) userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must not be in pantry already.&quot;);
+            }
+
+            return this.ingredientsDal.AddIngredientToPantry(ingredient, (int) userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void AddIngredientsToPantry(Ingredient[] ingredients, string sessionKey)
+        {
+            if (ingredients == null)
+            {
+                throw new ArgumentException(&quot;Ingredients to add cannot be null&quot;);
+            }
+
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be null&quot;);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be null&quot;);
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new UnauthorizedAccessException(&quot;User must exist in the system.&quot;);
+            }
+
+            foreach (var ingredient in ingredients)
+            {
+                if (this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int)userId))
+                {
+                    var userIngredient = this.ingredientsDal.GetIngredientsFor(userId.Value)
+                        .First(x =&gt; x.Name == ingredient.Name);
+                    var newIngredient = new Ingredient(userIngredient.Name, userIngredient.Amount + ingredient.Amount,
+                        userIngredient.MeasurementType);
+                    this.ingredientsDal.UpdateIngredientInPantry(newIngredient, userId.Value);
+                }
+                else
+                {
+                    this.ingredientsDal.AddIngredientToPantry(ingredient, userId.Value);
+                }
+            }
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public IList&lt;Ingredient&gt; GetMissingIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be null&quot;);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be empty&quot;);
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new UnauthorizedAccessException(&quot;User must exist in the system.&quot;);
+            }
+
+            var recipeIngredients = this.recipesDal.GetIngredientsForRecipe(recipeId);
+            var userIngredients = this.ingredientsDal.GetIngredientsFor(userId.Value);
+            var missingIngredients = new List&lt;Ingredient&gt;();
+
+            foreach (var ingredient in recipeIngredients)
+            {
+                var userIngredient = userIngredients.FirstOrDefault(x =&gt; x.Name == ingredient.Name);
+
+                if (userIngredient.Amount &lt; ingredient.Amount)
+                {
+                    missingIngredients.Add(new Ingredient(ingredient.Name, ingredient.Amount - userIngredient.Amount, ingredient.MeasurementType));
+                }
+            }
+
+            return missingIngredients;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool RemoveIngredientFromPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session Key cannot be empty&quot;);
+            }
+
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in system already.&quot;);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                         throw new ArgumentException(&quot;User must exist in the system.&quot;);
+
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in pantry already.&quot;);
+            }
+
+            return this.ingredientsDal.RemoveIngredientFromPantry(ingredient, userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void RemoveIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be null&quot;);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be empty&quot;);
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            var userId = this.usersDal.GetIdForSessionKey(sessionKey);
+
+            if (!this.usersDal.UserIdExists((int)userId!))
+            {
+                throw new UnauthorizedAccessException(&quot;User must exist in the system.&quot;);
+            }
+
+            var recipeIngredients = this.recipesDal.GetIngredientsForRecipe(recipeId);
+            var userIngredients = this.ingredientsDal.GetIngredientsFor(userId.Value);
+
+            foreach (var ingredient in recipeIngredients)
+            {
+                var userIngredient = userIngredients.FirstOrDefault(x =&gt; x.Name == ingredient.Name);
+
+                if (userIngredient.Amount == 0)
+                {
+                    continue;
+                }
+
+                if (userIngredient.Amount &lt;= ingredient.Amount)
+                {
+                    this.ingredientsDal.RemoveIngredientFromPantry(ingredient, userId.Value);
+                }
+                else
+                {
+                    var newIngredient = new Ingredient(ingredient.Name,
+                        userIngredient.Amount - ingredient.Amount, ingredient.MeasurementType);
+                    this.ingredientsDal.UpdateIngredientInPantry(newIngredient, userId.Value);
+                }
+            }
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool UpdateIngredientInPantry(Ingredient ingredient, string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session Key cannot be empty&quot;);
+            }
+
+            if (ingredient.Name == null)
+            {
+                throw new ArgumentNullException(nameof(ingredient));
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ?? 
+                          throw new UnauthorizedAccessException(&quot;User must exist in the system.&quot;);
+
+            if (!this.ingredientsDal.IsIngredientInSystem(ingredient.Name))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in the system.&quot;);
+            }
+
+            if (!this.ingredientsDal.IsIngredientInPantry(ingredient.Name, (int) userId))
+            {
+                throw new ArgumentException(&quot;Ingredient must be in the pantry.&quot;);
+            }
+
+            return this.ingredientsDal.UpdateIngredientInPantry(ingredient, (int) userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool RemoveAllIngredientsFromPantry(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;The session key cannot be empty&quot;);
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new ArgumentException(&quot;User must exist in the system.&quot;);
+
+            return this.ingredientsDal.RemoveAllIngredientsFromPantry((int) userId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public IList&lt;string&gt; GetAllIngredientsThatMatch(string ingredientName)
+        {
+            if (ingredientName == null)
+            {
+                throw new ArgumentNullException(nameof(ingredientName));
+            }
+
+            return this.ingredientsDal.GetIngredientNamesThatMatchText(ingredientName);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public IList&lt;Ingredient&gt; GetIngredientsFor(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new UnauthorizedAccessException(nameof(sessionKey));
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(&quot;Session key cannot be empty&quot;);
+            }
+
+            if (this.usersDal.VerifySessionKeyDoesNotExist(sessionKey))
+            {
+                throw new UnauthorizedAccessException(&quot;Session key must exist in the system.&quot;);
+            }
+
+            int? userId = this.usersDal.GetIdForSessionKey(sessionKey) ??
+                          throw new ArgumentException(&quot;User must exist in the system.&quot;);
+
+            return this.ingredientsDal.GetIngredientsFor((int) userId);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,9,23,36,1],[24,9,24,10,1],[25,13,25,44,1],[26,13,26,56,1],[27,13,27,47,1],[28,9,28,10,1],[38,9,38,110,1],[39,9,39,10,1],[40,13,40,91,1],[41,13,41,109,1],[42,13,42,97,1],[43,9,43,10,1],[47,9,47,10,1],[48,13,48,36,1],[49,13,49,14,1],[50,17,50,75,1],[53,13,53,47,1],[54,13,54,14,1],[55,17,55,85,1],[57,13,57,41,1],[58,13,58,14,1],[59,17,59,69,1],[62,13,62,72,1],[63,13,63,14,0],[64,17,64,96,0],[67,13,67,76,1],[68,13,68,14,1],[69,17,69,71,1],[70,13,70,14,1],[72,13,72,71,1],[74,13,74,60,1],[75,13,75,14,1],[76,17,76,79,1],[79,13,79,89,1],[80,13,80,14,1],[81,17,81,90,1],[84,13,84,88,1],[85,9,85,10,1],[89,9,89,10,1],[90,13,90,37,1],[91,13,91,14,1],[92,17,92,82,1],[95,13,95,36,1],[96,13,96,14,1],[97,17,97,85,1],[100,13,100,47,1],[101,13,101,14,1],[102,17,102,85,1],[105,13,105,72,1],[106,13,106,14,1],[107,17,107,96,1],[110,13,110,71,1],[112,13,112,59,1],[113,13,113,14,1],[114,17,114,89,1],[117,13,117,20,1],[117,22,117,36,1],[117,37,117,39,1],[117,40,117,51,1],[118,13,118,14,1],[119,17,119,92,1],[120,17,120,18,1],[121,21,122,37,1],[122,37,122,62,1],[122,62,122,64,1],[123,21,124,57,1],[125,21,125,95,1],[126,17,126,18,1],[128,17,128,18,1],[129,21,129,89,1],[130,17,130,18,1],[131,13,131,14,1],[132,9,132,10,1],[136,9,136,10,1],[137,13,137,36,1],[138,13,138,14,1],[139,17,139,85,1],[142,13,142,47,1],[143,13,143,14,1],[144,17,144,86,1],[147,13,147,72,1],[148,13,148,14,1],[149,17,149,96,1],[152,13,152,71,1],[154,13,154,59,1],[155,13,155,14,1],[156,17,156,89,1],[159,13,159,87,1],[160,13,160,87,1],[161,13,161,61,1],[163,13,163,20,1],[163,22,163,36,1],[163,37,163,39,1],[163,40,163,57,1],[164,13,164,14,1],[165,17,165,74,1],[165,74,165,99,1],[165,99,165,101,1],[167,17,167,63,1],[168,17,168,18,1],[169,21,169,148,1],[170,17,170,18,1],[171,13,171,14,1],[173,13,173,39,1],[174,9,174,10,1],[178,9,178,10,1],[179,13,179,36,1],[180,13,180,14,1],[181,17,181,75,1],[184,13,184,47,1],[185,13,185,14,1],[186,17,186,86,1],[189,13,189,41,1],[190,13,190,14,1],[191,17,191,69,1],[194,13,194,72,1],[195,13,195,14,0],[196,17,196,96,0],[199,13,199,76,1],[200,13,200,14,1],[201,17,201,86,1],[204,13,205,88,1],[207,13,207,84,1],[208,13,208,14,1],[209,17,209,86,1],[212,13,212,87,1],[213,9,213,10,1],[217,9,217,10,1],[218,13,218,36,1],[219,13,219,14,1],[220,17,220,85,1],[223,13,223,47,1],[224,13,224,14,1],[225,17,225,86,1],[228,13,228,72,1],[229,13,229,14,1],[230,17,230,96,1],[233,13,233,71,1],[235,13,235,59,1],[236,13,236,14,1],[237,17,237,89,1],[240,13,240,87,1],[241,13,241,87,1],[243,13,243,20,1],[243,22,243,36,1],[243,37,243,39,1],[243,40,243,57,1],[244,13,244,14,1],[245,17,245,74,1],[245,74,245,99,1],[245,99,245,101,1],[247,17,247,48,1],[248,17,248,18,1],[249,21,249,30,1],[252,17,252,64,1],[253,17,253,18,1],[254,21,254,94,1],[255,17,255,18,1],[257,17,257,18,1],[258,21,259,96,1],[260,21,260,95,1],[261,17,261,18,1],[262,13,262,14,1],[263,9,263,10,1],[267,9,267,10,1],[268,13,268,36,1],[269,13,269,14,1],[270,17,270,75,1],[272,13,272,47,1],[273,13,273,14,1],[274,17,274,86,1],[277,13,277,41,1],[278,13,278,14,1],[279,17,279,69,1],[282,13,282,72,1],[283,13,283,14,0],[284,17,284,96,0],[286,13,287,99,1],[289,13,289,76,1],[290,13,290,14,1],[291,17,291,82,1],[294,13,294,90,1],[295,13,295,14,1],[296,17,296,82,1],[299,13,299,91,1],[300,9,300,10,1],[304,9,304,10,1],[305,13,305,36,1],[306,13,306,14,1],[307,17,307,75,1],[310,13,310,47,1],[311,13,311,14,1],[312,17,312,90,1],[315,13,315,72,1],[316,13,316,14,0],[317,17,317,96,0],[320,13,321,89,1],[323,13,323,85,1],[324,9,324,10,1],[328,9,328,10,1],[329,13,329,40,1],[330,13,330,14,0],[331,17,331,73,0],[334,13,334,88,1],[335,9,335,10,1],[339,9,339,10,1],[340,13,340,36,1],[341,13,341,14,1],[342,17,342,75,1],[345,13,345,47,1],[346,13,346,14,1],[347,17,347,86,1],[350,13,350,72,1],[351,13,351,14,0],[352,17,352,96,0],[355,13,356,89,1],[358,13,358,72,1],[359,9,359,10,1]]);
+    </script>
+  </body>
+</html>

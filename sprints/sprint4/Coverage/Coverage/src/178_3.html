@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Ingredients\AddIngredientsViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Desktop_Client.Service.Ingredients;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Model.Ingredients;
+
+namespace Desktop_Client.ViewModel.Ingredients
+{
+    /// &lt;summary&gt;
+    /// View Model for the Add Ingredients.
+    /// &lt;/summary&gt;
+    public class AddIngredientsViewModel : INotifyPropertyChanged
+    {
+        /// &lt;summary&gt;
+        /// The error message for when the ingredient amount is not an int
+        /// &lt;/summary&gt;
+        public const string NonIntIngredientAmount = &quot;IngredientAmount could not be parsed as an int&quot;;
+
+        /// &lt;summary&gt;
+        /// The error message for when the ingredient name is empty
+        /// &lt;/summary&gt;
+        public const string EmptyIngredientNameErrorMessage = &quot;The ingredient name cannot be empty.&quot;;
+
+        /// &lt;summary&gt;
+        /// The error message for when the ingredient name is empty
+        /// &lt;/summary&gt;
+        public const string EmptyIngredientAmountErrorMessage = &quot;The ingredient amount cannot be empty.&quot;;
+
+        private readonly IIngredientsService service;
+
+        private string ingredientName;
+        private string[] ingredientNames;
+        private string ingredientAmount;
+        private string ingredientNameErrorMessage;
+        private string ingredientAmountErrorMessage;
+        private Color ingredientNameTextBoxColor;
+        private Color ingredientAmountTextBoxColor;
+        private int selectedMeasurementIndex;
+        private MeasurementType selectedMeasurementType;
+
+        /// &lt;summary&gt;
+        /// The name of the ingredient to add.
+        /// &lt;/summary&gt;
+        public string IngredientName
+        {
+            get =&gt; this.ingredientName;
+            set
+            {
+                if (value == string.Empty)
+                {
+                    this.ingredientNameErrorMessage = EmptyIngredientNameErrorMessage;
+                    this.ingredientNameTextBoxColor = ColorTranslator.FromHtml(UserInterfaceSettings.ErrorColor);
+                }
+                else
+                {
+                    this.ingredientNameErrorMessage = string.Empty;
+                    this.ingredientNameTextBoxColor = Color.White;
+                }
+                this.SetField(ref this.ingredientName, value);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// The list of all ingredient names already added to the system.
+        /// &lt;/summary&gt;
+        public string[] IngredientNames
+        {
+            get =&gt; this.ingredientNames;
+            set =&gt; this.SetField(ref this.ingredientNames, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The amount of the ingredient
+        /// &lt;/summary&gt;
+        public string IngredientAmount
+        {
+            get =&gt; this.ingredientAmount;
+            set
+            {
+                if (value == string.Empty)
+                {
+                    this.ingredientAmountErrorMessage = EmptyIngredientAmountErrorMessage;
+                    this.ingredientAmountTextBoxColor = ColorTranslator.FromHtml(UserInterfaceSettings.ErrorColor);
+                }
+                else
+                {
+                    this.ingredientAmountErrorMessage = string.Empty;
+                    this.ingredientAmountTextBoxColor = Color.White;
+                }
+                this.SetField(ref this.ingredientAmount, value);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// The error message to display for the ingredient name text box
+        /// &lt;/summary&gt;
+        public string IngredientNameErrorMessage
+        {
+            get =&gt; this.ingredientNameErrorMessage;
+            set =&gt; this.SetField(ref this.ingredientNameErrorMessage, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The error message to display for the ingredient amount text box
+        /// &lt;/summary&gt;
+        public string IngredientAmountErrorMessage
+        {
+            get =&gt; this.ingredientAmountErrorMessage;
+            set =&gt; this.SetField(ref this.ingredientAmountErrorMessage, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The back color for the ingredient name text box
+        /// &lt;/summary&gt;
+        public Color IngredientNameTextBoxColor
+        {
+            get =&gt; this.ingredientNameTextBoxColor;
+            set =&gt; this.SetField(ref this.ingredientNameTextBoxColor, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The back color for the ingredient amount text box
+        /// &lt;/summary&gt;
+        public Color IngredientAmountTextBoxColor
+        {
+            get =&gt; this.ingredientAmountTextBoxColor;
+            set =&gt; this.SetField(ref this.ingredientAmountTextBoxColor, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The index for the selected measurement type
+        /// &lt;/summary&gt;
+        public int SelectedMeasurementIndex
+        {
+            get =&gt; this.selectedMeasurementIndex;
+            set 
+            {
+                this.SetField(ref this.selectedMeasurementIndex, value);
+                this.SetField(ref this.selectedMeasurementType, (MeasurementType) value);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// How the ingredient should be measured.
+        /// &lt;/summary&gt;
+        public MeasurementType SelectedMeasurementType
+        {
+            get =&gt; this.selectedMeasurementType;
+            set
+            {
+                this.SetField(ref this.selectedMeasurementType, value);
+                this.SetField(ref this.selectedMeasurementIndex, (int)value);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;AddIngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;service != null &lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNames.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmount == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedMeasurementType == MeasurementTypes.Quantity&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedMeasurementIndex == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNameErrorMessage == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmountErrorMessage == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNameTextBoxColor == Color.White&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmountTextBoxColor == Color.White
+        /// &lt;/summary&gt;
+        public AddIngredientsViewModel() : this(new IngredientsService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;AddIngredientsViewModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;service != null &lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNames.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmount == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedMeasurementType == MeasurementTypes.Quantity&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.SelectedMeasurementIndex == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNameErrorMessage == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmountErrorMessage == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientNameTextBoxColor == Color.White&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.IngredientAmountTextBoxColor == Color.White
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;the specified service&lt;/param&gt;
+        /// &lt;exception cref=&quot;InvalidOperationException&quot;&gt;&lt;/exception&gt;
+        public AddIngredientsViewModel(IIngredientsService service)
+        {
+            this.service = service ?? throw new ArgumentNullException(nameof(service));
+            this.ingredientName = string.Empty;
+            this.ingredientNames = Array.Empty&lt;string&gt;();
+            this.ingredientAmount = string.Empty;
+            this.selectedMeasurementType = MeasurementType.Quantity;
+            this.selectedMeasurementIndex = 0;
+            this.ingredientNameErrorMessage = string.Empty;
+            this.ingredientAmountErrorMessage = string.Empty;
+            this.ingredientNameTextBoxColor = Color.White;
+            this.ingredientAmountTextBoxColor = Color.White;
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes the viewmodel by querying the server for a list of ingredient names.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.IngredientNames contains all ingredient names.
+        /// &lt;/summary&gt;
+        public void Initialize()
+        {
+            this.IngredientNames = this.service.GetSuggestions(&quot;&quot;);
+        }
+        
+        /// &lt;summary&gt;
+        /// Adds the specified ingredient to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: Session.Key is a valid session key&lt;br /&gt;
+        /// &amp;amp;&amp;amp; !string.IsNullOrWhiteSpace(this.IngredientName) &lt;br/&gt;
+        /// &amp;amp;&amp;amp; int.TryParse(this.IngredientAmount)&lt;br/&gt;
+        /// Postcondition: The ingredient is added to the logged in user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;Whether the ingredient was successfully added or not.&lt;/returns&gt;
+        /// &lt;exception cref=&quot;UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        public bool AddIngredient()
+        {
+            try
+            {
+                var ingredient = this.CreateIngredient();
+                return this.service.AddIngredient(ingredient);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private Ingredient CreateIngredient()
+        {
+            if (!int.TryParse(this.ingredientAmount, out var amount))
+            {
+                throw new InvalidOperationException(NonIntIngredientAmount);
+            }
+            return new Ingredient(this.ingredientName, amount, this.selectedMeasurementType);
+        }
+        
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[46,20,46,39,1],[48,13,48,14,1],[49,17,49,43,1],[50,17,50,18,1],[51,21,51,87,1],[52,21,52,114,1],[53,17,53,18,1],[55,17,55,18,1],[56,21,56,68,1],[57,21,57,67,1],[58,17,58,18,1],[59,17,59,63,1],[60,13,60,14,1],[68,20,68,40,1],[69,20,69,66,1],[77,20,77,41,1],[79,13,79,14,1],[80,17,80,43,1],[81,17,81,18,1],[82,21,82,91,1],[83,21,83,116,1],[84,17,84,18,1],[86,17,86,18,1],[87,21,87,70,1],[88,21,88,69,1],[89,17,89,18,1],[90,17,90,65,1],[91,13,91,14,1],[99,20,99,51,1],[100,20,100,77,0],[108,20,108,53,1],[109,20,109,79,0],[117,20,117,51,1],[118,20,118,77,0],[126,20,126,53,1],[127,20,127,79,0],[135,20,135,49,1],[137,13,137,14,1],[138,17,138,73,1],[139,17,139,90,1],[140,13,140,14,1],[148,20,148,48,1],[150,13,150,14,1],[151,17,151,72,1],[152,17,152,78,1],[153,13,153,14,1],[172,44,172,74,1],[173,9,173,10,1],[175,9,175,10,1],[195,9,195,68,1],[196,9,196,10,1],[197,13,197,88,1],[198,13,198,48,1],[199,13,199,58,1],[200,13,200,50,1],[201,13,201,69,1],[202,13,202,47,1],[203,13,203,60,1],[204,13,204,62,1],[205,13,205,59,1],[206,13,206,61,1],[207,9,207,10,1],[216,9,216,10,1],[217,13,217,68,1],[218,9,218,10,1],[231,9,231,10,1],[233,13,233,14,1],[234,17,234,58,1],[235,17,235,63,1],[237,13,237,48,1],[238,13,238,14,1],[239,17,239,23,1],[241,13,241,18,1],[242,13,242,14,1],[243,17,243,30,1],[245,9,245,10,1],[248,9,248,10,1],[249,13,249,70,1],[250,13,250,14,1],[251,17,251,77,1],[253,13,253,94,1],[254,9,254,10,1],[268,9,268,10,1],[269,13,269,92,1],[270,9,270,10,1],[284,9,284,10,1],[285,13,285,66,1],[285,67,285,80,1],[286,13,286,27,1],[287,13,287,45,1],[288,13,288,25,1],[289,9,289,10,1]]);
+    </script>
+  </body>
+</html>
