@@ -74,7 +74,7 @@ namespace Desktop_Client.View.Screens
                                 new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
                             base.DisplayDialog(messageDialog);
                         }
-                        else if (dialog.DialogResult == DialogResult.Yes)
+                        else if (dialog.DialogResult == DialogResult.OK)
                         {
                             this.viewModel.GetAllIngredientsForUser();
                         }
