@@ -141,6 +141,7 @@ namespace Desktop_Client.View.Screens
                 try
                 {
                     this.viewModel.RemoveIngredientsForRecipe();
+                    base.ChangeScreens(new IngredientsScreen());
                 }
                 catch (UnauthorizedAccessException exception)
                 {
