@@ -31,7 +31,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.recipeNameLabel = new System.Windows.Forms.Label();
             this.authorNameLabel = new System.Windows.Forms.Label();
-            this.ratingLabel = new System.Windows.Forms.Label();
             this.tagsLabel = new System.Windows.Forms.Label();
             this.buttonsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.viewRecipeButton = new System.Windows.Forms.Button();
@@ -47,7 +46,6 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.95691F));
             this.tableLayoutPanel2.Controls.Add(this.recipeNameLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.authorNameLabel, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.ratingLabel, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.tagsLabel, 0, 2);
             this.tableLayoutPanel2.Controls.Add(this.buttonsTableLayout, 1, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -84,17 +82,6 @@
             this.authorNameLabel.TabIndex = 1;
             this.authorNameLabel.Text = "Author Name";
             this.authorNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // ratingLabel
-            // 
-            this.ratingLabel.AutoSize = true;
-            this.ratingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ratingLabel.Location = new System.Drawing.Point(380, 0);
-            this.ratingLabel.Name = "ratingLabel";
-            this.ratingLabel.Size = new System.Drawing.Size(172, 43);
-            this.ratingLabel.TabIndex = 2;
-            this.ratingLabel.Text = "Rating: 0/5";
-            this.ratingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tagsLabel
             // 
@@ -175,7 +162,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private Label recipeNameLabel;
         private Label authorNameLabel;
-        private Label ratingLabel;
         private Label tagsLabel;
         private TableLayoutPanel buttonsTableLayout;
         private Button viewRecipeButton;

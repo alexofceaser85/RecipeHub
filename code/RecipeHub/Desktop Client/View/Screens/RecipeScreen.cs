@@ -44,10 +44,6 @@ namespace Desktop_Client.View.Screens
                 nameof(this.viewModel.Ingredients)));
             this.stepsLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
                 nameof(this.viewModel.Instructions)));
-            this.userRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
-                nameof(this.viewModel.UserRatingText)));
-            this.yourRatingLabel.DataBindings.Add(new Binding("Text", this.viewModel, 
-                nameof(this.viewModel.YourRatingText)));
         }
 
         private void ShowPlannedMealAddedDialog()
