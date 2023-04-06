@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\Endpoints\Recipes\RecipesEndpoints.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text;
+using System.Text.Json;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+using Shared_Resources.Utils.Json;
+using Shared_Resources.Utils.Server;
+
+namespace Desktop_Client.Endpoints.Recipes
+{
+    /// &lt;inheritdoc/&gt;
+    public class RecipesEndpoints : IRecipesEndpoints
+    {
+        private const string RecipeRoute = &quot;Recipe&quot;;
+        private const string RecipeIngredientsRoute = &quot;RecipeIngredients&quot;;
+        private const string RecipeStepsRoute = &quot;RecipeSteps&quot;;
+        private const string RecipesRoute = &quot;Recipes&quot;;
+        private const string RecipesForTypeRoute = &quot;RecipesForType&quot;;
+        private const string TypesForRecipeRoute = &quot;TypesForRecipe&quot;;
+
+        private const string RecipeElementName = &quot;recipe&quot;;
+        private const string RecipesElementName = &quot;recipes&quot;;
+        private const string IngredientsElementName = &quot;ingredients&quot;;
+        private const string StepsElementName = &quot;steps&quot;;
+        private const string TypesElementName = &quot;types&quot;;
+
+        private readonly HttpClient client;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; class.
+        /// &lt;/summary&gt;
+        public RecipesEndpoints()
+        {
+            this.client = new HttpClient();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; class.
+        ///
+        /// Precondition: client != null
+        /// Postcondition: this.client == client
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;client&quot;&gt;The client.&lt;/param&gt;
+        public RecipesEndpoints(HttpClient client)
+        {
+            this.client = client ?? throw new ArgumentNullException(nameof(client),
+                RecipesEndpointsErrorMessages.ClientCannotBeNull);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe[] GetRecipes(string searchTerm = &quot;&quot;)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;searchTerm={searchTerm}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipesRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipes = json.AsObject()[RecipesElementName].Deserialize&lt;Recipe[]&gt;();
+
+            return recipes!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe[] GetRecipesForTags(string[] tags)
+        {
+            var tagList = string.Join(&quot;,&quot;, tags);
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;tags={tagList}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipesForTypeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipes = json.AsObject()[RecipesElementName].Deserialize&lt;Recipe[]&gt;();
+
+            return recipes!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe GetRecipe(int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipe = json.AsObject()[RecipeElementName].Deserialize&lt;Recipe&gt;();
+
+            return recipe!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetIngredientsForRecipe(int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeIngredientsRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var ingredients = new List&lt;Ingredient&gt;();
+
+            foreach (var ingredient in json[IngredientsElementName]!.AsArray())
+            {
+                var name = ingredient![&quot;name&quot;]!.GetValue&lt;string&gt;();
+                var amount = ingredient[&quot;amount&quot;]!.GetValue&lt;int&gt;();
+                var measurementType = ingredient[&quot;measurementType&quot;]!.GetValue&lt;int&gt;();
+
+                ingredients.Add(new Ingredient(name, amount, (MeasurementType) measurementType));
+            }
+
+            return ingredients.ToArray();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public RecipeStep[] GetStepsForRecipe(int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeStepsRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var steps = json.AsObject()[StepsElementName].Deserialize&lt;RecipeStep[]&gt;();
+
+            return steps!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public string[] GetTypesForRecipe(int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{TypesForRecipeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var types = json.AsObject()[TypesElementName].Deserialize&lt;string[]&gt;();
+
+            return types!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void AddRecipe(string name, string description, bool isPublic)
+        {
+            var serverMethodParameters =
+                $&quot;?sessionKey={Session.Key}&amp;name={name}&amp;description={description}&amp;isPublic={isPublic}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void RemoveRecipe(int recipeId)
+        {
+            var serverMethodParameters = $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Delete, requestUri, this.client);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
+        {
+            var serverMethodParameters =
+                $&quot;?sessionKey={Session.Key}&amp;recipeId={recipeId}&amp;name={name}&amp;description={description}&amp;isPublic={isPublic}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RecipeRoute}{serverMethodParameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Put, requestUri, this.client);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[34,9,34,34,1],[35,9,35,10,1],[36,13,36,44,1],[37,9,37,10,1],[46,9,46,51,1],[47,9,47,10,1],[48,13,49,67,1],[50,9,50,10,1],[54,9,54,10,1],[55,13,55,95,1],[56,13,56,98,1],[57,13,57,89,1],[58,13,58,53,1],[60,13,60,87,1],[62,13,62,29,1],[63,9,63,10,1],[67,9,67,10,1],[68,13,68,50,1],[69,13,69,86,1],[70,13,70,105,1],[71,13,71,89,1],[72,13,72,53,1],[74,13,74,87,1],[76,13,76,29,1],[77,9,77,10,1],[81,9,81,10,1],[82,13,82,91,1],[83,13,83,97,1],[84,13,84,89,1],[85,13,85,53,1],[87,13,87,83,1],[89,13,89,28,1],[90,9,90,10,1],[94,9,94,10,1],[95,13,95,91,1],[96,13,96,108,1],[97,13,97,89,1],[98,13,98,53,1],[100,13,100,54,1],[102,13,102,20,1],[102,22,102,36,1],[102,37,102,39,1],[102,40,102,79,1],[103,13,103,14,1],[104,17,104,68,1],[105,17,105,68,1],[106,17,106,86,1],[108,17,108,98,1],[109,13,109,14,1],[111,13,111,42,1],[112,9,112,10,1],[116,9,116,10,1],[117,13,117,91,1],[118,13,118,102,1],[119,13,119,89,1],[120,13,120,53,1],[122,13,122,87,1],[124,13,124,27,1],[125,9,125,10,1],[129,9,129,10,1],[130,13,130,91,1],[131,13,131,105,1],[132,13,132,89,1],[133,13,133,53,1],[135,13,135,83,1],[137,13,137,27,1],[138,9,138,10,1],[142,9,142,10,1],[143,13,144,104,1],[145,13,145,97,1],[146,13,146,90,1],[148,13,148,53,1],[149,9,149,10,1],[153,9,153,10,1],[154,13,154,91,1],[155,13,155,97,1],[156,13,156,92,1],[158,13,158,53,1],[159,9,159,10,1],[163,9,163,10,1],[164,13,165,124,1],[166,13,166,97,1],[167,13,167,89,1],[169,13,169,53,1],[170,9,170,10,1]]);
+    </script>
+  </body>
+</html>

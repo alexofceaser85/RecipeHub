@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Endpoints\Ingredients\IngredientEndpoints.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Newtonsoft.Json;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Utils.Json;
+using Shared_Resources.Utils.Server;
+using System.Text.Json;
+
+namespace Web_Client.Endpoints.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Endpoints for the Ingredients Functionality.
+    /// &lt;/summary&gt;
+    public class IngredientEndpoints : IIngredientEndpoints
+    {
+        private readonly HttpClient http;
+
+        private const string GetIngredientsEndpoint = &quot;GetIngredientsInPantry&quot;;
+        private const string AddIngredientEndpoint = &quot;AddIngredientToPantry&quot;;
+        private const string AddIngredientsEndpoint = &quot;AddIngredientsToPantry&quot;;
+        private const string DeleteIngredientEndpoint = &quot;RemoveIngredientFromPantry&quot;;
+        private const string DeleteAllIngredientsEndpoint = &quot;RemoveAllIngredientsFromPantry&quot;;
+        private const string UpdateIngredientEndpoint = &quot;UpdateIngredientInPantry&quot;;
+        private const string GetSuggestionsEndpoint = &quot;GetSuggestions&quot;;
+        private const string GetMissingIngredientsForRecipeEndpoint = &quot;GetMissingIngredientsForRecipe&quot;;
+        private const string RemoveIngredientsForRecipeEndpoint = &quot;RemoveIngredientsForRecipe&quot;;
+
+        private const string IngredientsElementName = &quot;ingredients&quot;;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientEndpoints&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: All values have been set to default values.
+        /// &lt;/summary&gt;
+        public IngredientEndpoints()
+        {
+            this.http = new HttpClient();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientEndpoints&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: http != null&lt;br /&gt;
+        /// Postcondition: All values have been set to default values.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;http&quot;&gt;The HTTP.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentNullException&quot;&gt;http&lt;/exception&gt;
+        public IngredientEndpoints(HttpClient http)
+        {
+            this.http = http ?? throw new ArgumentNullException(nameof(http));
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public Ingredient[] GetAllIngredientsForUser()
+        {
+            var parameters = $&quot;?sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetIngredientsEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var pantry = json[&quot;pantry&quot;];
+            var ingredients = new List&lt;Ingredient&gt;();
+
+            if (pantry == null)
+            {
+                return ingredients.ToArray();
+            }
+
+            foreach (var ingredient in pantry.AsArray())
+            {
+                var name = ingredient![&quot;name&quot;]!.GetValue&lt;string&gt;();
+                var amount = ingredient[&quot;amount&quot;]!.GetValue&lt;int&gt;();
+                var measurementType = ingredient[&quot;measurementType&quot;]!.GetValue&lt;int&gt;();
+
+                ingredients.Add(new Ingredient(name, amount, (MeasurementType)measurementType));
+            }
+
+            return ingredients.ToArray();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool AddIngredient(Ingredient ingredient)
+        {
+            var parameters =
+                $&quot;?name={ingredient.Name}&amp;measurementType={(int)ingredient.MeasurementType}&amp;amount={ingredient.Amount}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{AddIngredientEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json[&quot;flag&quot;]!.GetValue&lt;bool&gt;();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void AddIngredients(Ingredient[] ingredients)
+        {
+            var ingredientsJson = JsonConvert.SerializeObject(ingredients);
+            var parameters = $&quot;?ingredientsJson={ingredientsJson}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{AddIngredientsEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteIngredient(Ingredient ingredient)
+        {
+            var parameters =
+                $&quot;?name={ingredient.Name}&amp;measurementType={(int)ingredient.MeasurementType}&amp;amount={ingredient.Amount}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{DeleteIngredientEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json[&quot;flag&quot;]!.GetValue&lt;bool&gt;();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool UpdateIngredient(Ingredient ingredient)
+        {
+            var parameters =
+                $&quot;?name={ingredient.Name}&amp;measurementType={(int)ingredient.MeasurementType}&amp;amount={ingredient.Amount}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{UpdateIngredientEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json[&quot;flag&quot;]!.GetValue&lt;bool&gt;();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteAllIngredientsForUser()
+        {
+            var parameters = $&quot;?sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{DeleteAllIngredientsEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            return json[&quot;flag&quot;]!.GetValue&lt;bool&gt;();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public string[] GetSuggestions(string ingredientName)
+        {
+            var parameters = $&quot;?text={ingredientName}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetSuggestionsEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var suggestions = new List&lt;string&gt;();
+            foreach (var suggestion in json[&quot;suggestions&quot;]?.AsArray()!)
+            {
+                suggestions.Add(suggestion!.GetValue&lt;string&gt;());
+            }
+
+            return suggestions.ToArray();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetMissingIngredientsForRecipe(int recipeId)
+        {
+            var parameters = $&quot;?recipeId={recipeId}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetMissingIngredientsForRecipeEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var missingIngredients = json[IngredientsElementName]!.AsArray().Deserialize&lt;Ingredient[]&gt;();
+
+            return missingIngredients!;
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void RemoveIngredientsForRecipe(int recipeId)
+        {
+            var parameters = $&quot;?recipeId={recipeId}&amp;sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{RemoveIngredientsForRecipeEndpoint}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[36,9,36,37,1],[37,9,37,10,1],[38,13,38,42,1],[39,9,39,10,1],[49,9,49,52,1],[50,9,50,10,1],[51,13,51,79,1],[52,9,52,10,1],[56,9,56,10,1],[57,13,57,59,1],[58,13,58,96,1],[59,13,59,87,1],[60,13,60,53,1],[62,13,62,41,1],[63,13,63,54,1],[65,13,65,32,1],[66,13,66,14,0],[67,17,67,46,0],[70,13,70,20,1],[70,22,70,36,1],[70,37,70,39,1],[70,40,70,56,1],[71,13,71,14,1],[72,17,72,68,1],[73,17,73,68,1],[74,17,74,86,1],[76,17,76,97,1],[77,13,77,14,1],[79,13,79,42,1],[80,9,80,10,1],[84,9,84,10,1],[85,13,86,146,1],[87,13,87,95,1],[88,13,88,88,1],[89,13,89,53,1],[91,13,91,51,1],[92,9,92,10,1],[96,9,96,10,1],[97,13,97,76,1],[98,13,98,93,1],[99,13,99,96,1],[100,13,100,88,1],[102,13,102,53,1],[103,9,103,10,1],[107,9,107,10,1],[108,13,109,146,1],[110,13,110,98,1],[111,13,111,88,1],[112,13,112,53,1],[114,13,114,51,1],[115,9,115,10,1],[119,9,119,10,1],[120,13,121,146,1],[122,13,122,98,1],[123,13,123,88,1],[124,13,124,53,1],[126,13,126,51,1],[127,9,127,10,1],[131,9,131,10,1],[132,13,132,59,1],[133,13,133,102,1],[134,13,134,88,1],[135,13,135,53,1],[137,13,137,51,1],[138,9,138,10,1],[142,9,142,10,1],[143,13,143,56,1],[144,13,144,96,1],[145,13,145,87,1],[147,13,147,53,1],[149,13,149,50,1],[150,13,150,20,1],[150,22,150,36,1],[150,37,150,39,1],[150,40,150,71,1],[151,13,151,14,1],[152,17,152,65,1],[153,13,153,14,1],[155,13,155,42,1],[156,9,156,10,1],[160,9,160,10,1],[161,13,161,79,1],[162,13,162,112,1],[163,13,163,87,1],[164,13,164,53,1],[166,13,166,106,1],[168,13,168,40,1],[169,9,169,10,1],[173,9,173,10,1],[174,13,174,79,1],[175,13,175,108,1],[176,13,176,88,1],[177,13,177,53,1],[178,9,178,10,1]]);
+    </script>
+  </body>
+</html>

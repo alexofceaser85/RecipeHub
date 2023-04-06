@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ResponseModels\SuggestionResponseModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+
+namespace Server.Controllers.ResponseModels
+{
+    /// &lt;summary&gt;
+    /// Response Model for requests that contain a list of strings.
+    /// &lt;/summary&gt;
+    public class SuggestionResponseModel : BaseResponseModel
+    {
+        private IList&lt;string&gt; suggestions;
+
+        /// &lt;summary&gt;
+        /// Represents a list of suggestions to be sent back to the user.
+        /// &lt;/summary&gt;
+        public IList&lt;string&gt;? Suggestions
+        {
+            get =&gt; this.suggestions;
+            set =&gt; this.suggestions = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;SuggestionResponseModel&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: message != null&lt;br /&gt;
+        /// AND !string.IsNullOrWhitespace(message)&lt;br /&gt;
+        /// AND suggestions != null&lt;br /&gt;
+        /// Postcondition: Code == code&lt;br /&gt;
+        /// AND Message == message&lt;br /&gt;
+        /// AND Suggestions == suggestions&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;code&quot;&gt;The code.&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The message.&lt;/param&gt;
+        /// &lt;param name=&quot;suggestions&quot;&gt;The list of suggestions sent to the user.&lt;/param&gt;
+        /// 
+        public SuggestionResponseModel(HttpStatusCode code, string message, IList&lt;string&gt;? suggestions) : base(code,
+            message)
+        {
+            this.suggestions = suggestions ?? throw new ArgumentNullException(nameof(suggestions));
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,20,17,36,1],[18,20,18,94,1],[35,107,36,21,1],[37,9,37,10,1],[38,13,38,100,1],[39,9,39,10,1]]);
+    </script>
+  </body>
+</html>

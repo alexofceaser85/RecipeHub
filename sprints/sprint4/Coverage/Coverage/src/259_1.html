@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ShoppingList\ShoppingListController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Server.Controllers.ResponseModels;
+using Server.Data.Settings;
+using Server.ErrorMessages;
+using Server.Service.ShoppingList;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Controllers.ShoppingList
+{
+    /// &lt;summary&gt;
+    /// The shopping list controller
+    /// &lt;/summary&gt;
+    public class ShoppingListController
+    {
+        private readonly IShoppingListService service;
+
+        /// &lt;summary&gt;
+        /// The shopping list container
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        [ActivatorUtilitiesConstructor]
+        public ShoppingListController()
+        {
+            this.service = new ShoppingListService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;ShoppingListController&quot;/&gt; class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The shopping list service&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public ShoppingListController(IShoppingListService service)
+        {
+            if (service == null)
+            {
+                throw new ArgumentException(ShoppingListControllerErrorMessages.ShoppingListServiceCannotBeNull);
+            }
+
+            this.service = service;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the shopping list ingredients.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;returns&gt;The shopping list ingredients&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;GetShoppingListIngredients&quot;)]
+        public RecipeIngredientsResponseModel GetShoppingListIngredients(string sessionKey)
+        {
+            try
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage,
+                    this.service.GetShoppingListIngredients(sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.Unauthorized, ex.Message, Array.Empty&lt;Ingredient&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new RecipeIngredientsResponseModel(HttpStatusCode.InternalServerError, ex.Message,
+                    Array.Empty&lt;Ingredient&gt;());
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[25,9,25,40,1],[26,9,26,10,1],[27,13,27,54,1],[28,9,28,10,1],[38,9,38,68,1],[39,9,39,10,1],[40,13,40,33,1],[41,13,41,14,1],[42,17,42,114,1],[45,13,45,36,1],[46,9,46,10,1],[59,9,59,10,1],[61,13,61,14,1],[62,17,64,74,1],[66,13,66,51,1],[67,13,67,14,1],[68,17,68,127,1],[70,13,70,33,1],[71,13,71,14,1],[72,17,73,48,1],[75,9,75,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\RecipeTypes\RecipeTypesViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.ErrorMessages;
+using Web_Client.Service.RecipeTypes;
+
+namespace Web_Client.ViewModel.RecipeTypes
+{
+    /// &lt;summary&gt;
+    /// The view model for the recipe types
+    /// &lt;/summary&gt;
+    public class RecipeTypesViewModel
+    {
+        private readonly IRecipeTypesService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeTypesViewModel&quot;/&gt; class.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public RecipeTypesViewModel()
+        {
+            this.service = new RecipeTypesService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeTypesViewModel&quot;/&gt; class.
+        ///
+        /// Precondition: service != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public RecipeTypesViewModel(IRecipeTypesService service)
+        {
+            if (service == null)
+            {
+                throw new ArgumentException(RecipeTypesViewModelErrorMessages.ServiceCannotBeNull);
+            }
+
+            this.service = service;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all recipe types.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;The recipe types&lt;/returns&gt;
+        public string[] GetAllRecipeTypes()
+        {
+            return this.service.GetAllRecipeTypes();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[19,9,19,38,1],[20,9,20,10,1],[21,13,21,53,1],[22,9,22,10,1],[32,9,32,65,1],[33,9,33,10,1],[34,13,34,33,1],[35,13,35,14,1],[36,17,36,100,1],[39,13,39,36,1],[40,9,40,10,1],[50,9,50,10,1],[51,13,51,53,1],[52,9,52,10,1]]);
+    </script>
+  </body>
+</html>
