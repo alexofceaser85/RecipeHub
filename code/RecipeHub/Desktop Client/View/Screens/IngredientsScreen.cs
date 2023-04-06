@@ -60,7 +60,7 @@ namespace Desktop_Client.View.Screens
                 this.ingredientListTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
                 item.EditSelected += (_, selectedIngredient) =>
                 {
-                    var dialog = new EditIngredientDialog(selectedIngredient.Name);
+                    var dialog = new EditIngredientDialog(selectedIngredient);
 
                     dialog.DialogClosed += (_, _) =>
                     {

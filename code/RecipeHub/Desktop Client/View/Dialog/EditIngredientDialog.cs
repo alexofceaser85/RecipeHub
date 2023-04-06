@@ -1,5 +1,6 @@
 ﻿using Desktop_Client.ViewModel.Ingredients;
 using System.Text;
+using Shared_Resources.Model.Ingredients;
 
 namespace Desktop_Client.View.Dialog
 {
@@ -17,14 +18,15 @@ namespace Desktop_Client.View.Dialog
         /// Precondition: None<br />
         /// Postcondition: All values have been set to default and specified values<br />
         /// </summary>
-        /// <param name="ingredientName">Name of the ingredient.</param>
-        public EditIngredientDialog(string ingredientName)
+        /// <param name="ingredient">The ingredient to edit.</param>
+        public EditIngredientDialog(Ingredient ingredient)
         {
             this.InitializeComponent();
             this.viewModel = new EditIngredientViewModel();
             this.BindComponents();
 
-            this.viewModel.IngredientName = ingredientName;
+            this.viewModel.IngredientName = ingredient.Name;
+            this.viewModel.Amount = ingredient.Amount.ToString();
         }
 
         private void BindComponents()
