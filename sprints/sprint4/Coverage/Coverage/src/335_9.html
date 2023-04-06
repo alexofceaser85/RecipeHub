@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\ShoppingList\ShoppingListViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Web_Client.Pages;
+using Web_Client.Service.Ingredients;
+using Web_Client.Service.ShoppingList;
+
+namespace Web_Client.ViewModel.ShoppingList
+{
+    /// &lt;summary&gt;
+    /// The viewmodel for &lt;see cref=&quot;ShoppingListModel&quot;/&gt;.
+    /// &lt;/summary&gt;
+    public class ShoppingListViewModel: INotifyPropertyChanged
+    {
+        private Shared_Resources.Model.Ingredients.Ingredient[] shoppingList;
+
+        private readonly IShoppingListService shoppingListService;
+        private readonly IIngredientsService ingredientsService;
+
+        /// &lt;summary&gt;
+        /// The shopping list
+        /// &lt;/summary&gt;
+        public Shared_Resources.Model.Ingredients.Ingredient[] ShoppingList
+        {
+            get =&gt; this.shoppingList;
+            set =&gt; this.SetField(ref this.shoppingList, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;ShoppingListViewModel&quot;/&gt;, using a default &lt;see cref=&quot;shoppingListService&quot;/&gt;
+        /// and a default &lt;see cref=&quot;ingredientsService&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.ShoppingList.Length == 0
+        /// &lt;/summary&gt;
+        public ShoppingListViewModel() : this(new ShoppingListService(), new IngredientsService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;ShoppingListViewModel&quot;/&gt;, with specified &lt;see cref=&quot;IShoppingListService&quot;/&gt; and
+        /// &lt;see cref=&quot;IIngredientsService&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;shoppingListService != null&lt;br/&gt;
+        /// &amp;amp;&amp;amp; ingredientsService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.ShoppingList.Length == 0
+        /// &lt;/summary&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public ShoppingListViewModel(IShoppingListService shoppingListService, IIngredientsService ingredientsService)
+        {
+            this.shoppingListService =
+                shoppingListService ?? throw new ArgumentNullException(nameof(shoppingListService));
+            this.ingredientsService = 
+                ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService));
+            this.shoppingList = Array.Empty&lt;Shared_Resources.Model.Ingredients.Ingredient&gt;();
+        }
+
+        /// &lt;summary&gt;
+        /// Queries the server for the active user&#39;s shopping list and loads it into this.ShoppingList.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;The active user&#39;s session key is valid&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.ShoppingList is populated with the active user&#39;s shopping list.
+        /// &lt;/summary&gt;
+        /// &lt;exception cref=&quot;UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void GetShoppingList()
+        {
+            this.ShoppingList = this.shoppingListService.GetShoppingList();
+        }
+
+        /// &lt;summary&gt;
+        /// Adds all items in the shopping list to the user&#39;s pantry.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;The active user&#39;s session key is valid&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;All items in the shopping list are added to the user&#39;s pantry.
+        /// &lt;/summary&gt;
+        /// &lt;exception cref=&quot;UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void AddIngredientsToPantry(Shared_Resources.Model.Ingredients.Ingredient[] ingredients)
+        {
+            this.ingredientsService.AddIngredients(ingredients);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            this.OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[24,20,24,37,1],[25,20,25,63,1],[35,42,35,99,1],[36,9,36,10,1],[38,9,38,10,1],[49,9,49,119,1],[50,9,50,10,1],[51,13,52,101,1],[53,13,54,99,1],[55,13,55,94,1],[56,9,56,10,1],[67,9,67,10,1],[68,13,68,76,1],[69,9,69,10,1],[80,9,80,10,1],[81,13,81,65,1],[82,9,82,10,1],[96,9,96,10,1],[97,13,97,92,1],[98,9,98,10,1],[112,9,112,10,1],[113,13,113,66,1],[113,67,113,80,1],[114,13,114,27,1],[115,13,115,50,1],[116,13,116,25,1],[117,9,117,10,1]]);
+    </script>
+  </body>
+</html>

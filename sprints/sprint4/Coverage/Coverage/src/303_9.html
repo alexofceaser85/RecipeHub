@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Model\Ingredients\IngredientBindingModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Microsoft.AspNetCore.Mvc;
+using Shared_Resources.Model.Ingredients;
+
+namespace Web_Client.Model.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Binding Model for the Ingredient
+    /// &lt;/summary&gt;
+    public class IngredientBindingModel
+    {
+        /// &lt;summary&gt;
+        /// Gets or sets the name.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The name.
+        /// &lt;/value&gt;
+        [BindProperty]
+        public string? Name { get; set; }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the amount.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The amount.
+        /// &lt;/value&gt;
+        [BindProperty]
+        public int Amount { get; set; }
+
+        /// &lt;summary&gt;
+        /// Gets or sets the type of the measurement.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The type of the measurement.
+        /// &lt;/value&gt;
+        [BindProperty]
+        public MeasurementType MeasurementType { get; set; }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[18,31,18,35,1],[18,36,18,40,0],[27,29,27,33,1],[27,34,27,38,0],[36,50,36,54,1],[36,55,36,59,0]]);
+    </script>
+  </body>
+</html>

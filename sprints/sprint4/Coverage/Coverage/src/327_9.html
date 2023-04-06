@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Service\ShoppingList\ShoppingListService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Endpoints.ShoppingList;
+
+namespace Web_Client.Service.ShoppingList
+{
+    /// &lt;summary&gt;
+    /// The endpoints for the recipe types
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;IShoppingListService&quot; /&gt;
+    public class ShoppingListService : IShoppingListService
+    {
+        private readonly IShoppingListEndpoints endpoints;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;ShoppingListService&quot;/&gt; class.&lt;br/&gt;
+        ///&lt;br/&gt;
+        /// Precondition: None&lt;br/&gt;
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public ShoppingListService() : this(new ShoppingListEndpoints())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;ShoppingListService&quot;/&gt; class.&lt;br/&gt;
+        ///&lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;endpoints != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;endpoints&quot;&gt;The endpoints.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public ShoppingListService(IShoppingListEndpoints endpoints)
+        {
+            this.endpoints = endpoints ?? throw new ArgumentNullException(nameof(endpoints));
+        }
+        
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetShoppingList()
+        {
+            return this.endpoints.GetShoppingList();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,40,20,73,1],[21,9,21,10,1],[23,9,23,10,1],[33,9,33,69,1],[34,9,34,10,1],[35,13,35,94,1],[36,9,36,10,1],[40,9,40,10,1],[41,13,41,53,1],[42,9,42,10,1]]);
+    </script>
+  </body>
+</html>

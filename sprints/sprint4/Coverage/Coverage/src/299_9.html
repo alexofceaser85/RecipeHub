@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Endpoints\ShoppingList\ShoppingListEndpoints.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Text.Json;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Utils.Json;
+using Shared_Resources.Utils.Server;
+
+namespace Web_Client.Endpoints.ShoppingList
+{
+    /// &lt;summary&gt;
+    /// The endpoints for the recipe types
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;IShoppingListEndpoints&quot; /&gt;
+    public class ShoppingListEndpoints : IShoppingListEndpoints
+    {
+        private const string GetShoppingListServiceMethodName = &quot;GetShoppingListIngredients&quot;;
+
+        private const string IngredientsElementName = &quot;ingredients&quot;;
+
+        private readonly HttpClient client;
+
+        /// &lt;summary&gt;
+        /// Initializes a default instance of the &lt;see cref=&quot;ShoppingListEndpoints&quot;/&gt; class.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public ShoppingListEndpoints()
+        {
+            this.client = new HttpClient();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;ShoppingListEndpoints&quot;/&gt; class.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;client != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;client&quot;&gt;The client.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public ShoppingListEndpoints(HttpClient client)
+        {
+            this.client = client ?? 
+                          throw new ArgumentNullException(nameof(client));
+        }
+        
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetShoppingList()
+        {
+            var parameters = $&quot;?sessionKey={Session.Key}&quot;;
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetShoppingListServiceMethodName}{parameters}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var shoppingList = json[IngredientsElementName]!.AsArray().Deserialize&lt;Ingredient[]&gt;();
+
+            return shoppingList!;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[28,9,28,39,1],[29,9,29,10,1],[30,13,30,44,1],[31,9,31,10,1],[41,9,41,56,1],[42,9,42,10,1],[43,13,44,75,1],[45,9,45,10,1],[49,9,49,10,1],[50,13,50,59,1],[51,13,51,106,1],[52,13,52,89,1],[53,13,53,53,1],[55,13,55,100,1],[57,13,57,34,1],[58,9,58,10,1]]);
+    </script>
+  </body>
+</html>
