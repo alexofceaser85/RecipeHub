@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\Ingredients\IngredientsController.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Server.Controllers.ResponseModels;
+using Server.Data.Settings;
+using Server.Service.Ingredients;
+using Shared_Resources.Model.Ingredients;
+
+namespace Server.Controllers.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Controller for the API Endpoints pertaining to the Ingredients functionality.
+    /// &lt;/summary&gt;
+    [ApiController]
+    public class IngredientsController
+    {
+        private readonly IIngredientsService service;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsController&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: All fields have been initialized to default values.
+        /// &lt;/summary&gt;
+        [ActivatorUtilitiesConstructor]
+        public IngredientsController()
+        {
+            this.service = new IngredientsService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsController&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: service != null.&lt;br /&gt;
+        /// Postcondition: All fields have been set to specified values.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;service&quot;&gt;The service to use for the different API routes.&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;If service is null.&lt;/exception&gt;
+        public IngredientsController(IIngredientsService service)
+        {
+            this.service = service ?? throw new ArgumentNullException(nameof(service));
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the specified ingredient to the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: The ingredient has been added to the user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the ingredient.&lt;/param&gt;
+        /// &lt;param name=&quot;measurementType&quot;&gt;Type of the measurement.&lt;/param&gt;
+        /// &lt;param name=&quot;amount&quot;&gt;The amount of the ingredient being added.&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the specified user.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing a flag dictating whether the ingredient was added or not.&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;AddIngredientToPantry&quot;)]
+        public FlagResponseModel AddIngredientToPantry(string name, int measurementType, int amount, string sessionKey)
+        {
+            try
+            {
+                return new FlagResponseModel(HttpStatusCode.OK, &quot;Ingredient successfully added.&quot;,
+                    this.service.AddIngredientToPantry(new Ingredient(name, amount, (MeasurementType)measurementType),
+                        sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
+            catch (Exception ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the specified ingredients to the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: The ingredients has been added to the user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;ingredientsJson&quot;&gt;The ingredients json&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing the status and connection message.&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;AddIngredientsToPantry&quot;)]
+        public BaseResponseModel AddIngredientsToPantry(string ingredientsJson, string sessionKey)
+        {
+            try
+            {
+                var ingredients = JsonConvert.DeserializeObject&lt;Ingredient[]&gt;(ingredientsJson);
+                this.service.AddIngredientsToPantry(ingredients, sessionKey);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the missing ingredients for recipe.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe identifier.&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;returns&gt;The missing ingredients&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;GetMissingIngredientsForRecipe&quot;)]
+        public BaseResponseModel GetMissingIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            try
+            {
+                var ingredients = this.service.GetMissingIngredientsForRecipe(recipeId, sessionKey);
+                return new RecipeIngredientsResponseModel(HttpStatusCode.OK,
+                    ServerSettings.DefaultSuccessfulConnectionMessage, ingredients.ToArray());
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the specified ingredient from the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: The ingredient has been removed from the user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the ingredient.&lt;/param&gt;
+        /// &lt;param name=&quot;measurementType&quot;&gt;Type of the measurement.&lt;/param&gt;
+        /// &lt;param name=&quot;amount&quot;&gt;The amount of the ingredient being added.&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the specified user.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing a flag dictating whether the ingredient was removed or not&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;RemoveIngredientFromPantry&quot;)]
+        public FlagResponseModel RemoveIngredientFromPantry(string name, int measurementType, int amount,
+            string sessionKey)
+        {
+            try
+            {
+                return new FlagResponseModel(HttpStatusCode.OK, &quot;Ingredient successfully removed from pantry.&quot;,
+                    this.service.RemoveIngredientFromPantry(
+                        new Ingredient(name, amount, (MeasurementType)measurementType),
+                        sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
+            catch (Exception ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the ingredients from pantry.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The recipe identifier.&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;returns&gt;The response when the ingredients for recipe are removed&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;RemoveIngredientsForRecipe&quot;)]
+        public BaseResponseModel RemoveIngredientsForRecipe(int recipeId, string sessionKey)
+        {
+            try
+            {
+                this.service.RemoveIngredientsForRecipe(recipeId, sessionKey);
+                return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.Unauthorized, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return new BaseResponseModel(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Updates the amount of the specified ingredient in the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: The ingredient has been updated in the user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;name&quot;&gt;The name of the ingredient.&lt;/param&gt;
+        /// &lt;param name=&quot;measurementType&quot;&gt;Type of the measurement.&lt;/param&gt;
+        /// &lt;param name=&quot;amount&quot;&gt;The amount of the ingredient being added.&lt;/param&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the specified user.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing a flag dictating whether the ingredient was updated or not&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;UpdateIngredientInPantry&quot;)]
+        public FlagResponseModel UpdateIngredientInPantry(string name, int measurementType, int amount,
+            string sessionKey)
+        {
+            try
+            {
+                return new FlagResponseModel(HttpStatusCode.OK, &quot;Ingredient successfully updated.&quot;,
+                    this.service.UpdateIngredientInPantry(
+                        new Ingredient(name, amount, (MeasurementType)measurementType),
+                        sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
+            catch (Exception ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Removes all ingredients from the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: All ingredients have been removed from the user&#39;s pantry.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the specified user.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing a flag dictating whether all ingredients were removed or not&lt;/returns&gt;
+        [HttpPost]
+        [Route(&quot;RemoveAllIngredientsFromPantry&quot;)]
+        public FlagResponseModel RemoveAllIngredientsFromPantry(string sessionKey)
+        {
+            try
+            {
+                return new FlagResponseModel(HttpStatusCode.OK, &quot;Pantry successfully cleared.&quot;,
+                    this.service.RemoveAllIngredientsFromPantry(sessionKey));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.Unauthorized, ex.Message, false);
+            }
+            catch (Exception ex)
+            {
+                return new FlagResponseModel(HttpStatusCode.InternalServerError, ex.Message, false);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all ingredients in the specified user&#39;s pantry.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: None&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key for the specified user.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing the list of all ingredients the specified user has.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;GetIngredientsInPantry&quot;)]
+        public PantryResponseModel GetIngredientsInPantry(string sessionKey)
+        {
+            try
+            {
+                return new PantryResponseModel(HttpStatusCode.OK, &quot;Ingredients successfully retrieved.&quot;,
+                    this.service.GetIngredientsFor(sessionKey).ToArray());
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new PantryResponseModel(HttpStatusCode.Unauthorized, ex.Message, null);
+            }
+            catch (Exception ex)
+            {
+                return new PantryResponseModel(HttpStatusCode.InternalServerError, ex.Message, null);
+            }
+        }
+
+        /// &lt;summary&gt;
+        /// Gets all suggestions for ingredients that matched inputted text.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None.&lt;br /&gt;
+        /// Postcondition: None&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;text&quot;&gt;The text the suggestions will match.&lt;/param&gt;
+        /// &lt;returns&gt;A response to the client, containing the list of suggestions that match the text given.&lt;/returns&gt;
+        [HttpGet]
+        [Route(&quot;GetSuggestions&quot;)]
+        public SuggestionResponseModel GetSuggestions(string text = &quot;&quot;)
+        {
+            try
+            {
+                return new SuggestionResponseModel(HttpStatusCode.OK, &quot;Suggestions successfully retrieved.&quot;,
+                    this.service.GetAllIngredientsThatMatch(text));
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return new SuggestionResponseModel(HttpStatusCode.Unauthorized, ex.Message, new List&lt;string&gt;());
+            }
+            catch (Exception ex)
+            {
+                return new SuggestionResponseModel(HttpStatusCode.InternalServerError, ex.Message, new List&lt;string&gt;());
+            }
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,9,26,39,1],[27,9,27,10,1],[28,13,28,53,1],[29,9,29,10,1],[39,9,39,66,1],[40,9,40,10,1],[41,13,41,88,1],[42,9,42,10,1],[58,9,58,10,1],[60,13,60,14,1],[61,17,63,38,1],[65,13,65,51,0],[66,13,66,14,0],[67,17,67,94,0],[69,13,69,33,1],[70,13,70,14,1],[71,17,71,101,1],[73,9,73,10,1],[87,9,87,10,1],[89,13,89,14,1],[90,17,90,96,1],[91,17,91,78,1],[92,17,92,116,1],[94,13,94,51,1],[95,13,95,14,1],[96,17,96,87,1],[98,13,98,33,1],[99,13,99,14,1],[100,17,100,94,1],[102,9,102,10,1],[116,9,116,10,1],[118,13,118,14,1],[119,17,119,101,1],[120,17,121,95,1],[123,13,123,51,1],[124,13,124,14,1],[125,17,125,87,1],[127,13,127,33,1],[128,13,128,14,1],[129,17,129,94,1],[131,9,131,10,1],[148,9,148,10,1],[150,13,150,14,1],[151,17,154,38,1],[156,13,156,51,0],[157,13,157,14,0],[158,17,158,94,0],[160,13,160,33,1],[161,13,161,14,1],[162,17,162,101,1],[164,9,164,10,1],[178,9,178,10,1],[180,13,180,14,1],[181,17,181,79,1],[182,17,182,116,1],[184,13,184,51,1],[185,13,185,14,1],[186,17,186,87,1],[188,13,188,33,1],[189,13,189,14,1],[190,17,190,94,1],[192,9,192,10,1],[209,9,209,10,1],[211,13,211,14,1],[212,17,215,38,1],[217,13,217,51,0],[218,13,218,14,0],[219,17,219,94,0],[221,13,221,33,1],[222,13,222,14,1],[223,17,223,101,1],[225,9,225,10,1],[238,9,238,10,1],[240,13,240,14,1],[241,17,242,78,1],[244,13,244,51,0],[245,13,245,14,0],[246,17,246,94,0],[248,13,248,33,1],[249,13,249,14,1],[250,17,250,101,1],[252,9,252,10,1],[265,9,265,10,1],[267,13,267,14,1],[268,17,269,75,1],[271,13,271,51,0],[272,13,272,14,0],[273,17,273,95,0],[275,13,275,33,1],[276,13,276,14,1],[277,17,277,102,1],[279,9,279,10,1],[292,9,292,10,1],[294,13,294,14,1],[295,17,296,68,1],[298,13,298,51,0],[299,13,299,14,0],[300,17,300,113,0],[302,13,302,33,1],[303,13,303,14,1],[304,17,304,120,1],[306,9,306,10,1]]);
+    </script>
+  </body>
+</html>

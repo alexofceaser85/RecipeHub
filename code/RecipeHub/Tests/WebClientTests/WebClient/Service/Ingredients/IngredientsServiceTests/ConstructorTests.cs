@@ -1,5 +1,6 @@
 ﻿using Web_Client.Endpoints.Ingredients;
 using Web_Client.Service.Ingredients;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
 {
@@ -12,9 +13,9 @@ namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
         }
 
         [Test]
-        public void ValidOneParameterConstructor()
+        public void ValidTwoParameterConstructor()
         {
-            Assert.DoesNotThrow(() => _ = new IngredientsService(new IngredientEndpoints()));
+            Assert.DoesNotThrow(() => _ = new IngredientsService(new IngredientEndpoints(), new UsersService()));
         }
     }
 }

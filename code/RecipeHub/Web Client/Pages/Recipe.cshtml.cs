@@ -1,8 +1,10 @@
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Utils.Dates;
+using Shared_Resources.Utils.Units;
 using Web_Client.Model.States;
 using Web_Client.Service.Recipes;
 using Web_Client.ViewModel.Recipes;
@@ -67,6 +69,7 @@ namespace Web_Client.Pages
             try
             {
                 this.ViewModel.Initialize(id);
+                this.ViewModel.GetMissingIngredientsForRecipe();
                 RecipePageState.ViewModel = this.ViewModel;
             }
             catch (UnauthorizedAccessException exception)
@@ -76,7 +79,10 @@ namespace Web_Client.Pages
             }
         }
 
-
+        /// <summary>
+        /// Called when [post add planned meal].
+        /// </summary>
+        /// <returns>the content of the planned meal confirmation.</returns>
         public IActionResult OnPostAddPlannedMeal()
         {
             this.ViewModel = RecipePageState.ViewModel!;
@@ -93,6 +99,40 @@ namespace Web_Client.Pages
             }
             RecipePageState.ViewModel = this.ViewModel;
             return Content(this.ViewModel.PlannedMealAddedMessage);
+        }
+        /// <summary>
+        /// Called when [post cook recipe].
+        /// </summary>
+        /// <returns>a redirect to the ingredients page.</returns>
+        public IActionResult OnPostCookRecipe()
+        {
+            this.ViewModel = RecipePageState.ViewModel!;
+
+            this.ViewModel.RemoveIngredientsForRecipe();
+
+            RecipePageState.ViewModel = this.ViewModel;
+            return RedirectToPage("Ingredients");
+        }
+
+        /// <summary>
+        /// Gets the text for missing ingredients.
+        /// </summary>
+        /// <returns>an array containing the two elements of text.</returns>
+        public Tuple<string, string> GetTextForMissingIngredients()
+        {
+            if (this.ViewModel.MissingIngredients.Length == 0)
+            {
+                return Tuple.Create("All ingredients will be removed from your pantry.", string.Empty);
+
+            }
+            var message = new StringBuilder();
+            foreach (var ingredient in this.ViewModel.MissingIngredients)
+            {
+                var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
+                message.Append($"\n - {ingredient.Name}: {ingredient.Amount} {unit}");
+            }
+
+            return Tuple.Create("You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):", message.ToString());
         }
     }
 }

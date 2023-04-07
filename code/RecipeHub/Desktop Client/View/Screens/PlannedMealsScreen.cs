@@ -1,8 +1,4 @@
 ﻿using Desktop_Client.View.Dialog;
-using Desktop_Client.ViewModel.Ingredients;
-using Shared_Resources.Model.Ingredients;
-using Desktop_Client.View.Components.Ingredients;
-using System;
 using Desktop_Client.View.Components.PlannedMeals;
 using Desktop_Client.ViewModel.PlannedMeals;
 using Shared_Resources.Model.PlannedMeals;
@@ -50,7 +46,6 @@ namespace Desktop_Client.View.Screens
         {
             this.mealsListTableLayout.Controls.Clear();
             this.mealsListTableLayout.RowStyles.Clear();
-            var firstItem = true;
             foreach (var meal in meals)
             {
                 var rowStyle = new RowStyle
@@ -60,14 +55,10 @@ namespace Desktop_Client.View.Screens
                 var listItem = new PlannedMealListItem(meal, this.viewModel.RecipeTags);
                 this.mealsListTableLayout.Controls.Add(listItem);
                 this.mealsListTableLayout.RowStyles.Add(rowStyle);
-
-                if (!firstItem)
-                {
-                    listItem.Margin = new Padding(3, 48, 3, 3);
-                }
-                firstItem = false;
-
-                listItem.DeletePressed += (sender, args) =>
+                
+                listItem.Margin = new Padding(3, 48, 3, 3);
+                
+                listItem.DeletePressed += (_, args) =>
                 {
                     var recipe = args.Item1;
                     var category = args.Item2;
@@ -94,9 +85,25 @@ namespace Desktop_Client.View.Screens
 
                     base.DisplayDialog(dialog);
                 };
-            }
-        }
 
+                listItem.ViewPressed += (_, recipeId) =>
+                {
+                    try
+                    {
+                        this.ChangeScreens(new RecipeScreen(recipeId));
+                    }
+                    catch (UnauthorizedAccessException exception)
+                    {
+                        this.DisplayTimeOutDialog(exception.Message);
+                    }
+                };
+            }
+            
+            //Adds an empty label to the bottom of the list to prevent the last ingredient from expanding vertically
+            this.mealsListTableLayout.Controls.Add(new Label { Margin = Padding.Empty, Padding = Padding.Empty });
+            this.mealsListTableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+        }
+        
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
             base.ToggleHamburgerMenu();
@@ -107,6 +114,24 @@ namespace Desktop_Client.View.Screens
             try
             {
                 base.ChangeScreens(new RecipeListScreen());
+            }
+            catch (ArgumentException exception)
+            {
+                var messageDialog =
+                    new MessageDialog("Error occurred", exception.Message);
+                base.DisplayDialog(messageDialog);
+            }
+            catch (UnauthorizedAccessException exception)
+            {
+                this.DisplayTimeOutDialog(exception.Message);
+            }
+        }
+
+        private void viewShoppingListButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                base.ChangeScreens(new ShoppingListScreen());
             }
             catch (ArgumentException exception)
             {

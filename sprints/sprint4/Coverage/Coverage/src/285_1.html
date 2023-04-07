@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Service\Users\UsersService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Server.DAL.Users;
+using Server.ErrorMessages;
+using Shared_Resources.Data.Settings;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Users;
+using Shared_Resources.Utils.Hashing;
+
+namespace Server.Service.Users
+{
+    /// &lt;summary&gt;
+    /// Holds the service methods for the user
+    /// &lt;/summary&gt;
+    public class UsersService : IUsersService
+    {
+        private readonly IUsersDal dataAccessLayer;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersService&quot;/&gt; class.
+        /// &lt;/summary&gt;
+        public UsersService()
+        {
+            this.dataAccessLayer = new UsersDal();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;UsersService&quot;/&gt; class.
+        ///
+        /// Precondition dataAccessLayer != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;dataAccessLayer&quot;&gt;The data access layer.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public UsersService(IUsersDal dataAccessLayer)
+        {
+            if (dataAccessLayer == null)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.DataAccessLayerCannotBeNull);
+            }
+
+            this.dataAccessLayer = dataAccessLayer;
+        }
+
+        /// &lt;summary&gt;
+        /// Creates the account.
+        ///
+        /// Precondition: accountToCreate != null and accountToCreate.UserName does not exist
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;accountToCreate&quot;&gt;The account to create.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void CreateAccount(NewAccount accountToCreate)
+        {
+            if (accountToCreate == null)
+            {
+                throw new ArgumentException(UsersServiceServerErrorMessages.AccountToCreateCannotBeNull);
+            }
+
+            if (this.dataAccessLayer.CheckIfUserNameExists(accountToCreate.Username))
+            {
+                throw new ArgumentException(UsersServiceServerErrorMessages.UserNameAlreadyExists);
+            }
+
+            this.dataAccessLayer.CreateAccount(accountToCreate);
+        }
+
+        /// &lt;summary&gt;
+        /// Logins the specified username and password combination.
+        ///
+        /// Precondition:
+        /// username != null
+        /// AND username.IsEmpty() == false
+        /// AND password != null
+        /// AND password.IsEmpty() == false
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;username&quot;&gt;The username.&lt;/param&gt;
+        /// &lt;param name=&quot;password&quot;&gt;The password.&lt;/param&gt;
+        /// &lt;param name=&quot;previousSessionKey&quot;&gt;The previous session key.&lt;/param&gt;
+        /// &lt;returns&gt;The new session key for the user&lt;/returns&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;user name and password combo is wrong&lt;/exception&gt;
+        public string Login(string username, string password, string? previousSessionKey)
+        {
+            if (username == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeNull);
+            }
+
+            if (username.Trim().Length == 0)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.UsernameCannotBeEmpty);
+            }
+
+            if (password == null)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeNull);
+            }
+
+            if (password.Trim().Length == 0)
+            {
+                throw new ArgumentException(UsersServiceErrorMessages.PasswordCannotBeEmpty);
+            }
+
+            if (previousSessionKey != null &amp;&amp; previousSessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.dataAccessLayer.VerifyUserNameAndPasswordCombination(username, password);
+            if (userId == null)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.UsernameAndPasswordCombinationIsWrong);
+            }
+
+            var sessionKey = this.generateNewSessionKey();
+            if (previousSessionKey != null)
+            {
+                this.dataAccessLayer.RemoveSessionKey(previousSessionKey);
+            }
+
+            this.dataAccessLayer.AddUserSession(userId.Value, sessionKey, DateTime.UtcNow);
+
+            return sessionKey;
+        }
+
+        /// &lt;summary&gt;
+        /// Log outs the specified user&#39;s session.
+        ///
+        /// Precondition: sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void Logout(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.dataAccessLayer.RemoveSessionKey(sessionKey);
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the user identifier for session key.
+        /// Precondition: previousSessionKey != null AND previousSessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;previousSessionKey&quot;&gt;The previous session key&lt;/param&gt;
+        /// &lt;returns&gt;&lt;/returns&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;Session Expired Returning to Login Screen&lt;/exception&gt;
+        public string RefreshSessionKey(string previousSessionKey)
+        {
+            if (previousSessionKey == null)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeNull);
+            }
+
+            if (previousSessionKey.Trim().Length == 0)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.PreviousSessionKeyCannotBeEmpty);
+            }
+
+            var userId = this.dataAccessLayer.GetIdForSessionKey(previousSessionKey);
+
+            if (userId == null)
+            {
+                throw new UnauthorizedAccessException(ServerUsersServiceErrorMessages.SessionKeyCannotBeExpired);
+            }
+
+            var newSessionKey = this.generateNewSessionKey();
+            this.dataAccessLayer.RemoveSessionKey(previousSessionKey);
+            this.dataAccessLayer.AddUserSession(userId.Value, newSessionKey, DateTime.UtcNow);
+            return newSessionKey;
+        }
+
+        /// &lt;summary&gt;
+        /// Removes the timed out session keys.
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public void RemoveTimedOutSessionKeys()
+        {
+            this.dataAccessLayer.RemoveTimedOutSessionKeys();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the user information.
+        ///
+        /// Precondition: sessionKey != null
+        /// AND sessionKey IS NOT empty
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;sessionKey&quot;&gt;The session key.&lt;/param&gt;
+        /// &lt;returns&gt;The user information&lt;/returns&gt;
+        /// &lt;exception cref=&quot;System.ArgumentException&quot;&gt;If the preconditions are not met&lt;/exception&gt;
+        public UserInfo? GetUserInfo(string sessionKey)
+        {
+            if (sessionKey == null)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (sessionKey.Trim().Length == 0)
+            {
+                throw new ArgumentException(ServerUsersServiceErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            return this.dataAccessLayer.GetUserInfo(sessionKey);
+        }
+
+        private string generateNewSessionKey()
+        {
+            var random = new Random();
+
+            var randomKey = new string(Enumerable
+                                       .Repeat(SessionKeySettings.SessionKeyCharacters,
+                                           SessionKeySettings.SessionKeyLength)
+                                       .Select(s =&gt; s[random.Next(s.Length)]).ToArray());
+
+            var hashedKey = Hashes.HashToSha512(randomKey);
+
+            if (!this.dataAccessLayer.VerifySessionKeyDoesNotExist(hashedKey))
+            {
+                return this.generateNewSessionKey();
+            }
+
+            return hashedKey;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[20,9,20,30,1],[21,9,21,10,1],[22,13,22,51,1],[23,9,23,10,1],[33,9,33,55,1],[34,9,34,10,1],[35,13,35,41,1],[36,13,36,14,1],[37,17,37,106,1],[40,13,40,52,1],[41,9,41,10,1],[52,9,52,10,1],[53,13,53,41,1],[54,13,54,14,1],[55,17,55,106,1],[58,13,58,86,1],[59,13,59,14,1],[60,17,60,100,1],[63,13,63,65,1],[64,9,64,10,1],[81,9,81,10,1],[82,13,82,34,1],[83,13,83,14,1],[84,17,84,93,1],[87,13,87,45,1],[88,13,88,14,1],[89,17,89,94,1],[92,13,92,34,1],[93,13,93,14,1],[94,17,94,93,1],[97,13,97,45,1],[98,13,98,14,1],[99,17,99,94,1],[102,13,102,85,1],[103,13,103,14,1],[104,17,104,110,1],[107,13,107,104,1],[108,13,108,32,1],[109,13,109,14,1],[110,17,110,116,1],[113,13,113,59,1],[114,13,114,44,1],[115,13,115,14,1],[116,17,116,75,1],[117,13,117,14,1],[119,13,119,92,1],[121,13,121,31,1],[122,9,122,10,1],[134,9,134,10,1],[135,13,135,36,1],[136,13,136,14,1],[137,17,137,101,1],[140,13,140,47,1],[141,13,141,14,1],[142,17,142,102,1],[145,13,145,63,1],[146,9,146,10,1],[157,9,157,10,1],[158,13,158,44,1],[159,13,159,14,1],[160,17,160,119,1],[163,13,163,55,1],[164,13,164,14,1],[165,17,165,120,1],[168,13,168,86,1],[170,13,170,32,1],[171,13,171,14,1],[172,17,172,114,1],[175,13,175,62,1],[176,13,176,71,1],[177,13,177,95,1],[178,13,178,34,1],[179,9,179,10,1],[187,9,187,10,1],[188,13,188,62,1],[189,9,189,10,1],[202,9,202,10,1],[203,13,203,36,1],[204,13,204,14,1],[205,17,205,101,1],[208,13,208,47,1],[209,13,209,14,1],[210,17,210,102,1],[213,13,213,65,1],[214,9,214,10,1],[217,9,217,10,1],[218,13,218,39,1],[220,13,223,53,1],[223,53,223,77,1],[223,77,223,90,1],[225,13,225,60,1],[227,13,227,79,1],[228,13,228,14,1],[229,17,229,53,1],[232,13,232,30,1],[233,9,233,10,1]]);
+    </script>
+  </body>
+</html>

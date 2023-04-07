@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Service\Ingredients\IngredientsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Model.Ingredients;
+using Web_Client.Endpoints.Ingredients;
+using Web_Client.Service.Users;
+
+namespace Web_Client.Service.Ingredients
+{
+    /// &lt;summary&gt;
+    /// Service for the Ingredients functionality.
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;IIngredientsService&quot; /&gt;
+    public class IngredientsService : IIngredientsService
+    {
+        private readonly IIngredientEndpoints endpoints;
+        private readonly IUsersService usersService;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Endpoints are set to default value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        public IngredientsService()
+        {
+            this.endpoints = new IngredientEndpoints();
+            this.usersService = new UsersService();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;IngredientsService&quot;/&gt; class.&lt;br /&gt;
+        /// &lt;br /&gt;
+        /// Precondition: None&lt;br /&gt;
+        /// Postcondition: Endpoints are set to specified value.&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;endpoints&quot;&gt;The endpoints.&lt;/param&gt;
+        /// &lt;param name=&quot;usersService&quot;&gt;The users service&lt;/param&gt;
+        public IngredientsService(IIngredientEndpoints endpoints, IUsersService usersService)
+        {
+            this.endpoints = endpoints;
+            this.usersService = usersService;
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public Ingredient[] GetAllIngredientsForUser()
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetAllIngredientsForUser();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool AddIngredient(Ingredient ingredient)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.AddIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void AddIngredients(Ingredient[] ingredients)
+        {
+            this.usersService.RefreshSessionKey();
+            this.endpoints.AddIngredients(ingredients);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteIngredient(Ingredient ingredient)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.DeleteIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool UpdateIngredient(Ingredient ingredient)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.UpdateIngredient(ingredient);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public bool DeleteAllIngredientsForUser()
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.DeleteAllIngredientsForUser();
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public string[] GetSuggestions(string ingredientName)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetSuggestions(ingredientName);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public Ingredient[] GetMissingIngredientsForRecipe(int recipeId)
+        {
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetMissingIngredientsForRecipe(recipeId);
+        }
+
+        /// &lt;inheritdoc /&gt;
+        public void RemoveIngredientsForRecipe(int recipeId)
+        {
+            this.usersService.RefreshSessionKey();
+            this.endpoints.RemoveIngredientsForRecipe(recipeId);
+        }
+    }
+}
+
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[22,9,22,36,1],[23,9,23,10,1],[24,13,24,56,1],[25,13,25,52,1],[26,9,26,10,1],[36,9,36,94,1],[37,9,37,10,1],[38,13,38,40,1],[39,13,39,46,1],[40,9,40,10,1],[44,9,44,10,1],[45,13,45,51,1],[46,13,46,62,1],[47,9,47,10,1],[51,9,51,10,1],[52,13,52,51,1],[53,13,53,61,1],[54,9,54,10,1],[58,9,58,10,1],[59,13,59,51,1],[60,13,60,56,1],[61,9,61,10,1],[65,9,65,10,1],[66,13,66,51,1],[67,13,67,64,1],[68,9,68,10,1],[72,9,72,10,1],[73,13,73,51,1],[74,13,74,64,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,51,1],[81,13,81,65,1],[82,9,82,10,1],[86,9,86,10,1],[87,13,87,51,1],[88,13,88,66,1],[89,9,89,10,1],[93,9,93,10,1],[94,13,94,51,1],[95,13,95,76,1],[96,9,96,10,1],[100,9,100,10,1],[101,13,101,51,1],[102,13,102,65,1],[103,9,103,10,1]]);
+    </script>
+  </body>
+</html>

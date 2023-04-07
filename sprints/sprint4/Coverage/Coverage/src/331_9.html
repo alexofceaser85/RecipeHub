@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\ViewModel\PlannedMeals\PlannedMealsViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Shared_Resources.Model.PlannedMeals;
+using Web_Client.Pages;
+using Web_Client.Service.PlannedMeals;
+using Web_Client.Service.Recipes;
+
+namespace Web_Client.ViewModel.PlannedMeals
+{
+    /// &lt;summary&gt;
+    /// The view model for &lt;see cref=&quot;PlannedMealsModel&quot;/&gt;
+    /// &lt;/summary&gt;
+    public class PlannedMealsViewModel : INotifyPropertyChanged
+    {
+        private readonly IPlannedMealsService plannedMealService;
+        private readonly IRecipesService recipesService;
+
+        private PlannedMeal[] plannedMeals;
+        private Dictionary&lt;int, string[]&gt; recipeTags;
+
+        /// &lt;summary&gt;
+        /// The array of planned meals to display
+        /// &lt;/summary&gt;
+        public PlannedMeal[] PlannedMeals
+        {
+            get =&gt; this.plannedMeals;
+            set =&gt; this.SetField(ref this.plannedMeals, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Stores the tags for a recipe by its id
+        /// &lt;/summary&gt;
+        public Dictionary&lt;int, string[]&gt; RecipeTags
+        {
+            get =&gt; this.recipeTags;
+            set =&gt; this.SetField(ref this.recipeTags, value);
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;PlannedMealsViewModel&quot;/&gt;, using a default &lt;see cref=&quot;PlannedMealsService&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.PlannedMeals.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.RecipeTags.Count == 0
+        /// &lt;/summary&gt;
+        public PlannedMealsViewModel() : this(new PlannedMealsService(), new RecipesService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;PlannedMealsViewModel&quot;/&gt; with a specified &lt;see cref=&quot;IPlannedMealsService&quot;/&gt;.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;plannedMealService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.PlannedMeals.Length == 0&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.RecipeTags.Count == 0
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;plannedMealsService&quot;&gt;The planned meal service&lt;/param&gt;
+        /// &lt;param name=&quot;recipesService&quot;&gt;The recipes service&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public PlannedMealsViewModel(IPlannedMealsService plannedMealsService, IRecipesService recipesService)
+        {
+            this.plannedMealService = plannedMealsService ?? throw new ArgumentNullException(nameof(plannedMealsService));
+            this.recipesService = recipesService ?? throw new ArgumentNullException(nameof(recipesService));
+            this.plannedMeals = Array.Empty&lt;PlannedMeal&gt;();
+            this.recipeTags = new Dictionary&lt;int, string[]&gt;();
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the planned meals for the current user.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.PlannedMeals contains all planned meals for the active user
+        /// &lt;/summary&gt;
+        public void Initialize()
+        {
+            var plannedMeals = this.plannedMealService.GetPlannedMeals();
+
+            this.RecipeTags = plannedMeals.SelectMany(plannedMeal =&gt; plannedMeal.Meals)
+                                          .SelectMany(meal =&gt; meal.Recipes)
+                                          .Distinct()
+                                          .Select(recipe =&gt; recipe.Id)
+                                          .ToDictionary(recipeId =&gt; recipeId,
+                                              recipeId =&gt; this.recipesService.GetTypesForRecipe(recipeId));
+
+            this.PlannedMeals = plannedMeals;
+        }
+
+        /// &lt;summary&gt;
+        /// Removes a recipe from the active user&#39;s planned meals.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;The recipe is removed from this.PlannedMeals
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The date for the planned meal&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category of the planned meal&lt;/param&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id of the recipe to remove&lt;/param&gt;
+        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        {
+            this.plannedMealService.RemovePlannedMeal(mealDate, category, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,20,26,37,1],[27,20,27,63,1],[35,20,35,35,1],[36,20,36,61,1],[46,42,46,95,1],[47,9,47,10,1],[49,9,49,10,1],[61,9,61,111,1],[62,9,62,10,1],[63,13,63,123,1],[64,13,64,109,1],[65,13,65,60,1],[66,13,66,63,1],[67,9,67,10,1],[76,9,76,10,1],[77,13,77,74,1],[79,13,79,70,1],[79,70,79,87,1],[79,87,80,63,1],[80,63,80,75,1],[80,75,82,61,1],[82,61,82,70,1],[82,70,83,69,1],[83,69,83,77,1],[83,77,84,59,1],[84,59,84,106,1],[84,106,84,108,1],[86,13,86,46,1],[87,9,87,10,1],[99,9,99,10,1],[100,13,100,85,1],[101,9,101,10,1],[115,9,115,10,1],[116,13,116,87,1],[117,9,117,10,1],[131,9,131,10,1],[132,13,132,66,1],[132,67,132,80,0],[133,13,133,27,1],[134,13,134,45,1],[135,13,135,25,1],[136,9,136,10,1]]);
+    </script>
+  </body>
+</html>

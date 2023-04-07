@@ -41,10 +41,21 @@ namespace Desktop_Client.View.Components.PlannedMeals
         /// Occurs when the delete button is pressed.
         /// </summary>
         public EventHandler? DeletePressed;
+        
+        /// <summary>
+        /// Occurs when the view button is pressed.
+        /// </summary>
+        public EventHandler? ViewPressed;
+
 
         private void removeButton_Click(object sender, EventArgs e)
         {
             this.DeletePressed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void viewRecipeButton_Click(object sender, EventArgs e)
+        {
+            this.ViewPressed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\ViewModel\Recipes\RecipeViewModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Text;
+using Desktop_Client.Service.Ingredients;
+using Desktop_Client.Service.PlannedMeals;
+using Desktop_Client.Service.Recipes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Utils.Units;
+
+namespace Desktop_Client.ViewModel.Recipes
+{
+    /// &lt;summary&gt;
+    /// The view model for the Recipes screen.
+    /// &lt;/summary&gt;
+    public class RecipeViewModel : INotifyPropertyChanged
+    {
+        /// &lt;summary&gt;
+        /// The message displayed when no tags have been added.
+        /// &lt;/summary&gt;
+        public const string NoTagsMessage = &quot;No tags have been added...Yet!&quot;;
+
+        /// &lt;summary&gt;
+        /// The message displayed when no ingredients have been added.
+        /// &lt;/summary&gt;
+        public const string NoIngredientsMessage = &quot;No ingredients have been added...Yet!&quot;;
+
+        /// &lt;summary&gt;
+        /// The message displayed when no instructions have been added.
+        /// &lt;/summary&gt;
+        public const string NoInstructionsMessage = &quot;No steps have been added... Yet!&quot;;
+
+        private readonly IRecipesService recipeService;
+        private readonly IPlannedMealsService plannedMealsService;
+        private readonly IIngredientsService ingredientsService;
+
+        private int recipeId;
+        private string recipeName;
+        private string authorName;
+        private string description;
+        private string tags;
+        private string ingredients;
+        private string instructions;
+        private string userRatingText;
+        private string yourRatingText;
+        private Ingredient[] missingIngredients;
+
+        /// &lt;summary&gt;
+        /// The name of the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string RecipeName
+        {
+            get =&gt; this.recipeName;
+            set =&gt; this.SetField(ref this.recipeName, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The name of the author, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string AuthorName
+        {
+            get =&gt; this.authorName;
+            set =&gt; this.SetField(ref this.authorName, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The tags for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Tags
+        {
+            get =&gt; this.tags;
+            set =&gt; this.SetField(ref this.tags, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The description of the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Description
+        {
+            get =&gt; this.description;
+            set =&gt; this.SetField(ref this.description, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The ingredients for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Ingredients
+        {
+            get =&gt; ingredients;
+            set =&gt; this.SetField(ref this.ingredients, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The instructions for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string Instructions
+        {
+            get =&gt; this.instructions;
+            set =&gt; this.SetField(ref this.instructions, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The over all user rating in text for, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string UserRatingText
+        {
+            get =&gt; this.userRatingText;
+            set =&gt; this.SetField(ref this.userRatingText, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The current user&#39;s rating for the recipe, as should be displayed on the screen.
+        /// &lt;/summary&gt;
+        public string YourRatingText
+        {
+            get =&gt; this.yourRatingText;
+            set =&gt; this.SetField(ref this.yourRatingText, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The list of missing ingredients to cook the recipe.
+        /// &lt;/summary&gt;
+        public Ingredient[] MissingIngredients
+        {
+            get =&gt; this.missingIngredients;
+            set =&gt; this.SetField(ref this.missingIngredients, value);
+        }
+
+        /// &lt;summary&gt;
+        /// The message to display on the dialog that appears after adding a planned meal.
+        /// &lt;/summary&gt;
+        public string PlannedMealAddedMessage { get; private set; }
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt;.&lt;br/&gt;
+        /// Uses default instances of &lt;see cref=&quot;RecipesService&quot;/&gt;, &lt;see cref=&quot;PlannedMealsService&quot;/&gt;, and &lt;see cref=&quot;IngredientsService&quot;/&gt;&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.MissingIngredients.Length == 0
+        /// &lt;/summary&gt;
+        public RecipeViewModel() : this(new RecipesService(), new PlannedMealsService(), new IngredientsService())
+        {
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesListViewModel&quot;/&gt; with specified &lt;see cref=&quot;IRecipesService&quot;/&gt; and &lt;see cref=&quot;IPlannedMealsService&quot;/&gt; objects.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;recipeService != null&lt;br/&gt;
+        /// &amp;amp;&amp;amp; plannedMealService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == string.Empty&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.MissingIngredients.Length == 0
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeService&quot;&gt;The recipe service&lt;/param&gt;
+        /// &lt;param name=&quot;plannedMealService&quot;&gt;The planned meal service&lt;/param&gt;
+        /// &lt;param name=&quot;ingredientsService&quot;&gt;The ingredients service&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public RecipeViewModel(IRecipesService recipeService, IPlannedMealsService plannedMealService, IIngredientsService ingredientsService)
+        {
+            this.recipeService = 
+                recipeService ?? throw new ArgumentNullException(nameof(recipeService),
+                    RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
+            this.plannedMealsService =
+                plannedMealService ?? throw new ArgumentNullException(nameof(plannedMealService));
+            this.ingredientsService = 
+                ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService));
+
+            this.recipeName = &quot;&quot;;
+            this.authorName = &quot;&quot;;
+            this.description = &quot;&quot;;
+            this.ingredients = &quot;&quot;;
+            this.instructions = &quot;&quot;;
+            this.userRatingText = &quot;&quot;;
+            this.yourRatingText = &quot;&quot;;
+            this.tags = &quot;&quot;;
+            this.PlannedMealAddedMessage = &quot;&quot;;
+            this.missingIngredients = Array.Empty&lt;Ingredient&gt;();
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        /// &lt;summary&gt;
+        /// Loads the information for a recipe from the server and updates the appropriate properties to match them.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;A recipe with recipeId exists and is visible to the user.&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.RecipeName == the recipe&#39;s name&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.AuthorName == the recipe author&#39;s name&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Tags == the recipe&#39;s tags&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Description == the recipe&#39;s description&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Ingredients == the recipe&#39;s ingredients&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.Instructions == the recipe&#39;s instructions&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.UserRatingText == the recipe&#39;s overall rating&lt;br/&gt;
+        /// &amp;amp;&amp;amp; this.YourRatingText == the user&#39;s rating for the recipe.
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;recipeId&quot;&gt;The id for the recipe to load&lt;/param&gt;
+        public void Initialize(int recipeId)
+        {
+            this.recipeId = recipeId;
+            this.LoadRecipe(recipeId);
+            this.LoadTags(recipeId);
+            this.LoadIngredients(recipeId);
+            this.LoadInstructions(recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Adds the loaded recipe to the user&#39;s planned meals for the specified date and the specified category.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;mealDate&quot;&gt;The date for the meal&lt;/param&gt;
+        /// &lt;param name=&quot;category&quot;&gt;The category of the meal&lt;/param&gt;
+        public void AddRecipeToPlannedMeals(DateTime mealDate, MealCategory category)
+        {
+            this.plannedMealsService.AddPlannedMeal(mealDate, category, this.recipeId);
+            var plannedMeals = this.plannedMealsService.GetPlannedMeals()
+                                   .First(plannedMeal =&gt; plannedMeal.MealDate.Date == mealDate.Date)
+                                   .Meals[(int) category];
+            
+            var sb = new StringBuilder();
+            sb.AppendLine(
+                $&quot;{this.recipeName} has been added to your meals for {mealDate.ToShortDateString()}&quot;);
+            sb.AppendLine($&quot;You now have {plannedMeals.Recipes.Length} meals planned for {category.ToString().ToLower()}:&quot;);
+            foreach (var recipe in plannedMeals.Recipes)
+            {
+                sb.Append(&quot; - &quot;);
+                sb.AppendLine(recipe.Name);
+            }
+
+            sb.Append(&quot;Would you like to see all of your planned meals now?&quot;);
+
+            this.PlannedMealAddedMessage = sb.ToString();
+        }
+
+        /// &lt;summary&gt;
+        /// Fetches all of the ingredients that the active user is missing for the displayed recipe from the server, storing
+        /// them in this.MissingIngredients.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.MissingIngredients contains all of the ingredients that the active user is missing
+        /// &lt;/summary&gt;
+        /// &lt;exception cref=&quot;UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void GetMissingIngredientsForRecipe()
+        {
+            this.MissingIngredients = this.ingredientsService.GetMissingIngredientsForRecipe(this.recipeId);
+        }
+
+        /// &lt;summary&gt;
+        /// Removes all of the recipe&#39;s ingredients from the active user&#39;s pantry&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;The recipe&#39;s ingredients are removed from the active user&#39;s pantry
+        /// &lt;/summary&gt;
+        /// &lt;exception cref=&quot;UnauthorizedAccessException&quot;&gt;&lt;/exception&gt;
+        /// &lt;exception cref=&quot;ArgumentException&quot;&gt;&lt;/exception&gt;
+        public void RemoveIngredientsForRecipe()
+        {
+            this.ingredientsService.RemoveIngredientsForRecipe(this.recipeId);
+        }
+
+        private void LoadRecipe(int recipeId)
+        {
+            var recipe = this.recipeService.GetRecipe(recipeId);
+            this.RecipeName = recipe.Name;
+            this.AuthorName = recipe.AuthorName;
+            this.UserRatingText = $&quot;User Rating: {recipe.Rating}/5&quot;;
+            this.YourRatingText = &quot;Your Rating: 0/5&quot;;
+            this.Description = recipe.Description;
+        }
+
+        private void LoadTags(int recipeId)
+        {
+            var tags = this.recipeService.GetTypesForRecipe(recipeId);
+            if (tags.Length == 0)
+            {
+                this.Tags = NoTagsMessage;
+                return;
+            }
+
+            this.Tags = tags[0];
+            for (var i = 1; i &lt; tags.Length; i++)
+            {
+                this.Tags += $&quot;\n{tags[i]}&quot;;
+            }
+        }
+
+        private void LoadIngredients(int recipeId)
+        {
+            var ingredients = this.recipeService.GetIngredientsForRecipe(recipeId);
+            if (ingredients.Length == 0)
+            {
+                this.Ingredients = NoIngredientsMessage;
+                return;
+            }
+
+            var ingredientText = &quot;&quot;;
+            foreach (var ingredient in ingredients)
+            {
+                var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
+                ingredientText += $&quot;{ingredient.Name} - {ingredient.Amount} {unit}\n&quot;;
+            }
+
+            this.Ingredients = ingredientText.TrimEnd();
+        }
+
+        private void LoadInstructions(int recipeId)
+        {
+            var steps = this.recipeService.GetStepsForRecipe(recipeId);
+            if (steps.Length == 0)
+            {
+                this.Instructions = NoInstructionsMessage;
+                return;
+            }
+
+            var instructions = &quot;&quot;;
+            foreach (var step in steps)
+            {
+                instructions += $&quot;{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n&quot;;
+            }
+
+            this.Instructions = instructions.TrimEnd();
+        }
+        
+        /// &lt;summary&gt;
+        /// Fires this.PropertyChanged with the specified property name.&lt;br/&gt;
+        /// Defaults to the name of the calling member, allowing for easier use within property bodies.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that changed.&lt;/param&gt;
+        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// &lt;summary&gt;
+        /// Updates a specified field, returning whether or not the value was changed.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;this.[field] == value
+        /// &lt;/summary&gt;
+        /// &lt;typeparam name=&quot;T&quot;&gt;The type of the property that changed.&lt;/typeparam&gt;
+        /// &lt;param name=&quot;field&quot;&gt;The field that stores the data for the property&lt;/param&gt;
+        /// &lt;param name=&quot;value&quot;&gt;The new value for the field&lt;/param&gt;
+        /// &lt;param name=&quot;propertyName&quot;&gt;The name of the property that is being updated.&lt;/param&gt;
+        /// &lt;returns&gt;Whether the value of the field has changed.&lt;/returns&gt;
+        protected bool SetField&lt;T&gt;(ref T field, T value, [CallerMemberName] string? propertyName = null)
+        {
+            if (EqualityComparer&lt;T&gt;.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+    }
+}
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[54,20,54,35,1],[55,20,55,61,1],[63,20,63,35,1],[64,20,64,61,1],[72,20,72,29,1],[73,20,73,55,1],[81,20,81,36,1],[82,20,82,62,1],[90,20,90,31,1],[91,20,91,62,1],[99,20,99,37,1],[100,20,100,63,1],[108,20,108,39,1],[109,20,109,65,1],[117,20,117,39,1],[118,20,118,65,1],[126,20,126,43,1],[127,20,127,69,1],[133,49,133,53,1],[133,54,133,66,1],[149,36,149,115,1],[150,9,150,10,1],[151,9,151,10,1],[171,9,171,143,1],[172,9,172,10,1],[173,13,175,79,1],[176,13,177,99,1],[178,13,179,99,1],[181,13,181,34,1],[182,13,182,34,1],[183,13,183,35,1],[184,13,184,35,1],[185,13,185,36,1],[186,13,186,38,1],[187,13,187,38,1],[188,13,188,28,1],[189,13,189,47,1],[190,13,190,65,1],[191,9,191,10,1],[211,9,211,10,1],[212,13,212,38,1],[213,13,213,39,1],[214,13,214,37,1],[215,13,215,44,1],[216,13,216,45,1],[217,9,217,10,1],[228,9,228,10,1],[229,13,229,88,1],[230,13,231,58,1],[231,58,231,100,1],[231,100,232,59,1],[234,13,234,42,1],[235,13,236,103,1],[237,13,237,125,1],[238,13,238,20,1],[238,22,238,32,1],[238,33,238,35,1],[238,36,238,56,1],[239,13,239,14,1],[240,17,240,34,1],[241,17,241,44,1],[242,13,242,14,1],[244,13,244,79,1],[246,13,246,58,1],[247,9,247,10,1],[259,9,259,10,1],[260,13,260,109,1],[261,9,261,10,1],[272,9,272,10,0],[273,13,273,79,0],[274,9,274,10,0],[277,9,277,10,1],[278,13,278,65,1],[279,13,279,43,1],[280,13,280,49,1],[281,13,281,69,1],[282,13,282,54,1],[283,13,283,51,1],[284,9,284,10,1],[287,9,287,10,1],[288,13,288,71,1],[289,13,289,34,1],[290,13,290,14,1],[291,17,291,43,1],[292,17,292,24,1],[295,13,295,33,1],[296,18,296,27,1],[296,29,296,44,1],[296,46,296,49,1],[297,13,297,14,1],[298,17,298,45,1],[299,13,299,14,1],[300,9,300,10,1],[303,9,303,10,1],[304,13,304,84,1],[305,13,305,41,1],[306,13,306,14,1],[307,17,307,57,1],[308,17,308,24,1],[311,13,311,37,1],[312,13,312,20,1],[312,22,312,36,1],[312,37,312,39,1],[312,40,312,51,1],[313,13,313,14,1],[314,17,314,86,1],[315,17,315,87,1],[316,13,316,14,1],[318,13,318,57,1],[319,9,319,10,1],[322,9,322,10,1],[323,13,323,72,1],[324,13,324,35,1],[325,13,325,14,1],[326,17,326,59,1],[327,17,327,24,1],[330,13,330,35,1],[331,13,331,20,1],[331,22,331,30,1],[331,31,331,33,1],[331,34,331,39,1],[332,13,332,14,1],[333,17,333,92,1],[334,13,334,14,1],[336,13,336,56,1],[337,9,337,10,1],[348,9,348,10,1],[349,13,349,92,1],[350,9,350,10,1],[364,9,364,10,1],[365,13,365,66,1],[365,67,365,80,1],[366,13,366,27,1],[367,13,367,45,1],[368,13,368,25,1],[369,9,369,10,1]]);
+    </script>
+  </body>
+</html>

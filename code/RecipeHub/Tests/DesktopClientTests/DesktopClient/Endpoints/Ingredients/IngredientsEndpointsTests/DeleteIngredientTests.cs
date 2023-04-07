@@ -2,6 +2,7 @@
 using Moq;
 using System.Net;
 using Desktop_Client.Endpoints.Ingredients;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 
 namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndpointsTests
@@ -59,6 +60,39 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Ingredients.IngredientsEndp
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(
+                    () => endpoints.DeleteIngredient(new Ingredient()))!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
+                        ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            });
+        }
+        
+        [Test]
+        public void SessionKeyIsInvalid()
+        {
+            const string errorMessage = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+            const string json = $"{{\"code\": 401, \"message\": \"{errorMessage}\"}}";
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new IngredientEndpoints(httpClient);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(
                     () => endpoints.DeleteIngredient(new Ingredient()))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Desktop Client\Service\PlannedMeals\PlannedMealsService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Desktop_Client.Endpoints.PlannedMeals;
+using Desktop_Client.Service.Users;
+using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
+
+namespace Desktop_Client.Service.PlannedMeals
+{
+    /// &lt;inheritdoc cref=&quot;IPlannedMealsService&quot;/&gt;
+    public class PlannedMealsService : IPlannedMealsService
+    {
+        private readonly IPlannedMealsEndpoints plannedMealsEndpoints;
+        private readonly IUsersService usersService;
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;PlannedMealsService&quot;/&gt;, using default &lt;see cref=&quot;PlannedMealsEndpoints&quot;/&gt; and &lt;see cref=&quot;UsersService&quot;/&gt;&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public PlannedMealsService() : this(new PlannedMealsEndpoints(), new UsersService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates an instance of &lt;see cref=&quot;PlannedMealsService&quot;/&gt; with a specified &lt;see cref=&quot;IPlannedMealsEndpoints&quot;/&gt; and &lt;see cref=&quot;IUsersService&quot;/&gt;&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;plannedMealsEndpoints != null&lt;br/&gt;
+        /// &amp;amp;&amp;amp; usersService != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;plannedMealsEndpoints&quot;&gt;&lt;/param&gt;
+        /// &lt;param name=&quot;usersService&quot;&gt;&lt;/param&gt;
+        /// &lt;exception cref=&quot;ArgumentNullException&quot;&gt;&lt;/exception&gt;
+        public PlannedMealsService(IPlannedMealsEndpoints plannedMealsEndpoints, IUsersService usersService)
+        {
+            this.plannedMealsEndpoints =
+                plannedMealsEndpoints ?? throw new ArgumentNullException(nameof(plannedMealsEndpoints));
+            this.usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void AddPlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new InvalidOperationException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new InvalidOperationException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.plannedMealsEndpoints.AddPlannedMeal(mealDate, category, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new InvalidOperationException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new InvalidOperationException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.plannedMealsEndpoints.RemovePlannedMeal(mealDate, category, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public PlannedMeal[] GetPlannedMeals()
+        {
+            this.usersService.RefreshSessionKey();
+            return this.plannedMealsEndpoints.GetPlannedMeals();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[21,40,21,93,1],[22,9,22,10,1],[24,9,24,10,1],[36,9,36,109,1],[37,9,37,10,1],[38,13,39,105,1],[40,13,40,103,1],[41,9,41,10,1],[45,9,45,10,1],[46,13,46,37,1],[47,13,47,14,1],[48,17,48,101,1],[51,13,51,56,1],[52,13,52,14,1],[53,17,53,102,1],[56,13,56,51,1],[57,13,57,85,1],[58,9,58,10,1],[62,9,62,10,1],[63,13,63,37,1],[64,13,64,14,1],[65,17,65,101,1],[68,13,68,56,1],[69,13,69,14,1],[70,17,70,102,1],[73,13,73,51,1],[74,13,74,88,1],[75,9,75,10,1],[79,9,79,10,1],[80,13,80,51,1],[81,13,81,65,1],[82,9,82,10,1]]);
+    </script>
+  </body>
+</html>

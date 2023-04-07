@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Web_Client.Endpoints.Ingredients;
 using Web_Client.Service.Ingredients;
+using Web_Client.Service.Users;
 
 namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
 {
@@ -14,9 +15,12 @@ namespace WebClientTests.WebClient.Service.Ingredients.IngredientsServiceTests
             };
             const string ingredientName = "name";
             var endpoints = new Mock<IIngredientEndpoints>();
-            endpoints.Setup(mock => mock.GetSuggestions(ingredientName)).Returns(suggestions);
+            var usersService = new Mock<IUsersService>();
 
-            var service = new IngredientsService(endpoints.Object);
+            endpoints.Setup(mock => mock.GetSuggestions(ingredientName)).Returns(suggestions);
+            usersService.Setup(mock => mock.RefreshSessionKey());
+
+            var service = new IngredientsService(endpoints.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {

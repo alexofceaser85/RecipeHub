@@ -1,6 +1,6 @@
-﻿using Moq.Protected;
+﻿using System.Net;
 using Moq;
-using System.Net;
+using Moq.Protected;
 using Web_Client.Endpoints.Ingredients;
 
 namespace WebClientTests.WebClient.Endpoints.Ingredients.IngredientsEndpointsTests

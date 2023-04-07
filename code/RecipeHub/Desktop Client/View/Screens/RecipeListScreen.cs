@@ -64,6 +64,10 @@ namespace Desktop_Client.View.Screens
                 this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 160));
                 item.Tapped += this.RecipeListItemMouseClick;
             }
+
+            //Adds an empty label to the bottom of the list to prevent the last ingredient from expanding vertically
+            this.recipeListTablePanel.Controls.Add(new Label() { Margin = Padding.Empty, Padding = Padding.Empty});
+            this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         }
 
         private void ClearRecipeList()
@@ -96,12 +100,12 @@ namespace Desktop_Client.View.Screens
 
         private void filtersButton_Click(object sender, EventArgs e)
         {
-            var filtersDialog = new RecipeListFiltersDialog(this.viewmodel.Filters);
+            var filtersDialog = new RecipeListFiltersDialog(RecipesListViewModel.Filters);
             filtersDialog.DialogClosed += (_, _) =>
             {
                 if (filtersDialog.DialogResult == DialogResult.OK)
                 {
-                    this.viewmodel.Filters = filtersDialog.Filters;
+                    RecipesListViewModel.Filters = filtersDialog.Filters;
                     this.viewmodel.GetRecipes();
                 }
             };

@@ -19,6 +19,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="View\Components\Ingredients\ShoppingListItem.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\Dialog\AddIngredientDialog.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -34,6 +41,9 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="View\Screens\LoginScreen.cs" />
+    <Compile Update="View\Screens\ShoppingListScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Update="View\Screens\RegistrationScreen.cs" />
     <Compile Update="View\Screens\RecipeListScreen.cs" />
     <Compile Update="View\Screens\RecipeScreen.cs">

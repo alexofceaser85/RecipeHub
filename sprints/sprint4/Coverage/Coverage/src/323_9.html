@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Service\Recipes\RecipesService.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Data.UserData;
+using Web_Client.Endpoints.Recipes;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Model.Ingredients;
+using Shared_Resources.Model.Recipes;
+using Web_Client.Service.Users;
+
+namespace Web_Client.Service.Recipes
+{
+    /// &lt;inheritdoc cref=&quot;IRecipesService&quot;/&gt;
+    public class RecipesService : IRecipesService
+    {
+        private readonly IRecipesEndpoints endpoints;
+        private readonly IUsersService usersService;
+
+        /// &lt;summary&gt;
+        /// Creates a default instance of &lt;see cref=&quot;RecipesService&quot;/&gt;.&lt;br/&gt;
+        /// Uses an instance of &lt;see cref=&quot;RecipesEndpoints&quot;/&gt; as the endpoint by default.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;None&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesService() : this(new RecipesEndpoints(), new UsersService())
+        {
+
+        }
+
+        /// &lt;summary&gt;
+        /// Creates a instance of &lt;see cref=&quot;RecipesService&quot;/&gt; with a specified &lt;see cref=&quot;IRecipesEndpoints&quot;/&gt; object.&lt;br/&gt;
+        /// &lt;br/&gt;
+        /// &lt;b&gt;Precondition: &lt;/b&gt;endpoints != null&lt;br/&gt;
+        /// &lt;b&gt;Postcondition: &lt;/b&gt;None
+        /// &lt;/summary&gt;
+        public RecipesService(IRecipesEndpoints endpoints, IUsersService usersService)
+        {
+            this.endpoints = endpoints ??
+                             throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.RecipesEndpointsCannotBeNull);
+            this.usersService = usersService ??
+                                throw new ArgumentNullException(nameof(endpoints), RecipesServiceErrorMessages.UserServiceCannotBeNull);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe[] GetRecipes(string searchTerm = &quot;&quot;)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (searchTerm == null)
+            {
+                throw new ArgumentNullException(nameof(searchTerm), RecipesServiceErrorMessages.SearchTermCannotBeNull);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipes(Session.Key, searchTerm);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe[] GetRecipesForTags(string[] tags)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (tags == null)
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeTagsCannotBeNull);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipesForTags(Session.Key, tags);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Recipe GetRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetRecipe(Session.Key, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public Ingredient[] GetIngredientsForRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetIngredientsForRecipe(Session.Key, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public RecipeStep[] GetStepsForRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetStepsForRecipe(Session.Key, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public string[] GetTypesForRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            return this.endpoints.GetTypesForRecipe(Session.Key, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void AddRecipe(string name, string description, bool isPublic)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name), RecipesServiceErrorMessages.RecipeNameCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (description == null)
+            {
+                throw new ArgumentNullException(nameof(description),
+                    RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.endpoints.AddRecipe(Session.Key, name, description, isPublic);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void RemoveRecipe(int recipeId)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.endpoints.RemoveRecipe(Session.Key, recipeId);
+        }
+
+        /// &lt;inheritdoc/&gt;
+        public void EditRecipe(int recipeId, string name, string description, bool isPublic)
+        {
+            if (Session.Key == null)
+            {
+                throw new ArgumentNullException(nameof(Session.Key), SessionKeyErrorMessages.SessionKeyCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(Session.Key))
+            {
+                throw new ArgumentException(SessionKeyErrorMessages.SessionKeyCannotBeEmpty);
+            }
+
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name), RecipesServiceErrorMessages.RecipeNameCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeNameCannotBeEmpty);
+            }
+
+            if (description == null)
+            {
+                throw new ArgumentNullException(nameof(description),
+                    RecipesServiceErrorMessages.RecipeDescriptionCannotBeNull);
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                throw new ArgumentException(RecipesServiceErrorMessages.RecipeDescriptionCannotBeEmpty);
+            }
+
+            this.usersService.RefreshSessionKey();
+            this.endpoints.EditRecipe(Session.Key, recipeId, name, description, isPublic);
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[23,35,23,83,1],[24,9,24,10,1],[26,9,26,10,1],[34,9,34,87,1],[35,9,35,10,1],[36,13,37,139,1],[38,13,39,137,1],[40,9,40,10,1],[44,9,44,10,1],[45,13,45,37,1],[46,13,46,14,1],[47,17,47,118,1],[50,13,50,56,1],[51,13,51,14,1],[52,17,52,94,1],[55,13,55,36,1],[56,13,56,14,1],[57,17,57,121,1],[60,13,60,51,1],[61,13,61,71,1],[62,9,62,10,1],[66,9,66,10,1],[67,13,67,37,1],[68,13,68,14,1],[69,17,69,93,1],[72,13,72,56,1],[73,13,73,14,1],[74,17,74,94,1],[77,13,77,30,1],[78,13,78,14,1],[79,17,79,97,1],[82,13,82,51,1],[83,13,83,72,1],[84,9,84,10,1],[88,9,88,10,1],[89,13,89,37,1],[90,13,90,14,1],[91,17,91,118,1],[94,13,94,56,1],[95,13,95,14,1],[96,17,96,94,1],[99,13,99,51,1],[100,13,100,68,1],[101,9,101,10,1],[105,9,105,10,1],[106,13,106,37,1],[107,13,107,14,1],[108,17,108,118,1],[111,13,111,56,1],[112,13,112,14,1],[113,17,113,94,1],[116,13,116,51,1],[117,13,117,82,1],[118,9,118,10,1],[122,9,122,10,1],[123,13,123,37,1],[124,13,124,14,1],[125,17,125,118,1],[128,13,128,56,1],[129,13,129,14,1],[130,17,130,94,1],[133,13,133,51,1],[134,13,134,76,1],[135,9,135,10,1],[139,9,139,10,1],[140,13,140,37,1],[141,13,141,14,1],[142,17,142,118,1],[145,13,145,56,1],[146,13,146,14,1],[147,17,147,94,1],[150,13,150,51,1],[151,13,151,76,1],[152,9,152,10,1],[156,9,156,10,1],[157,13,157,37,1],[158,13,158,14,1],[159,17,159,118,1],[162,13,162,56,1],[163,13,163,14,1],[164,17,164,94,1],[167,13,167,30,1],[168,13,168,14,1],[169,17,169,115,1],[172,13,172,49,1],[173,13,173,14,1],[174,17,174,98,1],[177,13,177,37,1],[178,13,178,14,1],[179,17,180,80,1],[183,13,183,56,1],[184,13,184,14,1],[185,17,185,105,1],[188,13,188,51,1],[189,13,189,80,1],[190,9,190,10,1],[194,9,194,10,1],[195,13,195,37,1],[196,13,196,14,1],[197,17,197,118,1],[200,13,200,56,1],[201,13,201,14,1],[202,17,202,94,1],[205,13,205,51,1],[206,13,206,64,1],[207,9,207,10,1],[211,9,211,10,1],[212,13,212,37,1],[213,13,213,14,1],[214,17,214,118,1],[217,13,217,56,1],[218,13,218,14,1],[219,17,219,94,1],[222,13,222,30,1],[223,13,223,14,1],[224,17,224,115,1],[227,13,227,49,1],[228,13,228,14,1],[229,17,229,98,1],[232,13,232,37,1],[233,13,233,14,1],[234,17,235,80,1],[238,13,238,56,1],[239,13,239,14,1],[240,17,240,105,1],[243,13,243,51,1],[244,13,244,91,1],[245,9,245,10,1]]);
+    </script>
+  </body>
+</html>

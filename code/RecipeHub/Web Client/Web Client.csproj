@@ -11,6 +11,10 @@
   <Import Project="..\Shared Resources\Shared Resources.projitems" Label="Shared" />
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Pages\RecipeList.cshtml">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>

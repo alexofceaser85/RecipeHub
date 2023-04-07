@@ -48,5 +48,24 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Ingredients.IngredientsView
                 service.Verify(mock => mock.GetAllIngredientsForUser(), Times.Once);
             });
         }
+
+        [Test]
+        public void InvalidSessionKey()
+        {
+            const string errorMessage = "error message";
+
+            var service = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetAllIngredientsForUser())
+                   .Throws(() => new UnauthorizedAccessException(errorMessage));
+
+            var viewmodel = new IngredientsViewModel(service.Object);
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(() => viewmodel.GetAllIngredientsForUser())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock => mock.GetAllIngredientsForUser(), Times.Once);
+            });
+        }
     }
 }

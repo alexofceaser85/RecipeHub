@@ -18,7 +18,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
 
             var recipesEndpoint = new Mock<IRecipesEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.RemoveRecipe(sessionKey, recipeId));
+            recipesEndpoint.Setup(mock => mock.RemoveRecipe(recipeId));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new RecipesService(recipesEndpoint.Object, usersService.Object);
@@ -26,7 +26,7 @@ namespace DesktopClientTests.DesktopClient.Service.Recipes.RecipesServiceTests
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() => service.RemoveRecipe(recipeId));
-                recipesEndpoint.Verify(mock => mock.RemoveRecipe(sessionKey, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemoveRecipe(recipeId), Times.Once);
             });
         }
 

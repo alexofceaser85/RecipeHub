@@ -10,7 +10,75 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTes
     public class GetRecipesForTagsTests
     {
         [Test]
-        public void ShouldSuccessfullyGetRecipesForTags()
+        public void ShouldSuccessfullyGetEmptyRecipeArray()
+        {
+            var recipes = Array.Empty<Recipe>();
+            const string json = "{\"code\": 200, \"message\": \"Returned Okay\", \"recipes\": []}";
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+            var result = endpoints.GetRecipesForTags(new[] { "tag1" });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EquivalentTo(recipes));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
+                        ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            });
+        }
+
+        [Test]
+        public void ShouldSuccessfullyGetSingleRecipeForTags()
+        {
+            var recipes = new Recipe[] {
+                new(2, "first last", "Hamburger", "Lots of meat", true),
+            };
+            const string json =
+                "{\"code\": 200, \"message\": \"Returned Okay\", \"recipes\": [ { \"id\": 2, \"authorName\": \"first last\", " +
+                "\"name\": \"Hamburger\", \"description\": \"Lots of meat\", \"rating\": 0, \"isPublic\": true, \"ingredients\": [] }]}";
+
+            var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+            mockHttpMessageHandler
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(json)
+                });
+
+            var httpClient = new HttpClient(mockHttpMessageHandler.Object);
+            var endpoints = new RecipesEndpoints(httpClient);
+            var result = endpoints.GetRecipesForTags(new[] { "tag1" });
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.EquivalentTo(recipes));
+
+                mockHttpMessageHandler
+                    .Protected()
+                    .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
+                        ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            });
+        }
+
+        [Test]
+        public void ShouldSuccessfullyGetManyRecipesForTags()
         {
             var recipes = new Recipe[] {
                 new(2, "first last", "Hamburger", "Lots of meat", true),
@@ -40,7 +108,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTes
 
             var httpClient = new HttpClient(mockHttpMessageHandler.Object);
             var endpoints = new RecipesEndpoints(httpClient);
-            var result = endpoints.GetRecipesForTags("key", new[]{"tag1"});
+            var result = endpoints.GetRecipesForTags(new[]{"tag1"});
 
             Assert.Multiple(() =>
             {
@@ -75,7 +143,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTes
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => _ = endpoints.GetRecipesForTags("key", new[]{"tag"}))!.Message;
+                var message = Assert.Throws<ArgumentException>(() => _ = endpoints.GetRecipesForTags(new[]{"tag"}))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler
@@ -107,7 +175,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.Recipes.RecipesEndpointsTes
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<UnauthorizedAccessException>(() => _ = endpoints.GetRecipesForTags("key", new[] { "tag" }))!.Message;
+                var message = Assert.Throws<UnauthorizedAccessException>(() => _ = endpoints.GetRecipesForTags(new[] { "tag" }))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler

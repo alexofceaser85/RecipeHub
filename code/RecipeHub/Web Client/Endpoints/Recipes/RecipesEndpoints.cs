@@ -26,6 +26,7 @@ namespace Web_Client.Endpoints.Recipes
 
         private readonly HttpClient client;
 
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RecipesEndpoints"/> class.
         /// </summary>

@@ -40,6 +40,11 @@ namespace Desktop_Client.ViewModel.Recipes
         private string[][] recipeTags;
 
         /// <summary>
+        /// The filters for recipe queries.
+        /// </summary>
+        public static RecipeFilters Filters { get; set; } = new ();
+        
+        /// <summary>
         /// The name of the recipe to search for
         /// </summary>
         public string SearchTerm
@@ -76,18 +81,12 @@ namespace Desktop_Client.ViewModel.Recipes
         }
 
         /// <summary>
-        /// The filters for recipe queries.
-        /// </summary>
-        public RecipeFilters Filters { get; set; }
-
-        /// <summary>
         /// Creates a default instance of <see cref="RecipesListViewModel"/>.<br/>
         /// Uses an instances of <see cref="RecipesService"/> and <see cref="IngredientsService"/> as the endpoint by default.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>this.SearchTerm == string.Empty<br/>
         /// &amp;&amp; this.Recipes.Length == 0<br/>
-        /// &amp;&amp; this.Filters == new RecipeFilters()
         /// </summary>
         public RecipesListViewModel() : this(new RecipesService(), new IngredientsService())
         {
@@ -106,7 +105,6 @@ namespace Desktop_Client.ViewModel.Recipes
                 RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
             this.ingredientsService = ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService),
                 RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
-            this.Filters = new RecipeFilters();
             this.searchTerm = "";
             this.noRecipesLabelText = "";
             this.recipes = Array.Empty<Recipe>();
@@ -123,14 +121,14 @@ namespace Desktop_Client.ViewModel.Recipes
         {
             var filteredRecipes = this.recipesService.GetRecipes(this.SearchTerm);
 
-            if (this.Filters.OnlyAvailableIngredients)
+            if (Filters.OnlyAvailableIngredients)
             {
                 filteredRecipes = this.getRecipesWithOwnedIngredients(filteredRecipes);
             }
 
-            if (this.Filters.MatchTags != null && this.Filters.MatchTags.Length != 0)
+            if (Filters.MatchTags != null && Filters.MatchTags.Length != 0)
             {
-                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, this.Filters.MatchTags.ToArray());
+                filteredRecipes = this.getRecipesMatchingTags(filteredRecipes, Filters.MatchTags.ToArray());
             }
 
             if (filteredRecipes.Length == 0)
@@ -182,11 +180,11 @@ namespace Desktop_Client.ViewModel.Recipes
 
         private void UpdateNoFoundRecipesLabel()
         {
-            if (this.Filters.OnlyAvailableIngredients)
+            if (Filters.OnlyAvailableIngredients)
             {
                 this.NoRecipesLabelText = NoRecipesWithOwnedIngredients;
             }
-            else if (this.Filters.MatchTags?.Length > 0)
+            else if (Filters.MatchTags?.Length > 0)
             {
                 this.NoRecipesLabelText = NoRecipesWithTags;
 

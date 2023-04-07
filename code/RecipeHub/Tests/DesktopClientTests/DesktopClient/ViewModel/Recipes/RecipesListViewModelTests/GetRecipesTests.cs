@@ -10,6 +10,13 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 {
     public class GetRecipesTests
     {
+        [SetUp]
+        [TearDown]
+        public void ResetFilters()
+        {
+            RecipesListViewModel.Filters = new RecipeFilters();
+        }
+
         [Test]
         public void SuccessfullyGetUnfilteredRecipes()
         {
@@ -58,10 +65,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters() {
-                    OnlyAvailableIngredients = true
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                OnlyAvailableIngredients = true
             };
             viewmodel.GetRecipes();
 
@@ -97,10 +104,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters {
-                    OnlyAvailableIngredients = true
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters {
+                OnlyAvailableIngredients = true
             };
             viewmodel.GetRecipes();
 
@@ -136,10 +143,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                Filters = new RecipeFilters {
-                    OnlyAvailableIngredients = true
-                },
                 SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters {
+                OnlyAvailableIngredients = true
             };
             viewmodel.GetRecipes();
 
@@ -179,10 +186,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                Filters = new RecipeFilters {
-                    OnlyAvailableIngredients = true
-                },
                 SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters {
+                OnlyAvailableIngredients = true
             };
             viewmodel.GetRecipes();
 
@@ -209,10 +216,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters() {
-                    MatchTags = null
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters= new RecipeFilters() {
+                MatchTags = null
             };
             viewmodel.GetRecipes();
 
@@ -242,9 +249,9 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
                 SearchTerm = searchTerm,
-                Filters = {
-                    MatchTags = Array.Empty<string>()
-                }
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                MatchTags = Array.Empty<string>()
             };
             viewmodel.GetRecipes();
 
@@ -278,10 +285,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
             var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object) {
-                Filters = {
-                    MatchTags = tags
-                },
                 SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters(){
+                MatchTags = tags
             };
             viewmodel.GetRecipes();
 
@@ -307,10 +314,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 
             var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
             {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters() {
-                    OnlyAvailableIngredients = false
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                OnlyAvailableIngredients = false
             };
             viewmodel.GetRecipes();
 
@@ -337,11 +344,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 
             var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
             {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters()
-                {
-                    OnlyAvailableIngredients = false
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                OnlyAvailableIngredients = false
             };
             viewmodel.GetRecipes();
 
@@ -368,12 +374,11 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 
             var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
             {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters()
-                {
-                    OnlyAvailableIngredients = false,
-                    MatchTags = new []{"a"}
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                OnlyAvailableIngredients = false,
+                MatchTags = new[] {"a"}
             };
             viewmodel.GetRecipes();
 
@@ -400,11 +405,10 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
 
             var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
             {
-                SearchTerm = searchTerm,
-                Filters = new RecipeFilters()
-                {
-                    OnlyAvailableIngredients = true,
-                }
+                SearchTerm = searchTerm
+            };
+            RecipesListViewModel.Filters = new RecipeFilters() {
+                OnlyAvailableIngredients = true,
             };
             viewmodel.GetRecipes();
 
@@ -412,6 +416,58 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Recipes.RecipesListViewMode
             {
                 Assert.That(viewmodel.Recipes, Is.EqualTo(recipes));
                 Assert.That(viewmodel.NoRecipesLabelText, Is.EqualTo(RecipesListViewModel.NoRecipesWithOwnedIngredients));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+        
+        [Test]
+        public void UnsuccessfullyGetRecipes()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string errorMessage = "error message";
+            const string searchTerm = "";
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Throws(new Exception(errorMessage));
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm
+            };
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<Exception>(() => viewmodel.GetRecipes())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
+                service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
+            });
+        }
+
+        [Test]
+        public void InvalidSessionKey()
+        {
+            var ingredients = new Ingredient[] {
+                new("Apples", 1, MeasurementType.Quantity)
+            };
+            const string errorMessage = "error message";
+            const string searchTerm = "";
+            var service = new Mock<IRecipesService>();
+            var ingredientsService = new Mock<IIngredientsService>();
+            service.Setup(mock => mock.GetRecipes(searchTerm)).Throws(new UnauthorizedAccessException(errorMessage));
+            ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
+
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
+            {
+                SearchTerm = searchTerm
+            };
+
+            Assert.Multiple(() =>
+            {
+                var message = Assert.Throws<UnauthorizedAccessException>(() => viewmodel.GetRecipes())!.Message;
+                Assert.That(message, Is.EqualTo(errorMessage));
                 service.Verify(mock => mock.GetRecipes(searchTerm), Times.Once);
             });
         }

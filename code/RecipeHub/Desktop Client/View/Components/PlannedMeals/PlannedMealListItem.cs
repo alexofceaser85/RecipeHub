@@ -17,6 +17,9 @@ namespace Desktop_Client.View.Components.PlannedMeals
     /// </summary>
     public partial class PlannedMealListItem : UserControl
     {
+        private const string ExpandedCharacter = "V";
+        private const string CollapsedCharacter = ">";
+
         private TableLayoutPanel[] mealTablePanels;
         private Label[] noMealsPlannedLabels;
 
@@ -37,7 +40,8 @@ namespace Desktop_Client.View.Components.PlannedMeals
             this.noMealsPlannedLabels = Array.Empty<Label>();
             this.PopulateControlArrays();
 
-            this.titleLabel.Text = $@"{plannedMeals.MealDate.DayOfWeek} ({plannedMeals.MealDate.ToShortDateString()})";
+            this.titleLabel.Text = plannedMeals.MealDate.DayOfWeek.ToString();
+            this.dateLabel.Text = plannedMeals.MealDate.ToShortDateString();
             this.PopulateRecipeList(plannedMeals, tags);
         }
 
@@ -45,6 +49,11 @@ namespace Desktop_Client.View.Components.PlannedMeals
         /// Occurs when the delete button is pressed on one of the recipes.
         /// </summary>
         public EventHandler<Tuple<Recipe, MealCategory>>? DeletePressed;
+        
+        /// <summary>
+        /// Occurs when the view button is pressed on one of the recipes.
+        /// </summary>
+        public EventHandler<int>? ViewPressed;
 
         private void PopulateControlArrays()
         {
@@ -92,6 +101,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
                     {
                         this.listItem_DeletePressed((sender as PlannedMealRecipeListItem)!, meal.Category);
                     };
+                    innerListItem.ViewPressed += (_, _) => this.ViewPressed?.Invoke(this, recipe.Id);
                     this.mealTablePanels[mealIndex].Controls.Add(innerListItem);
                 }
             }
@@ -102,7 +112,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
             var recipe = listItem.Recipe;
             this.DeletePressed?.Invoke(this, new Tuple<Recipe, MealCategory>(recipe, category));
         }
-
+        
         /// <summary>
         /// Removes a recipe from the planned meal using its id and category.<br/>
         /// <br/>
@@ -134,6 +144,12 @@ namespace Desktop_Client.View.Components.PlannedMeals
             {
                 tableLayout.Controls.Add(this.noMealsPlannedLabels[(int) category]);
             }
+        }
+
+        private void collapseButton_Click(object sender, EventArgs e)
+        {
+            this.mealsTableLayout.Visible = !this.mealsTableLayout.Visible;
+            this.collapseButton.Text = this.mealsTableLayout.Visible ? ExpandedCharacter : CollapsedCharacter;
         }
     }
 }

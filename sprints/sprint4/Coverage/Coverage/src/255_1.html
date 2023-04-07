@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Server\Controllers\ResponseModels\RecipeTypesResponseModel.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using System.Net;
+
+namespace Server.Controllers.ResponseModels
+{
+    /// &lt;summary&gt;
+    /// The response model for the recipe types
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;Server.Controllers.ResponseModels.BaseResponseModel&quot; /&gt;
+    public class RecipeTypesResponseModel : BaseResponseModel
+    {
+        /// &lt;summary&gt;
+        /// Gets or sets the recipe types.
+        /// &lt;/summary&gt;
+        /// &lt;value&gt;
+        /// The recipe types.
+        /// &lt;/value&gt;
+        public string[] Types { get; set; }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeTypesResponseModel&quot;/&gt; class.
+        ///
+        /// Precondition: None
+        /// Postcondition: Code == code&lt;br /&gt;
+        /// AND Message == message&lt;br /&gt;
+        /// AND Types == types&lt;br /&gt;
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;code&quot;&gt;The code.&lt;/param&gt;
+        /// &lt;param name=&quot;message&quot;&gt;The message.&lt;/param&gt;
+        /// &lt;param name=&quot;types&quot;&gt;The types.&lt;/param&gt;
+        public RecipeTypesResponseModel(HttpStatusCode code, string message, string[] types) : base (code, message)
+        {
+            this.Types = types;
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[17,33,17,37,1],[17,38,17,42,1],[30,96,30,116,1],[31,9,31,10,1],[32,13,32,32,1],[33,9,33,10,1]]);
+    </script>
+  </body>
+</html>

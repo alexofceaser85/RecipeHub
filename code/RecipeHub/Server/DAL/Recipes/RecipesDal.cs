@@ -202,7 +202,7 @@ namespace Server.DAL.Recipes
         public Ingredient[] GetIngredientsForRecipe(int recipeId)
         {
             var ingredients = new List<Ingredient>();
-            const string query = "SELECT RTRIM(Ingredients.name) AS name, RecipeIngredients.amount " +
+            const string query = "SELECT RTRIM(Ingredients.name) AS name, RecipeIngredients.amount, Ingredients.measurementType " +
                                  "FROM RecipeIngredients, Ingredients WHERE RecipeIngredients.ingredientId = Ingredients.ingredientId AND recipeId = @recipeId";
 
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
@@ -213,12 +213,14 @@ namespace Server.DAL.Recipes
             using var reader = command.ExecuteReader();
             var nameOrdinal = reader.GetOrdinal("name");
             var amountOrdinal = reader.GetOrdinal("amount");
+            var measurementTypeOrdinal = reader.GetOrdinal("measurementType");
 
             while (reader.Read())
             {
                 var name = reader.GetString(nameOrdinal);
                 var amount = reader.GetInt32(amountOrdinal);
-                ingredients.Add(new Ingredient(name, amount, MeasurementType.Volume));
+                var measurementType = reader.GetInt32(measurementTypeOrdinal);
+                ingredients.Add(new Ingredient(name, amount, (MeasurementType)(measurementType - 1)));
             }
 
             return ingredients.ToArray();

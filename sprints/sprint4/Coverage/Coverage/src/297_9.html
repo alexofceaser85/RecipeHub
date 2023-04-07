@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>C:\Users\Shawn\Documents\School\CS 4982 Capstone\repo\RecipeHub\code\RecipeHub\Web Client\Endpoints\RecipeTypes\RecipeTypesEndpoints.cs</title>
+    <script type="text/javascript" src="../js/dotcover.sourceview.js"></script>
+    <link rel="stylesheet" type="text/css" href="../css/dotcover.report.css" />
+  </head>
+  <body>
+    <pre id="content" class="source-code">
+using Shared_Resources.Data.Settings;
+using Shared_Resources.ErrorMessages;
+using Shared_Resources.Utils.Json;
+using Shared_Resources.Utils.Server;
+
+namespace Web_Client.Endpoints.RecipeTypes
+{
+    /// &lt;summary&gt;
+    /// The recipe types endpoints
+    /// &lt;/summary&gt;
+    /// &lt;seealso cref=&quot;Web_Client.Endpoints.RecipeTypes.IRecipeTypesEndpoints&quot; /&gt;
+    public class RecipeTypesEndpoints : IRecipeTypesEndpoints
+    {
+        private const string GetAllRecipeTypesServiceMethodName = &quot;RecipeTypes&quot;;
+
+        private const string RecipeTypesElementName = &quot;types&quot;;
+
+        private readonly HttpClient client;
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeTypesEndpoints&quot;/&gt; class.
+        ///
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        public RecipeTypesEndpoints()
+        {
+            this.client = new HttpClient();
+        }
+
+        /// &lt;summary&gt;
+        /// Initializes a new instance of the &lt;see cref=&quot;RecipeTypesEndpoints&quot;/&gt; class.
+        ///
+        /// Precondition: client != null
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;param name=&quot;client&quot;&gt;The client.&lt;/param&gt;
+        public RecipeTypesEndpoints(HttpClient client)
+        {
+            if (client == null)
+            {
+                throw new ArgumentException(RecipeTypesEndpointsErrorMessages.HttpClientCannotBeNull);
+            }
+
+            this.client = client;
+        }
+
+        /// &lt;summary&gt;
+        /// Gets the similar recipe types.
+        /// Precondition: None
+        /// Postcondition: None
+        /// &lt;/summary&gt;
+        /// &lt;returns&gt;
+        /// The recipe types
+        /// &lt;/returns&gt;
+        public string[] GetAllRecipeTypes()
+        {
+            var requestUri = $&quot;{ServerSettings.ServerUri}{GetAllRecipeTypesServiceMethodName}&quot;;
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.client);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var recipeTypes = new List&lt;string&gt;();
+
+            foreach (var recipeType in json[RecipeTypesElementName]!.AsArray())
+            {
+                recipeTypes.Add(recipeType!.GetValue&lt;string&gt;());
+            }
+
+            return recipeTypes.ToArray();
+        }
+    }
+}
+
+    </pre>
+    <script type="text/javascript">
+      highlightRanges([[26,9,26,38,1],[27,9,27,10,1],[28,13,28,44,1],[29,9,29,10,1],[38,9,38,55,1],[39,9,39,10,1],[40,13,40,32,1],[41,13,41,14,1],[42,17,42,103,1],[45,13,45,34,1],[46,9,46,10,1],[57,9,57,10,1],[58,13,58,96,1],[59,13,59,89,1],[60,13,60,53,1],[62,13,62,50,1],[64,13,64,20,1],[64,22,64,36,1],[64,37,64,39,1],[64,40,64,79,1],[65,13,65,14,1],[66,17,66,65,1],[67,13,67,14,1],[69,13,69,42,1],[70,9,70,10,1]]);
+    </script>
+  </body>
+</html>

@@ -1,8 +1,10 @@
-﻿using Shared_Resources.Data.Settings;
+﻿using Newtonsoft.Json;
+using Shared_Resources.Data.Settings;
 using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Ingredients;
 using Shared_Resources.Utils.Json;
 using Shared_Resources.Utils.Server;
+using System.Text.Json;
 
 namespace Desktop_Client.Endpoints.Ingredients
 {
@@ -15,10 +17,16 @@ namespace Desktop_Client.Endpoints.Ingredients
 
         private const string GetIngredientsEndpoint = "GetIngredientsInPantry";
         private const string AddIngredientEndpoint = "AddIngredientToPantry";
+        private const string AddIngredientsEndpoint = "AddIngredientsToPantry";
         private const string DeleteIngredientEndpoint = "RemoveIngredientFromPantry";
         private const string DeleteAllIngredientsEndpoint = "RemoveAllIngredientsFromPantry";
         private const string UpdateIngredientEndpoint = "UpdateIngredientInPantry";
         private const string GetSuggestionsEndpoint = "GetSuggestions";
+        private const string GetMissingIngredientsForRecipeEndpoint = "GetMissingIngredientsForRecipe";
+        private const string RemoveIngredientsForRecipeEndpoint = "RemoveIngredientsForRecipe";
+
+        private const string IngredientsElementName = "ingredients";
+        private const string PantryElementName = "pantry";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="IngredientEndpoints"/> class.<br />
@@ -52,24 +60,9 @@ namespace Desktop_Client.Endpoints.Ingredients
             var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
             JsonUtils.VerifyAndGetRequestInfo(json);
 
-            var pantry = json["pantry"];
-            var ingredients = new List<Ingredient>();
+            var missingIngredients = json[PantryElementName]!.AsArray().Deserialize<Ingredient[]>();
 
-            if (pantry == null)
-            {
-                return ingredients.ToArray();
-            }
-
-            foreach (var ingredient in pantry.AsArray())
-            {
-                var name = ingredient!["name"]!.GetValue<string>();
-                var amount = ingredient["amount"]!.GetValue<int>();
-                var measurementType = ingredient["measurementType"]!.GetValue<int>();
-
-                ingredients.Add(new Ingredient(name, amount, (MeasurementType) measurementType));
-            }
-
-            return ingredients.ToArray();
+            return missingIngredients!;
         }
 
         /// <inheritdoc />
@@ -82,6 +75,17 @@ namespace Desktop_Client.Endpoints.Ingredients
             JsonUtils.VerifyAndGetRequestInfo(json);
 
             return json["flag"]!.GetValue<bool>();
+        }
+
+        /// <inheritdoc/>
+        public void AddIngredients(Ingredient[] ingredients)
+        {
+            var ingredientsJson = JsonConvert.SerializeObject(ingredients);
+            var parameters =$"?ingredientsJson={ingredientsJson}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{AddIngredientsEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+
+            JsonUtils.VerifyAndGetRequestInfo(json);
         }
 
         /// <inheritdoc />
@@ -135,6 +139,28 @@ namespace Desktop_Client.Endpoints.Ingredients
             }
 
             return suggestions.ToArray();
+        }
+
+        /// <inheritdoc/>
+        public Ingredient[] GetMissingIngredientsForRecipe(int recipeId)
+        {
+            var parameters = $"?recipeId={recipeId}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{GetMissingIngredientsForRecipeEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Get, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
+
+            var missingIngredients = json[IngredientsElementName]!.AsArray().Deserialize<Ingredient[]>();
+
+            return missingIngredients!;
+        }
+
+        /// <inheritdoc/>
+        public void RemoveIngredientsForRecipe(int recipeId)
+        {
+            var parameters = $"?recipeId={recipeId}&sessionKey={Session.Key}";
+            var requestUri = $"{ServerSettings.ServerUri}{RemoveIngredientsForRecipeEndpoint}{parameters}";
+            var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.http);
+            JsonUtils.VerifyAndGetRequestInfo(json);
         }
     }
 }

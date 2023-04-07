@@ -41,7 +41,7 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tagsPlaceholderLabel, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -49,17 +49,18 @@
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(6);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66.43835F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.56165F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(770, 146);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Click += new System.EventHandler(this.childControlMouseClick);
             // 
             // tableLayoutPanel2
             // 
+            this.tableLayoutPanel2.AutoSize = true;
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.91623F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.08377F));
             this.tableLayoutPanel2.Controls.Add(this.recipeNameLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.authorNameLabel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.ratingLabel, 1, 0);
@@ -80,7 +81,7 @@
             this.recipeNameLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.recipeNameLabel.Location = new System.Drawing.Point(3, 0);
             this.recipeNameLabel.Name = "recipeNameLabel";
-            this.recipeNameLabel.Size = new System.Drawing.Size(376, 45);
+            this.recipeNameLabel.Size = new System.Drawing.Size(574, 45);
             this.recipeNameLabel.TabIndex = 0;
             this.recipeNameLabel.Text = "Recipe Name";
             this.recipeNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -93,7 +94,7 @@
             this.authorNameLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.authorNameLabel.Location = new System.Drawing.Point(3, 45);
             this.authorNameLabel.Name = "authorNameLabel";
-            this.authorNameLabel.Size = new System.Drawing.Size(376, 45);
+            this.authorNameLabel.Size = new System.Drawing.Size(574, 45);
             this.authorNameLabel.TabIndex = 1;
             this.authorNameLabel.Text = "Author Name";
             this.authorNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -103,9 +104,9 @@
             // 
             this.ratingLabel.AutoSize = true;
             this.ratingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ratingLabel.Location = new System.Drawing.Point(385, 0);
+            this.ratingLabel.Location = new System.Drawing.Point(583, 0);
             this.ratingLabel.Name = "ratingLabel";
-            this.ratingLabel.Size = new System.Drawing.Size(376, 45);
+            this.ratingLabel.Size = new System.Drawing.Size(178, 45);
             this.ratingLabel.TabIndex = 2;
             this.ratingLabel.Text = "Rating: 0/5";
             this.ratingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -127,8 +128,10 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.MinimumSize = new System.Drawing.Size(0, 158);
             this.Name = "RecipeListItem";
             this.Padding = new System.Windows.Forms.Padding(6);
             this.Size = new System.Drawing.Size(782, 158);
