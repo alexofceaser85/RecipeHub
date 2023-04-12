@@ -12,9 +12,14 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Users.UsersViewModelTests
             var service = new Mock<IUsersService>();
             var viewModel = new UsersViewModel(service.Object);
             service.Setup(mock => mock.Login("username", "password"));
+            service.Setup(mock => mock.RefreshSessionKey());
 
-            viewModel.Login("username", "password");
-            service.Verify(mock => mock.Login("username", "password"), Times.Once);
+            Assert.Multiple(() =>
+            {
+                viewModel.Login("username", "password");
+                service.Verify(mock => mock.Login("username", "password"), Times.Once);
+                service.Verify(mock => mock.RefreshSessionKey(), Times.Once);
+            });
         }
     }
 }
