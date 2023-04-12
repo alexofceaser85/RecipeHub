@@ -1,4 +1,6 @@
-﻿namespace Desktop_Client.View.Screens
+﻿using Desktop_Client.View.Components.General;
+
+namespace Desktop_Client.View.Screens
 {
     partial class IngredientsScreen
     {
@@ -37,7 +39,7 @@
             this.addIngredientButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.removeAllButton = new System.Windows.Forms.Button();
-            this.ingredientListTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.ingredientListTableLayout = new ScrollVisibleTableLayoutPanel();
             this.noIngredientsLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -237,7 +239,7 @@
         private TableLayoutPanel tableLayoutPanel3;
         private Button addIngredientButton;
         private Button hamburgerButton;
-        private TableLayoutPanel ingredientListTableLayout;
+        private ScrollVisibleTableLayoutPanel ingredientListTableLayout;
         private Label label1;
         private TableLayoutPanel tableLayoutPanel4;
         private Button removeAllButton;
