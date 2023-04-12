@@ -60,6 +60,7 @@
             // mainTableLayout
             // 
             this.mainTableLayout.AutoSize = true;
+            this.mainTableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mainTableLayout.ColumnCount = 1;
             this.mainTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mainTableLayout.Controls.Add(this.mealsTableLayout, 0, 1);
@@ -70,12 +71,13 @@
             this.mainTableLayout.RowCount = 2;
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 75F));
             this.mainTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mainTableLayout.Size = new System.Drawing.Size(651, 585);
+            this.mainTableLayout.Size = new System.Drawing.Size(465, 585);
             this.mainTableLayout.TabIndex = 0;
             // 
             // mealsTableLayout
             // 
             this.mealsTableLayout.AutoSize = true;
+            this.mealsTableLayout.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.mealsTableLayout.ColumnCount = 1;
             this.mealsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.mealsTableLayout.Controls.Add(this.dinnerPanel, 0, 3);
@@ -89,7 +91,7 @@
             this.mealsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mealsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.mealsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.mealsTableLayout.Size = new System.Drawing.Size(645, 504);
+            this.mealsTableLayout.Size = new System.Drawing.Size(459, 504);
             this.mealsTableLayout.TabIndex = 1;
             this.mealsTableLayout.Visible = false;
             // 
@@ -101,12 +103,13 @@
             this.dinnerPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dinnerPanel.Location = new System.Drawing.Point(3, 339);
             this.dinnerPanel.Name = "dinnerPanel";
-            this.dinnerPanel.Size = new System.Drawing.Size(639, 162);
+            this.dinnerPanel.Size = new System.Drawing.Size(453, 162);
             this.dinnerPanel.TabIndex = 4;
             // 
             // dinnerTable
             // 
             this.dinnerTable.AutoSize = true;
+            this.dinnerTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.dinnerTable.ColumnCount = 1;
             this.dinnerTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.dinnerTable.Controls.Add(this.dinnerLabel, 0, 0);
@@ -117,7 +120,7 @@
             this.dinnerTable.RowCount = 2;
             this.dinnerTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.dinnerTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.dinnerTable.Size = new System.Drawing.Size(637, 160);
+            this.dinnerTable.Size = new System.Drawing.Size(451, 160);
             this.dinnerTable.TabIndex = 0;
             // 
             // dinnerLabel
@@ -141,7 +144,7 @@
             this.noDinnerPlannedLabel.Margin = new System.Windows.Forms.Padding(0);
             this.noDinnerPlannedLabel.Name = "noDinnerPlannedLabel";
             this.noDinnerPlannedLabel.Padding = new System.Windows.Forms.Padding(0, 32, 0, 32);
-            this.noDinnerPlannedLabel.Size = new System.Drawing.Size(637, 101);
+            this.noDinnerPlannedLabel.Size = new System.Drawing.Size(451, 101);
             this.noDinnerPlannedLabel.TabIndex = 2;
             this.noDinnerPlannedLabel.Text = "No Planned Recipes";
             this.noDinnerPlannedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -154,12 +157,13 @@
             this.lunchPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lunchPanel.Location = new System.Drawing.Point(3, 171);
             this.lunchPanel.Name = "lunchPanel";
-            this.lunchPanel.Size = new System.Drawing.Size(639, 162);
+            this.lunchPanel.Size = new System.Drawing.Size(453, 162);
             this.lunchPanel.TabIndex = 3;
             // 
             // lunchTable
             // 
             this.lunchTable.AutoSize = true;
+            this.lunchTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.lunchTable.ColumnCount = 1;
             this.lunchTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.lunchTable.Controls.Add(this.lunchLabel, 0, 0);
@@ -170,7 +174,7 @@
             this.lunchTable.RowCount = 2;
             this.lunchTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.lunchTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.lunchTable.Size = new System.Drawing.Size(637, 160);
+            this.lunchTable.Size = new System.Drawing.Size(451, 160);
             this.lunchTable.TabIndex = 0;
             // 
             // lunchLabel
@@ -194,7 +198,7 @@
             this.noLunchPlannedLabel.Margin = new System.Windows.Forms.Padding(0);
             this.noLunchPlannedLabel.Name = "noLunchPlannedLabel";
             this.noLunchPlannedLabel.Padding = new System.Windows.Forms.Padding(0, 32, 0, 32);
-            this.noLunchPlannedLabel.Size = new System.Drawing.Size(637, 101);
+            this.noLunchPlannedLabel.Size = new System.Drawing.Size(451, 101);
             this.noLunchPlannedLabel.TabIndex = 2;
             this.noLunchPlannedLabel.Text = "No Planned Recipes";
             this.noLunchPlannedLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -207,12 +211,13 @@
             this.breakfastPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.breakfastPanel.Location = new System.Drawing.Point(3, 3);
             this.breakfastPanel.Name = "breakfastPanel";
-            this.breakfastPanel.Size = new System.Drawing.Size(639, 162);
+            this.breakfastPanel.Size = new System.Drawing.Size(453, 162);
             this.breakfastPanel.TabIndex = 2;
             // 
             // breakfastTable
             // 
             this.breakfastTable.AutoSize = true;
+            this.breakfastTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.breakfastTable.ColumnCount = 1;
             this.breakfastTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.breakfastTable.Controls.Add(this.breakfastLabel, 0, 0);
@@ -223,7 +228,7 @@
             this.breakfastTable.RowCount = 2;
             this.breakfastTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.breakfastTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.breakfastTable.Size = new System.Drawing.Size(637, 160);
+            this.breakfastTable.Size = new System.Drawing.Size(451, 160);
             this.breakfastTable.TabIndex = 0;
             // 
             // breakfastLabel
@@ -247,13 +252,14 @@
             this.noPlannedBreakfastLabel.Margin = new System.Windows.Forms.Padding(0);
             this.noPlannedBreakfastLabel.Name = "noPlannedBreakfastLabel";
             this.noPlannedBreakfastLabel.Padding = new System.Windows.Forms.Padding(0, 32, 0, 32);
-            this.noPlannedBreakfastLabel.Size = new System.Drawing.Size(637, 101);
+            this.noPlannedBreakfastLabel.Size = new System.Drawing.Size(451, 101);
             this.noPlannedBreakfastLabel.TabIndex = 2;
             this.noPlannedBreakfastLabel.Text = "No Planned Recipes";
             this.noPlannedBreakfastLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // headerTableLayout
             // 
+            this.headerTableLayout.AutoSize = true;
             this.headerTableLayout.ColumnCount = 3;
             this.headerTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.headerTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -266,7 +272,7 @@
             this.headerTableLayout.Name = "headerTableLayout";
             this.headerTableLayout.RowCount = 1;
             this.headerTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.headerTableLayout.Size = new System.Drawing.Size(645, 69);
+            this.headerTableLayout.Size = new System.Drawing.Size(459, 69);
             this.headerTableLayout.TabIndex = 2;
             // 
             // titleLabel
@@ -283,10 +289,11 @@
             // 
             // collapseButton
             // 
+            this.collapseButton.AutoSize = true;
             this.collapseButton.BackColor = System.Drawing.Color.Transparent;
             this.collapseButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.collapseButton.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.collapseButton.Location = new System.Drawing.Point(569, 3);
+            this.collapseButton.Location = new System.Drawing.Point(383, 3);
             this.collapseButton.Name = "collapseButton";
             this.collapseButton.Size = new System.Drawing.Size(73, 63);
             this.collapseButton.TabIndex = 4;
@@ -302,7 +309,7 @@
             this.dateLabel.Location = new System.Drawing.Point(309, 0);
             this.dateLabel.Name = "dateLabel";
             this.dateLabel.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
-            this.dateLabel.Size = new System.Drawing.Size(254, 69);
+            this.dateLabel.Size = new System.Drawing.Size(68, 69);
             this.dateLabel.TabIndex = 5;
             this.dateLabel.Text = "Date";
             this.dateLabel.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
@@ -315,7 +322,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.mainTableLayout);
             this.Name = "PlannedMealListItem";
-            this.Size = new System.Drawing.Size(651, 585);
+            this.Size = new System.Drawing.Size(500, 585);
             this.mainTableLayout.ResumeLayout(false);
             this.mainTableLayout.PerformLayout();
             this.mealsTableLayout.ResumeLayout(false);

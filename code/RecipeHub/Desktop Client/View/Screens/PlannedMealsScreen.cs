@@ -26,8 +26,16 @@ namespace Desktop_Client.View.Screens
             this.mealsListTableLayout.RowStyles.Clear();
             this.viewModel = new PlannedMealsViewModel();
             this.BindComponents();
+            this.DelayTablePopulation();
+        }
+
+
+        private async void DelayTablePopulation()
+        {
+            await Task.Delay(100);
             this.viewModel.Initialize();
         }
+
 
         private void BindComponents()
         {
@@ -45,18 +53,11 @@ namespace Desktop_Client.View.Screens
         private void PopulatePlannedMeals(IEnumerable<PlannedMeal> meals)
         {
             this.mealsListTableLayout.Controls.Clear();
-            this.mealsListTableLayout.RowStyles.Clear();
+
             foreach (var meal in meals)
             {
-                var rowStyle = new RowStyle
-                {
-                    SizeType = SizeType.AutoSize
-                };
                 var listItem = new PlannedMealListItem(meal, this.viewModel.RecipeTags);
                 this.mealsListTableLayout.Controls.Add(listItem);
-                this.mealsListTableLayout.RowStyles.Add(rowStyle);
-                
-                listItem.Margin = new Padding(3, 48, 3, 3);
                 
                 listItem.DeletePressed += (_, args) =>
                 {
@@ -85,7 +86,6 @@ namespace Desktop_Client.View.Screens
 
                     base.DisplayDialog(dialog);
                 };
-
                 listItem.ViewPressed += (_, recipeId) =>
                 {
                     try
@@ -100,10 +100,27 @@ namespace Desktop_Client.View.Screens
             }
             
             //Adds an empty label to the bottom of the list to prevent the last ingredient from expanding vertically
-            this.mealsListTableLayout.Controls.Add(new Label { Margin = Padding.Empty, Padding = Padding.Empty });
-            this.mealsListTableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.mealsListTableLayout.Controls.Add(new Label { Margin = Padding.Empty, Padding = Padding.Empty});
+
+            this.mealsListTableLayout.ResumeLayout(true);
+            this.AdjustScroll();
         }
         
+        private void AdjustScroll()
+        {
+            // Reset row styles
+            this.mealsListTableLayout.RowStyles.Clear();
+            for (int i = 0; i < this.mealsListTableLayout.RowCount; i++)
+            {
+                this.mealsListTableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            }
+
+            // Recalculate row heights
+            this.mealsListTableLayout.AutoScroll = false;
+            this.mealsListTableLayout.AutoScroll = true;
+        }
+
+
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
             base.ToggleHamburgerMenu();

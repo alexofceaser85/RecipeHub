@@ -98,7 +98,7 @@ namespace Desktop_Client.View.Screens
                         else if (dialog.Exception != null)
                         {
                             var messageDialog =
-                                new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
+                                new MessageDialog("Error occurred", dialog.Exception.Message);
                             base.DisplayDialog(messageDialog);
                         }
                         else if (dialog.DialogResult == DialogResult.Yes)
