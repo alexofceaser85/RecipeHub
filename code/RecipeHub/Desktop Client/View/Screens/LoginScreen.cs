@@ -1,4 +1,5 @@
-﻿using Desktop_Client.View.Dialog;
+﻿using Desktop_Client.ViewModel.Recipes;
+using Shared_Resources.Model.Filters;
 
 namespace Desktop_Client.View.Screens
 {
@@ -28,6 +29,7 @@ namespace Desktop_Client.View.Screens
 
         private void LoginFormOnLoggedIn(object? sender, EventArgs e)
         {
+            RecipesListViewModel.Filters = new RecipeFilters();
             this.ChangeScreens(new RecipeListScreen());
         }
     }
