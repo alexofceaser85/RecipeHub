@@ -32,8 +32,7 @@
                                         </div>
                                         <div class="planned-meal-end-point">
                                             <div>
-                                                <div class="text-end">Rating: 0/5</div>
-                                            <div class="text-end">@(Model.ViewModel.RecipeTags[recipe.Id].Length == 0 ? "No recipe tags" : string.Join(", ", Model.ViewModel.RecipeTags[recipe.Id]))</div>
+                                                <div class="text-end">@(Model.ViewModel.RecipeTags[recipe.Id].Length == 0 ? "No recipe tags" : string.Join(", ", Model.ViewModel.RecipeTags[recipe.Id]))</div>
                                             </div>
                                             <div>
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#remove-planned-meal-modal"

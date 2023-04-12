@@ -92,6 +92,7 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
                 }
             }
 
+            mockedEndpoints.Setup(mock => mock.RefreshSessionKey(It.IsAny<String>())).Returns("newSessionKey");
             mockedEndpoints.Setup(mock => mock.Login("username", hashedPassword, previousSessionKey))
                            .Returns("newSessionKey");
 
@@ -111,6 +112,7 @@ namespace WebClientTests.WebClient.Service.Users.UsersServiceTests
                 "64fcc6f6bc7a815041b4db51f00f4bea8e51c13b27f422da0a8522c94641c7e483c3f17b28d0a59add0c8a44a4e4fc1dd3a9ea48bad8cf5b707ac0f44a5f3536";
 
             SessionKeySerializers.SaveSessionKey(previousSessionKey, "logintest.txt");
+            mockedEndpoints.Setup(mock => mock.RefreshSessionKey(It.IsAny<String>()));
             mockedEndpoints.Setup(mock => mock.Login("username", hashedPassword, previousSessionKey))
                            .Throws(new ArgumentException("testException"));
 

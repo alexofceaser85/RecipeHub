@@ -1,7 +1,10 @@
+using System;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.PlannedMeals;
 using Shared_Resources.Utils.Dates;
 using Shared_Resources.Utils.Units;
@@ -91,14 +94,17 @@ namespace Web_Client.Pages
             try
             {
                 this.ViewModel.AddRecipeToPlannedMeals(DateTime.Parse(date), (MealCategory)mealCategory);
-
+                RecipePageState.ViewModel = this.ViewModel;
+                return Content(this.ViewModel.PlannedMealAddedMessage);
             }
             catch (ArgumentException exception)
             {
                 return BadRequest(exception.Message);
             }
-            RecipePageState.ViewModel = this.ViewModel;
-            return Content(this.ViewModel.PlannedMealAddedMessage);
+            catch (UnauthorizedAccessException)
+            {
+                return BadRequest("Cannot add to planned meal, user not logged in");
+            }
         }
         /// <summary>
         /// Called when [post cook recipe].
@@ -106,12 +112,21 @@ namespace Web_Client.Pages
         /// <returns>a redirect to the ingredients page.</returns>
         public IActionResult OnPostCookRecipe()
         {
-            this.ViewModel = RecipePageState.ViewModel!;
+            try
+            {
+                this.ViewModel = RecipePageState.ViewModel!;
 
-            this.ViewModel.RemoveIngredientsForRecipe();
+                this.ViewModel.RemoveIngredientsForRecipe();
 
-            RecipePageState.ViewModel = this.ViewModel;
-            return RedirectToPage("Ingredients");
+                RecipePageState.ViewModel = this.ViewModel;
+                return RedirectToPage("Ingredients");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Session.Key = null;
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                return RedirectToPage("Index");
+            }
         }
 
         /// <summary>
@@ -120,19 +135,32 @@ namespace Web_Client.Pages
         /// <returns>an array containing the two elements of text.</returns>
         public Tuple<string, string> GetTextForMissingIngredients()
         {
-            if (this.ViewModel.MissingIngredients.Length == 0)
+            try
             {
-                return Tuple.Create("All ingredients will be removed from your pantry.", string.Empty);
+                if (this.ViewModel.MissingIngredients.Length == 0)
+                {
+                    return Tuple.Create("All ingredients will be removed from your pantry.", string.Empty);
 
+                }
+
+                var message = new StringBuilder();
+                foreach (var ingredient in this.ViewModel.MissingIngredients)
+                {
+                    var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
+                    message.Append($"\n - {ingredient.Name}: {ingredient.Amount} {unit}");
+                }
+
+                return Tuple.Create(
+                    "You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):",
+                    message.ToString());
             }
-            var message = new StringBuilder();
-            foreach (var ingredient in this.ViewModel.MissingIngredients)
+            catch (UnauthorizedAccessException)
             {
-                var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
-                message.Append($"\n - {ingredient.Name}: {ingredient.Amount} {unit}");
+                Session.Key = null;
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                RedirectToPage("Index");
+                return new Tuple<string, string>("", "");
             }
-
-            return Tuple.Create("You are missing some ingredients. If you cook this meal, they will be removed from your pantry (if present):", message.ToString());
         }
     }
 }

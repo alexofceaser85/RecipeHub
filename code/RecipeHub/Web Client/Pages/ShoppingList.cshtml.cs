@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Ingredients;
 using Web_Client.ViewModel.ShoppingList;
 
@@ -12,6 +14,7 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class ShoppingListModel : PageModel
     {
+        private bool shouldReturnToLogin = false;
         private ShoppingListViewModel viewModel;
 
         /// <summary>
@@ -30,8 +33,15 @@ namespace Web_Client.Pages
         /// </summary>
         public ShoppingListModel()
         {
-            this.viewModel = new ShoppingListViewModel();
-            this.viewModel.GetShoppingList();
+            try
+            {
+                this.viewModel = new ShoppingListViewModel();
+                this.viewModel.GetShoppingList();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                this.shouldReturnToLogin = true;
+            }
         }
 
         /// <summary>
@@ -42,6 +52,11 @@ namespace Web_Client.Pages
         /// </summary>
         public void OnGet()
         {
+            if (this.shouldReturnToLogin)
+            {
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/Index");
+            }
         }
 
         /// <summary>
@@ -52,15 +67,25 @@ namespace Web_Client.Pages
         /// </summary>
         public IActionResult OnPostAddShoppingListToPantry()
         {
-            var ingredients = new List<Ingredient>();
-            foreach (var ingredient in this.ShoppingList)
+            try
             {
-                int amount = int.Parse(Request.Form[$"Amount-{ingredient.Name}"][0]!);
-                var addedIngredient = new Ingredient(ingredient.Name, amount, ingredient.MeasurementType);
-                ingredients.Add(addedIngredient);
+                var ingredients = new List<Ingredient>();
+                foreach (var ingredient in this.ShoppingList)
+                {
+                    int amount = int.Parse(Request.Form[$"Amount-{ingredient.Name}"][0]!);
+                    var addedIngredient = new Ingredient(ingredient.Name, amount, ingredient.MeasurementType);
+                    ingredients.Add(addedIngredient);
+                }
+
+                this.viewModel.AddIngredientsToPantry(ingredients.ToArray());
+                return RedirectToPage("ShoppingList");
             }
-            this.viewModel.AddIngredientsToPantry(ingredients.ToArray());
-            return RedirectToPage("ShoppingList");
+            catch (UnauthorizedAccessException)
+            {
+                Session.Key = null;
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                return RedirectToPage("Index");
+            }
         }
     }
 }

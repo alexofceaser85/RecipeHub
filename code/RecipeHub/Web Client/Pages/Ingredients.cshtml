@@ -13,7 +13,7 @@
         <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
     </div>
 
-    @if (Model.Ingredients.Count < 1)
+    @if (Model.Ingredients == null || Model.Ingredients.Count < 1)
     {
         <p>No ingredients found!</p>
     }
@@ -27,7 +27,7 @@
                     <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
                 </div>
                 <div class="ingredient-actions">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" data-ingredient-amount="@ingredient.Amount" class="ingredient-edit-button">Edit</button>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#remove-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     <div class="modal-body">
                         <input type="text" name="Name" hidden id="edit-ingredient-text"/>
                         <label for="edit-ingredient-number">Amount</label>
-                        <input name="Amount" type="number" id="edit-ingredient-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required/>
+                        <input name="Amount" type="number" id="edit-ingredient-number" min="0" step="1" maxlength="10" minlength="1" required/>
                         <p id="edit-ingredient-amount-error-text"></p>
                     </div>
                     <div class="modal-footer">
@@ -198,7 +198,12 @@
                 $("#add-ingredient-name").focus();
             });
             
-            $("#edit-ingredient-modal").on("shown.bs.modal", function () {
+            $("#edit-ingredient-modal").on("shown.bs.modal", function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var amount = button.data('ingredient-amount'); // Extract info from data-* attributes
+                console.log(event);
+                var modal = $(this);
+                modal.find('#edit-ingredient-number').val(amount);
                 $("#edit-ingredient-number").focus();
             });
 

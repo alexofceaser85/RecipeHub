@@ -116,6 +116,7 @@ namespace Web_Client.Service.Users
             var previousSessionKey = SessionKeySerializers.LoadSessionKey(this.SessionKeyLoadFile);
             var sessionKey = this.endpoints.Login(username, hashedPassword, previousSessionKey);
             Session.Key = sessionKey;
+            this.RefreshSessionKey();
             SessionKeySerializers.SaveSessionKey(sessionKey, this.SessionKeyLoadFile);
         }
 
