@@ -28,15 +28,13 @@ namespace Desktop_Client.View.Screens
             this.BindComponents();
             this.DelayTablePopulation();
         }
-
-
+        
         private async void DelayTablePopulation()
         {
             await Task.Delay(100);
             this.viewModel.Initialize();
         }
-
-
+        
         private void BindComponents()
         {
             this.viewModel.PropertyChanged += (_, args) =>
@@ -77,6 +75,7 @@ namespace Desktop_Client.View.Screens
 
                             this.viewModel.RemovePlannedMeal(meal.MealDate.Date, category, recipe.Id);
                             listItem.RemovePlannedMeal(recipe.Id, category);
+                            this.AdjustScroll();
                         }
                         catch (UnauthorizedAccessException exception)
                         {
@@ -97,6 +96,7 @@ namespace Desktop_Client.View.Screens
                         this.DisplayTimeOutDialog(exception.Message);
                     }
                 };
+                listItem.CollapseToggled += (_, _) => this.AdjustScroll();
             }
             
             //Adds an empty label to the bottom of the list to prevent the last ingredient from expanding vertically
@@ -119,8 +119,7 @@ namespace Desktop_Client.View.Screens
             this.mealsListTableLayout.AutoScroll = false;
             this.mealsListTableLayout.AutoScroll = true;
         }
-
-
+        
         private void hamburgerButton_Click(object sender, EventArgs e)
         {
             base.ToggleHamburgerMenu();
