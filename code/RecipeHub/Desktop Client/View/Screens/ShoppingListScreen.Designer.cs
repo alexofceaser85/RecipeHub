@@ -1,4 +1,6 @@
-﻿namespace Desktop_Client.View.Screens
+﻿using Desktop_Client.View.Components.General;
+
+namespace Desktop_Client.View.Screens
 {
     partial class ShoppingListScreen
     {
@@ -34,7 +36,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.hamburgerButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.shoppingListTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.shoppingListTablePanel = new ScrollVisibleTableLayoutPanel();
             this.emptyListLabel = new System.Windows.Forms.Label();
             this.backButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
@@ -205,7 +207,7 @@
 
         private TableLayoutPanel mainLayoutPanel;
         private TableLayoutPanel topBar;
-        private TableLayoutPanel shoppingListTablePanel;
+        private ScrollVisibleTableLayoutPanel shoppingListTablePanel;
         private TableLayoutPanel tableLayoutPanel2;
         private Label label1;
         private Button hamburgerButton;

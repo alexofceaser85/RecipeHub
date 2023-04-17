@@ -39,20 +39,17 @@
             this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
-            this.userRatingLabel = new System.Windows.Forms.Label();
-            this.yourRatingLabel = new System.Windows.Forms.Label();
             this.descriptionLabel = new System.Windows.Forms.Label();
             this.tagsPlaceholderLabel = new System.Windows.Forms.Label();
+            this.ingredientsTableLayout = new System.Windows.Forms.TableLayoutPanel();
             this.ingredientsListLabel = new System.Windows.Forms.Label();
-            this.stepsLabel = new System.Windows.Forms.Label();
-            this.commentsLabel = new System.Windows.Forms.Label();
+            this.ingredientsTitleLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.pevImageButton = new System.Windows.Forms.Button();
-            this.nextImageButton = new System.Windows.Forms.Button();
+            this.stepsTitleLabel = new System.Windows.Forms.Label();
+            this.stepsLabel = new System.Windows.Forms.Label();
             this.buttonTableLayout = new System.Windows.Forms.TableLayoutPanel();
-            this.addPlannedMealButton = new System.Windows.Forms.Button();
             this.cookRecipeButton = new System.Windows.Forms.Button();
+            this.addPlannedMealButton = new System.Windows.Forms.Button();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -60,7 +57,7 @@
             this.recipeListTablePanel.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
+            this.ingredientsTableLayout.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.buttonTableLayout.SuspendLayout();
             this.SuspendLayout();
@@ -203,14 +200,12 @@
             // 
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel5, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.buttonTableLayout, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel4, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.buttonTableLayout, 0, 0);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(4, 4);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 360F));
+            this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 64F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
@@ -223,74 +218,33 @@
             this.tableLayoutPanel4.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel4.ColumnCount = 1;
             this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel6, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.descriptionLabel, 0, 1);
-            this.tableLayoutPanel4.Controls.Add(this.tagsPlaceholderLabel, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.ingredientsListLabel, 0, 3);
-            this.tableLayoutPanel4.Controls.Add(this.stepsLabel, 0, 4);
-            this.tableLayoutPanel4.Controls.Add(this.commentsLabel, 0, 5);
+            this.tableLayoutPanel4.Controls.Add(this.descriptionLabel, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.tagsPlaceholderLabel, 0, 1);
+            this.tableLayoutPanel4.Controls.Add(this.ingredientsTableLayout, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 4);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 430);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(6, 70);
             this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(6);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 6;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
+            this.tableLayoutPanel4.RowCount = 5;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 745);
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(653, 1105);
             this.tableLayoutPanel4.TabIndex = 0;
-            // 
-            // tableLayoutPanel6
-            // 
-            this.tableLayoutPanel6.ColumnCount = 1;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Controls.Add(this.userRatingLabel, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.yourRatingLabel, 0, 1);
-            this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel6.Location = new System.Drawing.Point(4, 4);
-            this.tableLayoutPanel6.Name = "tableLayoutPanel6";
-            this.tableLayoutPanel6.RowCount = 2;
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel6.Size = new System.Drawing.Size(645, 77);
-            this.tableLayoutPanel6.TabIndex = 0;
-            // 
-            // userRatingLabel
-            // 
-            this.userRatingLabel.AutoSize = true;
-            this.userRatingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userRatingLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.userRatingLabel.Location = new System.Drawing.Point(3, 0);
-            this.userRatingLabel.Name = "userRatingLabel";
-            this.userRatingLabel.Size = new System.Drawing.Size(639, 38);
-            this.userRatingLabel.TabIndex = 0;
-            this.userRatingLabel.Text = "User Ratings: 0/5";
-            this.userRatingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // yourRatingLabel
-            // 
-            this.yourRatingLabel.AutoSize = true;
-            this.yourRatingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.yourRatingLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.yourRatingLabel.Location = new System.Drawing.Point(3, 38);
-            this.yourRatingLabel.Name = "yourRatingLabel";
-            this.yourRatingLabel.Size = new System.Drawing.Size(639, 39);
-            this.yourRatingLabel.TabIndex = 1;
-            this.yourRatingLabel.Text = "Your Rating: 0/5";
-            this.yourRatingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // descriptionLabel
             // 
             this.descriptionLabel.AutoSize = true;
             this.descriptionLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.descriptionLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.descriptionLabel.Location = new System.Drawing.Point(4, 85);
+            this.descriptionLabel.Location = new System.Drawing.Point(4, 9);
+            this.descriptionLabel.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.descriptionLabel.Name = "descriptionLabel";
             this.descriptionLabel.Size = new System.Drawing.Size(645, 27);
-            this.descriptionLabel.TabIndex = 1;
+            this.descriptionLabel.TabIndex = 5;
             this.descriptionLabel.Text = "This is the description for the recipe.";
             // 
             // tagsPlaceholderLabel
@@ -298,80 +252,89 @@
             this.tagsPlaceholderLabel.AutoSize = true;
             this.tagsPlaceholderLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tagsPlaceholderLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.tagsPlaceholderLabel.Location = new System.Drawing.Point(4, 113);
+            this.tagsPlaceholderLabel.Location = new System.Drawing.Point(4, 53);
+            this.tagsPlaceholderLabel.Margin = new System.Windows.Forms.Padding(3, 8, 3, 8);
             this.tagsPlaceholderLabel.Name = "tagsPlaceholderLabel";
             this.tagsPlaceholderLabel.Size = new System.Drawing.Size(645, 27);
             this.tagsPlaceholderLabel.TabIndex = 2;
             this.tagsPlaceholderLabel.Text = "Tags go here";
             // 
+            // ingredientsTableLayout
+            // 
+            this.ingredientsTableLayout.AutoSize = true;
+            this.ingredientsTableLayout.ColumnCount = 1;
+            this.ingredientsTableLayout.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ingredientsTableLayout.Controls.Add(this.ingredientsListLabel, 0, 1);
+            this.ingredientsTableLayout.Controls.Add(this.ingredientsTitleLabel, 0, 0);
+            this.ingredientsTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ingredientsTableLayout.Location = new System.Drawing.Point(4, 92);
+            this.ingredientsTableLayout.Name = "ingredientsTableLayout";
+            this.ingredientsTableLayout.RowCount = 2;
+            this.ingredientsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.ingredientsTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.ingredientsTableLayout.Size = new System.Drawing.Size(645, 110);
+            this.ingredientsTableLayout.TabIndex = 6;
+            // 
             // ingredientsListLabel
             // 
             this.ingredientsListLabel.AutoSize = true;
+            this.ingredientsListLabel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ingredientsListLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ingredientsListLabel.Location = new System.Drawing.Point(4, 141);
+            this.ingredientsListLabel.Location = new System.Drawing.Point(3, 75);
+            this.ingredientsListLabel.Margin = new System.Windows.Forms.Padding(3, 0, 3, 8);
             this.ingredientsListLabel.Name = "ingredientsListLabel";
-            this.ingredientsListLabel.Size = new System.Drawing.Size(115, 27);
-            this.ingredientsListLabel.TabIndex = 3;
+            this.ingredientsListLabel.Size = new System.Drawing.Size(639, 27);
+            this.ingredientsListLabel.TabIndex = 4;
             this.ingredientsListLabel.Text = "Ingredients";
+            // 
+            // ingredientsTitleLabel
+            // 
+            this.ingredientsTitleLabel.AutoSize = true;
+            this.ingredientsTitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ingredientsTitleLabel.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.ingredientsTitleLabel.Location = new System.Drawing.Point(0, 8);
+            this.ingredientsTitleLabel.Margin = new System.Windows.Forms.Padding(0, 8, 3, 8);
+            this.ingredientsTitleLabel.Name = "ingredientsTitleLabel";
+            this.ingredientsTitleLabel.Size = new System.Drawing.Size(642, 59);
+            this.ingredientsTitleLabel.TabIndex = 5;
+            this.ingredientsTitleLabel.Text = "Ingredients";
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.stepsTitleLabel, 0, 0);
+            this.tableLayoutPanel5.Controls.Add(this.stepsLabel, 0, 1);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(4, 210);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 2;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(645, 891);
+            this.tableLayoutPanel5.TabIndex = 7;
+            // 
+            // stepsTitleLabel
+            // 
+            this.stepsTitleLabel.AutoSize = true;
+            this.stepsTitleLabel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.stepsTitleLabel.Font = new System.Drawing.Font("Calibri", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.stepsTitleLabel.Location = new System.Drawing.Point(0, 8);
+            this.stepsTitleLabel.Margin = new System.Windows.Forms.Padding(0, 8, 3, 8);
+            this.stepsTitleLabel.Name = "stepsTitleLabel";
+            this.stepsTitleLabel.Size = new System.Drawing.Size(642, 59);
+            this.stepsTitleLabel.TabIndex = 6;
+            this.stepsTitleLabel.Text = "Steps";
             // 
             // stepsLabel
             // 
             this.stepsLabel.AutoSize = true;
             this.stepsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.stepsLabel.Location = new System.Drawing.Point(4, 169);
+            this.stepsLabel.Location = new System.Drawing.Point(3, 75);
             this.stepsLabel.Name = "stepsLabel";
             this.stepsLabel.Size = new System.Drawing.Size(61, 27);
-            this.stepsLabel.TabIndex = 4;
+            this.stepsLabel.TabIndex = 5;
             this.stepsLabel.Text = "Steps";
-            // 
-            // commentsLabel
-            // 
-            this.commentsLabel.AutoSize = true;
-            this.commentsLabel.Font = new System.Drawing.Font("Calibri", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.commentsLabel.Location = new System.Drawing.Point(4, 197);
-            this.commentsLabel.Name = "commentsLabel";
-            this.commentsLabel.Size = new System.Drawing.Size(111, 27);
-            this.commentsLabel.TabIndex = 5;
-            this.commentsLabel.Text = "Comments";
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 3;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
-            this.tableLayoutPanel5.Controls.Add(this.pevImageButton, 0, 0);
-            this.tableLayoutPanel5.Controls.Add(this.nextImageButton, 2, 0);
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.Padding = new System.Windows.Forms.Padding(8);
-            this.tableLayoutPanel5.RowCount = 1;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(659, 354);
-            this.tableLayoutPanel5.TabIndex = 1;
-            // 
-            // pevImageButton
-            // 
-            this.pevImageButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pevImageButton.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.pevImageButton.Location = new System.Drawing.Point(11, 11);
-            this.pevImageButton.Name = "pevImageButton";
-            this.pevImageButton.Size = new System.Drawing.Size(74, 332);
-            this.pevImageButton.TabIndex = 0;
-            this.pevImageButton.Text = "<";
-            this.pevImageButton.UseVisualStyleBackColor = true;
-            // 
-            // nextImageButton
-            // 
-            this.nextImageButton.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nextImageButton.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.nextImageButton.Location = new System.Drawing.Point(573, 11);
-            this.nextImageButton.Name = "nextImageButton";
-            this.nextImageButton.Size = new System.Drawing.Size(75, 332);
-            this.nextImageButton.TabIndex = 1;
-            this.nextImageButton.Text = ">";
-            this.nextImageButton.UseVisualStyleBackColor = true;
             // 
             // buttonTableLayout
             // 
@@ -381,27 +344,12 @@
             this.buttonTableLayout.Controls.Add(this.cookRecipeButton, 1, 0);
             this.buttonTableLayout.Controls.Add(this.addPlannedMealButton, 0, 0);
             this.buttonTableLayout.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonTableLayout.Location = new System.Drawing.Point(3, 363);
+            this.buttonTableLayout.Location = new System.Drawing.Point(3, 3);
             this.buttonTableLayout.Name = "buttonTableLayout";
             this.buttonTableLayout.RowCount = 1;
             this.buttonTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.buttonTableLayout.Size = new System.Drawing.Size(659, 58);
             this.buttonTableLayout.TabIndex = 2;
-            // 
-            // addPlannedMealButton
-            // 
-            this.addPlannedMealButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.addPlannedMealButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
-            this.addPlannedMealButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.addPlannedMealButton.ForeColor = System.Drawing.Color.White;
-            this.addPlannedMealButton.Location = new System.Drawing.Point(24, 3);
-            this.addPlannedMealButton.MaximumSize = new System.Drawing.Size(280, 0);
-            this.addPlannedMealButton.Name = "addPlannedMealButton";
-            this.addPlannedMealButton.Size = new System.Drawing.Size(280, 52);
-            this.addPlannedMealButton.TabIndex = 3;
-            this.addPlannedMealButton.Text = "Add to Planned Meals";
-            this.addPlannedMealButton.UseVisualStyleBackColor = false;
-            this.addPlannedMealButton.Click += new System.EventHandler(this.addPlannedMeal_Click);
             // 
             // cookRecipeButton
             // 
@@ -418,6 +366,21 @@
             this.cookRecipeButton.UseVisualStyleBackColor = false;
             this.cookRecipeButton.Click += new System.EventHandler(this.cookRecipeButton_Click);
             // 
+            // addPlannedMealButton
+            // 
+            this.addPlannedMealButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.addPlannedMealButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(101)))), ((int)(((byte)(125)))));
+            this.addPlannedMealButton.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.addPlannedMealButton.ForeColor = System.Drawing.Color.White;
+            this.addPlannedMealButton.Location = new System.Drawing.Point(24, 3);
+            this.addPlannedMealButton.MaximumSize = new System.Drawing.Size(280, 0);
+            this.addPlannedMealButton.Name = "addPlannedMealButton";
+            this.addPlannedMealButton.Size = new System.Drawing.Size(280, 52);
+            this.addPlannedMealButton.TabIndex = 3;
+            this.addPlannedMealButton.Text = "Add to Planned Meals";
+            this.addPlannedMealButton.UseVisualStyleBackColor = false;
+            this.addPlannedMealButton.Click += new System.EventHandler(this.addPlannedMeal_Click);
+            // 
             // RecipeScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
@@ -433,9 +396,10 @@
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.tableLayoutPanel6.ResumeLayout(false);
-            this.tableLayoutPanel6.PerformLayout();
+            this.ingredientsTableLayout.ResumeLayout(false);
+            this.ingredientsTableLayout.PerformLayout();
             this.tableLayoutPanel5.ResumeLayout(false);
+            this.tableLayoutPanel5.PerformLayout();
             this.buttonTableLayout.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -453,20 +417,17 @@
         private Button backButton;
         private TableLayoutPanel tableLayoutPanel3;
         private TableLayoutPanel tableLayoutPanel4;
-        private TableLayoutPanel tableLayoutPanel5;
-        private TableLayoutPanel tableLayoutPanel6;
-        private Label userRatingLabel;
-        private Label yourRatingLabel;
-        private Label descriptionLabel;
         private Label tagsPlaceholderLabel;
-        private Button pevImageButton;
-        private Button nextImageButton;
-        private Label ingredientsListLabel;
-        private Label stepsLabel;
-        private Label commentsLabel;
         private Button hamburgerButton;
         private TableLayoutPanel buttonTableLayout;
         private Button cookRecipeButton;
         private Button addPlannedMealButton;
+        private Label descriptionLabel;
+        private TableLayoutPanel ingredientsTableLayout;
+        private Label ingredientsListLabel;
+        private Label ingredientsTitleLabel;
+        private TableLayoutPanel tableLayoutPanel5;
+        private Label stepsTitleLabel;
+        private Label stepsLabel;
     }
 }

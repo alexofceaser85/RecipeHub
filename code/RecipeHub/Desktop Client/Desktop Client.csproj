@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="View\Components\General\ScrollVisibleTableLayoutPanel.cs" />
     <Compile Update="View\Components\Ingredients\ShoppingListItem.cs">
       <SubType>UserControl</SubType>
     </Compile>

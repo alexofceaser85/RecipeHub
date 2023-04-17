@@ -1,7 +1,6 @@
 ﻿using Desktop_Client.View.Components.Recipes;
 using Desktop_Client.View.Dialog;
 using Desktop_Client.ViewModel.Recipes;
-using Shared_Resources.Data.UserData;
 using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.View.Screens
@@ -23,10 +22,11 @@ namespace Desktop_Client.View.Screens
         public RecipeListScreen()
         {
             this.InitializeComponent();
-
+            
             this.viewmodel = new RecipesListViewModel();
             this.BindComponents();
-            this.viewmodel.GetRecipes();
+
+            this.DelayedRecipeLoading();
         }
 
         private void BindComponents()
@@ -46,9 +46,17 @@ namespace Desktop_Client.View.Screens
             };
         }
 
+        private async void DelayedRecipeLoading()
+        {
+            await Task.Delay(100);
+            this.viewmodel.GetRecipes();
+        }
+
         private void PopulateRecipeList(Recipe[] recipes, string[][] recipeTags)
         {
             this.ClearRecipeList();
+            var availableWidth = this.recipeListTablePanel.ClientSize.Width - SystemInformation.VerticalScrollBarWidth;
+
             if (recipes.Length == 0)
             {
                 this.recipeListTablePanel.Controls.Add(this.noRecipesLabel);
@@ -61,19 +69,37 @@ namespace Desktop_Client.View.Screens
 
                 var item = new RecipeListItem(recipe, tags);
                 this.recipeListTablePanel.Controls.Add(item);
-                this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 160));
                 item.Tapped += this.RecipeListItemMouseClick;
             }
 
             //Adds an empty label to the bottom of the list to prevent the last ingredient from expanding vertically
-            this.recipeListTablePanel.Controls.Add(new Label() { Margin = Padding.Empty, Padding = Padding.Empty});
-            this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            this.recipeListTablePanel.Controls.Add(new Label { Margin = Padding.Empty, Padding = Padding.Empty});
+
+            this.recipeListTablePanel.ResumeLayout(true);
+            this.recipeListTablePanel.Padding = new Padding(0, 0, 1, 0);
+            this.AdjustScroll();
         }
 
         private void ClearRecipeList()
         {
             this.recipeListTablePanel.Controls.Clear();
             this.recipeListTablePanel.RowStyles.Clear();
+        }
+
+        private void AdjustScroll()
+        {
+            // Reset row styles
+            this.recipeListTablePanel.RowStyles.Clear();
+            for (var i = 0; i < this.recipeListTablePanel.RowCount - 1; i++)
+            {
+                this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.Absolute, 160));
+            }
+            this.recipeListTablePanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+            // Recalculate row heights
+            this.recipeListTablePanel.AutoScroll = false;
+            this.recipeListTablePanel.AutoScroll = true;
+            
         }
 
         private void RecipeListItemMouseClick(object? sender, int recipeId)

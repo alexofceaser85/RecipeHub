@@ -26,6 +26,12 @@ namespace Desktop_Client.View.Screens
             
             this.viewModel = new IngredientsViewModel();
             this.BindComponents();
+            this.DelayGettingIngredients();
+        }
+
+        private async void DelayGettingIngredients()
+        {
+            await Task.Delay(100);
             this.viewModel.GetAllIngredientsForUser();
         }
 
@@ -46,11 +52,12 @@ namespace Desktop_Client.View.Screens
 
         private void PopulateIngredientsList(ICollection<Ingredient> ingredients)
         {
-            this.ClearRecipeList();
+            this.ingredientListTableLayout.Controls.Clear();
 
             if (ingredients.Count == 0)
             {
                 this.ingredientListTableLayout.Controls.Add(this.noIngredientsLabel);
+                this.AdjustScroll();
                 return;
             }
             foreach (var ingredient in ingredients)
@@ -60,7 +67,7 @@ namespace Desktop_Client.View.Screens
                 this.ingredientListTableLayout.RowStyles.Add(new RowStyle(SizeType.Absolute, 100));
                 item.EditSelected += (_, selectedIngredient) =>
                 {
-                    var dialog = new EditIngredientDialog(selectedIngredient.Name);
+                    var dialog = new EditIngredientDialog(selectedIngredient);
 
                     dialog.DialogClosed += (_, _) =>
                     {
@@ -74,7 +81,7 @@ namespace Desktop_Client.View.Screens
                                 new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
                             base.DisplayDialog(messageDialog);
                         }
-                        else if (dialog.DialogResult == DialogResult.Yes)
+                        else if (dialog.DialogResult == DialogResult.OK)
                         {
                             this.viewModel.GetAllIngredientsForUser();
                         }
@@ -98,26 +105,35 @@ namespace Desktop_Client.View.Screens
                         else if (dialog.Exception != null)
                         {
                             var messageDialog =
-                                new MessageDialog("Error occurred", dialog.Exception.Message, MessageBoxButtons.OK);
+                                new MessageDialog("Error occurred", dialog.Exception.Message);
                             base.DisplayDialog(messageDialog);
                         }
                         else if (dialog.DialogResult == DialogResult.Yes)
                         {
                             this.viewModel.RemoveIngredient(selectedIngredient);
                             this.viewModel.GetAllIngredientsForUser();
+                            this.AdjustScroll();
                         }
                     };
 
                     base.DisplayDialog(dialog);
                 };
-
             }
+            this.AdjustScroll();
         }
-
-        private void ClearRecipeList()
+        
+        private void AdjustScroll()
         {
-            this.ingredientListTableLayout.Controls.Clear();
+            // Reset row styles
             this.ingredientListTableLayout.RowStyles.Clear();
+            for (int i = 0; i < this.ingredientListTableLayout.RowCount; i++)
+            {
+                this.ingredientListTableLayout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            }
+
+            // Recalculate row heights
+            this.ingredientListTableLayout.AutoScroll = false;
+            this.ingredientListTableLayout.AutoScroll = true;
         }
         
         private void hamburgerButton_Click(object sender, EventArgs e)
@@ -189,6 +205,7 @@ namespace Desktop_Client.View.Screens
                 {
                     this.viewModel.RemoveAllIngredients();
                     this.viewModel.GetAllIngredientsForUser();
+                    this.AdjustScroll();
                 }
             };
 

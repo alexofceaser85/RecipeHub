@@ -55,6 +55,11 @@ namespace Desktop_Client.View.Components.PlannedMeals
         /// </summary>
         public EventHandler<int>? ViewPressed;
 
+        /// <summary>
+        /// Occurs when the component's contents have either been collapsed or expanded
+        /// </summary>
+        public EventHandler? CollapseToggled;
+
         private void PopulateControlArrays()
         {
 
@@ -150,6 +155,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
         {
             this.mealsTableLayout.Visible = !this.mealsTableLayout.Visible;
             this.collapseButton.Text = this.mealsTableLayout.Visible ? ExpandedCharacter : CollapsedCharacter;
+            this.CollapseToggled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

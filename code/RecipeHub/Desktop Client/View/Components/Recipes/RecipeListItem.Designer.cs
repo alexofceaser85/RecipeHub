@@ -32,7 +32,6 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.recipeNameLabel = new System.Windows.Forms.Label();
             this.authorNameLabel = new System.Windows.Forms.Label();
-            this.ratingLabel = new System.Windows.Forms.Label();
             this.tagsPlaceholderLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -59,11 +58,10 @@
             // 
             this.tableLayoutPanel2.AutoSize = true;
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 75.91623F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 24.08377F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 98.95288F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 1.04712F));
             this.tableLayoutPanel2.Controls.Add(this.recipeNameLabel, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.authorNameLabel, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.ratingLabel, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -81,7 +79,7 @@
             this.recipeNameLabel.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.recipeNameLabel.Location = new System.Drawing.Point(3, 0);
             this.recipeNameLabel.Name = "recipeNameLabel";
-            this.recipeNameLabel.Size = new System.Drawing.Size(574, 45);
+            this.recipeNameLabel.Size = new System.Drawing.Size(750, 45);
             this.recipeNameLabel.TabIndex = 0;
             this.recipeNameLabel.Text = "Recipe Name";
             this.recipeNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -94,23 +92,11 @@
             this.authorNameLabel.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.authorNameLabel.Location = new System.Drawing.Point(3, 45);
             this.authorNameLabel.Name = "authorNameLabel";
-            this.authorNameLabel.Size = new System.Drawing.Size(574, 45);
+            this.authorNameLabel.Size = new System.Drawing.Size(750, 45);
             this.authorNameLabel.TabIndex = 1;
             this.authorNameLabel.Text = "Author Name";
             this.authorNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.authorNameLabel.Click += new System.EventHandler(this.childControlMouseClick);
-            // 
-            // ratingLabel
-            // 
-            this.ratingLabel.AutoSize = true;
-            this.ratingLabel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ratingLabel.Location = new System.Drawing.Point(583, 0);
-            this.ratingLabel.Name = "ratingLabel";
-            this.ratingLabel.Size = new System.Drawing.Size(178, 45);
-            this.ratingLabel.TabIndex = 2;
-            this.ratingLabel.Text = "Rating: 0/5";
-            this.ratingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.ratingLabel.Click += new System.EventHandler(this.childControlMouseClick);
             // 
             // tagsPlaceholderLabel
             // 
@@ -149,7 +135,6 @@
         private TableLayoutPanel tableLayoutPanel2;
         private Label recipeNameLabel;
         private Label authorNameLabel;
-        private Label ratingLabel;
         private Label tagsPlaceholderLabel;
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Desktop_Client.View.Screens
+﻿using Desktop_Client.View.Components.General;
+
+namespace Desktop_Client.View.Screens
 {
     partial class PlannedMealsScreen
     {
@@ -35,7 +37,7 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.viewShoppingListButton = new System.Windows.Forms.Button();
-            this.mealsListTableLayout = new System.Windows.Forms.TableLayoutPanel();
+            this.mealsListTableLayout = new Desktop_Client.View.Components.General.ScrollVisibleTableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -158,6 +160,7 @@
             this.mealsListTableLayout.Location = new System.Drawing.Point(26, 218);
             this.mealsListTableLayout.Margin = new System.Windows.Forms.Padding(10);
             this.mealsListTableLayout.Name = "mealsListTableLayout";
+            this.mealsListTableLayout.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.mealsListTableLayout.RowCount = 1;
             this.mealsListTableLayout.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.mealsListTableLayout.Size = new System.Drawing.Size(661, 1088);
@@ -186,7 +189,7 @@
         private TableLayoutPanel tableLayoutPanel3;
         private Button viewShoppingListButton;
         private Button hamburgerButton;
-        private TableLayoutPanel mealsListTableLayout;
+        private ScrollVisibleTableLayoutPanel mealsListTableLayout;
         private Label titleLabel;
     }
 }
