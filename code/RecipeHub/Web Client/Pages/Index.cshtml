@@ -54,6 +54,10 @@
         var validateUsername = false;
         var validatePassword = false;
 
+        if ('@(Session.Key)' != null && '@(Session.Key)' != '') {
+            window.location.href = "/RecipeList";
+        }
+
         function validateForm() {
             $("#login-button").prop("disabled", !(validateUsername && validatePassword));
         }

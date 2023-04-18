@@ -17,7 +17,7 @@ namespace Web_Client.Pages
     /// </summary>
     public class IngredientsModel : PageModel
     {
-        private bool shouldReturnToLogin = false;
+        private bool shouldReturnToLogin;
         private const int NumberOfSuggestions = 5;
         private readonly IngredientsViewModel viewModel;
 
@@ -59,10 +59,9 @@ namespace Web_Client.Pages
             {
                 this.shouldReturnToLogin = true;
             }
-            catch (Exception)
+            catch (ArgumentException)
             {
-                this.Ingredients = new List<Ingredient>();
-                this.Suggestions = Array.Empty<string>();
+                this.shouldReturnToLogin = true;
             }
         }
 
@@ -74,7 +73,7 @@ namespace Web_Client.Pages
             if (this.shouldReturnToLogin)
             {
                 TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
-                Response.Redirect("/Index");
+                Response.Redirect("/");
             }
         }
 

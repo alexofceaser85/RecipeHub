@@ -13,7 +13,7 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class PlannedMealsModel : PageModel
     {
-        private bool shouldReturnToLogin = false;
+        private bool shouldReturnToLogin;
         /// <summary>
         /// Gets or sets the view model.
         /// </summary>
@@ -36,6 +36,10 @@ namespace Web_Client.Pages
             {
                 this.shouldReturnToLogin = true;
             }
+            catch (ArgumentException)
+            {
+                this.shouldReturnToLogin = true;
+            }
         }
 
         /// <summary>
@@ -46,7 +50,7 @@ namespace Web_Client.Pages
             if (this.shouldReturnToLogin)
             {
                 TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
-                Response.Redirect("/Index");
+                Response.Redirect("/");
             }
         }
 

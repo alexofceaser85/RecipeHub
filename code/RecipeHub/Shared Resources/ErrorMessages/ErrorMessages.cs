@@ -270,7 +270,7 @@ namespace Shared_Resources.ErrorMessages
         /// <summary>
         /// The unauthorized access error message
         /// </summary>
-        public const string UnauthorizedAccessErrorMessage = "The session timed out redirecting to login";
+        public const string UnauthorizedAccessErrorMessage = "Session either timed out or was invalid. Redirecting to login.";
     }
 
     /// <summary>

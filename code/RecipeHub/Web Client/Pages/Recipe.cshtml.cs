@@ -75,10 +75,15 @@ namespace Web_Client.Pages
                 this.ViewModel.GetMissingIngredientsForRecipe();
                 RecipePageState.ViewModel = this.ViewModel;
             }
-            catch (UnauthorizedAccessException exception)
+            catch (UnauthorizedAccessException)
             {
-                TempData["Message"] = exception.Message;
-                Response.Redirect("/Index");
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/");
+            }
+            catch (ArgumentException)
+            {
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/");
             }
         }
 

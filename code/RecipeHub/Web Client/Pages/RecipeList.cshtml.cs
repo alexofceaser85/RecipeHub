@@ -86,6 +86,10 @@ namespace Web_Client.Pages
             {
                 this.shouldRedirect = true;
             }
+            catch (ArgumentException)
+            {
+                this.shouldRedirect = true;
+            }
         }
         /// <summary>
         /// Called when the page is loaded[get].
@@ -95,7 +99,7 @@ namespace Web_Client.Pages
             if (this.shouldRedirect)
             {
                 TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
-                Response.Redirect("/Index");
+                Response.Redirect("/");
             }
         }
 

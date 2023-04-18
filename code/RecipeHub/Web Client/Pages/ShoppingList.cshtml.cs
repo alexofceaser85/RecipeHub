@@ -14,7 +14,7 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class ShoppingListModel : PageModel
     {
-        private bool shouldReturnToLogin = false;
+        private bool shouldReturnToLogin;
         private ShoppingListViewModel viewModel;
 
         /// <summary>
@@ -33,12 +33,16 @@ namespace Web_Client.Pages
         /// </summary>
         public ShoppingListModel()
         {
+            this.viewModel = new ShoppingListViewModel();
             try
             {
-                this.viewModel = new ShoppingListViewModel();
                 this.viewModel.GetShoppingList();
             }
             catch (UnauthorizedAccessException)
+            {
+                this.shouldReturnToLogin = true;
+            }
+            catch (ArgumentException)
             {
                 this.shouldReturnToLogin = true;
             }
@@ -55,7 +59,7 @@ namespace Web_Client.Pages
             if (this.shouldReturnToLogin)
             {
                 TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
-                Response.Redirect("/Index");
+                Response.Redirect("/");
             }
         }
 
