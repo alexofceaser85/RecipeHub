@@ -1,4 +1,6 @@
 ﻿@page
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Shared_Resources.Data.UserData
 @model Web_Client.Pages.RecipesListModel
 @{
     ViewData["Title"] = "Recipes";
@@ -60,8 +62,7 @@
                                     <p class="recipe-author">By: @recipe.AuthorName</p>
                                 </div>
                                 <div>
-                                    <div class="text-end">Rating: 0/5</div>
-                                        <div class="text-end">@(recipeTags.Length == 0 ? "No recipe tags" : string.Join(", ", recipeTags))</div>
+                                    <div class="text-end">@(recipeTags.Length == 0 ? "No recipe tags" : string.Join(", ", recipeTags))</div>
                                 </div>
                             </div>
                         </a>
@@ -74,7 +75,11 @@
 @section Scripts
 {
     <script type="text/javascript">
-        document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
+            if ('@(Session.Key)' == null || '@(Session.Key)' == '') {
+                window.location.href = "/";
+            }
+
+            document.getElementById('recipe-filter-by-type-input').addEventListener('input', function() {
             // Get the value entered by the user
             var inputValue = this.value.toUpperCase();
             // Loop through all the checkboxes and hide the ones that don't match the entered value
@@ -88,6 +93,7 @@
                 }
             }
         });
+    
     </script>
 }
 }

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.PlannedMeals;
 using Web_Client.ViewModel.PlannedMeals;
 
@@ -11,6 +13,7 @@ namespace Web_Client.Pages
     /// <seealso cref="Microsoft.AspNetCore.Mvc.RazorPages.PageModel" />
     public class PlannedMealsModel : PageModel
     {
+        private bool shouldReturnToLogin;
         /// <summary>
         /// Gets or sets the view model.
         /// </summary>
@@ -24,8 +27,19 @@ namespace Web_Client.Pages
         /// </summary>
         public PlannedMealsModel()
         {
-            this.ViewModel= new PlannedMealsViewModel();
-            this.ViewModel.Initialize();
+            try
+            {
+                this.ViewModel = new PlannedMealsViewModel();
+                this.ViewModel.Initialize();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                this.shouldReturnToLogin = true;
+            }
+            catch (ArgumentException)
+            {
+                this.shouldReturnToLogin = true;
+            }
         }
 
         /// <summary>
@@ -33,6 +47,11 @@ namespace Web_Client.Pages
         /// </summary>
         public void OnGet()
         {
+            if (this.shouldReturnToLogin)
+            {
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/");
+            }
         }
 
         /// <summary>
@@ -41,11 +60,20 @@ namespace Web_Client.Pages
         /// <returns>a redirect to the planned meals page.</returns>
         public IActionResult OnPostRemovePlannedMeal()
         {
-            int recipeId = int.Parse(Request.Form["RecipeId"][0]!);
-            MealCategory mealCategory = (MealCategory)int.Parse(Request.Form["Category"][0]!);
-            DateTime date = DateTime.Parse(Request.Form["Date"][0]!);
-            this.ViewModel.RemovePlannedMeal(date, mealCategory, recipeId);
-            return RedirectToPage("PlannedMeals");
+            try
+            {
+                int recipeId = int.Parse(Request.Form["RecipeId"][0]!);
+                MealCategory mealCategory = (MealCategory)int.Parse(Request.Form["Category"][0]!);
+                DateTime date = DateTime.Parse(Request.Form["Date"][0]!);
+                this.ViewModel.RemovePlannedMeal(date, mealCategory, recipeId);
+                return RedirectToPage("PlannedMeals");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Session.Key = null;
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                return RedirectToPage("Index");
+            }
         }
     }
 }

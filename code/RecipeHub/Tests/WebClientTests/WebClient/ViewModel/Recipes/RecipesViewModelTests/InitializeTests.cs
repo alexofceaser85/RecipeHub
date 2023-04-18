@@ -17,9 +17,9 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesViewModelTests
             const string recipeName = "name";
             const string authorName = "first last";
             const string description = "description";
-            const string tagsText = "breakfast\nlunch";
-            const string ingredientsText = "ingredient 1 - 1 ml\ningredient 2 - 2 g";
-            const string instructionsText = "1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2";
+            const string tagsText = "breakfast<br>lunch";
+            const string ingredientsText = "ingredient 1 - 1 ml<br>ingredient 2 - 2 g<br>";
+            const string instructionsText = "1: name 1<br>instructions 1<br><br>2: name 2<br>instructions 2<br><br>";
             const string userRating = "User Rating: 0/5";
             const string yourRating = "Your Rating: 0/5";
 
@@ -69,10 +69,10 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesViewModelTests
             const int recipeId = 0;
             const string recipeName = "name";
             const string authorName = "first last";
-            const string tagsText = "breakfast\nlunch";
+            const string tagsText = "breakfast<br>lunch";
             const string description = "description";
             const string ingredientsText = RecipeViewModel.NoIngredientsMessage;
-            const string instructionsText = "1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2";
+            const string instructionsText = "1: name 1<br>instructions 1<br><br>2: name 2<br>instructions 2<br><br>";
             const string userRating = "User Rating: 0/5";
             const string yourRating = "Your Rating: 0/5";
 
@@ -119,9 +119,9 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesViewModelTests
             const int recipeId = 0;
             const string recipeName = "name";
             const string authorName = "first last";
-            const string tagsText = "breakfast\nlunch";
+            const string tagsText = "breakfast<br>lunch";
             const string description = "description";
-            const string ingredientsText = "ingredient 1 - 1 ml\ningredient 2 - 2 g";
+            const string ingredientsText = "ingredient 1 - 1 ml<br>ingredient 2 - 2 g<br>";
             const string instructionsText = RecipeViewModel.NoInstructionsMessage;
             const string userRating = "User Rating: 0/5";
             const string yourRating = "Your Rating: 0/5";
@@ -171,8 +171,8 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesViewModelTests
             const string authorName = "first last";
             const string description = "description";
             const string tagsText = RecipeViewModel.NoTagsMessage;
-            const string ingredientsText = "ingredient 1 - 1 ml\ningredient 2 - 2 g";
-            const string instructionsText = "1: name 1\ninstructions 1\n\n2: name 2\ninstructions 2";
+            const string ingredientsText = "ingredient 1 - 1 ml<br>ingredient 2 - 2 g<br>";
+            const string instructionsText = "1: name 1<br>instructions 1<br><br>2: name 2<br>instructions 2<br><br>";
             const string userRating = "User Rating: 0/5";
             const string yourRating = "Your Rating: 0/5";
 

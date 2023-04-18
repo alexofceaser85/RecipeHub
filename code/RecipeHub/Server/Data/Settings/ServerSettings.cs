@@ -12,15 +12,15 @@
         /// <summary>
         /// The session time out length in minutes
         /// </summary>
-        public static double SessionTimeOutLengthInMinutes = -5;
+        public static double SessionTimeOutLengthInMinutes = -86400000;
         /// <summary>
         /// The removed time out session keys thread interval
         /// </summary>
-        public static int RemovedTimeOutSessionKeysThreadInterval = 60000;
+        public static int RemovedTimeOutSessionKeysThreadInterval = 3600000;
         /// <summary>
         /// The removed planned meals thread interval
         /// </summary>
-        public static int RemovedPlannedMealsThreadInterval = 60000;
+        public static int RemovedPlannedMealsThreadInterval = 3600000;
     }
 
     /// <summary>
