@@ -70,14 +70,5 @@ namespace Web_Client.Pages
                 return null;
             }
         }
-
-        /// <summary>
-        /// Called when [post cancel].
-        /// </summary>
-        /// <returns>The redirect result</returns>
-        public RedirectToPageResult OnPostCancel()
-        {
-            return RedirectToPage("/Index");
-        }
     }
 }
