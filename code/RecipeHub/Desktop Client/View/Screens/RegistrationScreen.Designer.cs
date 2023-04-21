@@ -63,11 +63,11 @@
             // 
             this.createAccountForm.AutoSize = true;
             this.createAccountForm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.createAccountForm.Dock = System.Windows.Forms.DockStyle.Top;
+            this.createAccountForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.createAccountForm.Location = new System.Drawing.Point(64, 96);
             this.createAccountForm.Margin = new System.Windows.Forms.Padding(64, 5, 64, 5);
             this.createAccountForm.Name = "createAccountForm";
-            this.createAccountForm.Size = new System.Drawing.Size(585, 704);
+            this.createAccountForm.Size = new System.Drawing.Size(585, 1073);
             this.createAccountForm.TabIndex = 0;
             // 
             // tableLayoutPanel2

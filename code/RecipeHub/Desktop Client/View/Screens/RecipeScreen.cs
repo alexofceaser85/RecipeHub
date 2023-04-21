@@ -27,6 +27,18 @@ namespace Desktop_Client.View.Screens
 
             this.viewModel = new RecipeViewModel();
             this.BindComponents();
+            this.DelayInitialization(recipeId);
+
+            //Fixes the steps being cut off when the content panel is long enough to need the scroll bar.
+            this.contentTablePanel.MaximumSize =
+                new Size(0,
+                    this.contentTablePanel.Height - SystemInformation.CaptionHeight -
+                    this.contentTablePanel.Padding.Top - this.contentTablePanel.Margin.Top);
+        }
+
+        private async void DelayInitialization(int recipeId)
+        {
+            await Task.Delay(100);
             this.viewModel.Initialize(recipeId);
         }
 
@@ -61,7 +73,7 @@ namespace Desktop_Client.View.Screens
 
             base.DisplayDialog(dialog);
         }
-
+        
         private void backButton_Click(object sender, EventArgs e)
         {
             try
