@@ -30,7 +30,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1));
+                Assert.DoesNotThrow(() => endpoints.RemovePlannedMeal(0));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
@@ -61,7 +61,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(
-                    () => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1))!.Message;
+                    () => endpoints.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler
@@ -94,7 +94,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<UnauthorizedAccessException>(
-                    () => endpoints.RemovePlannedMeal(new DateTime(2000, 1, 1), MealCategory.Breakfast, 0))!.Message;
+                    () => endpoints.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler

@@ -62,10 +62,8 @@ namespace Web_Client.Pages
         {
             try
             {
-                int recipeId = int.Parse(Request.Form["RecipeId"][0]!);
-                MealCategory mealCategory = (MealCategory)int.Parse(Request.Form["Category"][0]!);
-                DateTime date = DateTime.Parse(Request.Form["Date"][0]!);
-                this.ViewModel.RemovePlannedMeal(date, mealCategory, recipeId);
+                int mealId = int.Parse(Request.Form["MealId"][0]!);
+                this.ViewModel.RemovePlannedMeal(mealId);
                 return RedirectToPage("PlannedMeals");
             }
             catch (UnauthorizedAccessException)

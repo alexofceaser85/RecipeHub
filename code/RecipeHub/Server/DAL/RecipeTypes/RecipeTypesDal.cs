@@ -68,7 +68,6 @@ namespace Server.DAL.RecipeTypes
         /// Precondition: None
         /// Postcondition: None
         /// </summary>
-        /// <param name="partialString">The partial string.</param>
         /// <returns>
         /// The similar recipe types
         /// </returns>

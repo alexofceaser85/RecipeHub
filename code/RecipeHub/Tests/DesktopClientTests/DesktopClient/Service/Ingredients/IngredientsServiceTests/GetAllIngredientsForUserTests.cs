@@ -35,7 +35,6 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
         public void FailedToGetIngredients()
         {
             const string errorMessage = "error message";
-            var ingredient = new Ingredient();
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
             endpoints.Setup(mock => mock.GetAllIngredientsForUser()).Throws(new ArgumentException(errorMessage));
@@ -55,7 +54,6 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
         public void SessionKeyIsInvalid()
         {
             const string errorMessage = "error message";
-            var ingredient = new Ingredient();
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
             endpoints.Setup(mock => mock.GetAllIngredientsForUser()).Throws(new UnauthorizedAccessException(errorMessage));

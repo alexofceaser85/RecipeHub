@@ -29,7 +29,7 @@ namespace WebClientTests.WebClient.Endpoints.PlannedMeals.PlannedMealsEndpointsT
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1));
+                Assert.DoesNotThrow(() => endpoints.RemovePlannedMeal(0));
                 mockHttpMessageHandler
                     .Protected()
                     .Verify<Task<HttpResponseMessage>>("SendAsync", Times.Once(),
@@ -60,7 +60,7 @@ namespace WebClientTests.WebClient.Endpoints.PlannedMeals.PlannedMealsEndpointsT
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<ArgumentException>(
-                    () => endpoints.RemovePlannedMeal(DateTime.Now, MealCategory.Breakfast, 1))!.Message;
+                    () => endpoints.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
 
                 mockHttpMessageHandler

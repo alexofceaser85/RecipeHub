@@ -14,18 +14,18 @@ namespace ServerTests.Server.Controllers.PlannedMeals.PlannedMealsTests
         [Test]
         public void ShouldGetPlannedMeals()
         {
-            var recipeOne = new Recipe(0, "author one", "recipe one", "desc one", true);
-            var recipeTwo = new Recipe(1, "author two", "recipe two", "desc two", true);
-            var recipeThree = new Recipe(2, "author three", "recipe three", "desc three", true);
-            var recipeFour = new Recipe(3, "author four", "recipe four", "desc four", true);
-            var recipeFive = new Recipe(4, "author five", "recipe five", "desc five", true);
-            var recipeSix = new Recipe(5, "author six", "recipe six", "desc six", true);
-            var recipeSeven = new Recipe(6, "author seven", "recipe seven", "desc seven", true);
-            var recipeEight = new Recipe(6, "author eight", "recipe eight", "desc eight", true);
+            var recipeOne = new PlannedRecipe{Recipe = new Recipe(0, "author one", "recipe one", "desc one", true)};
+            var recipeTwo = new PlannedRecipe{Recipe = new Recipe(1, "author two", "recipe two", "desc two", true)};
+            var recipeThree = new PlannedRecipe { Recipe = new Recipe(2, "author three", "recipe three", "desc three", true) };
+            var recipeFour = new PlannedRecipe { Recipe = new Recipe(3, "author four", "recipe four", "desc four", true) };
+            var recipeFive = new PlannedRecipe { Recipe = new Recipe(4, "author five", "recipe five", "desc five", true) };
+            var recipeSix = new PlannedRecipe { Recipe = new Recipe(5, "author six", "recipe six", "desc six", true) };
+            var recipeSeven = new PlannedRecipe { Recipe = new Recipe(6, "author seven", "recipe seven", "desc seven", true) };
+            var recipeEight = new PlannedRecipe { Recipe = new Recipe(6, "author eight", "recipe eight", "desc eight", true) };
 
             var firstMealForCategory = new MealsForCategory(MealCategory.Breakfast, new [] { recipeOne, recipeTwo });
             var secondMealForCategory = new MealsForCategory(MealCategory.Lunch, new [] { recipeTwo });
-            var thirdMealForCategory = new MealsForCategory(MealCategory.Dinner, new Recipe[] { });
+            var thirdMealForCategory = new MealsForCategory(MealCategory.Dinner, Array.Empty<PlannedRecipe>());
 
             var fourthMealForCategory = new MealsForCategory(MealCategory.Breakfast, new [] { recipeThree });
             var fifthMealForCategory = new MealsForCategory(MealCategory.Lunch, new [] { recipeFour });

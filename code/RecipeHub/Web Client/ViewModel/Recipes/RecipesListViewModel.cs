@@ -33,8 +33,7 @@ namespace Web_Client.ViewModel.Recipes
 
         private readonly IRecipesService recipesService;
         private readonly IIngredientsService ingredientsService;
-
-        private string searchTerm;
+        
         private string noRecipesLabelText;
         private Recipe[] recipes;
         private string[][] recipeTags;
@@ -42,11 +41,7 @@ namespace Web_Client.ViewModel.Recipes
         /// <summary>
         /// The name of the recipe to search for
         /// </summary>
-        public string SearchTerm
-        {
-            get => this.searchTerm;
-            set => this.SetField(ref this.searchTerm, value);
-        }
+        public static string SearchTerm { get; set; } = "";
 
         /// <summary>
         /// The text to display in the label showing that there are no recipes.
@@ -108,7 +103,6 @@ namespace Web_Client.ViewModel.Recipes
                 RecipesViewModelErrorMessages.RecipesServiceCannotBeNull);
             this.ingredientsService = ingredientsService ?? throw new ArgumentNullException(nameof(ingredientsService),
                 RecipesViewModelErrorMessages.IngredientsServiceCannotBeNull);
-            this.searchTerm = "";
             this.noRecipesLabelText = "";
             this.recipes = Array.Empty<Recipe>();
             this.recipeTags = Array.Empty<string[]>();
@@ -122,7 +116,7 @@ namespace Web_Client.ViewModel.Recipes
         /// </summary>
         public void GetRecipes()
         {
-            var filteredRecipes = this.recipesService.GetRecipes(this.SearchTerm);
+            var filteredRecipes = this.recipesService.GetRecipes(SearchTerm);
 
             if (Filters.OnlyAvailableIngredients)
             {
@@ -192,7 +186,7 @@ namespace Web_Client.ViewModel.Recipes
                 this.NoRecipesLabelText = NoRecipesWithTags;
 
             }
-            else if (!string.IsNullOrEmpty(this.SearchTerm))
+            else if (!string.IsNullOrEmpty(SearchTerm))
             {
                 this.NoRecipesLabelText = NoRecipesWithName;
             }

@@ -59,7 +59,8 @@ namespace Desktop_Client.View.Screens
                 
                 listItem.DeletePressed += (_, args) =>
                 {
-                    var recipe = args.Item1;
+                    var plannedRecipe = args.Item1;
+                    var recipe = plannedRecipe.Recipe;
                     var category = args.Item2;
                     var dialog = new MessageDialog("Remove planned meal?",
                         $"Are you sure that you want to remove {recipe.Name}?", MessageBoxButtons.YesNo);
@@ -73,7 +74,7 @@ namespace Desktop_Client.View.Screens
                                 return;
                             }
 
-                            this.viewModel.RemovePlannedMeal(meal.MealDate.Date, category, recipe.Id);
+                            this.viewModel.RemovePlannedMeal(plannedRecipe.MealId);
                             listItem.RemovePlannedMeal(recipe.Id, category);
                             this.AdjustScroll();
                         }

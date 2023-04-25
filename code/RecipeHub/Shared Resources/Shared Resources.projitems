@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\MealsForCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\MealCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\PlannedMeal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\PlannedMeals\PlannedRecipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\RecipeStep.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Recipes\Recipe.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Ingredients\Ingredient.cs" />

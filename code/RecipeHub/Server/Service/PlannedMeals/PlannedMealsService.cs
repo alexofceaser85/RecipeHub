@@ -93,12 +93,7 @@ namespace Server.Service.PlannedMeals
             {
                 throw new UnauthorizedAccessException(PlannedMealsServiceErrorMessages.InvalidSession);
             }
-
-            if (this.plannedMealsDal.IsPlannedMealInSystem(userId.Value, mealDate, category, recipeId))
-            {
-                throw new ArgumentException(PlannedMealsServiceErrorMessages.RecipeAlreadyInPlannedMeal);
-            }
-
+            
             return this.plannedMealsDal.AddPlannedMeal(userId.Value, mealDate, category, recipeId);
         }
 
@@ -158,10 +153,20 @@ namespace Server.Service.PlannedMeals
 
             foreach (var category in Enum.GetValues(typeof(MealCategory)).Cast<MealCategory>())
             {
-                var recipeIds = this.plannedMealsDal.GetPlannedMealRecipes(userId.Value, date, category);
+                var mealIds = this.plannedMealsDal.GetPlannedMealIds(userId.Value, date, category);
+                var recipeIds = mealIds.Select(mealId => this.plannedMealsDal.GetRecipeIdForMealId(mealId)).ToArray();
                 var recipes = this.getRecipesFromId(recipeIds);
 
-                var mealForCategory = new MealsForCategory(category, recipes.ToArray());
+                var plannedRecipes = new List<PlannedRecipe>();
+                for (var i = 0; i < mealIds.Length; i++)
+                {
+                    plannedRecipes.Add(new PlannedRecipe() {
+                        MealId = mealIds[i],
+                        Recipe = recipes[i]
+                    });
+                }
+
+                var mealForCategory = new MealsForCategory(category, plannedRecipes.ToArray());
                 mealsForCategory.Add(mealForCategory);
             }
 
@@ -191,13 +196,11 @@ namespace Server.Service.PlannedMeals
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <param name="mealDate">The meal date.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="mealId">The meal identifier.</param>
         /// <exception cref="System.ArgumentException">If the preconditions are not met</exception>
         /// <exception cref="System.UnauthorizedAccessException">If the session is not valid</exception>
         /// <return>Whether or not the meal was removed</return>
-        public bool RemovePlannedMeal(string sessionKey, DateTime mealDate, MealCategory category, int recipeId)
+        public bool RemovePlannedMeal(string sessionKey, int mealId)
         {
             if (sessionKey == null)
             {
@@ -216,7 +219,7 @@ namespace Server.Service.PlannedMeals
                 throw new UnauthorizedAccessException(PlannedMealsServiceErrorMessages.InvalidSession);
             }
 
-            return this.plannedMealsDal.RemovePlannedMeal(userId.Value, mealDate, category, recipeId);
+            return this.plannedMealsDal.RemovePlannedMeal(userId.Value, mealId);
         }
 
         /// <summary>

@@ -21,13 +21,13 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
             var plannedMeals = new [] {
                 new PlannedMeal(new DateTime(2000, 1, 1), new [] {
                     new MealsForCategory(MealCategory.Breakfast, new [] {
-                        new Recipe(0, "author", "name", "description", true)
+                        new PlannedRecipe { Recipe = new Recipe(0, "author", "name", "description", true) }
                     }),
                     new MealsForCategory(MealCategory.Lunch, new [] {
-                        new Recipe(1, "author", "name", "description", true)
+                        new PlannedRecipe { Recipe = new Recipe(1, "author", "name", "description", true) }
                     }),
                     new MealsForCategory(MealCategory.Dinner, new [] {
-                        new Recipe(2, "author", "name", "description", true)
+                        new PlannedRecipe { Recipe = new Recipe(2, "author", "name", "description", true) }
                     })
                 })
             };

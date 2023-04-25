@@ -1,34 +1,35 @@
-﻿using Shared_Resources.Model.Recipes;
+﻿using Shared_Resources.Model.PlannedMeals;
+using Shared_Resources.Model.Recipes;
 
 namespace Desktop_Client.View.Components.PlannedMeals
 {
     /// <summary>
-    /// Displays information about a recipe that's part of a planned meal.
+    /// Displays information about a plannedRecipe that's part of a planned meal.
     /// </summary>
     public partial class PlannedMealRecipeListItem : UserControl
     {
         /// <summary>
-        /// The recipe that is being displayed
+        /// The plannedRecipe that is being displayed
         /// </summary>
-        public Recipe Recipe { get; }
+        public PlannedRecipe PlannedRecipe { get; }
 
         /// <summary>
-        /// Creates an instance of <see cref="PlannedMealRecipeListItem"/> using a specified <see cref="Recipe"/>.<br/>
-        /// Optionally allows tags to be passed in to be displayed before the recipe and author names.<br/>
+        /// Creates an instance of <see cref="PlannedMealRecipeListItem"/> using a specified <see cref="PlannedRecipe"/>.<br/>
+        /// Optionally allows tags to be passed in to be displayed before the plannedRecipe and author names.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
-        /// <b>Postcondition: </b>The recipe's information is displayed
+        /// <b>Postcondition: </b>The plannedRecipe's information is displayed
         /// </summary>
-        /// <param name="recipe">The recipe to display</param>
-        /// <param name="tags">The tags for the recipe. None will be displayed if null or an empty array is passed in.</param>
-        public PlannedMealRecipeListItem(Recipe recipe, string[]? tags = null)
+        /// <param name="plannedRecipe">The plannedRecipe to display</param>
+        /// <param name="tags">The tags for the plannedRecipe. None will be displayed if null or an empty array is passed in.</param>
+        public PlannedMealRecipeListItem(PlannedRecipe plannedRecipe, string[]? tags = null)
         {
             this.InitializeComponent();
-            this.Recipe = recipe;
+            this.PlannedRecipe = plannedRecipe;
             this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 
-            this.authorNameLabel.Text = recipe.AuthorName;
-            this.recipeNameLabel.Text = recipe.Name;
+            this.authorNameLabel.Text = plannedRecipe.Recipe.AuthorName;
+            this.recipeNameLabel.Text = plannedRecipe.Recipe.Name;
 
             if (tags == null || tags.Length == 0)
             {

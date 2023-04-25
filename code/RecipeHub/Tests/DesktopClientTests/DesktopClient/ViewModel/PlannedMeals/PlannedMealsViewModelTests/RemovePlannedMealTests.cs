@@ -11,19 +11,15 @@ namespace DesktopClientTests.DesktopClient.ViewModel.PlannedMeals.PlannedMealsVi
         [Test]
         public void SuccessfullyRemovePlannedMeal()
         {
-            var mealDate = new DateTime(2000, 1, 1);
-            const MealCategory category = MealCategory.Breakfast;
-            const int recipeId = 0;
-
             var service = new Mock<IPlannedMealsService>();
-            service.Setup(mock => mock.RemovePlannedMeal(mealDate, category, recipeId));
+            service.Setup(mock => mock.RemovePlannedMeal(0));
 
             var viewmodel = new PlannedMealsViewModel(service.Object, new RecipesService());
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => viewmodel.RemovePlannedMeal(mealDate, category, recipeId));
-                service.Verify(mock => mock.RemovePlannedMeal(mealDate, category, recipeId), Times.Once);
+                Assert.DoesNotThrow(() => viewmodel.RemovePlannedMeal(0));
+                service.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
 
@@ -31,21 +27,18 @@ namespace DesktopClientTests.DesktopClient.ViewModel.PlannedMeals.PlannedMealsVi
         public void UnsuccessfullyRemovePlannedMeal()
         {
             const string errorMessage = "error message";
-            var mealDate = new DateTime(2000, 1, 1);
-            const MealCategory category = MealCategory.Breakfast;
-            const int recipeId = 0;
 
             var service = new Mock<IPlannedMealsService>();
-            service.Setup(mock => mock.RemovePlannedMeal(mealDate, category, recipeId))
+            service.Setup(mock => mock.RemovePlannedMeal(0))
                    .Throws(new Exception(errorMessage));
 
             var viewmodel = new PlannedMealsViewModel(service.Object, new RecipesService());
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<Exception>(() => viewmodel.RemovePlannedMeal(mealDate, category, recipeId))!.Message;
+                var message = Assert.Throws<Exception>(() => viewmodel.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
-                service.Verify(mock => mock.RemovePlannedMeal(mealDate, category, recipeId), Times.Once);
+                service.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
 
@@ -53,21 +46,18 @@ namespace DesktopClientTests.DesktopClient.ViewModel.PlannedMeals.PlannedMealsVi
         public void InvalidSessionKey()
         {
             const string errorMessage = "error message";
-            var mealDate = new DateTime(2000, 1, 1);
-            const MealCategory category = MealCategory.Breakfast;
-            const int recipeId = 0;
 
             var service = new Mock<IPlannedMealsService>();
-            service.Setup(mock => mock.RemovePlannedMeal(mealDate, category, recipeId))
+            service.Setup(mock => mock.RemovePlannedMeal(0))
                    .Throws(new UnauthorizedAccessException(errorMessage));
 
             var viewmodel = new PlannedMealsViewModel(service.Object, new RecipesService());
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<UnauthorizedAccessException>(() => viewmodel.RemovePlannedMeal(mealDate, category, recipeId))!.Message;
+                var message = Assert.Throws<UnauthorizedAccessException>(() => viewmodel.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
-                service.Verify(mock => mock.RemovePlannedMeal(mealDate, category, recipeId), Times.Once);
+                service.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
     }
