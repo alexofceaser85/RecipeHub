@@ -44,7 +44,7 @@ namespace DesktopClientTests.DesktopClient.Endpoints.RecipeTypes.RecipeTypesEndp
         [Test]
         public void ShouldUnsuccessfullyGetAllRecipeTypesForServerError()
         {
-            const string errorMessage = "The session timed out redirecting to login";
+            const string errorMessage = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
             const string json = $"{{\"code\": 401, \"message\": \"{errorMessage}\", \"types\": []}}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();
