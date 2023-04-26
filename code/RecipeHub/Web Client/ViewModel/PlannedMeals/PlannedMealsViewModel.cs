@@ -79,7 +79,8 @@ namespace Web_Client.ViewModel.PlannedMeals
             this.RecipeTags = plannedMeals.SelectMany(plannedMeal => plannedMeal.Meals)
                                           .SelectMany(meal => meal.Recipes)
                                           .Distinct()
-                                          .Select(recipe => recipe.Id)
+                                          .Select(recipe => recipe.Recipe.Id)
+                                          .Distinct()
                                           .ToDictionary(recipeId => recipeId,
                                               recipeId => this.recipesService.GetTypesForRecipe(recipeId));
 
@@ -92,12 +93,10 @@ namespace Web_Client.ViewModel.PlannedMeals
         /// <b>Precondition: </b>None
         /// <b>Postcondition: </b>The recipe is removed from this.PlannedMeals
         /// </summary>
-        /// <param name="mealDate">The date for the planned meal</param>
-        /// <param name="category">The category of the planned meal</param>
-        /// <param name="recipeId">The id of the recipe to remove</param>
-        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        /// <param name="mealId">The id of the recipe to remove</param>
+        public void RemovePlannedMeal(int mealId)
         {
-            this.plannedMealService.RemovePlannedMeal(mealDate, category, recipeId);
+            this.plannedMealService.RemovePlannedMeal(mealId);
         }
 
         /// <inheritdoc/>

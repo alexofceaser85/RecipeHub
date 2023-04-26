@@ -14,24 +14,21 @@ namespace WebClientTests.WebClient.Service.PlannedMeals.PlannedMealsServiceTests
         public void SuccessfullyAddPlannedMeal()
         {
             const string sessionKey = "Key";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             Session.Key = sessionKey;
 
             var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId));
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(0));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new PlannedMealsService(recipesEndpoint.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId));
+                Assert.DoesNotThrow(() => service.RemovePlannedMeal(0));
                 usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
-                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
 
@@ -39,15 +36,12 @@ namespace WebClientTests.WebClient.Service.PlannedMeals.PlannedMealsServiceTests
         public void NullSessionKey()
         {
             Session.Key = null;
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<InvalidOperationException>(() => 
-                    new PlannedMealsService().RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                    new PlannedMealsService().RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -56,15 +50,12 @@ namespace WebClientTests.WebClient.Service.PlannedMeals.PlannedMealsServiceTests
         public void EmptySessionKey()
         {
             Session.Key = "";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<InvalidOperationException>(() => 
-                    new PlannedMealsService().RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                    new PlannedMealsService().RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }

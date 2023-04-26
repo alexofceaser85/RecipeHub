@@ -89,6 +89,9 @@
                     this.Close();
                 };
             }
+
+            //Manual resizing as automatic resizing keeps cutting off the bottoms of the buttons
+            this.Size = new Size(this.Width, this.messageLabel.Height + 150);
         }
     }
 }

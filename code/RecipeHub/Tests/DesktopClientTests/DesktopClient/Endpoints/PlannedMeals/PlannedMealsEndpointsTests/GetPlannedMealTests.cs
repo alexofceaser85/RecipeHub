@@ -18,9 +18,9 @@ namespace DesktopClientTests.DesktopClient.Endpoints.PlannedMeals.PlannedMealsEn
                                 "{ \"category\": 1, \"recipes\": [] }, { \"category\": 2, \"recipes\": [] } ] }]}";
             var plannedMeals = new[] {
                 new PlannedMeal(new DateTime(2023, 3, 5), new[] {
-                    new MealsForCategory(MealCategory.Breakfast, Array.Empty<Recipe>()),
-                    new MealsForCategory(MealCategory.Lunch, Array.Empty<Recipe>()),
-                    new MealsForCategory(MealCategory.Dinner, Array.Empty<Recipe>()),
+                    new MealsForCategory(MealCategory.Breakfast, Array.Empty<PlannedRecipe>()),
+                    new MealsForCategory(MealCategory.Lunch, Array.Empty<PlannedRecipe>()),
+                    new MealsForCategory(MealCategory.Dinner, Array.Empty<PlannedRecipe>()),
                 })
             };
 

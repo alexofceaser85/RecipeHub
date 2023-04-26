@@ -34,12 +34,10 @@ namespace Desktop_Client.Service.PlannedMeals
         /// &amp;&amp; A recipe with recipeId exists
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="mealDate">The date for the meal to be removed</param>
-        /// <param name="category">The category of the meal to be removed</param>
-        /// <param name="recipeId">The id for the recipe to remove from the meal</param>
+        /// <param name="mealId">The id for the meal to remove</param>
         /// <exception cref="UnauthorizedAccessException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId);
+        public void RemovePlannedMeal(int mealId);
 
         /// <summary>
         /// Gets the planned meals for the current user.<br/>

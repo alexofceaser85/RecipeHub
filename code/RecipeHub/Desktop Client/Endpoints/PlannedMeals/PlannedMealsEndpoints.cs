@@ -60,17 +60,15 @@ namespace Desktop_Client.Endpoints.PlannedMeals
         }
 
         /// <summary>
-        /// Removes a recipe to the active user's planned meals, using a specified <see cref="DateTime"/> and <see cref="MealCategory"/>.<br/>
+        /// Removes a recipe to the active user's planned meals.<br/>
         /// <br/>
         /// <b>Precondition: </b>None<br/>
         /// <b>Postcondition: </b>None
         /// </summary>
-        /// <param name="mealDate">The date to remove the meal</param>
-        /// <param name="category">The category of the meal</param>
-        /// <param name="recipeId">The recipe to remove from the meal</param>
-        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        /// <param name="mealId">The date to remove the meal</param>
+        public void RemovePlannedMeal(int mealId)
         {
-            var serverMethodParameters = $"?sessionKey={Session.Key}&mealDate={mealDate}&category={category}&recipeId={recipeId}";
+            var serverMethodParameters = $"?sessionKey={Session.Key}&mealId={mealId}";
             var requestUri = $"{ServerSettings.ServerUri}{RemovePlannedMealsRoute}{serverMethodParameters}";
             var json = ServerUtils.RequestJson(HttpMethod.Post, requestUri, this.client);
             JsonUtils.VerifyAndGetRequestInfo(json);

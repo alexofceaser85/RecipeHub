@@ -75,17 +75,15 @@ namespace Server.Controllers.PlannedMeals
         /// Precondition: None
         /// Postcondition: None
         /// </summary>
-        /// <param name="sessionKey">The session key.</param>
-        /// <param name="mealDate">The meal date.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="sessionKey">The session key.</param>\
+        /// <param name="mealId">The meal identifier.</param>
         [HttpPost]
         [Route("RemovePlannedMeal")]
-        public BaseResponseModel RemovePlannedMeal(string sessionKey, DateTime mealDate, MealCategory category, int recipeId)
+        public BaseResponseModel RemovePlannedMeal(string sessionKey, int mealId)
         {
             try
             {
-                this.service.RemovePlannedMeal(sessionKey, mealDate, category, recipeId);
+                this.service.RemovePlannedMeal(sessionKey, mealId);
                 return new BaseResponseModel(HttpStatusCode.OK, ServerSettings.DefaultSuccessfulConnectionMessage);
             }
             catch (UnauthorizedAccessException ex)

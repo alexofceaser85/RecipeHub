@@ -88,7 +88,8 @@ VALUES
     
     (7, 3, 'Spaghetti', 'An Italian meal.', 1),
     (8, 3, 'Spaghetti and Shrimp', 'Another Italian meal.', 1),
-    (9, 3, 'Cold Cereal', 'A straightforward breakfase', 0);
+    (9, 3, 'Cold Cereal', 'A straightforward breakfase', 0),
+    (10, 3, 'Everything Soup', 'A soup with everything.', 1);
 SET IDENTITY_INSERT Recipes OFF;
 
 SET IDENTITY_INSERT "Type" ON;
@@ -133,7 +134,8 @@ VALUES
 (6, 8),
 (6, 12),
 (7, 3),
-(8, 3)
+(8, 3),
+(10, 11)
 
 INSERT INTO
     RecipeIngredients
@@ -176,7 +178,38 @@ VALUES
     (19, 8, 300),
 
     (14, 9, 500), --Cold Cereal
-    (15, 9, 500);
+    (15, 9, 500),
+
+    (1, 10, 1000), --Everything Soup
+    (2, 10, 1000),
+    (3, 10, 1000),
+    (4, 10, 1000),
+    (5, 10, 1000),
+    (6, 10, 1000),
+    (7, 10, 1000),
+    (8, 10, 1000),
+    (9, 10, 1000),
+    (10, 10, 1000),
+    (11, 10, 1000),
+    (12, 10, 1000),
+    (13, 10, 1000),
+    (14, 10, 1000),
+    (15, 10, 1000),
+    (16, 10, 1000),
+    (17, 10, 1000),
+    (18, 10, 1000),
+    (19, 10, 1000),
+    (20, 10, 1000),
+    (21, 10, 1000),
+    (22, 10, 1000),
+    (23, 10, 1000),
+    (24, 10, 1000),
+    (25, 10, 1000),
+    (26, 10, 1000),
+    (27, 10, 1000),
+    (28, 10, 1000)
+
+
 
 INSERT INTO
     RecipeSteps
@@ -216,7 +249,14 @@ VALUES
     (8, 4, 'Serve', 'Serve sauce on the noodles.'),
 
     (9, 1, 'Pour milk', 'Pour milk into a bowl.'), --Cold cereal
-    (9, 2, 'Add cereal', 'Add cereal to the bowl.');
+    (9, 2, 'Add cereal', 'Add cereal to the bowl.'),
+
+    (10, 1, 'Empty pantry', 'Empty your whole pantry into a pot'),
+    (10, 2, 'Add water', 'Add water to the pot'),
+	(10, 3, 'Cook', 'Cook the soup for 30 minutes'),
+	(10, 4, 'Serve', 'Serve the soup')
+
+
 
 INSERT INTO
     PantryItems

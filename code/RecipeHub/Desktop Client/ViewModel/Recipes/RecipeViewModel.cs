@@ -235,10 +235,10 @@ namespace Desktop_Client.ViewModel.Recipes
             sb.AppendLine(
                 $"{this.recipeName} has been added to your meals for {mealDate.ToShortDateString()}");
             sb.AppendLine($"You now have {plannedMeals.Recipes.Length} meals planned for {category.ToString().ToLower()}:");
-            foreach (var recipe in plannedMeals.Recipes)
+            foreach (var plannedRecipe in plannedMeals.Recipes)
             {
                 sb.Append(" - ");
-                sb.AppendLine(recipe.Name);
+                sb.AppendLine(plannedRecipe.Recipe.Name);
             }
 
             sb.Append("Would you like to see all of your planned meals now?");

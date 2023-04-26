@@ -24,6 +24,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false),
@@ -34,10 +35,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object);
             viewmodel.GetRecipes();
 
             Assert.Multiple(() =>
@@ -51,6 +49,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
         public void SuccessfullyGetRecipesWithMatchingIngredients()
         {
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -65,10 +64,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 OnlyAvailableIngredients = true
@@ -89,6 +85,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
         public void SuccessfullyFilterByOnlyAvailableIngredientsIfIngredientsAreNotOwned()
         {
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -106,10 +103,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters
             {
                 OnlyAvailableIngredients = true
@@ -130,6 +124,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
         public void SuccessfullyFilterByOnlyAvailableIngredientsAllIngredientsAreOwned()
         {
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -147,10 +142,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters
             {
                 OnlyAvailableIngredients = true
@@ -171,6 +163,8 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
         public void SuccessfullyFilterByOnlyAvailableIngredientsSomeIngredientsAreOwned()
         {
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -192,10 +186,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetIngredientsForRecipe(1)).Returns(ingredients2);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(owned);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters
             {
                 OnlyAvailableIngredients = true
@@ -224,10 +215,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             var ingredientsService = new Mock<IIngredientsService>();
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 MatchTags = null
@@ -249,6 +237,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -258,10 +247,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm,
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 MatchTags = Array.Empty<string>()
@@ -281,6 +267,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
         {
             var tags = new[] { "Tag1", "Tag2", "Tag3" };
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = new Recipe[] {
                 new(0, "author1 name1", "name1", "description1", false),
                 new(1, "author2 name2", "name2", "description2", false)
@@ -297,10 +284,7 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             recipesService.Setup(mock => mock.GetRecipesForTags(tags)).Returns(new[] { recipes[0] });
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(recipesService.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 MatchTags = tags
@@ -321,16 +305,14 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = Array.Empty<Recipe>();
             var service = new Mock<IRecipesService>();
             var ingredientsService = new Mock<IIngredientsService>();
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 OnlyAvailableIngredients = false
@@ -352,16 +334,14 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = Array.Empty<Recipe>();
             var service = new Mock<IRecipesService>();
             var ingredientsService = new Mock<IIngredientsService>();
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 OnlyAvailableIngredients = false
@@ -383,16 +363,14 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = Array.Empty<Recipe>();
             var service = new Mock<IRecipesService>();
             var ingredientsService = new Mock<IIngredientsService>();
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 OnlyAvailableIngredients = false,
@@ -415,16 +393,14 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
                 new("Apples", 1, MeasurementType.Quantity)
             };
             const string searchTerm = "a";
+            RecipesListViewModel.SearchTerm = searchTerm;
             var recipes = Array.Empty<Recipe>();
             var service = new Mock<IRecipesService>();
             var ingredientsService = new Mock<IIngredientsService>();
             service.Setup(mock => mock.GetRecipes(searchTerm)).Returns(recipes);
             ingredientsService.Setup(mock => mock.GetAllIngredientsForUser()).Returns(ingredients);
 
-            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object)
-            {
-                SearchTerm = searchTerm
-            };
+            var viewmodel = new RecipesListViewModel(service.Object, ingredientsService.Object);
             RecipesListViewModel.Filters = new RecipeFilters()
             {
                 OnlyAvailableIngredients = true,

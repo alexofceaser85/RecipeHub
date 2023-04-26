@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web_Client.Model.Users;
+using Web_Client.ViewModel.Recipes;
 using Web_Client.ViewModel.Users;
 
 namespace Web_Client.Pages
@@ -56,6 +57,7 @@ namespace Web_Client.Pages
                 this.usersViewModel.Login(userInfo.Username ?? "", userInfo.Password ?? "");
                 this.ShouldSucceed = true;
                 this.ExceptionText = "";
+                RecipesListViewModel.SearchTerm = "";
                 return RedirectToPage("/RecipeList");
             }
             catch (Exception e)

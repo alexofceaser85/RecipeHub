@@ -239,7 +239,7 @@ namespace Web_Client.ViewModel.Recipes
             foreach (var recipe in plannedMeals.Recipes)
             {
                 sb.Append(" - ");
-                sb.AppendLine(recipe.Name);
+                sb.AppendLine(recipe.Recipe.Name);
             }
 
             sb.Append("Would you like to see all of your planned meals now?");

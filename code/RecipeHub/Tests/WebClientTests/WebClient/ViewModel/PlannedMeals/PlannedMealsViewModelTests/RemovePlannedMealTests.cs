@@ -11,19 +11,15 @@ namespace WebClientTests.WebClient.ViewModel.PlannedMeals.PlannedMealsViewModelT
         [Test]
         public void SuccessfullyRemovePlannedMeal()
         {
-            var mealDate = new DateTime(2000, 1, 1);
-            const MealCategory category = MealCategory.Breakfast;
-            const int recipeId = 0;
-
             var service = new Mock<IPlannedMealsService>();
-            service.Setup(mock => mock.RemovePlannedMeal(mealDate, category, recipeId));
+            service.Setup(mock => mock.RemovePlannedMeal(0));
 
             var viewmodel = new PlannedMealsViewModel(service.Object, new RecipesService());
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => viewmodel.RemovePlannedMeal(mealDate, category, recipeId));
-                service.Verify(mock => mock.RemovePlannedMeal(mealDate, category, recipeId), Times.Once);
+                Assert.DoesNotThrow(() => viewmodel.RemovePlannedMeal(0));
+                service.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
     }

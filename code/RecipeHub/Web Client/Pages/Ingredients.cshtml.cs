@@ -108,6 +108,10 @@ namespace Web_Client.Pages
                 TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
                 return RedirectToPage("Index");
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         /// <summary>

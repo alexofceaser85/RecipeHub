@@ -80,6 +80,10 @@ namespace Desktop_Client.View.Dialog
                     this.Dispose();
                     this.Close();
                 }
+                else if (string.IsNullOrEmpty(this.nameErrorLabel.Text))
+                {
+                    this.nameErrorLabel.Text = "Ingredient already added to pantry";
+                }
             }
             catch (UnauthorizedAccessException ex)
             {
