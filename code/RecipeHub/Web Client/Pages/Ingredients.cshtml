@@ -2,6 +2,7 @@
 @using Shared_Resources.Utils.Units
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Shared_Resources.Data.Settings
+@using Shared_Resources.Data.UserData
 @using Shared_Resources.Model.Ingredients
 @model Web_Client.Pages.IngredientsModel
 @{
@@ -13,7 +14,7 @@
         <button type="button" id="add-ingredient-modal-button" data-bs-toggle="modal" data-bs-target="#add-ingredient-modal">Add Ingredient</button>
     </div>
 
-    @if (Model.Ingredients.Count < 1)
+    @if (Model.Ingredients == null || Model.Ingredients.Count < 1)
     {
         <p>No ingredients found!</p>
     }
@@ -27,7 +28,7 @@
                     <p class="ingredient-name-subtitle">Quantity: @ingredient.Amount@BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType)</p>
                 </div>
                 <div class="ingredient-actions">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-edit-button">Edit</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#edit-ingredient-modal" data-ingredient-name="@ingredient.Name" data-ingredient-amount="@ingredient.Amount" class="ingredient-edit-button">Edit</button>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#remove-ingredient-modal" data-ingredient-name="@ingredient.Name" class="ingredient-delete-button">Delete</button>
                 </div>
             </div>
@@ -47,12 +48,12 @@
                     <div class="modal-body">
                         <input type="text" name="Name" hidden id="edit-ingredient-text"/>
                         <label for="edit-ingredient-number">Amount</label>
-                        <input name="Amount" type="number" id="edit-ingredient-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required/>
+                        <input name="Amount" type="number" id="edit-ingredient-number" placeholder="Enter your desired amount" min="0" step="1" maxlength="10" minlength="1" required />
                         <p id="edit-ingredient-amount-error-text"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="edit-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" id="edit-amount-submit-button" class="btn btn-primary">Save changes</button>
+                        <button type="submit" id="edit-ingredient-submit-button" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
@@ -107,7 +108,7 @@
                     <h1 class="modal-title fs-5" id="add-ingredient-modal-title">Add Ingredient</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form asp-page-handler="AddIngredient" method="post">
+                <form asp-page-handler="AddIngredient" method="post" id="add-ingredient-form">
                     <div class="modal-body">
                         <label for="add-ingredient-name">Ingredient Name</label>
                         <input name="Name" id="add-ingredient-name" type="text" placeholder="Enter your desired name..." autocomplete="on" list="ingredient-suggestions" minlength="1" maxlength="200" required/>
@@ -123,6 +124,7 @@
                             <option value="1">Mass (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Mass))</option>
                             <option value="2">Volume (@BaseUnitUtils.GetBaseUnitSign(MeasurementType.Volume))</option>
                         </select>
+                        <p id="add-ingredient-error-text"></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="add-ingredient-cancel-button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -142,7 +144,11 @@
             var addIngredientNameValidated = false;
             var addIngredientNumberValidated = false;
             var editIngredientNumberValidated = false;
-            
+
+            if ('@(Session.Key)' == null || '@(Session.Key)' == '') {
+                window.location.href = "/";
+            }
+
             function validateAddIngredient() {
                 $("#add-ingredient-submit-button").prop("disabled", !(addIngredientNameValidated && addIngredientNumberValidated));
             }
@@ -169,6 +175,28 @@
                 $("#remove-ingredient-text").val($(this).data('ingredient-name'));
             });
             
+            $("#add-ingredient-form").submit(function (event) {
+                event.preventDefault();
+                
+                var form = $(this);
+                var url = form.attr("action");
+                var method = form.attr("method");
+                var data = form.serialize();
+                
+                $.ajax({
+                    url: url,
+                    type: method,
+                    data: data,
+                    success: function (result) {
+                        window.location.href = "/Ingredients";
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $("#add-ingredient-error-text").text(error.responseText);
+                    }
+                });
+            });
+
             $("#add-ingredients-suggestions-form").submit(function (event) {
                     event.preventDefault();
 
@@ -198,7 +226,12 @@
                 $("#add-ingredient-name").focus();
             });
             
-            $("#edit-ingredient-modal").on("shown.bs.modal", function () {
+            $("#edit-ingredient-modal").on("shown.bs.modal", function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var amount = button.data('ingredient-amount'); // Extract info from data-* attributes
+                console.log(event);
+                var modal = $(this);
+                modal.find('#edit-ingredient-number').val(amount);
                 $("#edit-ingredient-number").focus();
             });
 
@@ -207,6 +240,7 @@
                 $("#add-ingredient-name").val("");
                 $("#add-ingredient-name-error-text").text("");
                 $("#add-ingredient-number-error-text").text("");
+                $("#add-ingredient-error-text").text("");
                 $("#add-ingredient-name").css("background-color", "");
                 $("#add-ingredient-number").css("background-color", "");
                 addIngredientNameValidated = false;
@@ -242,6 +276,7 @@
             });
             
             $("#add-ingredient-number").keyup(function () {
+                $("#add-ingredient-error-text").text("");
                 if ($(this).val() < 0) {
                     $("#add-ingredient-number-error-text").text("Amount must be greater than or equal to 0.");
                     addIngredientNumberValidated = false;
@@ -261,6 +296,7 @@
             });
 
             $("#add-ingredient-name").keyup(function () {
+                $("#add-ingredient-error-text").text("");
                 if ($(this).val().length < 1) {
                     $("#add-ingredient-name-error-text").text("Name must be at least 1 character long.");
                     addIngredientNameValidated = false;

@@ -27,11 +27,9 @@ namespace Server.Service.PlannedMeals
         /// Postcondition: None
         /// </summary>
         /// <param name="sessionKey">The session key.</param>
-        /// <param name="mealDate">The meal date.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="mealId">The meal id.</param>
         /// <returns>Whether or not the meal was added</returns>
-        public bool RemovePlannedMeal(string sessionKey, DateTime mealDate, MealCategory category, int recipeId);
+        public bool RemovePlannedMeal(string sessionKey, int mealId);
 
         /// <summary>
         /// Gets the planned meals.

@@ -35,7 +35,6 @@ namespace DesktopClientTests.DesktopClient.Service.Ingredients.IngredientsServic
         public void FailedToGetSuggestions()
         {
             const string errorMessage = "error message";
-            var ingredient = new Ingredient();
             var endpoints = new Mock<IIngredientEndpoints>();
             var usersService = new Mock<IUsersService>();
             endpoints.Setup(mock => mock.GetSuggestions("")).Throws(new ArgumentException(errorMessage));

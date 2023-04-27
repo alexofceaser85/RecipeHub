@@ -1,4 +1,8 @@
-﻿namespace Desktop_Client.View.Screens
+﻿
+
+using Desktop_Client.View.Components.General;
+
+namespace Desktop_Client.View.Screens
 {
     partial class RecipeListScreen
     {
@@ -37,7 +41,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.hamburgerButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.recipeListTablePanel = new System.Windows.Forms.TableLayoutPanel();
+            this.recipeListTablePanel = new Desktop_Client.View.Components.General.ScrollVisibleTableLayoutPanel();
             this.noRecipesLabel = new System.Windows.Forms.Label();
             this.mainLayoutPanel.SuspendLayout();
             this.topBar.SuspendLayout();
@@ -52,8 +56,8 @@
             this.mainLayoutPanel.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.mainLayoutPanel.ColumnCount = 1;
             this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.mainLayoutPanel.Controls.Add(this.topBar, 0, 0);
             this.mainLayoutPanel.Controls.Add(this.recipeListTablePanel, 0, 1);
+            this.mainLayoutPanel.Controls.Add(this.topBar, 0, 0);
             this.mainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.mainLayoutPanel.Margin = new System.Windows.Forms.Padding(2);
@@ -63,6 +67,7 @@
             this.mainLayoutPanel.RowCount = 2;
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 200F));
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.mainLayoutPanel.Size = new System.Drawing.Size(713, 1324);
             this.mainLayoutPanel.TabIndex = 0;
             // 
@@ -194,7 +199,8 @@
             // 
             // recipeListTablePanel
             // 
-            this.recipeListTablePanel.AutoScroll = true;
+            this.recipeListTablePanel.AutoSize = true;
+            this.recipeListTablePanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.recipeListTablePanel.ColumnCount = 1;
             this.recipeListTablePanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.recipeListTablePanel.Controls.Add(this.noRecipesLabel, 0, 0);
@@ -202,17 +208,18 @@
             this.recipeListTablePanel.Location = new System.Drawing.Point(19, 212);
             this.recipeListTablePanel.Margin = new System.Windows.Forms.Padding(2);
             this.recipeListTablePanel.Name = "recipeListTablePanel";
+            this.recipeListTablePanel.Padding = new System.Windows.Forms.Padding(0, 0, 1, 0);
             this.recipeListTablePanel.RowCount = 1;
             this.recipeListTablePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 1032F));
             this.recipeListTablePanel.Size = new System.Drawing.Size(675, 1101);
-            this.recipeListTablePanel.TabIndex = 1;
+            this.recipeListTablePanel.TabIndex = 5;
             // 
             // noRecipesLabel
             // 
             this.noRecipesLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.noRecipesLabel.AutoSize = true;
             this.noRecipesLabel.Font = new System.Drawing.Font("Calibri", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.noRecipesLabel.Location = new System.Drawing.Point(143, 32);
+            this.noRecipesLabel.Location = new System.Drawing.Point(142, 32);
             this.noRecipesLabel.Margin = new System.Windows.Forms.Padding(3, 32, 3, 0);
             this.noRecipesLabel.Name = "noRecipesLabel";
             this.noRecipesLabel.Size = new System.Drawing.Size(389, 39);
@@ -228,6 +235,7 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "RecipeListScreen";
             this.mainLayoutPanel.ResumeLayout(false);
+            this.mainLayoutPanel.PerformLayout();
             this.topBar.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -243,7 +251,6 @@
 
         private TableLayoutPanel mainLayoutPanel;
         private TableLayoutPanel topBar;
-        private TableLayoutPanel recipeListTablePanel;
         private TableLayoutPanel tableLayoutPanel1;
         private Button filtersButton;
         private TextBox searchTextBox;
@@ -251,6 +258,7 @@
         private Label label1;
         private Button hamburgerButton;
         private Button searchButton;
+        private ScrollVisibleTableLayoutPanel recipeListTablePanel;
         private Label noRecipesLabel;
     }
 }

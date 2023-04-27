@@ -164,6 +164,7 @@ namespace Desktop_Client.ViewModel.Components
         public void Login()
         {
             this.service.Login(this.username, this.password);
+            this.service.RefreshSessionKey();
         }
 
         /// <inheritdoc/>

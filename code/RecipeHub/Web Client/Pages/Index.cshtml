@@ -1,6 +1,7 @@
 ﻿@page
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Shared_Resources.Data.Settings
+@using Shared_Resources.Data.UserData
 @model IndexModel
 @{
     ViewData["Title"] = "Login";
@@ -21,6 +22,7 @@
     {
         <div class="alert alert-success">@TempData["Message"]</div>
         TempData.Remove("Message");
+        Session.Key = null;
     }
     @using (Html.BeginForm())
     {
@@ -51,6 +53,10 @@
     <script>
         var validateUsername = false;
         var validatePassword = false;
+
+        if ('@(Session.Key)' != null && '@(Session.Key)' != '') {
+            window.location.href = "/RecipeList";
+        }
 
         function validateForm() {
             $("#login-button").prop("disabled", !(validateUsername && validatePassword));

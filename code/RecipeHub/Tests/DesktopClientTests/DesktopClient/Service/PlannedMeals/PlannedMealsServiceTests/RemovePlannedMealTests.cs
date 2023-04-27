@@ -16,24 +16,21 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
         public void SuccessfullyRemovePlannedMeal()
         {
             const string sessionKey = "Key";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             Session.Key = sessionKey;
 
             var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId));
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(0));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
             var service = new PlannedMealsService(recipesEndpoint.Object, usersService.Object);
 
             Assert.Multiple(() =>
             {
-                Assert.DoesNotThrow(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId));
+                Assert.DoesNotThrow(() => service.RemovePlannedMeal(0));
                 usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
-                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
 
@@ -41,15 +38,12 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
         public void NullSessionKey()
         {
             Session.Key = null;
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeNull;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<InvalidOperationException>(() => 
-                    new PlannedMealsService().RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                    new PlannedMealsService().RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -58,15 +52,12 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
         public void EmptySessionKey()
         {
             Session.Key = "";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             const string errorMessage = SessionKeyErrorMessages.SessionKeyCannotBeEmpty;
             Assert.Multiple(() =>
             {
                 var message = Assert.Throws<InvalidOperationException>(() => 
-                    new PlannedMealsService().RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                    new PlannedMealsService().RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
             });
         }
@@ -76,14 +67,11 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
         {
             const string sessionKey = "Key";
             const string errorMessage = "error message";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             Session.Key = sessionKey;
             var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId))
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(0))
                            .Throws(new ArgumentException(errorMessage));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
@@ -91,10 +79,10 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<ArgumentException>(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                var message = Assert.Throws<ArgumentException>(() => service.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
                 usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
-                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
 
@@ -103,14 +91,11 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
         {
             const string sessionKey = "Key";
             const string errorMessage = "error message";
-            var dateTime = new DateTime(2000, 1, 1);
-            const MealCategory mealCategory = MealCategory.Dinner;
-            const int recipeId = 1;
 
             Session.Key = sessionKey;
             var recipesEndpoint = new Mock<IPlannedMealsEndpoints>();
             var usersService = new Mock<IUsersService>();
-            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId))
+            recipesEndpoint.Setup(mock => mock.RemovePlannedMeal(0))
                            .Throws(new UnauthorizedAccessException(errorMessage));
             usersService.Setup(mock => mock.RefreshSessionKey());
 
@@ -118,10 +103,10 @@ namespace DesktopClientTests.DesktopClient.Service.PlannedMeals.PlannedMealsServ
 
             Assert.Multiple(() =>
             {
-                var message = Assert.Throws<UnauthorizedAccessException>(() => service.RemovePlannedMeal(dateTime, mealCategory, recipeId))!.Message;
+                var message = Assert.Throws<UnauthorizedAccessException>(() => service.RemovePlannedMeal(0))!.Message;
                 Assert.That(message, Is.EqualTo(errorMessage));
                 usersService.Verify(mock => mock.RefreshSessionKey(), Times.Once);
-                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(dateTime, mealCategory, recipeId), Times.Once);
+                recipesEndpoint.Verify(mock => mock.RemovePlannedMeal(0), Times.Once);
             });
         }
     }

@@ -58,7 +58,7 @@ namespace Desktop_Client.Service.PlannedMeals
         }
 
         /// <inheritdoc/>
-        public void RemovePlannedMeal(DateTime mealDate, MealCategory category, int recipeId)
+        public void RemovePlannedMeal(int mealId)
         {
             if (Session.Key == null)
             {
@@ -71,7 +71,7 @@ namespace Desktop_Client.Service.PlannedMeals
             }
 
             this.usersService.RefreshSessionKey();
-            this.plannedMealsEndpoints.RemovePlannedMeal(mealDate, category, recipeId);
+            this.plannedMealsEndpoints.RemovePlannedMeal(mealId);
         }
 
         /// <inheritdoc/>

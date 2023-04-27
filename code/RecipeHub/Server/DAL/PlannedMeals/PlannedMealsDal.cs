@@ -72,6 +72,53 @@ namespace Server.DAL.PlannedMeals
             return recipeIds.ToArray();
         }
 
+        /// <inheritdoc/>
+        public int[] GetPlannedMealIds(int userId, DateTime mealDate, MealCategory category)
+        {
+            const string query =
+                "Select mealId FROM PlannedMeals WHERE userId = @userId AND mealDate = @mealDate AND mealCategory = @mealCategory";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@mealDate", SqlDbType.Date).Value = mealDate;
+            command.Parameters.Add("@mealCategory", SqlDbType.Int).Value = category;
+            command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+            var mealIdOrdinal = reader.GetOrdinal("mealId");
+
+            var mealIds = new List<int>();
+
+            while (reader.Read())
+            {
+                mealIds.Add(reader.GetInt32(mealIdOrdinal));
+            }
+
+            return mealIds.ToArray();
+        }
+
+        /// <inheritdoc/>
+        public int GetRecipeIdForMealId(int mealId)
+        {
+            const string query =
+                "Select recipeId FROM PlannedMeals WHERE mealId = @mealId";
+            using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
+            using var command = new SqlCommand(query, connection);
+            command.Parameters.Add("@mealId", SqlDbType.Int).Value = mealId;
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+            var recipeIdOrdinal = reader.GetOrdinal("recipeId");
+            
+            while (reader.Read())
+            {
+                return reader.GetInt32(recipeIdOrdinal);
+            }
+            return 0;
+        }
+
         /// <summary>
         /// Gets all of the planned meal recipes for a user
         ///
@@ -110,19 +157,15 @@ namespace Server.DAL.PlannedMeals
         /// Postcondition: None
         /// </summary>
         /// <param name="userId">The user identifier.</param>
-        /// <param name="mealDate">The meal date.</param>
-        /// <param name="category">The category.</param>
-        /// <param name="recipeId">The recipe identifier.</param>
+        /// <param name="mealId">The meal identifier.</param>
         /// <returns>Whether or not the meal was removed</returns>
-        public bool RemovePlannedMeal(int userId, DateTime mealDate, MealCategory category, int recipeId)
+        public bool RemovePlannedMeal(int userId, int mealId)
         {
             const string query =
-                "DELETE FROM PlannedMeals WHERE userId = @userId AND mealDate = @mealDate AND mealCategory = @mealCategory AND recipeId = @recipeId";
+                "DELETE FROM PlannedMeals WHERE userId = @userId AND mealId = @mealId";
             using var connection = new SqlConnection(DatabaseSettings.ConnectionString);
             using var command = new SqlCommand(query, connection);
-            command.Parameters.Add("@mealDate", SqlDbType.DateTime).Value = mealDate;
-            command.Parameters.Add("@mealCategory", SqlDbType.Int).Value = category;
-            command.Parameters.Add("@recipeId", SqlDbType.Int).Value = recipeId;
+            command.Parameters.Add("@mealId", SqlDbType.Int).Value = mealId;
             command.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
 
             connection.Open();

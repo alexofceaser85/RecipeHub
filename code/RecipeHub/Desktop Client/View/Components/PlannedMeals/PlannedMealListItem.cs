@@ -48,12 +48,17 @@ namespace Desktop_Client.View.Components.PlannedMeals
         /// <summary>
         /// Occurs when the delete button is pressed on one of the recipes.
         /// </summary>
-        public EventHandler<Tuple<Recipe, MealCategory>>? DeletePressed;
+        public EventHandler<Tuple<PlannedRecipe, MealCategory>>? DeletePressed;
         
         /// <summary>
         /// Occurs when the view button is pressed on one of the recipes.
         /// </summary>
         public EventHandler<int>? ViewPressed;
+
+        /// <summary>
+        /// Occurs when the component's contents have either been collapsed or expanded
+        /// </summary>
+        public EventHandler? CollapseToggled;
 
         private void PopulateControlArrays()
         {
@@ -92,16 +97,16 @@ namespace Desktop_Client.View.Components.PlannedMeals
                     mealHasRecipe[mealIndex] = true;
                 }
 
-                foreach (var recipe in meal.Recipes)
+                foreach (var plannedRecipe in meal.Recipes)
                 {
-                    var recipeTags = tags!.GetValueOrDefault(recipe.Id, null);
+                    var recipeTags = tags!.GetValueOrDefault(plannedRecipe.Recipe.Id, null);
 
-                    var innerListItem = new PlannedMealRecipeListItem(recipe, recipeTags);
+                    var innerListItem = new PlannedMealRecipeListItem(plannedRecipe, recipeTags);
                     innerListItem.DeletePressed += (sender, _) =>
                     {
                         this.listItem_DeletePressed((sender as PlannedMealRecipeListItem)!, meal.Category);
                     };
-                    innerListItem.ViewPressed += (_, _) => this.ViewPressed?.Invoke(this, recipe.Id);
+                    innerListItem.ViewPressed += (_, _) => this.ViewPressed?.Invoke(this, plannedRecipe.Recipe.Id);
                     this.mealTablePanels[mealIndex].Controls.Add(innerListItem);
                 }
             }
@@ -109,8 +114,8 @@ namespace Desktop_Client.View.Components.PlannedMeals
 
         private void listItem_DeletePressed(PlannedMealRecipeListItem listItem, MealCategory category)
         {
-            var recipe = listItem.Recipe;
-            this.DeletePressed?.Invoke(this, new Tuple<Recipe, MealCategory>(recipe, category));
+            var recipe = listItem.PlannedRecipe;
+            this.DeletePressed?.Invoke(this, new Tuple<PlannedRecipe, MealCategory>(recipe, category));
         }
         
         /// <summary>
@@ -131,7 +136,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
                     continue;
                 }
 
-                if (listItem.Recipe.Id != recipeId)
+                if (listItem.PlannedRecipe.Recipe.Id != recipeId)
                 {
                     continue;
                 }
@@ -150,6 +155,7 @@ namespace Desktop_Client.View.Components.PlannedMeals
         {
             this.mealsTableLayout.Visible = !this.mealsTableLayout.Visible;
             this.collapseButton.Text = this.mealsTableLayout.Visible ? ExpandedCharacter : CollapsedCharacter;
+            this.CollapseToggled?.Invoke(this, EventArgs.Empty);
         }
     }
 }

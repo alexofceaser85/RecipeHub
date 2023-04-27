@@ -1,7 +1,11 @@
+using System;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Shared_Resources.Data.UserData;
+using Shared_Resources.ErrorMessages;
 using Shared_Resources.Model.Recipes;
 using Web_Client.Model.Filters;
 using Web_Client.ViewModel.Recipes;
@@ -15,6 +19,7 @@ namespace Web_Client.Pages
     public class RecipesListModel : PageModel
     {
         private RecipesListViewModel viewModel;
+        private bool shouldRedirect;
 
         /// <summary>
         /// Gets or sets the recipes.
@@ -66,23 +71,36 @@ namespace Web_Client.Pages
         /// </summary>
         public RecipesListModel()
         {
-            this.RecipeTypes = Array.Empty<string>();
-            this.viewModel = new RecipesListViewModel();
-
             try
             {
+                this.RecipeTypes = Array.Empty<string>();
+                this.viewModel = new RecipesListViewModel();
                 this.viewModel.GetRecipes();
+
+                this.BindingModel = new FiltersBindingModel();
+
+                var recipeTagsViewModel = new RecipeTypesViewModel();
+                this.RecipeTypes = recipeTagsViewModel.GetAllRecipeTypes();
             }
-            catch (UnauthorizedAccessException exception)
+            catch (UnauthorizedAccessException)
             {
-                TempData["Message"] = exception.Message;
-                Response.Redirect("/Index");
+                this.shouldRedirect = true;
             }
-
-            this.BindingModel = new FiltersBindingModel();
-
-            var recipeTagsViewModel = new RecipeTypesViewModel();
-            this.RecipeTypes = recipeTagsViewModel.GetAllRecipeTypes();
+            catch (ArgumentException)
+            {
+                this.shouldRedirect = true;
+            }
+        }
+        /// <summary>
+        /// Called when the page is loaded[get].
+        /// </summary>
+        public void OnGet()
+        {
+            if (this.shouldRedirect)
+            {
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/");
+            }
         }
 
         /// <summary>
@@ -95,24 +113,32 @@ namespace Web_Client.Pages
         /// <returns>the current page.</returns>
         public void OnPostSubmit(FiltersBindingModel bindingModel)
         {
-            this.BindingModel = bindingModel;
-            if (this.BindingModel.FiltersTypes!.Contains(null!))
+            try
             {
-                this.BindingModel.FiltersTypes.Remove(null!);
-            }
-            RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
-            RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
-            bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
-            string searchText = Request.Form["SearchText"][0]!;
-            RecipesListViewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
-            this.viewModel.SearchTerm = searchText;
-            this.viewModel.GetRecipes();
+                this.BindingModel = bindingModel;
+                if (this.BindingModel.FiltersTypes!.Contains(null!))
+                {
+                    this.BindingModel.FiltersTypes.Remove(null!);
+                }
+                RecipesListViewModel.Filters.MatchTags = bindingModel.FiltersTypes.ToArray();
+                bool onlyAvailableIngredients = Request.Form.ContainsKey("only-available-ingredients");
+                string searchText = Request.Form["SearchText"][0]!;
+                RecipesListViewModel.Filters.OnlyAvailableIngredients = onlyAvailableIngredients;
+                RecipesListViewModel.SearchTerm = searchText;
+                this.viewModel.GetRecipes();
 
-            ModelState.Clear();
-            ModelState.SetModelValue("BindingModel.FiltersTypes",
-                new ValueProviderResult(bindingModel.FiltersTypes.ToArray()));
-            ModelState.SetModelValue("OnlyAvailableIngredients", new ValueProviderResult(onlyAvailableIngredients.ToString()));
-            ModelState.SetModelValue("SearchText", new ValueProviderResult(searchText));
+                ModelState.Clear();
+                ModelState.SetModelValue("BindingModel.FiltersTypes",
+                    new ValueProviderResult(bindingModel.FiltersTypes.ToArray()));
+                ModelState.SetModelValue("OnlyAvailableIngredients", new ValueProviderResult(onlyAvailableIngredients.ToString()));
+                ModelState.SetModelValue("SearchText", new ValueProviderResult(searchText));
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Session.Key = null;
+                TempData["Message"] = UsersServiceErrorMessages.UnauthorizedAccessErrorMessage;
+                Response.Redirect("/Index");
+            }
         }
 
     }

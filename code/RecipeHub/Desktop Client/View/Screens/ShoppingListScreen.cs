@@ -41,6 +41,20 @@ namespace Desktop_Client.View.Screens
             };
         }
 
+        private void AdjustScroll()
+        {
+            // Reset row styles
+            this.shoppingListTablePanel.RowStyles.Clear();
+            for (int i = 0; i < this.shoppingListTablePanel.RowCount; i++)
+            {
+                this.shoppingListTablePanel.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+            }
+
+            // Recalculate row heights
+            this.shoppingListTablePanel.AutoScroll = false;
+            this.shoppingListTablePanel.AutoScroll = true;
+        }
+
         private void PopulateShoppingList(Ingredient[] ingredients)
         {
             this.ClearShoppingList();
@@ -112,6 +126,7 @@ namespace Desktop_Client.View.Screens
                 }
                 this.viewmodel.AddIngredientsToPantry(ingredients.ToArray());
                 this.viewmodel.GetShoppingList();
+                this.AdjustScroll();
             };
 
             base.DisplayDialog(dialog);

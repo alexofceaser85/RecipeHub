@@ -27,21 +27,19 @@
                             {
                                 <div class="recipe-list-item">
                                         <div>
-                                            <p class="recipe-name">@recipe.Name</p>
-                                            <p class="recipe-author">By: @recipe.AuthorName</p>
+                                            <p class="recipe-name">@recipe.Recipe.Name</p>
+                                        <p class="recipe-author">By: @recipe.Recipe.AuthorName</p>
                                         </div>
                                         <div class="planned-meal-end-point">
                                             <div>
-                                                <div class="text-end">Rating: 0/5</div>
-                                            <div class="text-end">@(Model.ViewModel.RecipeTags[recipe.Id].Length == 0 ? "No recipe tags" : string.Join(", ", Model.ViewModel.RecipeTags[recipe.Id]))</div>
+                                                <div class="text-end">@(Model.ViewModel.RecipeTags[recipe.Recipe.Id].Length == 0 ? "No recipe tags" : string.Join(", ", Model.ViewModel.RecipeTags[recipe.Recipe.Id]))</div>
                                             </div>
                                             <div>
                                                 <button type="button" data-bs-toggle="modal" data-bs-target="#remove-planned-meal-modal"
-                                                        data-recipe-id="@recipe.Id" data-meal-category="@((int)mealsForCategory.Category)"
-                                                        data-meal-date="@dayOfMeals.MealDate.ToString()" class="planned-meal-remove-recipe-button">
+                                                        class="planned-meal-remove-recipe-button" data-meal-id="@recipe.MealId">
                                                     Remove
                                                 </button>
-                                            <a asp-page="./Recipe" asp-route-id="@recipe.Id">
+                                            <a asp-page="./Recipe" asp-route-id="@recipe.Recipe.Id">
                                                     <button type="button">
                                                         View
                                                     </button>
@@ -67,9 +65,7 @@
                 <form method="post" asp-page-handler="RemovePlannedMeal">
                     <div class="modal-body">
                         <p>Are you sure you want to remove this recipe?</p>
-                        <input name="RecipeId" type="text" id="remove-planned-meal-recipe-id" hidden />
-                        <input name="Category" type="text" id="remove-planned-meal-meal-category" hidden />
-                        <input name="Date" type="text" id="remove-planned-meal-meal-date" hidden />
+                        <input name="MealId" type="text" id="remove-planned-meal-meal-id" hidden />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -83,12 +79,8 @@
     {
         <script type="text/javascript">
             $(".planned-meal-remove-recipe-button").click(function() {
-                var recipeId = $(this).data("recipe-id");
-                var mealCategory = $(this).data("meal-category");
-                var mealDate = $(this).data("meal-date");
-                $("#remove-planned-meal-recipe-id").val(recipeId);
-                $("#remove-planned-meal-meal-category").val(mealCategory);
-                $("#remove-planned-meal-meal-date").val(mealDate);
+                var mealId = $(this).data("meal-id");
+                $("#remove-planned-meal-meal-id").val(mealId);
             });
         </script>
     }

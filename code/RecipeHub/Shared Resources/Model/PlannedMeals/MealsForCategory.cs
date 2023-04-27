@@ -27,7 +27,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// The recipes.
         /// </value>
         [JsonPropertyName("recipes")]
-        public Recipe[] Recipes { get; set;}
+        public PlannedRecipe[] Recipes { get; set;}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MealsForCategory"/> class.<br />
@@ -38,7 +38,7 @@ namespace Shared_Resources.Model.PlannedMeals
         /// <param name="category">The category.</param>
         /// <param name="recipes">The recipes.</param>
         /// <exception cref="ArgumentNullException">recipes</exception>
-        public MealsForCategory(MealCategory category, Recipe[] recipes)
+        public MealsForCategory(MealCategory category, PlannedRecipe[] recipes)
         {
             this.Recipes = recipes ?? throw new ArgumentNullException(nameof(recipes));
             this.Category = category;

@@ -12,7 +12,6 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             Assert.Multiple(() =>
             {
                 var viewmodel = new RecipesListViewModel();
-                Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Recipes, Has.Length.EqualTo(0));
             });
         }
@@ -23,7 +22,6 @@ namespace WebClientTests.WebClient.ViewModel.Recipes.RecipesListViewModelTests
             Assert.Multiple(() =>
             {
                 var viewmodel = new RecipesListViewModel(new RecipesService(), new IngredientsService());
-                Assert.That(viewmodel.SearchTerm, Is.EqualTo(string.Empty));
                 Assert.That(viewmodel.Recipes, Has.Length.EqualTo(0));
             });
         }

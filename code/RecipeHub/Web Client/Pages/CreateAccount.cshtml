@@ -40,7 +40,7 @@
                 <p id="emailErrorText"></p>
             </div>
             <div>
-                <input type="submit" value="Cancel" asp-page-handler="Cancel"/>
+                <a asp-page="Index"><input type="button" value="Cancel" /></a>
                 <input type="submit" id="submitButton" value="Submit" asp-page-handler="Submit" onclick="validateAll()" />
             </div>
         </fieldset>

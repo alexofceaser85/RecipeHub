@@ -7,7 +7,6 @@ namespace Desktop_Client.View.Components.Recipes
     /// </summary>
     public partial class RecipeListItem : UserControl
     {
-        private int rating;
         private string authorName;
 
         /// <summary>
@@ -36,20 +35,7 @@ namespace Desktop_Client.View.Components.Recipes
             get => this.recipeNameLabel.Text;
             set => this.recipeNameLabel.Text = value;
         }
-
-        /// <summary>
-        /// The recipe's rating
-        /// </summary>
-        public int Rating
-        {
-            get => this.rating;
-            set
-            {
-                this.rating = value;
-                this.ratingLabel.Text = @$"Rating: {value}/5";
-            }
-        }
-
+        
         /// <summary>
         /// The recipe's ID
         /// </summary>
@@ -83,7 +69,6 @@ namespace Desktop_Client.View.Components.Recipes
         {
             this.InitializeComponent();
             this.authorName = "";
-            this.Rating = recipe.Rating;
             this.AuthorName = recipe.AuthorName;
             this.RecipeName = recipe.Name;
             this.RecipeId = recipe.Id;

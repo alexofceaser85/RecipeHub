@@ -239,7 +239,7 @@ namespace Web_Client.ViewModel.Recipes
             foreach (var recipe in plannedMeals.Recipes)
             {
                 sb.Append(" - ");
-                sb.AppendLine(recipe.Name);
+                sb.AppendLine(recipe.Recipe.Name);
             }
 
             sb.Append("Would you like to see all of your planned meals now?");
@@ -296,7 +296,7 @@ namespace Web_Client.ViewModel.Recipes
             this.Tags = tags[0];
             for (var i = 1; i < tags.Length; i++)
             {
-                this.Tags += $"\n{tags[i]}";
+                this.Tags += $"<br>{tags[i]}";
             }
         }
 
@@ -313,7 +313,7 @@ namespace Web_Client.ViewModel.Recipes
             foreach (var ingredient in ingredients)
             {
                 var unit = BaseUnitUtils.GetBaseUnitSign(ingredient.MeasurementType);
-                ingredientText += $"{ingredient.Name} - {ingredient.Amount} {unit}\n";
+                ingredientText += $"{ingredient.Name} - {ingredient.Amount} {unit}<br>";
             }
 
             this.Ingredients = ingredientText.TrimEnd();
@@ -331,7 +331,7 @@ namespace Web_Client.ViewModel.Recipes
             var instructions = "";
             foreach (var step in steps)
             {
-                instructions += $"{step.StepNumber}: {step.Name}\n{step.Instructions}\n\n";
+                instructions += $"{step.StepNumber}: {step.Name}<br>{step.Instructions}<br><br>";
             }
 
             this.Instructions = instructions.TrimEnd();

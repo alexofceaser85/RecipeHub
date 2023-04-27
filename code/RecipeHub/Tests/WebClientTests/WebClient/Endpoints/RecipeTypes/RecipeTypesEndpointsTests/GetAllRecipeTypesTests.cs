@@ -43,7 +43,7 @@ namespace WebClientTests.WebClient.Endpoints.RecipeTypes.RecipeTypesEndpointsTes
         [Test]
         public void ShouldUnsuccessfullyGetAllRecipeTypesForServerError()
         {
-            const string errorMessage = "The session timed out redirecting to login";
+            const string errorMessage = "Session either timed out or was invalid. Redirecting to login.";
             const string json = $"{{\"code\": 401, \"message\": \"{errorMessage}\", \"types\": []}}";
 
             var mockHttpMessageHandler = new Mock<HttpMessageHandler>();

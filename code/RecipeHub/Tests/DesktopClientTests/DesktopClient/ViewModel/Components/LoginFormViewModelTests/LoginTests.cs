@@ -14,6 +14,7 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewMod
 
             var service = new Mock<IUsersService>();
             service.Setup(mock => mock.Login(username, password));
+            service.Setup(mock => mock.RefreshSessionKey());
 
             var viewmodel = new LoginFormViewModel(service.Object)
             {
@@ -24,6 +25,8 @@ namespace DesktopClientTests.DesktopClient.ViewModel.Components.LoginFormViewMod
             Assert.Multiple(() =>
             {
                 Assert.DoesNotThrow(() => viewmodel.Login());
+                service.Verify(mock => mock.Login(username, password), Times.Once);
+                service.Verify(mock => mock.RefreshSessionKey(), Times.Once);
             });
         }
     }
